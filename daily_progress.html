@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Daily AI Progress</title>
+<script src="/assets/metrics.js" defer></script>
+<style>
+:root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
+.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;margin-top:10px}
+.muted{color:#9db0da;font-size:12px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.tag{display:inline-block;padding:4px 8px;border:1px solid rgba(255,255,255,.2);border-radius:999px;font-size:12px;margin-right:6px}
+</style></head><body><div class="wrap">
+<div class="top"><h2>Daily AI Progress / 每日AI进展</h2><div style="display:flex;gap:8px"><a class="btn" href="/index.html">Home</a><a class="btn" href="/insights.html">Insights</a><a class="btn" href="/daily_briefing.html">Top10</a><a class="btn" href="/commercial.html">Commercial</a><a class="btn" href="/contact.html">Contact</a></div></div>
+<div class="card"><div id="sum_zh" style="font-size:16px;font-weight:700"></div><div id="sum_en" class="muted" style="margin-top:6px"></div><div id="updated" class="muted" style="margin-top:8px"></div></div>
+<div class="card"><h3 style="margin-top:0">热门主题</h3><div id="topics"></div></div>
+<div class="card"><h3 style="margin-top:0">今日关键人物</h3><div id="trend" class="grid"></div></div>
+</div>
+<script>
+fetch('/data/daily_progress.json').then(r=>r.json()).then(d=>{
+  document.getElementById('sum_zh').textContent=d.summary_zh||'';
+  document.getElementById('sum_en').textContent=d.summary_en||'';
+  document.getElementById('updated').textContent='Updated: '+((d.updated_at||'').slice(0,19).replace('T',' '));
+  document.getElementById('topics').innerHTML=(d.topic_rank||[]).map(t=>`<span class="tag">${t.topic} (${t.count})</span>`).join('');
+  const l=localStorage.getItem('xai_lang')||'zh';
+  document.getElementById('trend').innerHTML=(d.trend_items||[]).map(r=>`<div class="card" style="margin-top:0"><div><b>${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div style="margin-top:8px;display:flex;gap:8px"><a class="btn" href="/profiles/${r.slug}.html">${l==='zh'?'查看人物页':'Profile'}</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">${l==='zh'?'打开 X':'Open X'}</a></div></div>`).join('');
+});
+</script><script src="/assets/share-fab.js" defer></script></body></html>

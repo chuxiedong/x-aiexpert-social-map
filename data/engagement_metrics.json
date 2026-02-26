@@ -1,0 +1,2706 @@
+{
+  "updated_at": "2026-02-24T08:51:51+00:00",
+  "description": "X engagement metrics per account, used by quanzhong model",
+  "metrics": [
+    {
+      "handle": "OpenAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "lexfridman",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "sama",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "satyanadella",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForce",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "levie",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "nvidia",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "GoogleAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "xai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "karpathy",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "brian_armstrong",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "AndrewYNg",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "GoogleDeepMind",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Azure",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "stevenbjohnson",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ylecun",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "gdb",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "AnthropicAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "code",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "demishassabis",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "PalmerLuckey",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "huggingface",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "fchollet",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ilyasut",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "surface",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "drfeifei",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "geoffreyhinton",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForceFR",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "paraga",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ChatGPTapp",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "PyTorch",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "mikeyk",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "_akhaliq",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Austen",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "claudeai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "miramurati",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "JeffDean",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "GeminiApp",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "rasbt",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "hardmaru",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "perplexity_ai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "TensorFlow",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "alexandr_wang",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForceES",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "addyosmani",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "goodfellow_ian",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "DrJimFan",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "minchoi",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForceJP",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "DeryaTR_",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "emollick",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "EMostaque",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "sriramk",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "omarsar0",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "soumithchintala",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "openclaw",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "OfficialLoganK",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "jeremyphoward",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "OpenAIDevs",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "steipete",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "tunguz",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "bcherny",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForceUK",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "moltbook",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "mustafasuleyman",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "GavinSBaker",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ESYudkowsky",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "yacineMTB",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "GaryMarcus",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "kazu_fujisawa",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "msPartner",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGFN",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "OriolVinyalsML",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ClementDelangue",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "aelluswamy",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "GoogleUK",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "SchmidhuberAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForceDE",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "MistralAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "goodside",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "tom_doerr",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "mitchellh",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "DarioAmodei",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "arankomatsuzaki",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "chrmanning",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NeurIPSConf",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "mcgillu",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NanoBanana",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Everlyn_ai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ch402",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "rohanpaul_ai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "woj_zaremba",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "arena",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "saranormous",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "OpenAINewsroom",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "GoogleLabs",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIARobotics",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "giffmana",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "janleike",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "alexalbert__",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "svlevine",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "RichardSocher",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "antigravity",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "GoogleAIStudio",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "LiorOnAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ProfSteveKeen",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "jackclarkSF",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NandoDF",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ibab",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "docmilanfar",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "_jasonwei",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "BradSmi",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Thom_Wolf",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForceBR",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "googleaidevs",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "abhi1thakur",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "math_rachel",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForceLA",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "fidjissimo",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAAIDev",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForceME",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "nickcammarata",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "chelseabfinn",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "MatthewBerman",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ciguleva",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "mervenoyann",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "gizakdag",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "mmitchell_ai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "iamtrask",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "allen_ai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ArtificialAnlys",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ai_for_success",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIANetworkng",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "amermathsoc",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "srush_nlp",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "CSProfKGD",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "LORWEN108",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "johnschulman2",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "sethharpesq",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "RihardJarc",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ai__pub",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "AmandaAskell",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "TobyPhln",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "SebastienBubeck",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "julien_c",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIASHIELD",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "sirbayes",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Miles_Brundage",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "sedielem",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "deliprao",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "zacharylipton",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAStudio",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "__tinygrad__",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "roydanroy",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "osanseviero",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "thegautamkamath",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "mathemagic1an",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "tdietterich",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "nvidiageforcetr",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGameDev",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "sarahookr",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "mmbronstein",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "littmath",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAHPCDev",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "theworldlabs",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIADC",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "sleepinyourhat",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "fofrAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "merettm",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "dpkingma",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "shengjia_zhao",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "MelMitchell1",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "savvyRL",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "nvidianewsroom",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "joshwoodward",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NvidiaANZ",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "shaneguML",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Yuhu_ai_",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "JonathanRoss321",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "cHHillee",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "egrefen",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "MattNiessner",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "hendrycks",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "PeterBerezinBCA",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Zai_org",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "getjonwithit",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAJapan",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ChrSzegedy",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "billpeeb",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "jeffteper",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "PetarV_93",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "black_in_ai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "npew",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "UnslothAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "askOkara",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "gneubig",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "suchenzang",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "_mohansolo",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "khoomeik",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "tydsh",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "TLOgg",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "alexgraveley",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "sundeep",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAworkstatn",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "StuartJRitchie",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "timzaman",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Yoshua_Bengio",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "mattt",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "chatgpt21",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ZoubinGhahrama1",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "LiamFedus",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "askalphaxiv",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "cixliv",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "natashajaques",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "jaykreps",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "lateinteraction",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "chris_j_paxton",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "gordic_aleksa",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "JamesMontemagno",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "tkipf",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "boazbaraktcs",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "thsottiaux",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "nickaturley",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "jsuarez",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "zicokolter",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "rao2z",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ZeyuanAllenZhu",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIA_AI_PC",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "jm_alexia",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "alexwei_",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "nvidiaomniverse",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ctnzr",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "embirico",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ericzelikman",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "wightmanr",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "SashaMTL",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "AlexGDimakis",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "simpsoka",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "kalomaze",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGTC",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "RisingSayak",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "BrentM_SpaceX",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "adocomplete",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "geoffreylitt",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "koraykv",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "nvidiacc",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "hannawallach",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "RemiCadene",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "maithra_raghu",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "agarwl_",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "xwang_lk",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "HeinrichKuttler",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "sammcallister",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "JFPuget",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "catherineols",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "aprilwright",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NielsRogge",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIADRIVE",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "_lewtun",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAKorea",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Azaliamirh",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "WiMLworkshop",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAGeForcePL",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ShamKakade6",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "MajmudarAdam",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "realmadhuguru",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "lm_zheng",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "douwekiela",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "jerrod_lew",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "zjasper",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "dileeplearning",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Nils_Reimers",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "avdnoord",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "pashmerepat",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "HochreiterSepp",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "rayhotate",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "LeRobotHF",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "andy_l_jones",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "qhwang3",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "koylanai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "josh_tobin_",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAHealth",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "anshitasaini_",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "pirroh",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ancadianadragan",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "kalinowski007",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "SkildAI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "AdinaYakup",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "DSPyOSS",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "tulseedoshi",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "FelixHill84",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "guohao_li",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "yanndubs",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "imhaotian",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "NVIDIAAIJP",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "ItsTKai",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "_nateraw",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "Khipu_AI",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    },
+    {
+      "handle": "anujsaharan_",
+      "posts_count": 0,
+      "comments_count": 0,
+      "likes_count": 0,
+      "reposts_count": 0,
+      "window_days": 30,
+      "note": "Fill with latest X metrics"
+    }
+  ]
+}

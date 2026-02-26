@@ -1,0 +1,2409 @@
+{
+  "generated_at": "2026-02-20T15:22:44+00:00",
+  "source_name": "Feedspot Top AI Influencers on X",
+  "source_url": "https://x.feedspot.com/artificial_intelligence_twitter_influencers/",
+  "manual_merge": true,
+  "total_collected": 99,
+  "experts": [
+    {
+      "name": "Lex Fridman",
+      "handle": "lexfridman",
+      "followers": 4200000,
+      "followers_label": "4.2M",
+      "category": "机器人/强化学习",
+      "tags": [
+        "机器人/强化学习",
+        "机器人",
+        "Podcast"
+      ],
+      "url": "https://x.com/lexfridman/",
+      "bio": "Host of Lex Fridman Podcast.Interested in robots and humans. ****@lexfridman.com",
+      "rank": 1
+    },
+    {
+      "name": "Sam Altman",
+      "handle": "sama",
+      "followers": 4200000,
+      "followers_label": "4.2M",
+      "category": "AI创业",
+      "tags": [
+        "AI创业",
+        "OpenAI"
+      ],
+      "url": "https://x.com/sama/",
+      "bio": "AI is cool i guess ****@openai.com",
+      "rank": 2
+    },
+    {
+      "name": "Kai-Fu Lee",
+      "handle": "kaifulee",
+      "followers": 1400000,
+      "followers_label": "1.4M",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/kaifulee/",
+      "bio": "#AI Expert, CEO of @01ai_yi and Chairman of 创新工场 @sinovationvc, former President of Google China, Author of AI 2041 and NYT Bestseller AI Superpowers ****@01.ai",
+      "rank": 3
+    },
+    {
+      "name": "Andrej Karpathy",
+      "handle": "karpathy",
+      "followers": 1400000,
+      "followers_label": "1.4M",
+      "category": "AI创业",
+      "tags": [
+        "AI创业",
+        "OpenAI",
+        "Stanford"
+      ],
+      "url": "https://x.com/karpathy/",
+      "bio": "Building @EurekaLabsAI. Previously Director of AI @ Tesla, founding team @ OpenAI, CS231n/PhD @ Stanford. I like to train large deep neural nets 🧠🤖💥 ****@gmail.com",
+      "rank": 4
+    },
+    {
+      "name": "John Carmack",
+      "handle": "ID_AA_Carmack",
+      "followers": 1100000,
+      "followers_label": "1.1M",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/ID_AA_Carmack/",
+      "bio": "AGI at Keen Technologies, former CTO Oculus VR, Founder Id Software and Armadillo Aerospace ****@oculus.com",
+      "rank": 5
+    },
+    {
+      "name": "Andrew Ng",
+      "handle": "AndrewYNg",
+      "followers": 1100000,
+      "followers_label": "1.1M",
+      "category": "AI创业",
+      "tags": [
+        "AI创业",
+        "Stanford"
+      ],
+      "url": "https://x.com/AndrewYNg/",
+      "bio": "Co-Founder of Coursera; Stanford CS adjunct faculty. Former head of Baidu AI Group/Google Brain. #ai #machinelearning, #deeplearning #MOOCs ****@cs.stanford.edu",
+      "rank": 6
+    },
+    {
+      "name": "Yann LeCun",
+      "handle": "ylecun",
+      "followers": 937800,
+      "followers_label": "937.8K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究",
+        "Meta",
+        "机器人"
+      ],
+      "url": "https://x.com/ylecun/",
+      "bio": "Professor at NYU. Chief AI Scientist at Meta.Researcher in AI, Machine Learning, Robotics, etc.ACM Turing Award Laureate. ****@nyu.edu",
+      "rank": 7
+    },
+    {
+      "name": "Sean Gardner",
+      "handle": "2morrowknight",
+      "followers": 708600,
+      "followers_label": "708.6K",
+      "category": "AI工程",
+      "tags": [
+        "AI工程",
+        "LLM"
+      ],
+      "url": "https://x.com/2morrowknight/",
+      "bio": "Traveler 🛩️ (30 countries) • Board @FreeNPTech • Alum: Apple Inc., Microsoft • producing 🎥 with @RashaGoel • 🤓#AI #ML #AIEthics #AILaw #GenAI #LLMs #travel ****@seangardnertravel.com",
+      "rank": 8
+    },
+    {
+      "name": "François Chollet",
+      "handle": "fchollet",
+      "followers": 566000,
+      "followers_label": "566K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/fchollet/",
+      "bio": "Co-founder @ndea. Co-founder @arcprize. Creator of Keras and ARC-AGI. Author of 'Deep Learning with Python'. ****@google.com",
+      "rank": 9
+    },
+    {
+      "name": "Rowan Cheung",
+      "handle": "rowancheung",
+      "followers": 563600,
+      "followers_label": "563.6K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/rowancheung/",
+      "bio": "Founder of the world’s most read daily AI newsletter @therundownai. Sharing the latest developments in the world of artificial intelligence. ****@gmail.com",
+      "rank": 10
+    },
+    {
+      "name": "Robert Scoble",
+      "handle": "Scobleizer",
+      "followers": 536600,
+      "followers_label": "536.6K",
+      "category": "机器人/强化学习",
+      "tags": [
+        "机器人/强化学习",
+        "机器人"
+      ],
+      "url": "https://x.com/Scobleizer/",
+      "bio": "Merging with AI | Ex-Microsoft, Rackspace, Fast Company | Co-author, \"The Infinite Retina.\" | Robots, Tesla/EVs, AI, and Holodecks. ****@unaligned.io",
+      "rank": 11
+    },
+    {
+      "name": "Geoffrey Hinton",
+      "handle": "geoffreyhinton",
+      "followers": 489000,
+      "followers_label": "489K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/geoffreyhinton/",
+      "bio": "deep learning ****@gmail.com",
+      "rank": 12
+    },
+    {
+      "name": "Demis Hassabis",
+      "handle": "demishassabis",
+      "followers": 479500,
+      "followers_label": "479.5K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业",
+        "DeepMind"
+      ],
+      "url": "https://x.com/demishassabis/",
+      "bio": "Nobel Laureate. Co-Founder & CEO @GoogleDeepMind - working on AGI. Solving disease @IsomorphicLabs. Trying to understand the fundamental nature of reality.",
+      "rank": 13
+    },
+    {
+      "name": "Kirk Borne",
+      "handle": "KirkDBorne",
+      "followers": 455100,
+      "followers_label": "455.1K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/KirkDBorne/",
+      "bio": "Advisor to startups. Freelancer. Founder of @LeadershipData. Global Speaker. Top influencer #BigData #DataScience #AI #IoT #ML #B2B. PhD Astrophysics @Caltech ****@gmail.com",
+      "rank": 14
+    },
+    {
+      "name": "Jeff Dean",
+      "handle": "jeffdean",
+      "followers": 360900,
+      "followers_label": "360.9K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究",
+        "DeepMind"
+      ],
+      "url": "https://x.com/jeffdean/",
+      "bio": "Chief Scientist, Google DeepMind & Google Research. Gemini Lead. Opinions stated here are my own, not those of Google. TensorFlow, MapReduce, Bigtable, ...",
+      "rank": 15
+    },
+    {
+      "name": "Antonio Grasso",
+      "handle": "antgrasso",
+      "followers": 345700,
+      "followers_label": "345.7K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/antgrasso/",
+      "bio": "Technologist in the Creator Economy | Global B2B Influencer | Thought Leader & Author | Advocate for Sustainability ****@gmail.com",
+      "rank": 16
+    },
+    {
+      "name": "Ronald van Loon",
+      "handle": "Ronald_vanLoon",
+      "followers": 337600,
+      "followers_label": "337.6K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/Ronald_vanLoon/",
+      "bio": "Helping AI driven companies generate value•Top10Influencer #AI #BigData #DataScience #IoT #MachineLearning #Analytics #Cloud ****@ronaldvanloon.com",
+      "rank": 17
+    },
+    {
+      "name": "Ian Goodfellow",
+      "handle": "goodfellow_ian",
+      "followers": 315700,
+      "followers_label": "315.7K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究",
+        "DeepMind"
+      ],
+      "url": "https://x.com/goodfellow_ian/",
+      "bio": "Research Scientist at DeepMind. Opinions my own. Inventor of GANs. Lead author of https://t.co/M6vl8pEifa ****@gmail.com",
+      "rank": 18
+    },
+    {
+      "name": "Tamara McCleary",
+      "handle": "TamaraMcCleary",
+      "followers": 277400,
+      "followers_label": "277.4K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/TamaraMcCleary/",
+      "bio": "CEO @ThuliumCo | Exploring Human Purpose in an #AI-Driven World | Research Focus | #TechTrends #FutureofAI #AIResearch #AIEthics #EthicalAI | #AIInnovation #AGI",
+      "rank": 19
+    },
+    {
+      "name": "Soumith Chintala",
+      "handle": "soumithchintala",
+      "followers": 246600,
+      "followers_label": "246.6K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究",
+        "Meta",
+        "机器人"
+      ],
+      "url": "https://x.com/soumithchintala/",
+      "bio": "Cofounded and lead @PyTorch at Meta.Also dabble in robotics at NYU.AI is delicious when it is accessible and open-source.",
+      "rank": 20
+    },
+    {
+      "name": "李飞飞",
+      "handle": "drfeifei",
+      "followers": 220000,
+      "followers_label": "220K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究",
+        "Stanford",
+        "CV"
+      ],
+      "url": "https://x.com/drfeifei",
+      "bio": "手工白名单示例：你可以在这里固定或修正专家数据。",
+      "rank": 21
+    },
+    {
+      "name": "Varun Mayya",
+      "handle": "waitin4agi_",
+      "followers": 213500,
+      "followers_label": "213.5K",
+      "category": "机器人/强化学习",
+      "tags": [
+        "机器人/强化学习"
+      ],
+      "url": "https://x.com/waitin4agi_/",
+      "bio": "waiting for agi. i live to experiment. don't take me too seriously I am an idiot. trying to build distractions (content, AI tools, games) for a post AGI world. ****@gmail.com",
+      "rank": 22
+    },
+    {
+      "name": "Erik Brynjolfsson",
+      "handle": "erikbryn",
+      "followers": 210200,
+      "followers_label": "210.2K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业",
+        "Stanford"
+      ],
+      "url": "https://x.com/erikbryn/",
+      "bio": "Director @DigEconLabCo-founder, @Workhelix@StanfordHAI @SIEPR @Stanford https://t.co/D2bPyxoFEf ****@brynjolfsson.com",
+      "rank": 23
+    },
+    {
+      "name": "Oriol Vinyals",
+      "handle": "oriolvinyalsml",
+      "followers": 182400,
+      "followers_label": "182.4K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究",
+        "DeepMind"
+      ],
+      "url": "https://x.com/oriolvinyalsml/",
+      "bio": "VP of Research & Deep Learning Lead, Google DeepMind. Gemini co-lead.Past: AlphaStar, AlphaFold, AlphaCode, WaveNet, seq2seq, distillation, TF.",
+      "rank": 24
+    },
+    {
+      "name": "Gary Marcus",
+      "handle": "GaryMarcus",
+      "followers": 173000,
+      "followers_label": "173K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/GaryMarcus/",
+      "bio": "Built two AI companies, wrote six books, tried to warn you about a lot of things. ****@sternstrategy.com",
+      "rank": 25
+    },
+    {
+      "name": "Timnit Gebru",
+      "handle": "timnitgebru",
+      "followers": 162100,
+      "followers_label": "162.1K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/timnitgebru/",
+      "bio": "Personal AccountAuthor: The View from SomewhereMastodon @ ****@dair-community.social BlueSky https://t.co/XAYRV7YPvQAlso on LinkedIn. Less here",
+      "rank": 26
+    },
+    {
+      "name": "Pascal Bornet",
+      "handle": "pascal_bornet",
+      "followers": 158100,
+      "followers_label": "158.1K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/pascal_bornet/",
+      "bio": "Top Voice in Tech | Best-selling Author | Keynote speaker | AI & Automation expert | Forbes Tech Council | 1 Million+ followers",
+      "rank": 27
+    },
+    {
+      "name": "Vincent Boucher",
+      "handle": "ceobillionaire",
+      "followers": 153700,
+      "followers_label": "153.7K",
+      "category": "AI工程",
+      "tags": [
+        "AI工程"
+      ],
+      "url": "https://x.com/ceobillionaire/",
+      "bio": "Vincent Boucher, President of @Montreal_AI #MontrealAI | B. Sc. Physics, M. A. Govt. Policy Analysis and M. Sc. Aerospace Engineering | $AGI by AGI.Eth #AGI ****@quebec.ai",
+      "rank": 28
+    },
+    {
+      "name": "Bernard Marr",
+      "handle": "bernardmarr",
+      "followers": 138700,
+      "followers_label": "138.7K",
+      "category": "机器人/强化学习",
+      "tags": [
+        "机器人/强化学习",
+        "机器人"
+      ],
+      "url": "https://x.com/bernardmarr/",
+      "bio": "? Internationally Best-selling #Author ? #KeynoteSpeaker ? #Futurist ? #Business, #Tech & #Data Advisor #AI #AR #VR #BigData #Robotics #MachineLearning ****@bernardmarr.com",
+      "rank": 29
+    },
+    {
+      "name": "Sally Eaves",
+      "handle": "sallyeaves",
+      "followers": 137700,
+      "followers_label": "137.7K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/sallyeaves/",
+      "bio": "Innovating #tech #education #business CEO Tomorrows' Tech Today - CTO CIO Senator - #AI #5G #TechForGood #SDGs #CyberSecurity #IoT #ESG #FinTech #STEM #MWC25 ****@gmail.com",
+      "rank": 30
+    },
+    {
+      "name": "Rob Lennon",
+      "handle": "thatroblennon",
+      "followers": 133300,
+      "followers_label": "133.3K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/thatroblennon/",
+      "bio": "17+ years startups. 47x published author. Teaching AI and business frameworks for entrepreneurs + sidehustlers. Get 10 AI tools with my free newsletter 👇 ****@roblennon.com",
+      "rank": 31
+    },
+    {
+      "name": "Fabio Moioli",
+      "handle": "fabiomoioli",
+      "followers": 124700,
+      "followers_label": "124.7K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/fabiomoioli/",
+      "bio": "Consultant at @SpencerStuart. Passionate about #Human (and #Artificial) #Intelligences! prev. @Microsoft @McKinsey #VicePresident @Capgemini @Ericsson",
+      "rank": 32
+    },
+    {
+      "name": "Nicolas Babin",
+      "handle": "Nicochan33",
+      "followers": 117200,
+      "followers_label": "117.2K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/Nicochan33/",
+      "bio": "Key Opinion Leader #KOL, author, consultant & speaker on #AI, #5G, #digital #digitaltransformation, #ehealth, #gamification #sustainability RT # endorsement ****@babinbusinessconsulting.com",
+      "rank": 33
+    },
+    {
+      "name": "Data Chaz",
+      "handle": "DataChaz",
+      "followers": 114100,
+      "followers_label": "114.1K",
+      "category": "AI工程",
+      "tags": [
+        "AI工程",
+        "LLM"
+      ],
+      "url": "https://x.com/DataChaz/",
+      "bio": "Developer Advocate @Streamlit (acq. @SnowflakeDB) | prev. Samsung • ? about LLMs, AI, Python, Data Sci, Web Apps & SEO • My heart is open source • Views mine!",
+      "rank": 34
+    },
+    {
+      "name": "Harold Sinnott",
+      "handle": "HaroldSinnott",
+      "followers": 112700,
+      "followers_label": "112.7K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/HaroldSinnott/",
+      "bio": "Tech Thought Leader | #Influencer #CES2025 #AI #IoT #5G #DigitalTransformation #B2B Marketing #Telecom | #DTW #InnovateAmericas & Asia | #MWC25 ****@gmail.com",
+      "rank": 35
+    },
+    {
+      "name": "Randy Olson",
+      "handle": "randal_olson",
+      "followers": 110700,
+      "followers_label": "110.7K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/randal_olson/",
+      "bio": "Full stack #DataScience. AI and #MachineLearning researcher. #DataViz aficionado. Consultant. Community leader for @DataIsBeautiful. He/him. ****@gmail.com",
+      "rank": 36
+    },
+    {
+      "name": "Yohei Nakajima",
+      "handle": "yoheinakajima",
+      "followers": 107700,
+      "followers_label": "107.7K",
+      "category": "AI工程",
+      "tags": [
+        "AI工程"
+      ],
+      "url": "https://x.com/yoheinakajima/",
+      "bio": "VC by day @untappedvc, builder by night: @babyagi_, @pippinlovesyou @pixelbeastsnft. Build-in-public log: https://t.co/UdHHGbZba5",
+      "rank": 37
+    },
+    {
+      "name": "Iain Brown",
+      "handle": "iainljbrown",
+      "followers": 105100,
+      "followers_label": "105.1K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/iainljbrown/",
+      "bio": "Head of #DataScience @SASSoftware | Adjunct Prof @UniSouthampton | Author | #DataScientist | Interests #AI #ML #DL #NLP #IoT #BigData | Opinions my own",
+      "rank": 38
+    },
+    {
+      "name": "Chris Messina",
+      "handle": "chrismessina",
+      "followers": 104500,
+      "followers_label": "104.5K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/chrismessina/",
+      "bio": "In 2007, I invented the hashtag and retired from Twitter in 2023. DMs still work. Book time with me: https://t.co/xvXww6nIKS",
+      "rank": 39
+    },
+    {
+      "name": "Claire Silver",
+      "handle": "clairesilver12",
+      "followers": 96900,
+      "followers_label": "96.9K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/clairesilver12/",
+      "bio": "AI art ~2018 | @LACMA | #1629 | Founder @accelerateart | Taste is the new skill | Isaiah 41:10 | https://t.co/QcR3biRe2Y | contact: ****@clairesilver.io",
+      "rank": 40
+    },
+    {
+      "name": "Marcell Vollmer",
+      "handle": "mvollmer1",
+      "followers": 96400,
+      "followers_label": "96.4K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业",
+        "LLM"
+      ],
+      "url": "https://x.com/mvollmer1/",
+      "bio": "CEO MV Procu GmbH. Passionate about life & coffee. PhD & MBA in Economics. Social Media enthusiast and curious to continuously learn & grow. Carpe Diem",
+      "rank": 41
+    },
+    {
+      "name": "Nando de Freitas",
+      "handle": "NandoDF",
+      "followers": 96100,
+      "followers_label": "96.1K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究",
+        "DeepMind"
+      ],
+      "url": "https://x.com/NandoDF/",
+      "bio": "I research intelligence to understand what we are, and to harness it wisely. I lead a wonderfully creative AI team at @GoogleDeepMind who inspire me everyday.",
+      "rank": 42
+    },
+    {
+      "name": "Lorenzo Green",
+      "handle": "mrgreen",
+      "followers": 90400,
+      "followers_label": "90.4K",
+      "category": "AI工程",
+      "tags": [
+        "AI工程"
+      ],
+      "url": "https://x.com/mrgreen/",
+      "bio": "Tweets about AI, business & design. Sold 4 companies, building 3. I run Twitter experiments.",
+      "rank": 43
+    },
+    {
+      "name": "Abhishek Thakur",
+      "handle": "abhi1thakur",
+      "followers": 83100,
+      "followers_label": "83.1K",
+      "category": "机器人/强化学习",
+      "tags": [
+        "机器人/强化学习"
+      ],
+      "url": "https://x.com/abhi1thakur/",
+      "bio": "? I build AutoTrain @huggingface??‍? World's First 4x Grand Master @kaggle? YouTube 100k+: https://t.co/BHnem8fTu5⭐ GitHub Star",
+      "rank": 44
+    },
+    {
+      "name": "Kate Crawford",
+      "handle": "katecrawford",
+      "followers": 82300,
+      "followers_label": "82.3K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/katecrawford/",
+      "bio": "Professor, researcher, maker of thingsBook: ATLAS OF AI Latest: CALCULATING EMPIRES https://t.co/f3V3WjBtb6 | MSR-NYC | @USC | Knowing Machines ****@katecrawford.net",
+      "rank": 45
+    },
+    {
+      "name": "Nathan Lands",
+      "handle": "nathanlands",
+      "followers": 77300,
+      "followers_label": "77.3K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业",
+        "Podcast"
+      ],
+      "url": "https://x.com/nathanlands/",
+      "bio": "GP, Lands Capital (AI early stage fund) | Founder, https://t.co/GRevWVdB4B | Host, The Next Wave (HubSpot's AI Podcast) | 🇺🇸 SF→🇯🇵 Kyoto",
+      "rank": 46
+    },
+    {
+      "name": "Hassan Rashidi",
+      "handle": "drhassanrashidi",
+      "followers": 75200,
+      "followers_label": "75.2K",
+      "category": "AI工程",
+      "tags": [
+        "AI工程"
+      ],
+      "url": "https://x.com/drhassanrashidi/",
+      "bio": "Engineer, Keynote Speaker, Advisorhttps://t.co/70WQ2H6zLE Ideas to Level Up, Insights on Genuine Productivity, How to Turn Your Ideas into Reality, and Success",
+      "rank": 47
+    },
+    {
+      "name": "Allie Miller",
+      "handle": "alliekmiller",
+      "followers": 71700,
+      "followers_label": "71.7K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/alliekmiller/",
+      "bio": "#1 Most Followed Voice in AI Business (2M followers). Former Amazon, IBM. Fortune 500 and startup AI advisor, public speaker. Free AI-First courses - 🔗 below ****@alliekmiller.com",
+      "rank": 48
+    },
+    {
+      "name": "Bilawal Sidhu",
+      "handle": "bilawalsidhu",
+      "followers": 68500,
+      "followers_label": "68.5K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合",
+        "Meta"
+      ],
+      "url": "https://x.com/bilawalsidhu/",
+      "bio": "Blending realities & mapping the frontier of creation + computing / TED tech curator / Ex-Google (XR, maps) / 1.6M+ subs 🌎🎥🥽💻 https://t.co/DL3GOP6xG8 ****@metaversity.us",
+      "rank": 49
+    },
+    {
+      "name": "Karen Hao",
+      "handle": "_karenhao",
+      "followers": 61600,
+      "followers_label": "61.6K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/_karenhao/",
+      "bio": "ai reporter. national magazine award winner. contributing writer @theatlantic. formerly @wsj @techreview @KSJatMIT @TAPP_Project. email: https://t.co/WGiyLyOCRP",
+      "rank": 50
+    },
+    {
+      "name": "Helen Yu",
+      "handle": "YuHelenYu",
+      "followers": 61200,
+      "followers_label": "61.2K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/YuHelenYu/",
+      "bio": "#DigitalTransformation obsessed #CXO and #GrowthHacker. Find me at the intersection of #Tech and #Humanity. #AI #DataAnalytics #FinTech #CX #IoT #CyberSecurity",
+      "rank": 51
+    },
+    {
+      "name": "Nathan Benaich",
+      "handle": "nathanbenaich",
+      "followers": 61000,
+      "followers_label": "61K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/nathanbenaich/",
+      "bio": "solo member of investment staff @airstreet @airstreetpress @stateofaireport @raais",
+      "rank": 52
+    },
+    {
+      "name": "Giuliano Liguori",
+      "handle": "ingliguori",
+      "followers": 60500,
+      "followers_label": "60.5K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/ingliguori/",
+      "bio": "Get daily insights on AI, Digital Transformation, and innovation to help you thrive in the tech era🔸️CEO @Kenovy_it ****@kenovy.com",
+      "rank": 53
+    },
+    {
+      "name": "Nige Roberts-Willson",
+      "handle": "nigewillson",
+      "followers": 57300,
+      "followers_label": "57.3K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/nigewillson/",
+      "bio": "#digital #artist and #creator https://t.co/UZ040qpNJPsave the planet, support the turtle ****@thewavingturtle.com",
+      "rank": 54
+    },
+    {
+      "name": "Monica Rogati",
+      "handle": "mrogati",
+      "followers": 50000,
+      "followers_label": "50K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/mrogati/",
+      "bio": "Data Science & AI advisor; fractional CDO. Former VP of Data @Jawbone & @LinkedIn data scientist. Equity Partner @DCVC. CMU CS PhD.",
+      "rank": 55
+    },
+    {
+      "name": "Terence Leung",
+      "handle": "terenceleungsf",
+      "followers": 49900,
+      "followers_label": "49.9K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/terenceleungsf/",
+      "bio": "#AutonomousSupplyChain | Top 50 Outstanding #AI Business #Influencer | Top 22 AI Influencer to Follow by 2023 | Top 100 Global #ThoughtLeaders | @blueyonder",
+      "rank": 56
+    },
+    {
+      "name": "Oliver Christie",
+      "handle": "oliverchristie",
+      "followers": 49300,
+      "followers_label": "49.3K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/oliverchristie/",
+      "bio": "New technology things.",
+      "rank": 57
+    },
+    {
+      "name": "Martin Ford",
+      "handle": "mfordfuture",
+      "followers": 45000,
+      "followers_label": "45K",
+      "category": "机器人/强化学习",
+      "tags": [
+        "机器人/强化学习",
+        "机器人"
+      ],
+      "url": "https://x.com/mfordfuture/",
+      "bio": "Futurist & NY Times bestselling author of 4 books on #AI, including #RiseoftheRobots (https://t.co/E3AMeiB96P) about how AI and robots will automate jobs.",
+      "rank": 58
+    },
+    {
+      "name": "Catherine Adenle",
+      "handle": "CatherineAdenle",
+      "followers": 43100,
+      "followers_label": "43.1K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/CatherineAdenle/",
+      "bio": "📌Top 22 Women in Tech and Influencers to Follow 2022. #Tech #AI #ML #Data, #Cybersec, #GenAI, #ChangeManagement, #Careeradvice, #viralvideos ❤️ Family ****@gmail.com",
+      "rank": 59
+    },
+    {
+      "name": "Marcus Borba",
+      "handle": "marcusborba",
+      "followers": 40200,
+      "followers_label": "40.2K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/marcusborba/",
+      "bio": "Global Thought Leader: Data & AI",
+      "rank": 60
+    },
+    {
+      "name": "Mike Tamir",
+      "handle": "miketamir",
+      "followers": 38800,
+      "followers_label": "38.8K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/miketamir/",
+      "bio": "Distinguished #MachineLearning Scientist at Shopify & UC Berkeley Faculty Former head of #DataScience at #Uber ATG and SIG (tweets are my own)",
+      "rank": 61
+    },
+    {
+      "name": "Vinod Sharma",
+      "handle": "vinod1975",
+      "followers": 37600,
+      "followers_label": "37.6K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/vinod1975/",
+      "bio": "FinTech CTO | #DigitalTransformation Leader | Keynote Speaker | Researcher | #Blockchain #Physics #MachineLearning #DataScience #Analytics | Views are my own ****@gmail.com",
+      "rank": 62
+    },
+    {
+      "name": "Sven Philipsen",
+      "handle": "svenphilipsen",
+      "followers": 37100,
+      "followers_label": "37.1K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/svenphilipsen/",
+      "bio": "Founder & CEO prduct. Futurist and innovator. Expert #AI #Sustainability #tech #startup #blockchain #Industry40 ****@datacontexts.com",
+      "rank": 63
+    },
+    {
+      "name": "Amitav Bhattacharjee",
+      "handle": "bamitav",
+      "followers": 37100,
+      "followers_label": "37.1K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/bamitav/",
+      "bio": "CEO @TechAsiaLab @BITspilaniindia Alum -- Tweets for STEM, IT Startup, Technology, ESG, SDG, CSR and Sustainability ****@techasialab.com",
+      "rank": 64
+    },
+    {
+      "name": "Aaron Ng",
+      "handle": "localghost",
+      "followers": 36200,
+      "followers_label": "36.2K",
+      "category": "机器人/强化学习",
+      "tags": [
+        "机器人/强化学习"
+      ],
+      "url": "https://x.com/localghost/",
+      "bio": "Working on a new company. Creator of @apolloaiapp (acq. @liquidai_), avatar tools like @hyperonline_ (ycw21), and more. early cashapp, dydx, & more ****@hyper.online",
+      "rank": 65
+    },
+    {
+      "name": "Kate Darling",
+      "handle": "grok_",
+      "followers": 35100,
+      "followers_label": "35.1K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究",
+        "机器人"
+      ],
+      "url": "https://x.com/grok_/",
+      "bio": "Robotics ethics & policy at MIT @medialab and Boston Dynamics AI Institute. she/her. Author of \"The New Breed\": https://t.co/TPSdhgflir ****@katedarling.org",
+      "rank": 66
+    },
+    {
+      "name": "Rodney Brooks",
+      "handle": "rodneyabrooks",
+      "followers": 32200,
+      "followers_label": "32.2K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究",
+        "机器人"
+      ],
+      "url": "https://x.com/rodneyabrooks/",
+      "bio": "🇺🇦I post regularly as @rodneyabrooks at https://t.co/sF7HmACXdd about AI and robotics. Here I post about the criminal behavior of Trump and Musk. I am woke! ****@csail.mit.edu",
+      "rank": 67
+    },
+    {
+      "name": "Lucian Fogoros",
+      "handle": "fogoros",
+      "followers": 31000,
+      "followers_label": "31K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/fogoros/",
+      "bio": "Co-Founder https://t.co/KwXjxubObe Advisory Board Cleveland State University Computer Eng. #IIoT #AI #ML #CxO #IndustrialTransformation #ICSCybersecurity #AR ****@iiot-world.com",
+      "rank": 68
+    },
+    {
+      "name": "Cade Metz",
+      "handle": "CadeMetz",
+      "followers": 31000,
+      "followers_label": "31K",
+      "category": "机器人/强化学习",
+      "tags": [
+        "机器人/强化学习"
+      ],
+      "url": "https://x.com/CadeMetz/",
+      "bio": "New York Times reporter, covering A.I., driverless cars, and other changes: ****@nytimes.com . My book, \"Genius Makers\": https://t.co/TJBqNRKR5Q.",
+      "rank": 69
+    },
+    {
+      "name": "Max Welling",
+      "handle": "wellingmax",
+      "followers": 28100,
+      "followers_label": "28.1K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/wellingmax/",
+      "bio": "AI @Microsoft",
+      "rank": 70
+    },
+    {
+      "name": "Oren Etzioni",
+      "handle": "etzioni",
+      "followers": 27000,
+      "followers_label": "27K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/etzioni/",
+      "bio": "Co-founder, https://t.co/XLQqMYVHzw. Founder, https://t.co/PYY4TlNbH4. Founding CEO, AIlen Institute for AI. Founder, https://t.co/IQ6xAlnKcR. Professor Emeritus, UW ****@truemedia.org",
+      "rank": 71
+    },
+    {
+      "name": "Daphne Koller",
+      "handle": "DaphneKoller",
+      "followers": 26200,
+      "followers_label": "26.2K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业",
+        "Stanford"
+      ],
+      "url": "https://x.com/DaphneKoller/",
+      "bio": "Founder and CEO of @insitro, Machine Learning pioneer, co-founder of Coursera, adjunct CS Professor at Stanford, avid traveler ****@insitro.com",
+      "rank": 72
+    },
+    {
+      "name": "Gene Kogan",
+      "handle": "genekogan",
+      "followers": 25900,
+      "followers_label": "25.9K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/genekogan/",
+      "bio": "My avatars @eden_art_ @abraham_ai_ @mars_college",
+      "rank": 73
+    },
+    {
+      "name": "Alex J. Champandard",
+      "handle": "alexjc",
+      "followers": 25800,
+      "followers_label": "25.8K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/alexjc/",
+      "bio": "Building tools and teams where humans ≫ machines. AI, ML, research & development. co-Founded #CreativeAI #⚘",
+      "rank": 74
+    },
+    {
+      "name": "Martin F. Robbins",
+      "handle": "mjrobbins",
+      "followers": 22400,
+      "followers_label": "22.4K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/mjrobbins/",
+      "bio": "Haver of opinions. https://t.co/aMiiaxPJ2P",
+      "rank": 75
+    },
+    {
+      "name": "Paul Roetzer",
+      "handle": "paulroetzer",
+      "followers": 20600,
+      "followers_label": "20.6K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/paulroetzer/",
+      "bio": "Founder Marketing AI Institute (@Mktgai) and SmarterX (@SmarterXAI). Creator of Marketing AI Conference (MAICON). Co-host of @aishowpod. ****@marketingaiinstitute.com",
+      "rank": 76
+    },
+    {
+      "name": "Andy Jankowski",
+      "handle": "andyjankowski",
+      "followers": 19500,
+      "followers_label": "19.5K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/andyjankowski/",
+      "bio": "Non-Executive Director.#AI #Advisor and Business Consultant.",
+      "rank": 77
+    },
+    {
+      "name": "Sourabh Singh Katoch",
+      "handle": "SourabhSKatoch",
+      "followers": 18400,
+      "followers_label": "18.4K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/SourabhSKatoch/",
+      "bio": "Data Scientist | Machine Learning EngineerWrites about AI Research, Data Science, Python Programming & Development. Educator, Open Source advocate & memer.",
+      "rank": 78
+    },
+    {
+      "name": "Terence Mills",
+      "handle": "terence_mills",
+      "followers": 17400,
+      "followers_label": "17.4K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/terence_mills/",
+      "bio": "CEO Veuu | Chairman @aidotio | AI | Blockchain | VoiceAI | #Healthcare #Travel | @ForbesTechCncl | @Onalytica Top Data & AI Influencer | Keynote | #WBAF Board",
+      "rank": 79
+    },
+    {
+      "name": "Bob Violino",
+      "handle": "bobviolino",
+      "followers": 17200,
+      "followers_label": "17.2K",
+      "category": "AI媒体/评论",
+      "tags": [
+        "AI媒体/评论"
+      ],
+      "url": "https://x.com/bobviolino/",
+      "bio": "Freelance writer covering the latest in tech and business innovation, and writing a blog about embracing gratitude https://t.co/MrzKvNO3IJ",
+      "rank": 80
+    },
+    {
+      "name": "John C. Havens",
+      "handle": "johnchavens",
+      "followers": 15700,
+      "followers_label": "15.7K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/johnchavens/",
+      "bio": "Planet Positive 203O Lead. Founding ED, IEEE Global Initiative on AI Ethics. Book: Heartificial Intelligence. https://t.co/HgZJsmTJfT",
+      "rank": 81
+    },
+    {
+      "name": "Debashis Dutta",
+      "handle": "debashis_dutta",
+      "followers": 14600,
+      "followers_label": "14.6K",
+      "category": "AI工程",
+      "tags": [
+        "AI工程"
+      ],
+      "url": "https://x.com/debashis_dutta/",
+      "bio": "Making AI accessible to All | Risk Analytics & AI Leader | ML Engineer l Solution Architect | AI Engineer l Google Cloud l AWS l Microsoft | CDMP l DAMA| PMP | ****@gmail.com",
+      "rank": 82
+    },
+    {
+      "name": "Dr. Angelica Lim",
+      "handle": "petitegeek",
+      "followers": 13600,
+      "followers_label": "13.6K",
+      "category": "机器人/强化学习",
+      "tags": [
+        "机器人/强化学习",
+        "机器人"
+      ],
+      "url": "https://x.com/petitegeek/",
+      "bio": "Computer science prof and robot geek @SFU_CompSci 🇨🇦🇵🇭 AI, Robotics, Emotions. Prev: SoftBank Robotics, Kyoto U. she/her. TEDx talks https://t.co/C03HJMs4sB",
+      "rank": 83
+    },
+    {
+      "name": "Fausto Pedro Garcia Marquez",
+      "handle": "faustospain",
+      "followers": 13400,
+      "followers_label": "13.4K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/faustospain/",
+      "bio": "Full Professor at @ingenium_rg @uclm_es @Spain,SM at @IEEEorg #ArtificialIntelligence #AI #DataScience #Analytics #RenewableEnergy #Maintenance #Management #IoT ****@uclm.es",
+      "rank": 84
+    },
+    {
+      "name": "Satya Mallick",
+      "handle": "learnopencv",
+      "followers": 13000,
+      "followers_label": "13K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/learnopencv/",
+      "bio": "CEO, https://t.co/CzUdJlxzJM. Course Director, https://t.co/O2Tz9vUOQ8Entrepreneur. Ph.D. ( Computer Vision & Machine Learning ). Author: https://t.co/olraDEG5Ue ****@learnopencv.com",
+      "rank": 85
+    },
+    {
+      "name": "David Kenny",
+      "handle": "davidwkenny",
+      "followers": 12800,
+      "followers_label": "12.8K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/davidwkenny/",
+      "bio": "Husband. Dad. CEO @Nielsen. Media-ologist. Humanist. AI Nerd.",
+      "rank": 86
+    },
+    {
+      "name": "Wilhelm Bielert",
+      "handle": "wil_bielert",
+      "followers": 12300,
+      "followers_label": "12.3K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/wil_bielert/",
+      "bio": "Chief Digital Officer I distribute news I find personally interesting - contact me any time. #IIoT #AI #Digital",
+      "rank": 87
+    },
+    {
+      "name": "Sarah Burnett",
+      "handle": "sarahburnett",
+      "followers": 11300,
+      "followers_label": "11.3K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/sarahburnett/",
+      "bio": "Author, analyst, technology evangelist | board advisor | FBCSFollow me on LinkedIn: https://t.co/gnIpbzPUM1 ****@sarah-burnett.com",
+      "rank": 88
+    },
+    {
+      "name": "Marek Rosa",
+      "handle": "marek_rosa",
+      "followers": 10400,
+      "followers_label": "10.4K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业",
+        "LLM",
+        "Agent"
+      ],
+      "url": "https://x.com/marek_rosa/",
+      "bio": "Need to create - CEO & Tip of the spear at https://t.co/Dbfr0y1Efh & https://t.co/NJFpqEHyTL - LLM agents, AI People, Space Engineers, VRAGE3 engine, Groundstation. ****@keenswh.com",
+      "rank": 89
+    },
+    {
+      "name": "Louis Bouchard",
+      "handle": "Whats_AI",
+      "followers": 9100,
+      "followers_label": "9.1K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/Whats_AI/",
+      "bio": "Making AI accessible on YouTube, Substack, and our Courses. Co-founder @towards_ai @hlr_newsletter. Ex-Ph.D. student @Mila_Quebec @polymtl. ****@gmail.com",
+      "rank": 90
+    },
+    {
+      "name": "Sudalai Rajkumar",
+      "handle": "sudalairajkumar",
+      "followers": 8600,
+      "followers_label": "8.6K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/sudalairajkumar/",
+      "bio": "📈 AI Innovations @TigerAnalytics🦆 4x @kaggle Grandmaster📊 AI / ML Advisor⚡ AI Tinkerer in Web3 ⚡🖥️ Ex - @h2oai @FreshworksInc",
+      "rank": 91
+    },
+    {
+      "name": "YueLi-HSR",
+      "handle": "hsryueli",
+      "followers": 7600,
+      "followers_label": "7.6K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/hsryueli/",
+      "bio": "Professor, PhD/MS programs director, Health Services Research, U of Rochester - Medicare reforms, long-term care. #HealthCare #eHealth #AI #ML #DataScience",
+      "rank": 92
+    },
+    {
+      "name": "Bob Gourley",
+      "handle": "bobgourley",
+      "followers": 7300,
+      "followers_label": "7.3K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/bobgourley/",
+      "bio": "CTO at @OODA where we research and report on the future of AI and other disruptive technologies, cybersecurity and geopolitical developments. Former USN.",
+      "rank": 93
+    },
+    {
+      "name": "Inma Martinez",
+      "handle": "inma_martinez",
+      "followers": 5900,
+      "followers_label": "5.9K",
+      "category": "AI研究",
+      "tags": [
+        "AI研究"
+      ],
+      "url": "https://x.com/inma_martinez/",
+      "bio": "Chair of the Multi-stakeholder Expert Group & Co-Chair of Steering Committee at https://t.co/I6ZCr0dub9 Lecturer @Imperialcollege Tweets = personal opinions not business advice",
+      "rank": 94
+    },
+    {
+      "name": "Ajay Pandey",
+      "handle": "pandeyajay7",
+      "followers": 3800,
+      "followers_label": "3.8K",
+      "category": "AI综合",
+      "tags": [
+        "AI综合"
+      ],
+      "url": "https://x.com/pandeyajay7/",
+      "bio": "IT Professional | AI Evangelist | NextGen QE | Interest’s range from Digital Leadership, Emerging Technologies, Current affairs, Movies, Cricket |",
+      "rank": 95
+    },
+    {
+      "name": "Kathleen Walch",
+      "handle": "kath0134",
+      "followers": 2600,
+      "followers_label": "2.6K",
+      "category": "AI媒体/评论",
+      "tags": [
+        "AI媒体/评论",
+        "Podcast"
+      ],
+      "url": "https://x.com/kath0134/",
+      "bio": "Managing Partner at @Cognilytica. Host of AI Today podcast. #AI #ML Focused ****@cognilytica.com",
+      "rank": 96
+    },
+    {
+      "name": "Ian Barkin",
+      "handle": "ibarkin",
+      "followers": 2500,
+      "followers_label": "2.5K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/ibarkin/",
+      "bio": "Entrepreneur | Investor | Advisor | Author | Storyteller |",
+      "rank": 97
+    },
+    {
+      "name": "Ronald Schmelzer",
+      "handle": "rschmelzer",
+      "followers": 2500,
+      "followers_label": "2.5K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/rschmelzer/",
+      "bio": "Helping Microteams Megascale | Triple-Exit Founder | Forbes AI Columnist | Scalebrate Founder | Co-Creator of CPMAI ****@cognilytica.com",
+      "rank": 98
+    },
+    {
+      "name": "Kunal Jain",
+      "handle": "jainkunal",
+      "followers": 1700,
+      "followers_label": "1.7K",
+      "category": "AI创业",
+      "tags": [
+        "AI创业"
+      ],
+      "url": "https://x.com/jainkunal/",
+      "bio": "Data Scientist, Hacker, Entrepreneur, machine learning enthusiast ****@analyticsvidhya.com",
+      "rank": 99
+    }
+  ],
+  "manual_source": "/Users/somalia/Desktop/x-ai-experts-viz/data/manual_experts.json",
+  "manual_merged_count": 1,
+  "history_tail": [
+    {
+      "date": "2026-02-19",
+      "generated_at": "2026-02-19T15:07:12+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000
+    },
+    {
+      "date": "2026-02-19",
+      "generated_at": "2026-02-19T15:07:15+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000
+    },
+    {
+      "date": "2026-02-19",
+      "generated_at": "2026-02-19T15:10:19+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-19",
+      "generated_at": "2026-02-19T15:10:22+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T13:49:37+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T13:52:57+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T14:01:45+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T14:02:50+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T14:10:18+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T14:12:02+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T14:12:48+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T14:50:03+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T15:17:20+00:00",
+      "total_experts": 99,
+      "total_followers": 24949800,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60,
+        "miketamir": 61,
+        "vinod1975": 62,
+        "svenphilipsen": 63,
+        "bamitav": 64,
+        "localghost": 65,
+        "grok_": 66,
+        "rodneyabrooks": 67,
+        "fogoros": 68,
+        "cademetz": 69,
+        "wellingmax": 70,
+        "etzioni": 71,
+        "daphnekoller": 72,
+        "genekogan": 73,
+        "alexjc": 74,
+        "mjrobbins": 75,
+        "paulroetzer": 76,
+        "andyjankowski": 77,
+        "sourabhskatoch": 78,
+        "terence_mills": 79,
+        "bobviolino": 80,
+        "johnchavens": 81,
+        "debashis_dutta": 82,
+        "petitegeek": 83,
+        "faustospain": 84,
+        "learnopencv": 85,
+        "davidwkenny": 86,
+        "wil_bielert": 87,
+        "sarahburnett": 88,
+        "marek_rosa": 89,
+        "whats_ai": 90,
+        "sudalairajkumar": 91,
+        "hsryueli": 92,
+        "bobgourley": 93,
+        "inma_martinez": 94,
+        "pandeyajay7": 95,
+        "kath0134": 96,
+        "ibarkin": 97,
+        "rschmelzer": 98,
+        "jainkunal": 99
+      }
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T15:22:44+00:00",
+      "total_experts": 99,
+      "total_followers": 24949800,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000,
+      "rank_map": {
+        "lexfridman": 1,
+        "sama": 2,
+        "kaifulee": 3,
+        "karpathy": 4,
+        "id_aa_carmack": 5,
+        "andrewyng": 6,
+        "ylecun": 7,
+        "2morrowknight": 8,
+        "fchollet": 9,
+        "rowancheung": 10,
+        "scobleizer": 11,
+        "geoffreyhinton": 12,
+        "demishassabis": 13,
+        "kirkdborne": 14,
+        "jeffdean": 15,
+        "antgrasso": 16,
+        "ronald_vanloon": 17,
+        "goodfellow_ian": 18,
+        "tamaramccleary": 19,
+        "soumithchintala": 20,
+        "drfeifei": 21,
+        "waitin4agi_": 22,
+        "erikbryn": 23,
+        "oriolvinyalsml": 24,
+        "garymarcus": 25,
+        "timnitgebru": 26,
+        "pascal_bornet": 27,
+        "ceobillionaire": 28,
+        "bernardmarr": 29,
+        "sallyeaves": 30,
+        "thatroblennon": 31,
+        "fabiomoioli": 32,
+        "nicochan33": 33,
+        "datachaz": 34,
+        "haroldsinnott": 35,
+        "randal_olson": 36,
+        "yoheinakajima": 37,
+        "iainljbrown": 38,
+        "chrismessina": 39,
+        "clairesilver12": 40,
+        "mvollmer1": 41,
+        "nandodf": 42,
+        "mrgreen": 43,
+        "abhi1thakur": 44,
+        "katecrawford": 45,
+        "nathanlands": 46,
+        "drhassanrashidi": 47,
+        "alliekmiller": 48,
+        "bilawalsidhu": 49,
+        "_karenhao": 50,
+        "yuhelenyu": 51,
+        "nathanbenaich": 52,
+        "ingliguori": 53,
+        "nigewillson": 54,
+        "mrogati": 55,
+        "terenceleungsf": 56,
+        "oliverchristie": 57,
+        "mfordfuture": 58,
+        "catherineadenle": 59,
+        "marcusborba": 60,
+        "miketamir": 61,
+        "vinod1975": 62,
+        "svenphilipsen": 63,
+        "bamitav": 64,
+        "localghost": 65,
+        "grok_": 66,
+        "rodneyabrooks": 67,
+        "fogoros": 68,
+        "cademetz": 69,
+        "wellingmax": 70,
+        "etzioni": 71,
+        "daphnekoller": 72,
+        "genekogan": 73,
+        "alexjc": 74,
+        "mjrobbins": 75,
+        "paulroetzer": 76,
+        "andyjankowski": 77,
+        "sourabhskatoch": 78,
+        "terence_mills": 79,
+        "bobviolino": 80,
+        "johnchavens": 81,
+        "debashis_dutta": 82,
+        "petitegeek": 83,
+        "faustospain": 84,
+        "learnopencv": 85,
+        "davidwkenny": 86,
+        "wil_bielert": 87,
+        "sarahburnett": 88,
+        "marek_rosa": 89,
+        "whats_ai": 90,
+        "sudalairajkumar": 91,
+        "hsryueli": 92,
+        "bobgourley": 93,
+        "inma_martinez": 94,
+        "pandeyajay7": 95,
+        "kath0134": 96,
+        "ibarkin": 97,
+        "rschmelzer": 98,
+        "jainkunal": 99
+      }
+    }
+  ],
+  "history_daily": [
+    {
+      "date": "2026-02-19",
+      "generated_at": "2026-02-19T15:10:22+00:00",
+      "total_experts": 60,
+      "total_followers": 24216500,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000
+    },
+    {
+      "date": "2026-02-20",
+      "generated_at": "2026-02-20T15:22:44+00:00",
+      "total_experts": 99,
+      "total_followers": 24949800,
+      "top_handle": "lexfridman",
+      "top_followers": 4200000
+    }
+  ],
+  "history_total_points": 14,
+  "history_file": "/Users/somalia/Desktop/x-ai-experts-viz/data/history.json",
+  "rank_changes": [
+    {
+      "handle": "lexfridman",
+      "name": "Lex Fridman",
+      "current_rank": 1,
+      "previous_rank": 1,
+      "delta": 0,
+      "followers": 4200000
+    },
+    {
+      "handle": "sama",
+      "name": "Sam Altman",
+      "current_rank": 2,
+      "previous_rank": 2,
+      "delta": 0,
+      "followers": 4200000
+    },
+    {
+      "handle": "kaifulee",
+      "name": "Kai-Fu Lee",
+      "current_rank": 3,
+      "previous_rank": 3,
+      "delta": 0,
+      "followers": 1400000
+    },
+    {
+      "handle": "karpathy",
+      "name": "Andrej Karpathy",
+      "current_rank": 4,
+      "previous_rank": 4,
+      "delta": 0,
+      "followers": 1400000
+    },
+    {
+      "handle": "ID_AA_Carmack",
+      "name": "John Carmack",
+      "current_rank": 5,
+      "previous_rank": 5,
+      "delta": 0,
+      "followers": 1100000
+    },
+    {
+      "handle": "AndrewYNg",
+      "name": "Andrew Ng",
+      "current_rank": 6,
+      "previous_rank": 6,
+      "delta": 0,
+      "followers": 1100000
+    },
+    {
+      "handle": "ylecun",
+      "name": "Yann LeCun",
+      "current_rank": 7,
+      "previous_rank": 7,
+      "delta": 0,
+      "followers": 937800
+    },
+    {
+      "handle": "2morrowknight",
+      "name": "Sean Gardner",
+      "current_rank": 8,
+      "previous_rank": 8,
+      "delta": 0,
+      "followers": 708600
+    },
+    {
+      "handle": "fchollet",
+      "name": "François Chollet",
+      "current_rank": 9,
+      "previous_rank": 9,
+      "delta": 0,
+      "followers": 566000
+    },
+    {
+      "handle": "rowancheung",
+      "name": "Rowan Cheung",
+      "current_rank": 10,
+      "previous_rank": 10,
+      "delta": 0,
+      "followers": 563600
+    },
+    {
+      "handle": "Scobleizer",
+      "name": "Robert Scoble",
+      "current_rank": 11,
+      "previous_rank": 11,
+      "delta": 0,
+      "followers": 536600
+    },
+    {
+      "handle": "geoffreyhinton",
+      "name": "Geoffrey Hinton",
+      "current_rank": 12,
+      "previous_rank": 12,
+      "delta": 0,
+      "followers": 489000
+    },
+    {
+      "handle": "demishassabis",
+      "name": "Demis Hassabis",
+      "current_rank": 13,
+      "previous_rank": 13,
+      "delta": 0,
+      "followers": 479500
+    },
+    {
+      "handle": "KirkDBorne",
+      "name": "Kirk Borne",
+      "current_rank": 14,
+      "previous_rank": 14,
+      "delta": 0,
+      "followers": 455100
+    },
+    {
+      "handle": "jeffdean",
+      "name": "Jeff Dean",
+      "current_rank": 15,
+      "previous_rank": 15,
+      "delta": 0,
+      "followers": 360900
+    }
+  ]
+}

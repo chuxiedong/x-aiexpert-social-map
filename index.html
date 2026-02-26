@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1020" />
+    <title>AI Influence Intelligence</title>
+    <script src="/assets/metrics.js" defer></script>
+    <style>
+      :root {
+        --bg: #0a1022;
+        --card: #121b36;
+        --line: rgba(255, 255, 255, 0.14);
+        --text: #edf3ff;
+        --muted: #95a9d5;
+        --brand: #6ad3ff;
+        --brand-primary: #1d3f82;
+        --brand-secondary: #143062;
+        --brand-main-a: #28a6ff;
+        --brand-main-b: #1873ff;
+        --ok: #49d6a6;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--text);
+        background: radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 46%);
+        font-family: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+      .wrap { max-width: 1160px; margin: 0 auto; padding: 16px; }
+      .nav {
+        display: flex; justify-content: space-between; align-items: center; gap: 12px;
+        border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; background: rgba(10, 17, 36, .72);
+      }
+      .logo { font-size: 18px; font-weight: 800; letter-spacing: .2px; }
+      .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+      .btn {
+        border: 1px solid rgba(125, 177, 255, .45);
+        background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+        color: #eef4ff; border-radius: 10px; padding: 8px 11px; text-decoration: none; font-size: 13px;
+      }
+      .btn.main { background: linear-gradient(135deg,var(--brand-main-a),var(--brand-main-b)); border-color: rgba(111,211,255,.8); }
+      .theme {
+        margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+        border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: rgba(12, 21, 44, .62);
+      }
+      .theme label { font-size: 12px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+      .theme input[type="color"] {
+        width: 28px; height: 28px; border: 1px solid rgba(255,255,255,.28); border-radius: 6px; background: #0f1730; padding: 0;
+      }
+      .hero {
+        margin-top: 12px; border: 1px solid var(--line); border-radius: 14px; padding: 20px; background: rgba(12, 21, 44, .74);
+      }
+      h1 { margin: 0; font-size: 40px; line-height: 1.1; max-width: 920px; }
+      .sub { margin-top: 10px; color: var(--muted); max-width: 900px; font-size: 15px; line-height: 1.65; }
+      .proof { margin-top: 12px; display:flex; flex-wrap:wrap; gap:8px; }
+      .badge { padding:6px 10px; font-size:12px; border-radius:999px; border:1px solid var(--line); background:#0f1730; color:#c9d8fb; }
+      .grid { margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
+      .card { border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 12px; }
+      .card h3 { margin: 0 0 6px; font-size: 16px; }
+      .card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+      .section { margin-top: 14px; }
+      .section h2 { margin: 0 0 8px; font-size: 20px; }
+      .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+      .kpi { border: 1px solid var(--line); border-radius: 10px; background: var(--card); padding: 10px; }
+      .kpi .k { color: var(--muted); font-size: 12px; }
+      .kpi .v { margin-top: 4px; font-size: 20px; font-weight: 700; }
+      .feed { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+      .item { border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: var(--card); }
+      .item .t { font-weight: 700; font-size: 14px; }
+      .item .m { color: var(--muted); font-size: 12px; margin-top: 2px; }
+      .item .d { margin-top: 6px; font-size: 13px; color: #d5e2ff; line-height: 1.5; }
+      .trust { display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:10px; }
+      .ok { color: var(--ok); font-weight: 700; font-size: 12px; }
+      @media (max-width: 760px) {
+        h1 { font-size: 30px; }
+        .kpis { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="nav">
+        <div class="logo">AI Influence Intelligence</div>
+        <div class="actions">
+          <a class="btn" href="#" id="langBtn">EN</a>
+          <a class="btn" href="/profiles/index.html" data-zh="人物库" data-en="Profiles">Profiles</a>
+          <a class="btn" href="/insights.html" data-zh="观点" data-en="Insights">Insights</a>
+          <a class="btn" href="/daily_briefing.html">Top10</a>
+          <a class="btn" href="/daily_progress.html" data-zh="每日进展" data-en="Daily Progress">Daily Progress</a>
+          <a class="btn" href="/data/circle_layers.html" data-zh="圈层图" data-en="Circle Map">Circle Map</a>
+          <a class="btn" href="/index_pre_1to1_latest_backup.html" data-zh="经典3D" data-en="Classic 3D">Classic 3D</a>
+          <a class="btn" href="/commercial.html" data-zh="商业化" data-en="Commercial">Commercial</a>
+          <a class="btn" href="/contact.html" data-zh="联系" data-en="Contact">Contact</a>
+        </div>
+      </div>
+      <div class="theme">
+        <label>主色 <input id="primaryColor" type="color" value="#1d3f82" /></label>
+        <label>按钮色 <input id="buttonColor" type="color" value="#143062" /></label>
+        <label>强调色 <input id="mainAColor" type="color" value="#28a6ff" /></label>
+        <label>主按钮深色 <input id="mainBColor" type="color" value="#1873ff" /></label>
+        <a class="btn" href="#" id="resetTheme" data-zh="重置配色" data-en="Reset Theme">重置配色</a>
+      </div>
+
+      <section class="hero">
+        <h1 data-zh="快速找到值得关注的 AI 创作者和观点" data-en="Quickly find AI creators and ideas worth following">
+          快速找到值得关注的 AI 创作者和观点
+        </h1>
+        <p class="sub" data-zh="这是一个 AI 社交观察站：帮你看到谁更活跃、谁更有影响、最近在聊什么。支持圈层图、人物页、每日简报和一键海报分享。"
+           data-en="This is an AI social radar: see who is active, who is influential, and what people are discussing. Includes map view, profile pages, daily briefings, and one-click poster sharing.">
+          这是一个 AI 社交观察站：帮你看到谁更活跃、谁更有影响、最近在聊什么。支持圈层图、人物页、每日简报和一键海报分享。
+        </p>
+        <div class="actions" style="margin-top:10px">
+          <a class="btn main" href="/insights.html" data-zh="立即查看今日观点" data-en="View Today's Insights">立即查看今日观点</a>
+          <a class="btn" href="/data/circle_layers.html" data-zh="进入五层圈层图" data-en="Open 5-Layer Circle Map">进入五层圈层图</a>
+          <a class="btn" href="/index_pre_1to1_latest_backup.html" data-zh="打开第一版3D图" data-en="Open Classic 3D Graph">打开第一版3D图</a>
+          <a class="btn" href="/daily_briefing.html" data-zh="打开Top10简报" data-en="Open Top10 Briefing">打开Top10简报</a>
+          <a class="btn" href="/daily_progress.html" data-zh="查看每日AI进展" data-en="Open Daily AI Progress">查看每日AI进展</a>
+        </div>
+        <div class="proof">
+          <span class="badge" id="proof_updated">Updated: -</span>
+          <span class="badge" data-zh="样本规模：Top300 X AI博主" data-en="Sample: Top300 AI influencers on X">样本规模：Top300 X AI博主</span>
+          <span class="badge" data-zh="评分方式：关系强度 + 网络位置" data-en="Scoring: relationship strength + network position">评分方式：关系强度 + 网络位置</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 data-zh="这站点能帮你做什么" data-en="What You Can Do Here">这站点能帮你做什么</h2>
+        <div class="grid">
+          <div class="card"><h3 data-zh="发现重点人物" data-en="Find Key People">发现重点人物</h3><p data-zh="快速看到谁值得重点跟进，减少信息噪音。" data-en="Quickly spot who matters most and reduce noise.">快速看到谁值得重点跟进，减少信息噪音。</p></div>
+          <div class="card"><h3 data-zh="追踪每日话题" data-en="Track Daily Topics">追踪每日话题</h3><p data-zh="按时间和主题看近期讨论，抓住变化趋势。" data-en="Filter by time and topic to catch trend shifts early.">按时间和主题看近期讨论，抓住变化趋势。</p></div>
+          <div class="card"><h3 data-zh="快速对外分享" data-en="Share in One Click">快速对外分享</h3><p data-zh="把人物观点一键转成海报，直接发朋友圈、群聊或社媒。" data-en="Turn insights into posters and share to social channels instantly.">把人物观点一键转成海报，直接发朋友圈、群聊或社媒。</p></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 data-zh="商业化路径（可直接落地）" data-en="Commercial Paths (Ready to Run)">商业化路径（可直接落地）</h2>
+        <div class="grid">
+          <div class="card">
+            <h3 data-zh="A. 每日情报订阅" data-en="A. Daily Intelligence Subscription">A. 每日情报订阅</h3>
+            <p data-zh="面向企业和投资团队，提供每日AI进展与Top10观点简报，按月订阅交付。"
+               data-en="For enterprise and investment teams: daily AI progress and Top10 briefing delivered as a subscription.">
+              面向企业和投资团队，提供每日AI进展与Top10观点简报，按月订阅交付。
+            </p>
+            <div style="margin-top:8px"><a class="btn" href="/daily_progress.html" data-zh="查看样例" data-en="View Sample">查看样例</a></div>
+          </div>
+          <div class="card">
+            <h3 data-zh="B. 品牌联名传播" data-en="B. Branded Distribution">B. 品牌联名传播</h3>
+            <p data-zh="把Top10或自选博主观点生成品牌海报，形成对外传播素材，提高品牌触达。"
+               data-en="Generate branded Top10/custom posters to improve social reach and campaign performance.">
+              把Top10或自选博主观点生成品牌海报，形成对外传播素材，提高品牌触达。
+            </p>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+              <a class="btn" href="/daily_briefing.html" data-zh="查看Top10观点" data-en="View Top10 Insights">查看Top10观点</a>
+              <a class="btn" href="/insights.html" data-zh="查看观点库" data-en="Open Insights">查看观点库</a>
+            </div>
+          </div>
+          <div class="card">
+            <h3 data-zh="C. KOL关系运营" data-en="C. KOL Relationship Ops">C. KOL关系运营</h3>
+            <p data-zh="基于圈层和“最佳互动基友Top5”，定位关键连接人，做精准合作与增长。"
+               data-en="Use circle layers and best-buddy links to identify connectors for targeted partnerships and growth.">
+              基于圈层和“最佳互动基友Top5”，定位关键连接人，做精准合作与增长。
+            </p>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+              <a class="btn" href="/data/circle_layers.html" data-zh="打开圈层图" data-en="Open Circle Map">打开圈层图</a>
+              <a class="btn" href="/profiles/index.html" data-zh="查看人物库" data-en="View Profiles">查看人物库</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 data-zh="实时概览" data-en="Live Overview">实时概览</h2>
+        <div class="kpis">
+          <div class="kpi"><div class="k" data-zh="覆盖博主" data-en="Influencers">覆盖博主</div><div class="v" id="k_total">-</div></div>
+          <div class="kpi"><div class="k" data-zh="今日观点卡" data-en="Daily Cards">今日观点卡</div><div class="v" id="k_cards">-</div></div>
+          <div class="kpi"><div class="k" data-zh="Top10简报" data-en="Top10 Briefing">Top10简报</div><div class="v" id="k_top10">-</div></div>
+          <div class="kpi"><div class="k" data-zh="最近更新" data-en="Last Update">最近更新</div><div class="v" id="k_updated">-</div></div>
+        </div>
+      </section>
+
+
+      <section class="section">
+        <h2 data-zh="为什么可以放心用" data-en="Why You Can Trust It">为什么可以放心用</h2>
+        <div class="trust">
+          <div class="card"><div class="ok">DATA</div><h3 data-zh="来源清晰" data-en="Clear Sources">来源清晰</h3><p data-zh="每个人的活跃度和互动数据都有来源，不是拍脑袋评分。" data-en="Scores come from observable activity and interaction data.">每个人的活跃度和互动数据都有来源，不是拍脑袋评分。</p></div>
+          <div class="card"><div class="ok">SCORE</div><h3 data-zh="分数看得懂" data-en="Readable Scores">分数看得懂</h3><p data-zh="人物页会展示分数拆分，让你知道为什么高、为什么低。" data-en="Profile pages break down the score so you know why it changes.">人物页会展示分数拆分，让你知道为什么高、为什么低。</p></div>
+          <div class="card"><div class="ok">ACTION</div><h3 data-zh="拿来就能用" data-en="Ready to Use">拿来就能用</h3><p data-zh="你可以直接筛选、阅读、导出和分享，不需要额外学习成本。" data-en="Filter, read, export, and share right away with minimal setup.">你可以直接筛选、阅读、导出和分享，不需要额外学习成本。</p></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 data-zh="观点入口预览" data-en="Insight Entry Preview">观点入口预览</h2>
+        <div id="feed" class="feed"></div>
+      </section>
+
+    </div>
+
+    <script>
+      let lang = localStorage.getItem("xai_lang") || "zh";
+      let insightRows = [];
+      let top10Rows = [];
+      const root = document.documentElement;
+
+      function setTheme(primary, secondary, mainA, mainB) {
+        root.style.setProperty("--brand-primary", primary);
+        root.style.setProperty("--brand-secondary", secondary);
+        root.style.setProperty("--brand-main-a", mainA);
+        root.style.setProperty("--brand-main-b", mainB);
+      }
+      function saveTheme(primary, secondary, mainA, mainB) {
+        localStorage.setItem("xai_theme_primary", primary);
+        localStorage.setItem("xai_theme_secondary", secondary);
+        localStorage.setItem("xai_theme_main_a", mainA);
+        localStorage.setItem("xai_theme_main_b", mainB);
+      }
+      function loadTheme() {
+        const primary = localStorage.getItem("xai_theme_primary") || "#1d3f82";
+        const secondary = localStorage.getItem("xai_theme_secondary") || "#143062";
+        const mainA = localStorage.getItem("xai_theme_main_a") || "#28a6ff";
+        const mainB = localStorage.getItem("xai_theme_main_b") || "#1873ff";
+        setTheme(primary, secondary, mainA, mainB);
+        document.getElementById("primaryColor").value = primary;
+        document.getElementById("buttonColor").value = secondary;
+        document.getElementById("mainAColor").value = mainA;
+        document.getElementById("mainBColor").value = mainB;
+      }
+      function bindThemeEvents() {
+        const c1 = document.getElementById("primaryColor");
+        const c2 = document.getElementById("buttonColor");
+        const c3 = document.getElementById("mainAColor");
+        const c4 = document.getElementById("mainBColor");
+        const apply = () => {
+          setTheme(c1.value, c2.value, c3.value, c4.value);
+          saveTheme(c1.value, c2.value, c3.value, c4.value);
+        };
+        [c1, c2, c3, c4].forEach((el) => el.addEventListener("input", apply));
+        document.getElementById("resetTheme").addEventListener("click", (e) => {
+          e.preventDefault();
+          setTheme("#1d3f82", "#143062", "#28a6ff", "#1873ff");
+          saveTheme("#1d3f82", "#143062", "#28a6ff", "#1873ff");
+          loadTheme();
+        });
+      }
+
+      function t() {
+        document.querySelectorAll("[data-zh]").forEach((el) => {
+          el.textContent = el.getAttribute(lang === "zh" ? "data-zh" : "data-en");
+        });
+        document.getElementById("langBtn").textContent = lang === "zh" ? "EN" : "中文";
+      }
+
+      function renderFeed() {
+        const feed = document.getElementById("feed");
+        feed.innerHTML = insightRows.slice(0, 8).map((x) => `
+          <div class="item">
+            <div class="t">${x.name} <span class="m">@${x.handle}</span></div>
+            <div class="m">${(x.topics || []).join(" · ")} · ${x.layer_en || x.layer}</div>
+            <div class="d">${lang === "zh" ? x.daily_essence_zh : x.daily_essence_en}</div>
+            <div style="margin-top:8px"><a class="btn" href="/profiles/${x.slug}.html">${lang === "zh" ? "查看人物页" : "View Profile"}</a></div>
+          </div>
+        `).join("");
+      }
+
+
+      document.getElementById("langBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        lang = lang === "zh" ? "en" : "zh";
+        localStorage.setItem("xai_lang", lang);
+        t();
+        renderFeed();
+      });
+
+      async function boot() {
+        const p = await fetch("/data/profiles.json").then((r) => r.json()).catch(() => ({ items: [] }));
+        const d = await fetch("/data/daily_insights.json").then((r) => r.json()).catch(() => ({ items: [] }));
+        const b = await fetch("/data/daily_briefing.json").then((r) => r.json()).catch(() => ({ items: [] }));
+
+        const profiles = p.items || [];
+        const items = d.items || [];
+        top10Rows = b.items || [];
+        insightRows = items;
+
+        document.getElementById("k_total").textContent = profiles.length || "-";
+        document.getElementById("k_cards").textContent = items.length || "-";
+        document.getElementById("k_top10").textContent = top10Rows.length || "-";
+        document.getElementById("k_updated").textContent = (d.updated_at || "-").slice(0, 10);
+        document.getElementById("proof_updated").textContent = `Updated: ${(d.updated_at || "-").slice(0, 10)}`;
+        t();
+        renderFeed();
+      }
+      loadTheme();
+      bindThemeEvents();
+      boot();
+    </script>
+    <script src="/assets/share-fab.js" defer></script>
+  </body>
+</html>

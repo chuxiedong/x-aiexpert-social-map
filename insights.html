@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Daily Insights</title>
+<script src="/assets/metrics.js" defer></script>
+<style>
+:root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
+.tools{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}.tools input,.tools select{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#111a34;color:#eaf0ff}
+.grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.muted{color:#9db0da;font-size:12px}
+</style></head><body><div class="wrap">
+<div class="top"><h2>Daily Insights / 每日观点精髓</h2><div style="display:flex;gap:8px"><a class="btn" href="/index.html">Home</a><a class="btn" href="/profiles/index.html">Profiles</a><a class="btn" href="/daily_briefing.html">Top10</a><a class="btn" href="/daily_progress.html">每日AI进展</a><a class="btn" href="/commercial.html">Commercial</a><a class="btn" href="/contact.html">Contact</a></div></div>
+<div class="tools"><input id="q" placeholder="Search name/handle"/><select id="lang"><option value="zh">中文</option><option value="en">English</option></select><select id="time"><option value="1">24h</option><option value="7">7d</option><option value="30" selected>30d</option></select><select id="topic"><option value="all">All Topics</option></select><select id="layer"><option value="all">All Layers</option></select></div>
+<div id="grid" class="grid"></div></div>
+<script>
+const q=document.getElementById('q'); const lang=document.getElementById('lang'); const layer=document.getElementById('layer'); const time=document.getElementById('time'); const topic=document.getElementById('topic'); const grid=document.getElementById('grid');
+const layerLabel={core:'Core/核心',inner_core:'Inner Core/内核',middle_core:'Middle Core/中间核',outer_core:'Outer Core/外核',surface:'Surface/表层'};
+let rows=[];
+function render(){
+  const key=(q.value||'').toLowerCase().trim(), l=lang.value, lv=layer.value, tv=parseInt(time.value||'30',10), tp=topic.value;
+  let fs=rows.filter(r=>{
+    const hasKey=!key||(`${r.name} ${r.handle}`).toLowerCase().includes(key);
+    const inLayer=lv==='all'||r.layer===lv;
+    const inTime=(r.recency_days||30)<=tv;
+    const inTopic=tp==='all'||(r.topics||[]).includes(tp);
+    return hasKey&&inLayer&&inTime&&inTopic;
+  });
+  fs.sort((a,b)=>a.rank-b.rank);
+  grid.innerHTML=fs.map(r=>{
+    const buddy=((r.best_buddies||[])[0]||null);
+    const buddyLine=buddy?`<div class="muted">最佳互动基友：${buddy.name} @${buddy.handle}</div>`:'';
+    return `<div class="card"><div><b>${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?r.daily_essence_zh:r.daily_essence_en}</p>${buddyLine}<div class="muted">Recency: ${r.recency_days}d</div><div style="display:flex;gap:8px;margin-top:8px"><a class="btn" href="/profiles/${r.slug}.html">${l==='zh'?'查看人物页':'View Profile'}</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">${l==='zh'?'打开 X':'Open X'}</a></div></div>`;
+  }).join('');
+}
+fetch('/data/daily_insights.json').then(r=>r.json()).then(d=>{
+  rows=d.items||[];
+  const layerSet=[...new Set(rows.map(x=>x.layer))];
+  layer.innerHTML='<option value="all">All Layers</option>'+layerSet.map(v=>`<option value="${v}">${layerLabel[v]||v}</option>`).join('');
+  const topics=[...new Set(rows.flatMap(x=>x.topics||[]))];
+  topic.innerHTML='<option value="all">All Topics</option>'+topics.map(v=>`<option value="${v}">${v}</option>`).join('');
+  render();
+});
+[q,lang,layer,time,topic].forEach(el=>el.addEventListener(el.tagName==='INPUT'?'input':'change',render));
+</script><script src="/assets/share-fab.js" defer></script></body></html>

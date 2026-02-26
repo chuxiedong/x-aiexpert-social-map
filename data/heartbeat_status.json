@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-02-26T01:48:56.046617+00:00",
+  "status": "ok",
+  "build_result": "ok",
+  "build_log": "Generated 300 profile pages and Top10 briefing",
+  "missing": [],
+  "checks": [
+    {
+      "file": "index.html",
+      "exists": true,
+      "size": 18746
+    },
+    {
+      "file": "data/circle_layers.html",
+      "exists": true,
+      "size": 67443
+    },
+    {
+      "file": "insights.html",
+      "exists": true,
+      "size": 4641
+    },
+    {
+      "file": "daily_briefing.html",
+      "exists": true,
+      "size": 2355
+    },
+    {
+      "file": "daily_progress.html",
+      "exists": true,
+      "size": 3049
+    },
+    {
+      "file": "poster.html",
+      "exists": true,
+      "size": 14939
+    },
+    {
+      "file": "contact.html",
+      "exists": true,
+      "size": 4815
+    },
+    {
+      "file": "commercial.html",
+      "exists": true,
+      "size": 4215
+    },
+    {
+      "file": "ops.html",
+      "exists": true,
+      "size": 4403
+    },
+    {
+      "file": "data/profiles.json",
+      "exists": true,
+      "size": 1087190
+    },
+    {
+      "file": "data/daily_insights.json",
+      "exists": true,
+      "size": 1087190
+    },
+    {
+      "file": "data/daily_briefing.json",
+      "exists": true,
+      "size": 37209
+    },
+    {
+      "file": "data/daily_progress.json",
+      "exists": true,
+      "size": 12510
+    }
+  ],
+  "duration_ms": 164,
+  "iteration_note": "heartbeat rebuild + integrity checks"
+}

@@ -1,0 +1,301 @@
+rank,name,handle,group,role,followers,following,connections,in_degree,out_degree,cross_follow_count,cross_follow_ratio,posts_count,comments_count,likes_count,reposts_count,association_weight,association_weight_norm,semantic_ai,pagerank,grey_relation,quanzhong_score,location,website,joinedDate,verified
+1,Soumith Chintala,soumithchintala,founder,Co-creator of PyTorch,279783,1186,99,80,19,15,0.789474,0,0,0,0,16.09407,0.781881,0.375,0.01745205,0.657842,0.688852,New York City,http://soumith.ch,Sep 2009,blue
+2,NVIDIA Newsroom,nvidianewsroom,company,NVIDIA News,49127,36,54,24,30,23,0.766667,0,0,0,0,20.578193,1.0,0.0,0.00915605,0.583029,0.687272,,https://nvidianews.nvidia.com/,Mar 2025,blue
+3,NVIDIA,nvidia,company,GPU & AI Computing,2435436,48,54,21,33,20,0.606061,0,0,0,0,19.092587,0.927737,0.125,0.00512025,0.573598,0.662133,"Santa Clara, CA",https://www.nvidia.com,Jul 2009,blue
+4,Oriol Vinyals,OriolVinyalsML,researcher,Research Scientist at Google DeepMind,195505,86,70,37,33,16,0.484848,0,0,0,0,14.797724,0.718824,0.75,0.00763295,0.569661,0.606952,"London, England",https://scholar.google.com/citations?user=NkzyCvUAAAAJ&hl=en,Oct 2015,blue
+5,Lucas Beyer (bl16),giffmana,researcher,Research Scientist at Google,123506,562,70,55,15,11,0.733333,0,0,0,0,12.168699,0.590942,0.625,0.01393012,0.55608,0.564796,"Zürich, Suisse",http://lucasb.eyer.be,Dec 2013,blue
+6,Hugging Face,huggingface,company,AI/ML Platform,619739,217,52,28,24,16,0.666667,0,0,0,0,14.404578,0.699701,0.25,0.00659023,0.51027,0.557628,NYC and Paris and 🌏,https://huggingface.co,Sep 2016,blue
+7,Aran Komatsuzaki,arankomatsuzaki,researcher,AI Researcher,158431,318,74,52,22,10,0.454545,0,0,0,0,11.378138,0.552487,0.625,0.01151735,0.525492,0.532241,,https://arankomatsuzaki.wordpress.com/about-me/,Nov 2016,blue
+8,Sasha Rush,srush_nlp,researcher,Professor at Cornell,75445,517,64,48,16,11,0.6875,0,0,0,0,11.484258,0.557649,0.25,0.01191497,0.504039,0.517442,"New York, NY",http://rush-nlp.com,Dec 2015,blue
+9,Yann LeCun,ylecun,researcher,Chief AI Scientist at Meta,1029016,773,64,44,20,8,0.4,0,0,0,0,8.368645,0.406098,0.875,0.01199799,0.55106,0.514819,New York,http://yann.lecun.com,Jun 2009,blue
+10,Peter Steinberger 🦞,steipete,founder,Polyagentmorous ClawFather,263858,2197,37,35,2,2,1.0,0,0,0,0,2.461114,0.118742,0.125,0.03420077,0.623022,0.496952,Vienna & London,https://steipete.me,Mar 2009,blue
+11,Sebastian Raschka,rasbt,researcher,Professor,389642,1122,46,28,18,9,0.5,0,0,0,0,9.473723,0.459852,0.75,0.00767242,0.500924,0.490656,,https://sebastianraschka.com,Oct 2012,blue
+12,Rosanne Liu,savvyRL,founder,Google,49438,1031,60,43,17,9,0.529412,0,0,0,0,10.280553,0.499098,0.375,0.01000521,0.478322,0.483516,"San Francisco, CA",https://rosanneliu.com/,Mar 2013,
+13,Wojciech Zaremba,woj_zaremba,researcher,Co-founder at OpenAI,132312,213,60,38,22,9,0.409091,0,0,0,0,10.4316,0.506445,0.25,0.00880982,0.467178,0.476995,"San Francisco, CA",,Mar 2018,blue
+14,Julien Chaumond,julien_c,founder,Co-founder at Hugging Face,68444,1186,39,23,16,10,0.625,0,0,0,0,10.620635,0.51564,0.25,0.0058913,0.455598,0.470609,Paris / New York,https://huggingface.co,Sep 2008,blue
+15,Jeremy Howard,jeremyphoward,researcher,Founder at fast.ai,270690,6373,47,35,12,8,0.666667,0,0,0,0,9.30375,0.451584,0.25,0.00886199,0.471981,0.466882,"Brisbane/Queensland, Australia",http://answer.ai,Aug 2010,blue
+16,clem 🤗,ClementDelangue,founder,CEO at Hugging Face,194312,4811,52,27,25,9,0.36,0,0,0,0,10.354055,0.502673,0.125,0.00626541,0.451703,0.464445,Miami / New York / Paris,http://huggingface.co/clem,Sep 2010,blue
+17,Google DeepMind,GoogleDeepMind,company,AI Research Lab,1331053,281,58,33,25,8,0.32,0,0,0,0,8.374827,0.406399,0.5,0.00783921,0.483288,0.464066,"London, UK",http://deepmind.google,Jan 2016,
+18,Anthropic,AnthropicAI,company,AI Safety Company,808848,35,48,34,14,8,0.571429,0,0,0,0,7.769659,0.376962,0.375,0.01622716,0.488386,0.46053,,https://anthropic.com,Jan 2021,blue
+19,Gautam Kamath,thegautamkamath,researcher,Professor at Waterloo,61042,598,30,20,10,9,0.9,0,0,0,0,8.153388,0.395628,0.25,0.00587164,0.479304,0.458385,"Waterloo, Ontario",http://www.gautamkamath.com,Dec 2009,
+20,hardmaru,hardmaru,researcher,Research Scientist at Google,382975,1805,53,33,20,8,0.4,0,0,0,0,9.074248,0.44042,0.375,0.00646993,0.460551,0.455518,"Minato-ku, Tokyo",https://sakana.ai/,Nov 2014,blue
+21,Kevin Patrick Murphy,sirbayes,researcher,Professor at UBC,66408,628,45,33,12,6,0.5,0,0,0,0,7.401156,0.359037,0.75,0.00806486,0.48278,0.451844,,https://www.cs.ubc.ca/~murphyk/,Oct 2016,blue
+22,Sara Hooker,sarahookr,researcher,Research Lead at Cohere,56192,10018,46,33,13,8,0.615385,0,0,0,0,8.25809,0.400721,0.5,0.00720975,0.466852,0.450319,San Francisco,https://www.sarahooker.me/,May 2016,blue
+23,Jason Wei,_jasonwei,researcher,Research at OpenAI,103595,669,41,28,13,8,0.615385,0,0,0,0,8.26292,0.400955,0.5,0.00658698,0.463672,0.447993,sf,https://www.jasonwei.net/,Oct 2020,blue
+24,Demis Hassabis,demishassabis,founder,CEO at Google DeepMind,639495,164,50,18,32,9,0.28125,0,0,0,0,8.469262,0.410992,0.125,0.00498883,0.459363,0.44727,,http://www.deepmind.com,Jun 2013,blue
+25,Dan Roy,roydanroy,researcher,CTO & Professor at Google,62235,1861,44,32,12,7,0.583333,0,0,0,0,8.233016,0.399501,0.5,0.00710676,0.461677,0.446133,London,http://danroy.org/,Jun 2009,blue
+26,Jim Fan,DrJimFan,researcher,Senior Research Scientist at NVIDIA,357475,3102,64,41,23,6,0.26087,0,0,0,0,6.763777,0.328034,0.625,0.00713714,0.479208,0.441414,Views my own. Contact →,https://jimfan.me,Dec 2012,blue
+27,NVIDIA Omniverse,nvidiaomniverse,company,NVIDIA Omniverse Platform,24121,318,33,20,13,8,0.615385,0,0,0,0,9.428435,0.457649,0.125,0.00531647,0.434353,0.440177,,https://www.nvidia.com/omniverse,Oct 2020,blue
+28,NVIDIA Data Center,NVIDIADC,company,NVIDIA Data Center,53705,1664,27,12,15,8,0.533333,0,0,0,0,9.6808,0.469925,0.25,0.00265333,0.428289,0.438698,"Santa Clara, CA",https://www.nvidia.com/en-us/data-center/,Nov 2009,blue
+29,AK,_akhaliq,founder,HuggingFace,454313,3157,57,40,17,6,0.352941,0,0,0,0,7.462951,0.362043,0.375,0.00832085,0.458911,0.434694,,https://huggingface.co/akhaliq,Apr 2014,blue
+30,Richard Socher,RichardSocher,founder,CEO at You.com,114855,1100,55,19,36,7,0.194444,0,0,0,0,7.015348,0.340271,0.25,0.00393182,0.464251,0.433256,,http://www.socher.org,May 2013,blue
+31,Sander Dieleman,sedielem,researcher,Research Scientist at Google,65858,1905,45,27,18,5,0.277778,0,0,0,0,6.662361,0.3231,0.75,0.00544582,0.463528,0.428421,"London, England",https://sander.ai,Dec 2014,blue
+32,elvis,omarsar0,researcher,Meta,288103,765,41,21,20,8,0.4,0,0,0,0,8.178505,0.396849,0.25,0.00507946,0.43696,0.426932,DAIR.AI Academy,https://www.dair.ai/,Sep 2015,blue
+33,NVIDIA AI,NVIDIAAI,company,NVIDIA AI Division,257189,790,35,16,19,7,0.368421,0,0,0,0,8.868835,0.430429,0.125,0.00323495,0.423652,0.425346,"Santa Clara, CA",http://nvda.ws/2LgJ1Ga,Jun 2016,blue
+34,Sergey Levine,svlevine,researcher,Professor at UC Berkeley,119196,141,45,36,9,6,0.666667,0,0,0,0,6.869771,0.333189,0.25,0.00666962,0.45378,0.423632,"Berkeley, CA",http://rail.eecs.berkeley.edu/,Apr 2018,blue
+35,Horace He,cHHillee,founder,,45329,555,45,32,13,7,0.538462,0,0,0,0,7.166496,0.347623,0.25,0.00840072,0.44134,0.417911,chhillee,https://www.thonking.ai/p/strangely-matrix-multiplications,Feb 2010,blue
+36,Michael Bronstein,mmbronstein,researcher,Professor at Oxford,55624,7119,32,20,12,7,0.583333,0,0,0,0,6.919852,0.335625,0.5,0.00539452,0.444418,0.41722,,https://www.cs.ox.ac.uk/people/michael.bronstein/,Aug 2009,
+37,Sam Altman,sama,founder,CEO at OpenAI,4317707,984,43,19,24,6,0.25,0,0,0,0,5.976037,0.289716,0.25,0.00743423,0.45759,0.415621,SF,http://blog.samaltman.com,Jul 2006,blue
+38,NeurIPS Conference,NeurIPSConf,company,AI/ML Conference,150047,41,44,38,6,5,0.833333,0,0,0,0,4.562403,0.220953,0.25,0.00804012,0.474655,0.41123,,https://neurips.cc,Apr 2010,blue
+39,NVIDIA Studio,NVIDIAStudio,company,NVIDIA Studio,64001,136,21,14,7,6,0.857143,0,0,0,0,6.15059,0.298207,0.0,0.0048972,0.446462,0.409398,Imagination,https://linktr.ee/nvidiacreators,Dec 2018,blue
+40,abhishek,abhi1thakur,founder,huggingface,96867,1196,31,18,13,7,0.538462,0,0,0,0,7.510386,0.36435,0.125,0.00448325,0.422338,0.407841,localhost,https://www.linkedin.com/in/abhi1thakur/,Dec 2009,blue
+41,Thomas G. Dietterich,tdietterich,researcher,Professor Emeritus at Oregon State,59657,642,45,29,16,5,0.3125,0,0,0,0,6.545211,0.317402,0.5,0.0065132,0.437013,0.40711,"Corvallis, OR",http://web.engr.oregonstate.edu/~tgd/,Aug 2012,
+42,Google AI,GoogleAI,company,Google AI Division,2337542,29,21,9,12,7,0.583333,0,0,0,0,6.466139,0.313556,0.125,0.00307091,0.436983,0.406126,"Mountain View, CA",https://ai.google,Apr 2009,blue
+43,NVIDIA Robotics,NVIDIARobotics,company,NVIDIA Robotics,124163,378,27,15,12,6,0.5,0,0,0,0,7.495153,0.363609,0.25,0.00327825,0.420284,0.406115,"Santa Clara, CA",https://www.nvidia.com/en-us/industries/robotics/,Nov 2009,blue
+44,Peyman Milanfar,docmilanfar,founder,Google,104584,519,20,13,7,6,0.857143,0,0,0,0,4.99978,0.242228,0.375,0.0038517,0.458804,0.40466,,http://milanfar.org,Feb 2014,blue
+45,Google Gemini,GeminiApp,company,AI Assistant by Google,400656,47,23,9,14,7,0.5,0,0,0,0,6.768156,0.328247,0.375,0.00369766,0.42987,0.404464,"Mountain View, CA",http://gemini.google.com,Jun 2024,blue
+46,Delip Rao e/σ,deliprao,founder,Busy inventing the shipwreck,65177,5207,46,29,17,7,0.411765,0,0,0,0,7.141963,0.346429,0.0,0.00673917,0.42283,0.40373,"NYC, SF 🇺🇸🇮🇳🇹🇼🏳️‍🌈",https://deliprao.com,Oct 2008,blue
+47,NVIDIA GTC,NVIDIAGTC,company,NVIDIA GTC Conference,21962,204,29,11,18,7,0.388889,0,0,0,0,8.123739,0.394185,0.125,0.00237181,0.406824,0.403665,,https://www.nvidia.com/gtc/,Sep 2020,blue
+48,OpenAI,OpenAI,company,AI Research Company,4617379,4,15,12,3,2,0.666667,0,0,0,0,1.945543,0.093663,0.625,0.01964895,0.506969,0.403642,,https://openai.com,Dec 2015,blue
+49,Jeff Dean,JeffDean,researcher,Chief Scientist at Google,408294,6382,51,29,22,4,0.181818,0,0,0,0,5.05571,0.244949,0.625,0.00633633,0.456001,0.403238,,https://research.google/people/jeff,Sep 2017,blue
+50,François Chollet,fchollet,founder,Creator of Keras,603663,825,49,21,28,6,0.214286,0,0,0,0,6.230787,0.302108,0.125,0.00396971,0.435426,0.402096,United States,https://fchollet.com/,Aug 2009,blue
+51,Andrej Karpathy,karpathy,founder,Founder at Eureka Labs,1762686,1050,60,31,29,3,0.103448,0,0,0,0,4.669443,0.22616,0.25,0.00624051,0.455449,0.398127,Stanford,https://karpathy.ai,Apr 2009,blue
+52,Sam Bowman,sleepinyourhat,researcher,Professor at NYU,53601,3247,29,18,11,6,0.545455,0,0,0,0,5.950052,0.288452,0.5,0.00463309,0.434242,0.397794,San Francisco,https://sleepinyourhat.github.io/,Jul 2011,
+53,Christopher Manning,chrmanning,researcher,Professor at Stanford,157655,264,41,24,17,6,0.352941,0,0,0,0,6.528432,0.316586,0.25,0.00465699,0.422605,0.3961,Palo Alto,https://nlp.stanford.edu/~manning/,Sep 2014,blue
+54,Miles Brundage,Miles_Brundage,researcher,CTO & Researcher,66066,12728,38,25,13,5,0.384615,0,0,0,0,5.696806,0.276134,0.375,0.00673296,0.424227,0.387203,"San Francisco, CA",http://www.milesbrundage.com,Feb 2013,blue
+55,Matthias Niessner,MattNiessner,researcher,Co-founder & Professor,44231,283,10,7,3,3,1.0,0,0,0,0,2.400549,0.115796,0.375,0.00219586,0.476471,0.386302,"Munich, Bavaria",https://niessnerlab.org/publications.html,Mar 2015,blue
+56,Claude,claudeai,company,AI Assistant by Anthropic,421405,1,16,15,1,1,1.0,0,0,0,0,1.419598,0.06808,0.25,0.00810481,0.491071,0.385323,,http://claude.ai,Jul 2025,blue
+57,Andrew Ng,AndrewYNg,founder,Co-founder at Google,1357621,1062,36,15,21,5,0.238095,0,0,0,0,5.4058,0.261978,0.125,0.00393982,0.421183,0.381382,"Palo Alto, CA",http://www.andrewng.org,Nov 2010,blue
+58,Zachary Lipton,zacharylipton,researcher,Professor at CMU,64855,1953,39,22,17,5,0.294118,0,0,0,0,6.15326,0.298337,0.125,0.00489435,0.408081,0.380645,"San Francisco, CA",http://www.acmilab.org,Jan 2009,blue
+59,NVIDIA Workstation,NVIDIAworkstatn,company,NVIDIA Workstation,36588,1146,21,8,13,5,0.384615,0,0,0,0,6.87002,0.333201,0.125,0.00196952,0.395203,0.379703,"Santa Clara, CA",https://www.nvidia.com/en-us/design-visualization/,Nov 2009,blue
+60,NVIDIA ANZ,NvidiaANZ,company,NVIDIA Australia & NZ,48628,706,8,6,2,2,1.0,0,0,0,0,2.481994,0.119757,0.125,0.00283287,0.464937,0.378642,Australia and New Zealand,https://www.nvidia.com/en-au/geforce/,Sep 2015,blue
+61,Thomas Wolf,Thom_Wolf,founder,Co-founder at Hugging Face,100835,6812,36,18,18,5,0.277778,0,0,0,0,6.231488,0.302142,0.0,0.00390831,0.402027,0.377056,,https://thomwolf.io,Feb 2011,blue
+62,NVIDIA AI Developer,NVIDIAAIDev,company,NVIDIA AI Developer,91221,350,39,17,22,4,0.181818,0,0,0,0,5.918712,0.286928,0.125,0.00391935,0.406068,0.376283,"Santa Clara, CA",https://developer.nvidia.com/blog,Jun 2017,blue
+63,NVIDIA AI PC,NVIDIA_AI_PC,company,NVIDIA AI PC,24577,22,16,7,9,6,0.666667,0,0,0,0,5.540174,0.268515,0.125,0.00275235,0.411248,0.375564,,https://www.nvidia.com/en-us/ai-on-rtx/,Nov 2024,blue
+64,PyTorch,PyTorch,company,ML Framework,473330,81,36,26,10,4,0.4,0,0,0,0,4.723332,0.228781,0.25,0.00641366,0.422893,0.374365,,http://pytorch.org,Sep 2016,blue
+65,TensorFlow,TensorFlow,company,ML Framework,379863,116,22,11,11,5,0.454545,0,0,0,0,4.521629,0.21897,0.5,0.00238654,0.424231,0.372916,"Mountain View, CA",http://tensorflow.org,Feb 2011,
+66,Zoubin Ghahramani,ZoubinGhahrama1,researcher,VP Research at Google,33260,693,28,7,21,1,0.047619,0,0,0,0,2.603148,0.125651,0.875,0.00238892,0.453267,0.371363,"Cambridge, UK",,Aug 2020,blue
+67,OpenAI Developers,OpenAIDevs,company,OpenAI Developer Platform,265040,1,6,5,1,1,1.0,0,0,0,0,0.971344,0.046276,0.125,0.00893146,0.47793,0.370016,,https://platform.openai.com,Mar 2023,blue
+68,Kosta Derpanis (sabbatical in Munich),CSProfKGD,researcher,CTO,74781,199,33,21,12,5,0.416667,0,0,0,0,4.886984,0.236742,0.25,0.00619747,0.413108,0.369017,"Toronto, Ontario",https://csprofkgd.github.io,Aug 2015,blue
+69,Google Antigravity,antigravity,company,Google Experimental,114177,13,19,12,7,5,0.714286,0,0,0,0,4.414672,0.213767,0.125,0.00258051,0.420497,0.368815,,https://antigravity.google/,Sep 2025,blue
+70,Omar Sanseviero,osanseviero,founder,huggingface,61620,2731,32,16,16,4,0.25,0,0,0,0,5.457666,0.264501,0.25,0.00398375,0.401727,0.36742,Zurich,https://osanseviero.github.io/hackerllama/,Oct 2010,blue
+71,Greg Brockman,gdb,founder,President at OpenAI,909490,8,30,27,3,2,0.666667,0,0,0,0,3.121392,0.150859,0.125,0.00695638,0.438146,0.366324,,http://gregbrockman.com,Jul 2010,blue
+72,Bojan Tunguz,tunguz,founder,Nvidia,260771,7818,27,13,14,5,0.357143,0,0,0,0,4.951991,0.239904,0.25,0.00271347,0.406554,0.364891,United States,http://www.tunguz.com,Mar 2009,blue
+73,moltbook,moltbook,founder,,238087,3,25,23,2,1,0.5,0,0,0,0,1.879034,0.090428,0.375,0.02148011,0.455307,0.364087,127.0.0.1,http://moltbook.com,Jan 2026,blue
+74,NVIDIA Healthcare,NVIDIAHealth,company,NVIDIA Healthcare,13622,147,18,7,11,5,0.454545,0,0,0,0,5.551845,0.269082,0.25,0.00174967,0.395554,0.363936,,,Oct 2020,blue
+75,Microsoft Azure,Azure,company,Microsoft Cloud Platform,1060845,21,4,3,1,1,1.0,0,0,0,0,0.874207,0.041551,0.0,0.00132337,0.469985,0.362876,"Redmond, WA",https://azure.microsoft.com/,Oct 2008,
+76,koray kavukcuoglu,koraykv,researcher,VP Research at Google DeepMind,21543,102,31,9,22,4,0.181818,0,0,0,0,4.430803,0.214552,0.5,0.00235954,0.410155,0.361254,,,Oct 2012,blue
+77,Edward Grefenstette,egrefen,researcher,CTO & Professor,44586,894,29,9,20,4,0.2,0,0,0,0,4.317537,0.209043,0.5,0.00258388,0.409745,0.35957,"London, United Kingdom",http://www.egrefen.com,Apr 2007,
+78,Everlyn,Everlyn_ai,company,AI Assistant,146417,8,2,1,1,1,1.0,0,0,0,0,0.683333,0.032266,0.25,0.001091,0.465005,0.35682,,https://everlyn.ai,Sep 2024,blue
+79,NVIDIA GeForce DE,NVIDIAGeForceDE,company,NVIDIA Germany,174189,356,5,4,1,1,1.0,0,0,0,0,0.978235,0.046611,0.0,0.00122711,0.458822,0.355769,News vom deutschen Team,https://youtube.com/playlist?list=PLlgG7ZdguZWFpGxN5IT-eb_DKb_Wd9xf5&si=XfEgJBgCkq19_0mx,Dec 2009,blue
+80,Amanda Askell,AmandaAskell,researcher,Researcher at Anthropic,69652,658,26,15,11,4,0.363636,0,0,0,0,3.891011,0.188295,0.375,0.00755427,0.410484,0.354937,"San Francisco, CA",http://askell.io,Jul 2016,blue
+81,NVIDIA HPC Developer,NVIDIAHPCDev,company,NVIDIA HPC,54158,687,21,8,13,4,0.307692,0,0,0,0,5.541732,0.26859,0.0,0.00175603,0.383516,0.354784,"Santa Clara, CA",https://developer.nvidia.com/blog,Nov 2009,blue
+82,Boris Cherny,bcherny,founder,Claude Code @anthropicai,248031,129,47,32,15,3,0.2,0,0,0,0,3.618602,0.175045,0.0,0.01025883,0.413525,0.353905,San Francisco,https://borischerny.com,Jun 2010,blue
+83,Dr. Steve Keen,ProfSteveKeen,researcher,Professor,110060,1562,2,1,1,1,1.0,0,0,0,0,0.696667,0.032915,0.125,0.0006736,0.458082,0.35179,"London, UK",https://www.stevekeen.com/books,Jun 2011,blue
+84,Nando de Freitas,NandoDF,researcher,VP Research at Google DeepMind,107898,808,31,11,20,2,0.1,0,0,0,0,3.07583,0.148643,0.625,0.00307506,0.41913,0.351508,"London, England",https://scholar.google.com/citations?user=nzEluBwAAAAJ&hl=en,Apr 2009,blue
+85,Google Labs,GoogleLabs,company,Google Experimental Projects,124492,71,11,7,4,3,0.75,0,0,0,0,2.817089,0.136057,0.125,0.00193126,0.415737,0.345817,"Google, Inc.",https://labs.google/,Jul 2010,blue
+86,NVIDIA DRIVE,NVIDIADRIVE,company,NVIDIA Autonomous Vehicles,18358,199,14,5,9,4,0.444444,0,0,0,0,4.713054,0.228281,0.125,0.0016229,0.384969,0.345797,"Santa Clara, CA",https://nvda.ws/4nTbgMH,Aug 2016,blue
+87,Nate Raw,_nateraw,founder,huggingface,9526,1603,27,6,21,4,0.190476,0,0,0,0,4.466587,0.216293,0.25,0.00154697,0.388867,0.345724,"Austin, TX",https://github.com/nateraw,Jan 2017,blue
+88,Douwe Kiela,douwekiela,researcher,Professor at Cambridge,14921,447,29,4,25,4,0.16,0,0,0,0,4.358248,0.211023,0.125,0.00187129,0.390581,0.345691,Bay Area,,Jul 2013,blue
+89,James Montemagno,JamesMontemagno,founder,Microsoft,28914,35,2,1,1,1,1.0,0,0,0,0,0.727778,0.034428,0.0,0.00083397,0.449422,0.345674,,https://www.youtube.com/jamesmontemagno,Jan 2009,blue
+90,Sebastien Bubeck,SebastienBubeck,researcher,Research at Microsoft,69318,1444,26,12,14,2,0.142857,0,0,0,0,3.038282,0.146817,0.625,0.00308425,0.411245,0.345138,"Seattle, WA",http://sbubeck.com,Jan 2012,blue
+91,NVIDIAGameDev,NVIDIAGameDev,company,NVIDIA Game Development,56616,522,20,6,14,4,0.285714,0,0,0,0,4.862401,0.235546,0.0,0.00221737,0.381326,0.344881,"Santa Clara, CA",https://developer.nvidia.com/industries/game-development,Jan 2009,blue
+92,NVIDIA GeForce,NVIDIAGeForce,company,NVIDIA Gaming GPUs,3042664,958,12,8,4,2,0.5,0,0,0,0,2.73962,0.132289,0.125,0.00252147,0.414835,0.344198,,https://linktr.ee/nvidiageforce,Oct 2009,blue
+93,Google AI Developers,googleaidevs,company,Google AI Developer Relations,97966,46,22,6,16,4,0.25,0,0,0,0,4.44403,0.215195,0.125,0.0021978,0.387101,0.344125,,http://ai.google.dev,Apr 2024,blue
+94,Jack Clark,jackclarkSF,founder,Co-founder at Anthropic,109822,4634,27,14,13,3,0.230769,0,0,0,0,3.920659,0.189737,0.25,0.00423712,0.39444,0.343265,"San Francisco, CA",http://jack-clark.net,Oct 2009,blue
+95,Ross Wightman,wightmanr,founder,Computer Vision @ 🤗,23400,1339,24,7,17,4,0.235294,0,0,0,0,4.264859,0.20648,0.25,0.00275273,0.388841,0.34325,"Vancouver, BC",http://rwightman.com/,Apr 2012,blue
+96,Lior Alexander,LiorOnAI,founder,Founder,112235,2076,24,8,16,4,0.25,0,0,0,0,3.984016,0.192819,0.25,0.00234561,0.393001,0.342956,,https://alphasignal.ai,Nov 2012,blue
+97,merve,mervenoyann,founder,huggingface,84437,5130,23,17,6,3,0.5,0,0,0,0,3.743663,0.181128,0.0,0.00366444,0.395172,0.341661,Paris,http://huggingface.co/merve,Dec 2019,blue
+98,Felix Hill,FelixHill84,researcher,Research Scientist at Google DeepMind,12389,740,26,7,19,3,0.157895,0,0,0,0,3.365083,0.162713,0.5,0.0019522,0.39814,0.339283,"London, England",https://fh295.github.io/,Jul 2010,
+99,Shane Gu,shaneguML,founder,OpenAI,47682,2197,31,16,15,3,0.2,0,0,0,0,3.390825,0.163965,0.375,0.00293831,0.396801,0.338592,"Mountain View, CA",https://scholar.google.com/citations?user=B8wslVsAAAAJ,Jun 2016,blue
+100,Graham Neubig,gneubig,researcher,Professor at CMU,42016,749,18,7,11,4,0.363636,0,0,0,0,3.840193,0.185823,0.25,0.00247133,0.389213,0.338366,"Pittsburgh, PA",http://www.phontron.com,Sep 2010,blue
+101,AI Pub,ai__pub,company,AI News & Research,71715,340,28,7,21,3,0.142857,0,0,0,0,3.659002,0.17701,0.25,0.00161439,0.391394,0.337798,"San Francisco, CA",https://airtable.com/shr0Jv3aGS0PFjywx,Jul 2022,blue
+102,John Schulman,johnschulman2,researcher,Co-founder at OpenAI,72576,1597,29,10,19,2,0.105263,0,0,0,0,2.816393,0.136023,0.5,0.00345783,0.40392,0.336946,,http://joschu.net,May 2021,blue
+103,Riley Goodside,goodside,founder,Staff Prompt Engineer @GoogleDeepMind,164810,3271,36,20,16,3,0.1875,0,0,0,0,3.469701,0.167802,0.0,0.00528471,0.393157,0.336818,"Richmond, VA",,Sep 2008,blue
+104,Bill Peebles,billpeeb,researcher,Research Scientist at OpenAI,43035,306,20,5,15,3,0.2,0,0,0,0,3.179983,0.153709,0.5,0.00246684,0.397241,0.336358,,https://wpeebles.com,Jul 2012,blue
+105,"Sasha Luccioni, PhD 🦋🌎✨🤗",SashaMTL,founder,HuggingFace,22589,3642,22,8,14,4,0.285714,0,0,0,0,4.097804,0.198354,0.125,0.00209745,0.381592,0.335783,Tiohti:áke Montréal,,Jan 2015,
+106,Tibo,thsottiaux,founder,OpenAI,28496,52,31,21,10,3,0.3,0,0,0,0,3.350975,0.162027,0.125,0.00652981,0.392095,0.334578,,,Aug 2025,blue
+107,Durk Kingma,dpkingma,researcher,Research Scientist at Google,51723,408,17,6,11,1,0.090909,0,0,0,0,1.926133,0.092719,0.75,0.00265628,0.414871,0.334333,,https://dpkingma.com,Mar 2009,
+108,Ian Goodfellow,goodfellow_ian,researcher,Creator of GANs,359293,1359,24,9,15,2,0.133333,0,0,0,0,2.550828,0.123106,0.5,0.00243494,0.404432,0.334101,"San Francisco, CA",http://www.iangoodfellow.com,Sep 2016,blue
+109,Alexandr Wang,alexandr_wang,founder,CEO at Scale AI,379439,843,30,18,12,2,0.166667,0,0,0,0,3.004228,0.14516,0.125,0.00717724,0.396676,0.333797,"San Francisco, CA",https://scale.com,Jun 2012,blue
+110,Chris Olah,ch402,researcher,Research Scientist at Anthropic,133758,180,16,6,10,2,0.2,0,0,0,0,2.285907,0.110219,0.625,0.00304394,0.406985,0.332793,"San Francisco, CA",http://colah.github.io,Jun 2010,blue
+111,Anca Dragan,ancadianadragan,researcher,Professor at UC Berkeley,13227,184,27,5,22,2,0.090909,0,0,0,0,2.683801,0.129574,0.5,0.0031951,0.399714,0.332179,"San Francisco, CA",http://www.ancadragan.com,Mar 2018,blue
+112,Gary Marcus,GaryMarcus,media,AI Critic & Author,207844,6928,29,8,21,3,0.142857,0,0,0,0,2.886647,0.139441,0.25,0.00228566,0.395756,0.331677,,http://garymarcus.substack.com,Dec 2010,blue
+113,Alexia Jolicoeur-Martineau,jm_alexia,researcher,Research Scientist,24423,2086,27,12,15,2,0.133333,0,0,0,0,2.710147,0.130855,0.5,0.00352373,0.396927,0.330409,"Montréal, Québec",http://ajolicoeur.wordpress.com,Mar 2017,
+114,Natasha Jaques,natashajaques,company,Professor & Research Scientist,32216,1117,24,11,13,3,0.230769,0,0,0,0,3.301922,0.159641,0.25,0.00260118,0.384284,0.328123,"Seattle, WA",http://natashajaques.ai,Jun 2009,blue
+115,Varun Mohan,_mohansolo,founder,building @antigravity @GoogleDeepMind,40788,231,24,11,13,4,0.307692,0,0,0,0,3.496194,0.16909,0.0,0.00299903,0.380897,0.327945,,,Jan 2019,blue
+116,Petar Veličković,PetarV_93,researcher,Staff Research Scientist at Google DeepMind,42999,555,25,9,16,2,0.125,0,0,0,0,2.541868,0.12267,0.5,0.00210062,0.395418,0.327231,London 🇬🇧,https://petar-v.com,Jan 2013,blue
+117,Azalia Mirhoseini,Azaliamirh,researcher,Research Scientist at Google,17797,590,17,2,15,2,0.133333,0,0,0,0,2.350573,0.113365,0.625,0.00099952,0.397714,0.326627,"Stanford, CA",https://scalingintelligence.stanford.edu/,May 2013,blue
+118,Satya Nadella,satyanadella,founder,CEO at Microsoft,3609962,308,21,9,12,2,0.166667,0,0,0,0,2.111017,0.101712,0.0,0.00357013,0.400892,0.326097,,https://snscratchpad.com/,Feb 2009,blue
+119,Jay Hack,mathemagic1an,founder,Founder at stanford,60473,3329,20,7,13,3,0.230769,0,0,0,0,3.07442,0.148574,0.25,0.00189162,0.382551,0.324057,San Francisco,http://jay.ai,May 2013,blue
+120,Jan Leike,janleike,founder,Former Alignment Lead at OpenAI,121018,332,19,10,9,2,0.222222,0,0,0,0,2.458474,0.118613,0.375,0.00426709,0.391006,0.322908,"San Francisco, USA",https://jan.leike.name/,Mar 2016,blue
+121,NVIDIA Networking,NVIDIANetworkng,company,NVIDIA Networking,76651,404,12,3,9,3,0.333333,0,0,0,0,3.434219,0.166076,0.0,0.00110118,0.373183,0.321406,"Santa Clara, CA",http://nvidia.com/networking,Jul 2009,blue
+122,MMitchell,mmitchell_ai,researcher,Chief Ethics Scientist at Hugging Face,81194,1355,21,9,12,1,0.083333,0,0,0,0,1.719978,0.082691,0.625,0.00176472,0.400528,0.321069,,http://m-mitchell.com,Jun 2016,blue
+123,Shengjia Zhao,shengjia_zhao,researcher,Meta,51349,230,21,6,15,2,0.133333,0,0,0,0,2.177583,0.10495,0.5,0.00188947,0.392308,0.320468,,,Oct 2016,blue
+124,🌩️ NVIDIA GeForce NOW,NVIDIAGFN,company,NVIDIA GeForce NOW,199584,64,12,8,4,2,0.5,0,0,0,0,2.345086,0.113098,0.0,0.00354078,0.388451,0.319613,Your Device,http://nvidia.com/geforce-now,Nov 2017,blue
+125,Niels Rogge,NielsRogge,founder,huggingface,18424,721,24,1,23,1,0.043478,0,0,0,0,1.986675,0.095664,0.5,0.00081449,0.393748,0.319227,Belgium,http://nielsrogge.github.io,Apr 2010,
+126,Thomas Kipf,tkipf,researcher,Research Scientist at Google DeepMind,28851,1387,17,1,16,0,0.0,0,0,0,0,0.890117,0.042325,0.75,0.00067392,0.407936,0.316533,"San Francisco, CA",https://scholar.google.com/citations?user=83HL5FwAAAAJ,Jun 2009,blue
+127,Boaz Barak,boazbaraktcs,researcher,Professor at Harvard,28717,702,18,7,11,2,0.181818,0,0,0,0,2.443569,0.117888,0.375,0.00278039,0.38189,0.31589,"Cambridge, MA",https://www.boazbarak.org/,Jan 2020,blue
+128,Catherine Olsson,catherineols,researcher,Safety Team at Anthropic,18988,1442,18,5,13,2,0.153846,0,0,0,0,2.412015,0.116353,0.375,0.00341293,0.381355,0.315105,San Francisco,,May 2010,blue
+129,⿻ Andrew Trask,iamtrask,researcher,Privacy AI Researcher,79633,1162,28,9,19,1,0.052632,0,0,0,0,2.219057,0.106967,0.25,0.00279437,0.384269,0.314944,"Oxford, UK",https://andrewtrask.substack.com/p/gpu-demand-is-1mx-distorted-by-efficiency,Nov 2012,blue
+130,NVIDIA GeForce UK,NVIDIAGeForceUK,company,NVIDIA UK,247888,759,11,8,3,1,0.333333,0,0,0,0,2.366396,0.114134,0.125,0.0034823,0.381293,0.314503,UK,http://www.geforce.co.uk/,Nov 2009,blue
+131,Jakub Pachocki,merettm,founder,Chief Scientist at OpenAI,52030,20,7,3,4,2,0.5,0,0,0,0,1.92035,0.092438,0.25,0.00295396,0.387669,0.313861,,,Aug 2018,blue
+132,Peter Welinder,npew,founder,VP at OpenAI,42340,924,22,4,18,2,0.111111,0,0,0,0,2.712668,0.130978,0.125,0.00141486,0.374083,0.313307,"San Francisco, CA",,Apr 2010,blue
+133,Mira Murati,miramurati,founder,Former CTO at OpenAI,417549,598,25,11,14,1,0.071429,0,0,0,0,2.137516,0.103001,0.125,0.00343346,0.383101,0.313076,"San Francisco, CA",,Aug 2010,blue
+134,NVIDIA Customer Care,nvidiacc,company,NVIDIA Customer Care,20937,92,18,6,12,2,0.166667,0,0,0,0,3.190445,0.154218,0.0,0.00228884,0.365932,0.313003,"Santa Clara, California",http://www.nvidia.com/nvcc,Oct 2009,blue
+135,Lewis Tunstall,_lewtun,founder,huggingface,18008,559,25,5,20,2,0.1,0,0,0,0,2.887895,0.139501,0.0,0.00115366,0.370619,0.31284,"Berne, Switzerland",https://transformersbook.com/,Aug 2018,blue
+136,OpenClaw🦞,openclaw,founder,The AI that does things,279090,17,21,20,1,0,0.0,0,0,0,0,0.787862,0.037351,0.25,0.01731874,0.403413,0.311897,"Any OS, Any Messsaging App",https://openclaw.ai,Dec 2025,blue
+137,Dan Hendrycks,hendrycks,researcher,CTO,44145,111,18,7,11,2,0.181818,0,0,0,0,1.816886,0.087405,0.375,0.00508903,0.385404,0.310904,San Francisco,https://newsletter.safe.ai,Aug 2009,blue
+138,Sham Kakade,ShamKakade6,researcher,Professor at Harvard,17260,546,13,3,10,1,0.1,0,0,0,0,1.454163,0.069761,0.625,0.0014574,0.389855,0.309831,,https://shamulent.github.io,Dec 2018,blue
+139,Aleksa Gordić (水平问题),gordic_aleksa,founder,Microsoft,29073,230,26,2,24,2,0.083333,0,0,0,0,2.265764,0.109239,0.0,0.00095921,0.375668,0.309061,"San Francisco, CA",https://www.aleksagordic.com/,Sep 2017,blue
+140,Yoshua Bengio,Yoshua_Bengio,researcher,Deep Learning Pioneer,34775,232,15,12,3,1,0.333333,0,0,0,0,1.184062,0.056623,0.5,0.00307792,0.392732,0.308705,"Montréal, Québec, Canada",https://yoshuabengio.org/,Sep 2024,blue
+141,NVIDIA GeForce ME,NVIDIAGeForceME,company,NVIDIA Middle East,90470,8,9,2,7,2,0.285714,0,0,0,0,2.519405,0.121577,0.125,0.0009724,0.370681,0.308405,"Dubai, United Arab Emirates",http://www.instagram.com/nvidiageforceme,Dec 2015,blue
+142,Google AI Studio,GoogleAIStudio,company,AI Development Platform,113603,2,10,8,2,1,0.5,0,0,0,0,1.296001,0.062068,0.25,0.00250006,0.389985,0.308006,It's time to build,https://ai.studio/build,Jan 2024,
+143,andy jones,andy_l_jones,founder,anthropic,13857,350,17,5,12,2,0.166667,0,0,0,0,2.362753,0.113957,0.25,0.00262655,0.372223,0.307657,SF,http://www.andyljones.com,Oct 2012,blue
+144,Matthew Berman,MatthewBerman,media,AI YouTuber,85964,1028,13,5,8,1,0.125,0,0,0,0,1.12343,0.053673,0.125,0.01651249,0.392263,0.307616,California,https://forwardfuture.ai,Jun 2007,blue
+145,Nano Banana Pro,NanoBanana,company,AI Tools,147036,4,15,12,3,1,0.333333,0,0,0,0,1.532184,0.073556,0.25,0.00361692,0.384669,0.306891,,http://gemini.google.com,Aug 2025,blue
+146,Fei-Fei Li,drfeifei,researcher,Professor at Stanford,554995,1156,17,3,14,1,0.071429,0,0,0,0,1.35798,0.065083,0.375,0.00111312,0.387281,0.306732,"Stanford, CA, U.S.A.",http://svl.stanford.edu,Apr 2010,blue
+147,Tulsee Doshi,tulseedoshi,founder,CTO at Stanford,12493,492,21,6,15,2,0.133333,0,0,0,0,2.204396,0.106254,0.25,0.00176753,0.373003,0.306316,,,Jun 2012,blue
+148,Sayak Paul,RisingSayak,founder,ML at Hugging Face 🤗,21768,125,21,2,19,2,0.105263,0,0,0,0,2.338686,0.112786,0.125,0.00086107,0.370731,0.306245,Earth,https://sayak.dev/,May 2012,blue
+149,Ethan Mollick,emollick,media,Professor at Wharton,318714,582,28,12,16,1,0.0625,0,0,0,0,1.539183,0.073897,0.125,0.00387973,0.383683,0.306236,"Philadelphia, PA",https://mgmt.wharton.upenn.edu/profile/emollick/,May 2009,blue
+150,Daniel Litt,littmath,researcher,Professor at Toronto,54753,893,10,6,4,2,0.5,0,0,0,0,1.626263,0.078133,0.125,0.00187013,0.382172,0.306162,"Toronto, Ontario",http://www.daniellitt.com,Aug 2010,blue
+151,NVIDIA GeForce JP,NVIDIAGeForceJP,company,NVIDIA Japan,333761,157,6,4,2,1,0.5,0,0,0,0,1.317597,0.063118,0.125,0.00181491,0.387109,0.306112,東京都港区赤坂,https://www.nvidia.com/ja-jp/geforce/,Apr 2018,blue
+152,Ilya Sutskever,ilyasut,researcher,Co-founder at OpenAI & SSI,586952,3,25,24,1,0,0.0,0,0,0,0,1.302593,0.062388,0.25,0.00605453,0.387227,0.306017,,,Sep 2013,blue
+153,Zico Kolter,zicokolter,researcher,Professor at CMU,27272,721,20,6,14,0,0.0,0,0,0,0,0.907136,0.043152,0.625,0.00243413,0.393525,0.305932,"Pittsburgh, PA",http://zicokolter.com,Mar 2017,blue
+154,Mustafa Suleyman,mustafasuleyman,founder,CEO at Microsoft AI,227997,488,23,7,16,1,0.0625,0,0,0,0,1.891372,0.091028,0.125,0.00166908,0.376474,0.305112,"Redmond, WA",http://microsoft.ai,Jan 2014,blue
+155,Susan Zhang,suchenzang,company,Google,41198,766,24,10,14,1,0.071429,0,0,0,0,1.513877,0.072666,0.375,0.00296785,0.381653,0.304406,,https://suchenzang.github.io/,Apr 2014,blue
+156,NVIDIA Korea,NVIDIAKorea,company,NVIDIA Korea,17890,19221,8,3,5,2,0.4,0,0,0,0,2.177072,0.104925,0.125,0.00112276,0.370623,0.304199,Seoul,http://www.nvidia.co.kr,Mar 2011,blue
+157,Aäron van den Oord,avdnoord,researcher,Research Scientist at Google DeepMind,14528,264,16,1,15,1,0.066667,0,0,0,0,1.571334,0.075461,0.5,0.00077769,0.380354,0.30413,"London, England",https://avdnoord.github.io/homepage,Jan 2013,blue
+158,Hanna Wallach (@hannawallach.bsky.social),hannawallach,researcher,Senior Principal Researcher at Microsoft,20795,906,14,2,12,1,0.083333,0,0,0,0,1.447614,0.069443,0.5,0.00191671,0.380256,0.302553,"Brooklyn, NY",http://dirichlet.net/,Sep 2012,
+159,NVIDIA GeForce FR,NVIDIAGeForceFR,company,NVIDIA France,546606,245,6,4,2,1,0.5,0,0,0,0,1.095499,0.052315,0.0,0.00199069,0.385885,0.302493,Paris,https://www.nvidia.com/fr-fr/geforce/graphics-cards/50-series/,Sep 2011,blue
+160,JFPuget 🇺🇦🇨🇦🇬🇱,JFPuget,researcher,Nvidia,19138,1473,16,2,14,1,0.071429,0,0,0,0,1.363754,0.065363,0.5,0.00149097,0.381088,0.302157,France ,https://www.kaggle.com/cpmpml,Mar 2012,blue
+161,Eliezer Yudkowsky ⏹️,ESYudkowsky,researcher,AI Safety Researcher,215346,101,13,9,4,1,0.25,0,0,0,0,1.032719,0.049261,0.375,0.00313519,0.385629,0.301537,,,Jun 2014,blue
+162,khipu.ai,Khipu_AI,company,Latin American AI Community,6599,86,9,2,7,1,0.142857,0,0,0,0,1.049494,0.050077,0.625,0.00104422,0.384673,0.301024,Latin America,http://khipu.ai,Dec 2018,blue
+163,NVIDIA GeForce ES,NVIDIAGeForceES,company,NVIDIA Spain,373202,140,6,4,2,1,0.5,0,0,0,0,1.100577,0.052562,0.0,0.00207916,0.383548,0.300801,,http://www.nvidia.es/page/home.html,Dec 2009,
+164,adammaj,MajmudarAdam,founder,openai,17243,272,7,2,5,2,0.4,0,0,0,0,1.649271,0.079252,0.25,0.00118475,0.374128,0.300409,SF,http://adammaj.com,Oct 2019,blue
+165,Lex Fridman,lexfridman,media,Podcast Host & Researcher,4578555,666,16,3,13,0,0.0,0,0,0,0,0.433481,0.020113,0.125,0.00155752,0.393749,0.30034,Austin and Boston,https://youtube.com/lexfridman,Dec 2011,blue
+166,Aaron Levie,levie,founder,CEO at Box,2450909,774,18,11,7,0,0.0,0,0,0,0,0.73288,0.034676,0.125,0.00473619,0.388148,0.29978,Bay Area,http://www.box.com,Mar 2007,blue
+167,Maithra Raghu,maithra_raghu,researcher,Research Scientist at Google,20365,525,19,1,18,0,0.0,0,0,0,0,1.099486,0.052509,0.5,0.00077769,0.381907,0.299558,,http://maithraraghu.com,Jul 2017,blue
+168,Bryan Catanzaro,ctnzr,founder,VP at NVIDIA,23958,473,21,7,14,1,0.071429,0,0,0,0,1.76846,0.085049,0.25,0.00187854,0.370729,0.299309,,,Feb 2011,blue
+169,Nils Reimers,Nils_Reimers,founder,Cohere,14747,519,22,3,19,1,0.052632,0,0,0,0,1.937761,0.093285,0.125,0.00124031,0.367724,0.299114,,https://www.nils-reimers.de,Aug 2016,blue
+170,Artificial Analysis,ArtificialAnlys,founder,,78049,610,8,4,4,1,0.25,0,0,0,0,0.849247,0.040337,0.5,0.00165547,0.38442,0.298399,San Francisco,http://artificialanalysis.ai/,Jan 2024,blue
+171,Josh Tobin,josh_tobin_,founder,openai,13750,1200,15,2,13,2,0.153846,0,0,0,0,1.864805,0.089736,0.25,0.00071244,0.367482,0.298045,"San Francisco, CA",,Jul 2011,blue
+172,Yuandong Tian,tydsh,researcher,Co-founder & CTO at Meta,40526,918,21,9,12,0,0.0,0,0,0,0,0.963964,0.045917,0.5,0.00199986,0.382048,0.298015,"California, USA",http://yuandong-tian.com,Dec 2009,blue
+173,Chelsea Finn,chelseabfinn,researcher,Professor at Stanford,88292,400,16,2,14,1,0.071429,0,0,0,0,1.645488,0.079068,0.25,0.00087212,0.370857,0.297909,"Palo Alto, CA",http://ai.stanford.edu/~cbfinn,Jun 2014,blue
+174,Chris Paxton,chris_j_paxton,founder,Mostly posting about robots,29706,3209,13,3,10,2,0.2,0,0,0,0,1.692615,0.08136,0.25,0.0016554,0.370001,0.297841,"Pittsburgh, PA",https://itcanthink.substack.com/,Dec 2013,blue
+175,Sepp Hochreiter,HochreiterSepp,researcher,LSTM Co-inventor,14347,375,20,2,18,1,0.055556,0,0,0,0,1.683668,0.080925,0.25,0.00098295,0.369988,0.297722,,https://www.nx-ai.com/,Nov 2021,
+176,OpenAI Newsroom,OpenAINewsroom,company,OpenAI News,125155,3,6,3,3,1,0.333333,0,0,0,0,1.122428,0.053625,0.125,0.0069519,0.37823,0.297078,,https://openai.com/,Jun 2024,blue
+177,Igor Babuschkin,ibab,researcher,Research Scientist,107391,871,21,5,16,0,0.0,0,0,0,0,1.021642,0.048722,0.375,0.00167332,0.379396,0.296727,"Palo Alto, CA",https://babushk.in,Feb 2020,blue
+178,Fidji Simo,fidjissimo,founder,CEO at OpenAI,91620,741,17,13,4,1,0.25,0,0,0,0,1.401378,0.067194,0.125,0.00269644,0.372612,0.296258,,http://fidjisimo.com,May 2007,blue
+179,Jürgen Schmidhuber,SchmidhuberAI,researcher,LSTM Co-inventor,181649,0,22,22,0,0,0.0,0,0,0,0,0.709683,0.033548,0.375,0.00624206,0.383811,0.296245,"Switzerland, KSA",https://people.idsia.ch/~juergen/most-cited-neural-nets.html,Aug 2019,blue
+180,Christian Szegedy,ChrSzegedy,researcher,Research Scientist,43235,2842,17,3,14,0,0.0,0,0,0,0,0.935693,0.044542,0.5,0.00102966,0.37988,0.296045,"Sunnyvale, CA",,Jun 2015,blue
+181,Addy Osmani,addyosmani,founder,CTO,365812,2467,12,7,5,1,0.2,0,0,0,0,0.994198,0.047387,0.25,0.00276022,0.378581,0.295783,"Mountain View, CA",https://addyosmani.com,Apr 2009,blue
+182,ChatGPT,ChatGPTapp,company,AI Assistant by OpenAI,489593,210,12,4,8,0,0.0,0,0,0,0,0.391893,0.01809,0.375,0.00840759,0.387525,0.295167,Supercomputer,https://chat.com/,Oct 2023,blue
+183,Tim Zaman,timzaman,founder,OpenAI,35891,227,14,5,9,1,0.111111,0,0,0,0,1.302405,0.062379,0.375,0.00174097,0.372501,0.294971,"San Francisco, CA",http://www.timzaman.com,Jun 2010,blue
+184,Eric Zelikman,ericzelikman,researcher,Co-founder & CEO at stanford,23532,1988,26,10,16,0,0.0,0,0,0,0,1.207966,0.057786,0.25,0.00383324,0.3739,0.294871,,http://humansand.ai,Apr 2010,blue
+185,Nick,nickcammarata,founder,,90034,875,7,5,2,1,0.5,0,0,0,0,0.823439,0.039081,0.0,0.00412404,0.379512,0.294404,🎈,,Mar 2009,blue
+186,xAI,xai,company,AI Research Company,1905146,39,14,2,12,0,0.0,0,0,0,0,0.537043,0.02515,0.25,0.00076262,0.384084,0.29435,,http://x.ai,May 2023,
+187,Rohan Pandey,khoomeik,company,OpenAI,40575,2611,21,5,16,1,0.0625,0,0,0,0,1.222975,0.058516,0.25,0.00168054,0.372052,0.293668,"San Francisco, CA",https://rpandey.tech,Feb 2020,
+188,Stuart Ritchie,StuartJRitchie,founder,Research Comms @AnthropicAI,36492,1186,5,3,2,1,0.5,0,0,0,0,0.885647,0.042107,0.125,0.00237319,0.376947,0.293237,London,https://www.sciencefictions.org,Aug 2010,blue
+189,Xin Eric Wang,xwang_lk,researcher,CTO & Professor,19843,1340,14,2,12,1,0.083333,0,0,0,0,1.25976,0.060305,0.375,0.00111891,0.370145,0.292685,"Santa Barbara, CA",https://eric-xw.github.io,Feb 2012,blue
+190,Mike Krieger,mikeyk,founder,Co-founder of Instagram,457345,266,7,2,5,1,0.2,0,0,0,0,1.126023,0.0538,0.125,0.00214763,0.371553,0.292114,"37.760571,-122.387567",https://www.anthropic.com/careers,Nov 2006,blue
+191,Yuhuai (Tony) Wu,Yuhu_ai_,founder,Co-founder,45774,460,25,11,14,0,0.0,0,0,0,0,0.993833,0.04737,0.25,0.00330901,0.372829,0.291464,Stanford,https://yuhuaiwu.github.io/,Jul 2017,
+192,Dileep George,dileeplearning,researcher,AI Researcher,14834,1409,17,3,14,0,0.0,0,0,0,0,0.776876,0.036816,0.5,0.00085079,0.376189,0.291346,"San Francisco, CA",http://dileeplearning.com,Jun 2017,blue
+193,Qian Huang,qhwang3,researcher,,13818,331,25,1,24,0,0.0,0,0,0,0,1.035707,0.049406,0.125,0.0006351,0.371101,0.290677,"Palo Alto, CA",https://q-hwang.github.io/,Mar 2017,blue
+194,sunny madra,sundeep,company,Nvidia,37748,5320,11,4,7,2,0.285714,0,0,0,0,1.501283,0.072053,0.0,0.00182686,0.363445,0.290597,👨🏽‍💻,,Oct 2009,blue
+195,Rishabh Agarwal,agarwl_,company,Meta,20273,828,18,3,15,1,0.066667,0,0,0,0,1.46415,0.070247,0.125,0.00106633,0.362272,0.289266,"Montréal, Canada",https://agarwl.github.io,May 2016,blue
+196,Unsloth AI,UnslothAI,company,LLM Fine-tuning Tools,42291,448,7,4,3,1,0.333333,0,0,0,0,0.931695,0.044347,0.25,0.0012863,0.370767,0.289162,"San Francisco, CA",http://unsloth.ai,Nov 2023,blue
+197,Chris,chatgpt21,founder,"Agi 2029 - Applied in RL, CL, and generalization",33496,1072,8,6,2,1,0.5,0,0,0,0,0.793016,0.037601,0.0,0.00166941,0.372962,0.289122,,https://www.asciibench.com/,Jan 2023,blue
+198,Nick Turley,nickaturley,founder,vp & head of @chatgptapp,27562,898,19,6,13,1,0.076923,0,0,0,0,1.307536,0.062629,0.125,0.00258951,0.364549,0.289069,"San Francisco, CA",,Mar 2013,blue
+199,Melanie Mitchell,MelMitchell1,researcher,Professor at Santa Fe Institute,49653,671,17,6,11,1,0.090909,0,0,0,0,1.39096,0.066687,0.125,0.00113008,0.362965,0.288895,"Santa Fe, NM",http://melaniemitchell.me,Sep 2011,
+200,alphaXiv,askalphaxiv,company,AI Research Platform,32646,44,14,9,5,1,0.2,0,0,0,0,1.062843,0.050726,0.25,0.00186709,0.368142,0.288788,,http://alphaxiv.org,Nov 2023,blue
+201,William Fedus,LiamFedus,company,Co-founder at OpenAI,32714,1156,20,4,16,0,0.0,0,0,0,0,1.357319,0.06505,0.125,0.00098769,0.362659,0.288257,"San Francisco, CA",http://acsweb.ucsd.edu/~wfedus/,Oct 2012,blue
+202,Alexander Embiricos,embirico,founder,OpenAI,23943,1025,13,8,5,1,0.2,0,0,0,0,1.311198,0.062807,0.125,0.00285755,0.363388,0.288243,"San Francisco, CA",,Nov 2011,blue
+203,pash,pashmerepat,founder,openai,14407,597,12,6,6,1,0.166667,0,0,0,0,1.229506,0.058833,0.25,0.00215144,0.364109,0.28779,sf,,Oct 2015,blue
+204,Michele Catasta,pirroh,founder,President & Head of AI @Replit,13286,246,18,2,16,1,0.0625,0,0,0,0,1.406212,0.067429,0.125,0.00073926,0.361215,0.287768,"SF Bay Area, CA",https://pirroh.fyi,Feb 2009,blue
+205,sam mcallister,sammcallister,founder,some people call me smca,19295,995,5,3,2,1,0.5,0,0,0,0,0.821396,0.038982,0.0,0.00208609,0.370369,0.287522,london,https://smca.io,Sep 2009,blue
+206,Josh Woodward,joshwoodward,company,Google,48861,764,13,9,4,1,0.25,0,0,0,0,1.21297,0.058029,0.0,0.00310533,0.363927,0.287452,,,Oct 2010,blue
+207,NVIDIA Japan,NVIDIAJapan,company,NVIDIA Japan,43620,230,8,4,4,1,0.25,0,0,0,0,1.504738,0.072221,0.0,0.0014432,0.35902,0.287321,東京都港区赤坂,http://www.nvidia.co.jp/,Oct 2010,blue
+208,Emad,EMostaque,founder,Founder at Stability AI,307482,30,18,16,2,0,0.0,0,0,0,0,0.677184,0.031967,0.25,0.00317949,0.372397,0.287289,London,http://ii.inc,Nov 2011,blue
+209,Logan Kilpatrick,OfficialLoganK,founder,Developer Relations at Google,271055,2902,19,12,7,0,0.0,0,0,0,0,0.917295,0.043647,0.125,0.00292372,0.368044,0.286945,Lkilpatrick@google.com,https://logank.ai,Apr 2011,blue
+210,Arena.ai,arena,company,AI Platform,127171,208,12,4,8,1,0.125,0,0,0,0,1.067105,0.050934,0.125,0.00142121,0.363792,0.285577,US,https://arena.ai,Mar 2023,blue
+211,Geoffrey Hinton,geoffreyhinton,researcher,Godfather of Deep Learning,547323,28,15,7,8,0,0.0,0,0,0,0,0.469096,0.021845,0.25,0.00183413,0.373075,0.285267,,,Jan 2019,blue
+212,NVIDIA SHIELD,NVIDIASHIELD,company,NVIDIA SHIELD,66805,378,9,3,6,1,0.166667,0,0,0,0,1.458196,0.069957,0.0,0.00101983,0.356857,0.285132,"California, USA",http://shield.nvidia.com,Jul 2014,
+213,heiner,HeinrichKuttler,researcher,DeepMind,19775,1174,21,4,17,0,0.0,0,0,0,0,0.804363,0.038153,0.25,0.00134183,0.367079,0.284848,"Palo Alto, CA",https://heiner.ai,May 2020,blue
+214,"Derya Unutmaz, MD",DeryaTR_,researcher,Professor,333650,7757,6,6,0,0,0.0,0,0,0,0,0.151881,0.006415,0.5,0.00184478,0.377609,0.284811,"Connecticut, USA",,Feb 2020,blue
+215,NVIDIA AI Japan,NVIDIAAIJP,company,NVIDIA AI Japan,11812,166,7,3,4,1,0.25,0,0,0,0,1.347894,0.064592,0.125,0.00112276,0.358154,0.284764,東京都港区赤坂,http://www.nvidia.co.jp/object/deep-learning-jp.html,Nov 2016,blue
+216,"Zeyuan Allen-Zhu, Sc.D.",ZeyuanAllenZhu,founder,Meta,25291,531,16,4,12,1,0.083333,0,0,0,0,1.133275,0.054152,0.125,0.00204919,0.361246,0.284472,,http://zeyuan.allen-zhu.com,Apr 2010,blue
+217,Caitlin Kalinowski,kalinowski007,founder,OpenAI,13114,1399,12,4,8,1,0.125,0,0,0,0,0.99279,0.047319,0.25,0.00223883,0.362337,0.283582,,https://openai.com/careers/,Aug 2012,blue
+218,Subbarao Kambhampati (కంభంపాటి సుబ్బారావు),rao2z,researcher,Professor at ASU,26892,57,15,2,13,0,0.0,0,0,0,0,0.676287,0.031923,0.375,0.00070402,0.367246,0.283415,"Tempe, AZ",http://rakaposhi.eas.asu.edu,Oct 2014,blue
+219,Dario Amodei,DarioAmodei,founder,CEO at Anthropic,159658,0,18,18,0,0,0.0,0,0,0,0,0.606913,0.028549,0.125,0.00614117,0.368316,0.283374,,,Jun 2017,blue
+220,NVIDIA GeForce BR,NVIDIAGeForceBR,company,NVIDIA Brazil,98581,248,5,2,3,1,0.333333,0,0,0,0,0.901408,0.042874,0.0,0.0009724,0.363052,0.283008,"Sao Paulo, Brasil",https://linktr.ee/nvidiageforcebr,Dec 2009,blue
+221,Omar Khattab,lateinteraction,researcher,Professor at MIT,30119,3254,19,7,12,0,0.0,0,0,0,0,0.696535,0.032908,0.25,0.00296386,0.365792,0.282571,"Cambridge, MA",https://omarkhattab.com/,Dec 2022,blue
+222,Rachel Thomas,math_rachel,researcher,Co-founder & Researcher,92747,850,12,2,10,0,0.0,0,0,0,0,0.442303,0.020542,0.375,0.00132285,0.3687,0.281661,"Brisbane, Australia",https://rachel.fast.ai/,May 2013,blue
+223,Remi Cadene,RemiCadene,founder,Co-founder & CEO,20680,1027,13,4,9,1,0.111111,0,0,0,0,1.22999,0.058857,0.0,0.0020697,0.354818,0.280828,Paris,http://remicadene.com,Feb 2014,blue
+224,Ado,adocomplete,founder,"Community, Claude, Code at @AnthropicAI",21614,1433,11,4,7,1,0.142857,0,0,0,0,1.245857,0.059629,0.0,0.00189816,0.354285,0.280621,Colorado,https://adocomplete.com,Dec 2011,blue
+225,Alex Graveley,alexgraveley,founder,CEO,38154,1557,13,2,11,1,0.090909,0,0,0,0,1.137819,0.054373,0.0,0.00106729,0.355213,0.280003,US,https://alexgraveley.com,Jul 2022,blue
+226,LeRobot,LeRobotHF,company,Robotics Platform,13975,19,7,1,6,1,0.166667,0,0,0,0,1.132655,0.054122,0.125,0.00081449,0.354245,0.279214,Worldwide,http://github.com/huggingface/lerobot,Jul 2024,blue
+227,Steven Johnson,stevenbjohnson,media,Author,1045761,385,8,2,6,0,0.0,0,0,0,0,0.267807,0.012054,0.125,0.00118179,0.367284,0.278476,Brooklyn NY & Marin County CA,https://adjacentpossible.substack.com/about,Mar 2007,blue
+228,Alex Dimakis,AlexGDimakis,researcher,Professor at UT Austin,22487,2467,16,5,11,0,0.0,0,0,0,0,0.942258,0.044861,0.125,0.00125925,0.355719,0.278005,"Berkeley, CA",https://people.eecs.berkeley.edu/~alexdimakis/,Apr 2009,blue
+229,Ai2,allen_ai,company,AI Research Institute,79402,428,14,3,11,0,0.0,0,0,0,0,0.476258,0.022193,0.25,0.00130064,0.363146,0.277908,"Seattle, WA",http://allenai.org,Sep 2015,
+230,Brad Smith,BradSmi,media,Microsoft,102207,910,8,2,6,1,0.166667,0,0,0,0,0.8685,0.041273,0.0,0.00090155,0.356674,0.277824,"Redmond, Washington",https://news.microsoft.com/on-the-issues/,Apr 2008,blue
+231,World Labs,theworldlabs,company,AI Research Lab,54125,45,6,2,4,0,0.0,0,0,0,0,0.127904,0.005249,0.5,0.00080429,0.36865,0.2778,"San Francisco, CA",http://worldlabs.ai,Dec 2023,blue
+232,Austen Allred,Austen,founder,Founder,445345,1423,9,3,6,0,0.0,0,0,0,0,0.425722,0.019735,0.125,0.00266241,0.363732,0.277733,"Austin, TX",http://gauntletai.com,Dec 2010,blue
+233,Sriram Krishnan,sriramk,investor,EIR at a16z,305876,2191,14,12,2,0,0.0,0,0,0,0,0.346123,0.015863,0.125,0.00376708,0.364919,0.277655,,http://sriramk.com,Dec 2006,blue
+234,Rohan Paul,rohanpaul_ai,media,AI Content Creator,132690,7719,16,8,8,0,0.0,0,0,0,0,0.594687,0.027954,0.125,0.0018297,0.360881,0.277649,Ex Inv Banking (Deutsche),http://www.rohan-paul.com,Jun 2014,blue
+235,April C Wright,aprilwright,founder,"The Infosec Diplomat, Absurdist Polymath",18467,4685,5,1,4,1,0.25,0,0,0,0,0.810475,0.038451,0.125,0.0006736,0.356633,0.277088,@aprilwright@infosec.exchange,http://architectsecurity.org,Jul 2008,blue
+236,Palmer Luckey,PalmerLuckey,founder,Founder at Anduril,620679,1941,12,9,3,0,0.0,0,0,0,0,0.369824,0.017016,0.0,0.00335874,0.363674,0.277009,"Irvine, CA",http://Anduril.com,May 2011,blue
+237,Min Choi,minchoi,founder,AI Educator,355116,1263,12,3,9,0,0.0,0,0,0,0,0.383546,0.017684,0.125,0.00135357,0.363107,0.276751,,,Mar 2009,blue
+238,Anuj Saharan,anujsaharan_,founder,openai,3442,281,9,2,7,1,0.142857,0,0,0,0,1.020481,0.048666,0.125,0.00108919,0.351547,0.275827,seattle,,Mar 2010,blue
+239,WiML,WiMLworkshop,company,Women in ML Workshop,17628,1146,3,3,0,0,0.0,0,0,0,0,0.238363,0.010622,0.5,0.00099892,0.363322,0.275147,,http://wimlworkshop.org,Nov 2014,
+240,fofr,fofrAI,founder,Google,53534,1466,11,4,7,0,0.0,0,0,0,0,0.559936,0.026264,0.25,0.00088446,0.358007,0.275071,🪴,http://fofr.ai,Jul 2022,blue
+241,Brian Armstrong,brian_armstrong,founder,CEO at Coinbase,1725389,801,1,1,0,0,0.0,0,0,0,0,0.022826,0.000137,0.125,0.00084485,0.366283,0.274747,Earth,https://www.coinbase.com/,Apr 2008,blue
+242,Z.ai,Zai_org,company,AI Company,43687,225,13,7,6,0,0.0,0,0,0,0,0.338834,0.015509,0.25,0.00207439,0.359295,0.273348,user_feedback@z.ai,http://z.ai,Nov 2023,
+243,Tom Dörr,tom_doerr,founder,,163084,2489,8,4,4,0,0.0,0,0,0,0,0.201134,0.008811,0.25,0.00201711,0.36093,0.2729,,https://tom-doerr.github.io/repo_posts/,Nov 2020,blue
+244,Ashok Elluswamy,aelluswamy,founder,Tesla,193748,616,12,7,5,0,0.0,0,0,0,0,0.325816,0.014876,0.125,0.0017209,0.358866,0.272869,,,Nov 2009,blue
+245,Yann Dubois,yanndubs,company,OpenAI,11968,1295,17,4,13,0,0.0,0,0,0,0,0.546171,0.025594,0.125,0.00140548,0.355126,0.272743,San Francisco,https://yanndubs.github.io/,Aug 2017,blue
+246,Perplexity,perplexity_ai,company,AI Search Engine,380027,66,8,5,3,0,0.0,0,0,0,0,0.232759,0.010349,0.125,0.00127949,0.359153,0.271952,"San Francisco, CA",http://perplexity.ai/comet,Dec 2022,blue
+247,Jeff Teper,jeffteper,company,Microsoft,43019,935,13,2,11,0,0.0,0,0,0,0,0.481557,0.022451,0.125,0.00097574,0.354867,0.271763,"Redmond, WA",,May 2009,blue
+248,Alexander Wei,alexwei_,researcher,OpenAI,24410,203,7,1,6,0,0.0,0,0,0,0,0.199612,0.008737,0.375,0.00097848,0.359056,0.271476,"San Francisco, CA",https://www.alexwei.org,Mar 2022,blue
+249,Alex Albert,alexalbert__,founder,Head of Claude at Anthropic,120305,679,7,6,1,0,0.0,0,0,0,0,0.38591,0.017799,0.125,0.00364482,0.356001,0.271451,San Francisco,https://alexalbert.me/,Apr 2021,blue
+250,Anshita Saini,anshitasaini_,founder,openai,13559,422,9,3,6,0,0.0,0,0,0,0,0.483318,0.022537,0.25,0.00193908,0.353808,0.27099,san francisco,https://www.linkedin.com/in/anshita-saini/,Feb 2023,blue
+251,Skild AI,SkildAI,company,Robotics AI,13022,0,1,1,0,0,0.0,0,0,0,0,0.031818,0.000575,0.5,0.00084485,0.360916,0.270831,USA,https://www.skild.ai/,Jun 2023,blue
+252,Visual Studio Code,code,company,Visual Studio Code,781193,148,3,2,1,0,0.0,0,0,0,0,0.06,0.001946,0.125,0.00096466,0.360395,0.270783,"Redmond, WA, USA",https://code.visualstudio.com,Apr 2015,blue
+253,Microsoft Partner,msPartner,company,Microsoft Partner Network,203139,647,6,1,5,0,0.0,0,0,0,0,0.397486,0.018362,0.125,0.00083397,0.354854,0.270731,"Redmond, WA",https://partner.microsoft.com/,Dec 2008,blue
+254,kache,yacineMTB,investor,"reinforcement learning, robots",210660,5872,7,6,1,0,0.0,0,0,0,0,0.156145,0.006622,0.125,0.00253552,0.356583,0.269093,Ottawa ⵣ 🇨🇦,http://yacine.ca,Sep 2019,blue
+255,kalomaze,kalomaze,researcher,Researcher,22031,2490,5,4,1,0,0.0,0,0,0,0,0.124955,0.005105,0.375,0.00148928,0.357073,0.269081,,,Oct 2020,blue
+256,Lianmin Zheng,lm_zheng,founder,Co-founder,15563,646,14,3,11,0,0.0,0,0,0,0,0.660942,0.031177,0.0,0.00080455,0.348336,0.269046,"Bay Area, California",http://lmzheng.net/,Jan 2018,blue
+257,NVIDIA GeForce Latinoamérica,NVIDIAGeForceLA,company,NVIDIA Latin America,91804,112,8,2,6,0,0.0,0,0,0,0,0.613189,0.028854,0.0,0.0008476,0.348881,0.268874,,https://linktr.ee/nvidiageforcelat,Jul 2014,blue
+258,Rihard Jarc,RihardJarc,media,CTO,72302,2785,7,2,5,0,0.0,0,0,0,0,0.170058,0.007299,0.25,0.00102557,0.355835,0.268701,,https://www.uncoveralpha.com/,Jan 2016,blue
+259,sarah guo,saranormous,investor,Founder at Conviction,126250,3161,9,6,3,0,0.0,0,0,0,0,0.237935,0.010601,0.125,0.00158512,0.354423,0.268468,on ⛓,http://conviction.com,Jul 2011,blue
+260,Muratcan Koylan,koylanai,founder,"Context Engineer, Research Team @ https://t",13778,3853,5,2,3,0,0.0,0,0,0,0,0.147384,0.006196,0.375,0.00114315,0.355765,0.268373,"Toronto, Canada 🇨🇦",https://muratcankoylan.com/,Dec 2022,blue
+261,Tristan,ItsTKai,researcher,Researcher at OpenAI,11769,1508,5,3,2,0,0.0,0,0,0,0,0.16833,0.007215,0.375,0.00110163,0.355141,0.26816,,,Apr 2025,
+262,Mistral AI,MistralAI,company,AI Research Company,169105,2,3,3,0,0,0.0,0,0,0,0,0.078009,0.002822,0.25,0.0013322,0.356551,0.268119,"Paris, France",,Jun 2023,blue
+263,Microsoft Surface,surface,company,Microsoft Surface Devices,586612,10,1,1,0,0,0.0,0,0,0,0,0.02,0.0,0.125,0.00083397,0.35683,0.267622,"Redmond, WA",https://www.microsoft.com/en-us/store/configure/surface-laptop-13-inch/8mzbmmcjzqv3?OCID=cge_osocial,Jun 2012,
+264,Jonathan Ross,JonathanRoss321,founder,Founder at Nvidia,45607,219,11,4,7,0,0.0,0,0,0,0,0.282915,0.012789,0.125,0.00121916,0.352241,0.267378,,https://www.nvidia.com,Nov 2021,blue
+265,Ray Hotate 保立怜,rayhotate,researcher,Stanford,14075,2095,3,2,1,0,0.0,0,0,0,0,0.152925,0.006466,0.375,0.00077006,0.353906,0.267046,"Stanford, California, USA",https://soundcloud.com/user-211285881,Oct 2017,blue
+266,Black in AI,black_in_ai,company,AI Community Organization,42747,313,8,1,7,0,0.0,0,0,0,0,0.37762,0.017395,0.125,0.00077769,0.350062,0.266895,,http://www.blackinai.org,Nov 2017,
+267,Gizem Akdag,gizakdag,founder,CTO,83215,1354,6,2,4,0,0.0,0,0,0,0,0.308735,0.014045,0.125,0.00137224,0.351173,0.266891,,https://linktr.ee/gizemakdag,Jan 2010,blue
+268,AshutoshShrivastava,ai_for_success,founder,,77335,2478,8,2,6,0,0.0,0,0,0,0,0.246164,0.011001,0.125,0.00083036,0.351652,0.266489,sponsorships 📩 or check my 🌐,https://ashutoshai.com,Jan 2023,blue
+269,Google UK,GoogleUK,company,Google UK,185482,529,3,2,1,0,0.0,0,0,0,0,0.204451,0.008972,0.125,0.00107212,0.351897,0.266166,United Kingdon,https://blog.google/around-the-globe/google-europe/united-kingdom/,Dec 2013,blue
+270,Parag Agrawal,paraga,founder,Former CEO at Twitter,545363,1443,3,1,2,0,0.0,0,0,0,0,0.09,0.003405,0.0,0.00084485,0.353675,0.266108,"San Francisco, CA",,Apr 2008,blue
+271,Madhu Guru,realmadhuguru,founder,Google,15876,205,10,2,8,0,0.0,0,0,0,0,0.360043,0.016541,0.125,0.00128844,0.349183,0.266023,Silicon Valley,http://madhuguru.substack.com,Nov 2021,blue
+272,Joseph Suarez 🐡,jsuarez,researcher,Founder at MIT,27294,115,5,5,0,0,0.0,0,0,0,0,0.133552,0.005523,0.25,0.00191508,0.351646,0.265115,,https://puffer.ai,Mar 2019,blue
+273,Toby Pohlen,TobyPhln,founder,Founding member @xAI,69364,589,7,3,4,0,0.0,0,0,0,0,0.41627,0.019276,0.0,0.00069157,0.346125,0.264412,"London, UK",,Dec 2012,blue
+274,Haotian Liu,imhaotian,founder,building intelligence @xAI,11852,523,5,4,1,0,0.0,0,0,0,0,0.252249,0.011297,0.25,0.00086707,0.348316,0.264062,"Cupertino, CA",https://hliu.cc/,Dec 2013,blue
+275,Gavin Baker,GavinSBaker,investor,Founder at Atreides,221146,5542,5,4,1,0,0.0,0,0,0,0,0.124017,0.00506,0.0,0.00165433,0.3503,0.26399,"Boston, MA",https://www.youtube.com/gavinbakerportfoliomanager,Jul 2011,blue
+276,Jay Kreps,jaykreps,founder,CEO at anthropic,31535,915,7,1,6,0,0.0,0,0,0,0,0.191549,0.008345,0.125,0.0015663,0.348947,0.263797,"Palo Alto, California",http://www.confluent.io/blog,Mar 2010,blue
+277,the tiny corp,__tinygrad__,company,ML Framework,63505,161,5,1,4,0,0.0,0,0,0,0,0.139426,0.005809,0.125,0.00079411,0.348552,0.262867,Hong Kong,https://tinygrad.org,Jun 2023,blue
+278,Guohao Li 🐫,guohao_li,founder,Oxford,12084,2222,9,2,7,0,0.0,0,0,0,0,0.221421,0.009798,0.125,0.00108798,0.347062,0.262746,,https://www.eigent.ai/,Aug 2018,blue
+279,Okara,askOkara,founder,private ai chat with open source models,42147,690,1,1,0,0,0.0,0,0,0,0,0.04375,0.001155,0.25,0.00079411,0.349237,0.262217,web,https://okara.ai/,Dec 2021,blue
+280,McGill University,mcgillu,company,University,148150,5113,1,1,0,0,0.0,0,0,0,0,0.04,0.000973,0.125,0.00084762,0.349047,0.262029,"Montréal, Québec, Canada",http://www.mcgill.ca,Dec 2008,
+281,CIX 🦾,cixliv,founder,Founder & CEO,32283,8335,5,2,3,0,0.0,0,0,0,0,0.172854,0.007435,0.125,0.00103198,0.346408,0.261665,California,http://rek.com,Jan 2013,blue
+282,Kath Korevec,simpsoka,company,CTO at Google,22088,569,5,2,3,0,0.0,0,0,0,0,0.177988,0.007685,0.125,0.00093329,0.345161,0.260792,,https://kathy.pm/,Jun 2007,blue
+283,Adina Yakup,AdinaYakup,founder,huggingface,12685,876,5,3,2,0,0.0,0,0,0,0,0.217709,0.009617,0.125,0.00107744,0.343735,0.260205,,http://huggingface.co/AdinaY,Apr 2023,blue
+284,DSPy,DSPyOSS,company,LLM Programming Framework,12679,58,2,1,1,0,0.0,0,0,0,0,0.041875,0.001064,0.25,0.00067392,0.346287,0.259981,,https://dspy.ai,Apr 2025,blue
+285,American Mathematical Society,amermathsoc,company,Mathematics Society,75482,646,1,1,0,0,0.0,0,0,0,0,0.02,0.0,0.125,0.001091,0.346515,0.259886,"Providence, Rhode Island USA",http://www.ams.org,May 2010,blue
+286,Kazuki Fujisawa,kazu_fujisawa,investor,藤沢数希 (pen name),206157,2136,1,1,0,0,0.0,0,0,0,0,0.02,0.0,0.0,0.00085606,0.346448,0.259836,Hong Kong,https://www.kinyuunikki.com/,Jan 2010,blue
+287,Mitchell Hashimoto,mitchellh,founder,Co-founder at HashiCorp,162654,143,2,2,0,0,0.0,0,0,0,0,0.041212,0.001032,0.0,0.00104474,0.346092,0.259827,"Los Angeles, CA",https://mitchellh.com,Jan 2008,blue
+288,Geoffrey Litt,geoffreylitt,founder,,21588,1768,7,5,2,0,0.0,0,0,0,0,0.21234,0.009356,0.0,0.00176088,0.34297,0.259566,"Washington, DC",https://www.geoffreylitt.com,Nov 2010,blue
+289,Brent Mayo,BrentM_SpaceX,founder,SpaceX,21706,198,5,1,4,0,0.0,0,0,0,0,0.315471,0.014372,0.0,0.0006351,0.34106,0.259388,,,Mar 2022,blue
+290,Peter Berezin,PeterBerezinBCA,founder,CTO,43706,661,2,1,1,0,0.0,0,0,0,0,0.058889,0.001892,0.125,0.0006736,0.344759,0.259042,Hilbert space,http://www.bcaresearch.com,Mar 2017,blue
+291,Tatiana Tsiguleva,ciguleva,founder,Creative ambassador @perplexity_ai,85907,1433,3,2,1,0,0.0,0,0,0,0,0.06,0.001946,0.0,0.00137224,0.34449,0.258854,Canada,https://ciguleva.substack.com,Nov 2017,blue
+292,Dario TLO Wünsch,TLOgg,founder,Co-founder at deepmind,39528,1241,1,1,0,0,0.0,0,0,0,0,0.044872,0.00121,0.125,0.00077769,0.343866,0.258202,Alpha Quadrant,http://TLO.gg,Feb 2011,
+293,Jasper,zjasper,company,Co-founder & CEO,14866,1727,7,2,5,0,0.0,0,0,0,0,0.169026,0.007249,0.0,0.00075708,0.341215,0.257724,"California, USA",http://hyperbolic.ai,Nov 2018,blue
+294,NVIDIA GeForce PL,NVIDIAGeForcePL,company,NVIDIA Poland,17393,225,4,3,1,0,0.0,0,0,0,0,0.226794,0.010059,0.0,0.00110703,0.339752,0.257329,Polska,http://www.nvidia.pl,Dec 2009,blue
+295,NVIDIA GeForce TR,nvidiageforcetr,company,NVIDIA Turkey,58151,72,2,1,1,0,0.0,0,0,0,0,0.079392,0.002889,0.0,0.00071297,0.341671,0.256976,,https://www.nvidia.com/,Sep 2017,blue
+296,Jonathan Gorard,getjonwithit,founder,Princeton,43651,18,3,3,0,0,0.0,0,0,0,0,0.06,0.001946,0.0,0.00086058,0.341194,0.256382,"Princeton, NJ",,Nov 2012,
+297,Seth Harp,sethharpesq,founder,,72392,1032,1,1,0,0,0.0,0,0,0,0,0.02625,0.000304,0.0,0.0006736,0.341652,0.256315,"Austin, TX",https://www.penguinrandomhouse.com/books/730414/the-fort-bragg-cartel-by-seth-harp/,Sep 2020,
+298,"Lorwen C Nagle, PhD",LORWEN108,founder,Harvard,72883,143,1,1,0,0,0.0,0,0,0,0,0.02,0.0,0.0,0.00067392,0.341666,0.25625,Book a free discovery call:,https://calendly.com/lorwen_consulting/enlightenment-session,Mar 2015,blue
+299,Mattt,mattt,company,huggingface,33870,65,2,1,1,0,0.0,0,0,0,0,0.044138,0.001174,0.0,0.00079411,0.339906,0.255223,"Portland, OR",https://github.com/mattt,Dec 2006,blue
+300,Jerrod Lew,jerrod_lew,media,"Artist, creator and educator",14872,2764,2,1,1,0,0.0,0,0,0,0,0.04,0.000973,0.0,0.0007136,0.337442,0.253325,Australia,https://jerrodlew.com/,May 2023,blue

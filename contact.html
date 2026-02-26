@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>合作咨询</title>
+  <script src="/assets/metrics.js" defer></script>
+  <style>
+    :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
+    .wrap{max-width:860px;margin:0 auto;padding:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px}
+    .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;cursor:pointer}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px} input,select,textarea{width:100%;background:#0f1832;border:1px solid rgba(148,163,184,.35);color:#e2e8f0;border-radius:8px;padding:8px}
+    @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
+    <h2 id="title" data-zh="合作咨询" data-en="Lead Capture">合作咨询</h2>
+    <div style="display:flex;gap:8px"><a class="btn" href="/index.html" data-zh="首页" data-en="Home">首页</a><a class="btn" href="/commercial.html" data-zh="商业方案" data-en="Commercial">商业方案</a></div>
+  </div>
+  <div class="card">
+    <div class="grid">
+      <input id="name" placeholder="姓名/公司" />
+      <input id="contact" placeholder="邮箱或微信" />
+      <select id="plan">
+        <option value="daily_intel">每日情报订阅</option>
+        <option value="brand_poster">品牌海报分发</option>
+        <option value="kol_ops">KOL关系运营</option>
+        <option value="enterprise">企业定制版</option>
+      </select>
+      <input id="budget" placeholder="预算区间（如 5k-20k/月）" />
+    </div>
+    <textarea id="notes" rows="5" placeholder="你的目标与场景"></textarea>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="saveLead" data-cta="save_lead" data-zh="保存线索" data-en="Save Lead">保存线索</button>
+      <button class="btn" id="copyLead" data-cta="copy_lead" data-zh="复制线索文本" data-en="Copy Lead Text">复制线索文本</button>
+      <a class="btn" id="mailtoLead" data-cta="mailto_lead" href="#" data-zh="邮件发送" data-en="Send by Email">邮件发送</a>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0" data-zh="最近线索" data-en="Recent Leads">最近线索</h3>
+    <pre id="list" style="white-space:pre-wrap"></pre>
+  </div>
+</div>
+<script>
+const KEY='xai_leads_v1';
+function getLeads(){try{const d=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(d)?d:[]}catch{return[]}}
+function saveLeads(arr){localStorage.setItem(KEY,JSON.stringify(arr.slice(-500)))}
+function leadObj(){
+  return {
+    ts:new Date().toISOString(),
+    name:document.getElementById('name').value.trim(),
+    contact:document.getElementById('contact').value.trim(),
+    plan:document.getElementById('plan').value,
+    budget:document.getElementById('budget').value.trim(),
+    notes:document.getElementById('notes').value.trim(),
+  };
+}
+function render(){document.getElementById('list').textContent=JSON.stringify(getLeads().slice(-20).reverse(),null,2)}
+function asText(x){return `time=${x.ts}\nname=${x.name}\ncontact=${x.contact}\nplan=${x.plan}\nbudget=${x.budget}\nnotes=${x.notes}`}
+
+document.getElementById('saveLead').addEventListener('click',()=>{
+  const x=leadObj();
+  if(!x.name||!x.contact){alert('请填写姓名/公司和联系方式');return;}
+  const arr=getLeads(); arr.push(x); saveLeads(arr); render();
+  if(window.XAIMetrics) window.XAIMetrics.track('lead_saved',{plan:x.plan});
+  alert('线索已保存');
+});
+
+document.getElementById('copyLead').addEventListener('click',async()=>{
+  const x=leadObj();
+  const txt=asText(x);
+  try{await navigator.clipboard.writeText(txt); alert('已复制');}catch{prompt('复制以下内容：',txt)}
+});
+
+document.getElementById('mailtoLead').addEventListener('click',(e)=>{
+  const x=leadObj();
+  const subject=encodeURIComponent('AI Influence 合作咨询');
+  const body=encodeURIComponent(asText(x));
+  e.currentTarget.href=`mailto:?subject=${subject}&body=${body}`;
+});
+render();
+const L=localStorage.getItem('xai_lang')||'zh';
+document.querySelectorAll('[data-zh]').forEach(el=>{el.textContent=el.getAttribute(L==='zh'?'data-zh':'data-en');});
+</script>
+<script src="/assets/share-fab.js" defer></script>
+</body>
+</html>

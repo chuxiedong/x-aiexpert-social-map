@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Owner 状态面板</title>
+  <script src="/assets/metrics.js" defer></script>
+  <style>
+    :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--ok:#49d6a6;--bad:#f87171}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
+    .wrap{max-width:1120px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+    .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;cursor:pointer}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:10px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+    .k{color:var(--muted);font-size:12px}.v{font-size:24px;font-weight:800;margin-top:6px}
+    .ok{color:var(--ok)}.bad{color:var(--bad)} pre{white-space:pre-wrap;background:#0f1730;border:1px solid var(--line);border-radius:10px;padding:10px}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h2>Owner 状态面板 / Autonomous Owner Status</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn" href="/index.html">首页</a>
+      <a class="btn" href="/ops.html">Ops</a>
+      <a class="btn" href="/progress.html">Progress</a>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="k">运行模式</div><div class="v" id="mode">-</div></div>
+    <div class="card"><div class="k">健康状态</div><div class="v" id="health">-</div></div>
+    <div class="card"><div class="k">Profiles</div><div class="v" id="profiles">-</div></div>
+    <div class="card"><div class="k">迭代次数</div><div class="v" id="iters">-</div></div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <h3 style="margin-top:0">范围锁定</h3>
+    <div id="scopeInfo">loading...</div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <h3 style="margin-top:0">最近项目改动文件</h3>
+    <div id="changedFiles">loading...</div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <h3 style="margin-top:0">下一步动作</h3>
+    <div id="next"></div>
+  </div>
+
+  <div class="card" style="margin-top:10px">
+    <h3 style="margin-top:0">负责人日志（最近）</h3>
+    <pre id="journal">loading...</pre>
+  </div>
+</div>
+<script>
+async function boot(){
+  const s=await fetch('/data/owner_status.json').then(r=>r.json()).catch(()=>null);
+  const j=await fetch('/data/owner_journal.md').then(r=>r.text()).catch(()=>'-');
+  if(!s){
+    document.getElementById('journal').textContent='owner status not generated yet';
+    return;
+  }
+  document.getElementById('mode').textContent=s.owner_mode||'-';
+  const ok=(s.health&&s.health.status==='ok');
+  document.getElementById('health').innerHTML=ok?'<span class="ok">OK</span>':'<span class="bad">DEGRADED</span>';
+  document.getElementById('profiles').textContent=(s.business&&s.business.profiles_count)||0;
+  document.getElementById('iters').textContent=(s.business&&s.business.iteration_count)||0;
+  const buddies=(s.business&&s.business.buddies_covered_count)||0;
+  const project=((s.scope&&s.scope.project)||'-');
+  const mission=((s.scope&&s.scope.mission)||'-');
+  document.getElementById('scopeInfo').innerHTML=`<div>project=<b>${project}</b></div><div>mission=${mission}</div><div>best-buddies-covered=${buddies}</div>`;
+  const files=(s.business&&s.business.latest_changed_files)||[];
+  document.getElementById('changedFiles').innerHTML=files.map(x=>`<div>• ${x.path} <span style=\"color:#95a9d5\">(${(x.updated_at||'').replace('T',' ').slice(0,19)})</span></div>`).join('') || '-';
+  document.getElementById('next').innerHTML=(s.next_actions||[]).map(x=>`<div>• ${x}</div>`).join('') || '-';
+  document.getElementById('journal').textContent=j;
+}
+boot();
+</script>
+</body>
+</html>

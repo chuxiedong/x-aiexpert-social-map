@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1020" />
+    <title>X 平台 AI 影响力榜（移动版）</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <style>
+      :root {
+        --bg: #0b1020;
+        --card: #121a34;
+        --line: rgba(255, 255, 255, 0.1);
+        --text: #edf2ff;
+        --muted: #9cadd3;
+        --accent: #77d4ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--text);
+        background: radial-gradient(circle at 10% 0%, #1b2f63 0%, var(--bg) 45%);
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: calc(12px + env(safe-area-inset-top)) 12px calc(16px + env(safe-area-inset-bottom));
+      }
+      .head {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px;
+        background: rgba(12, 20, 42, 0.72);
+        backdrop-filter: blur(6px);
+      }
+      .title { font-size: 18px; font-weight: 700; margin: 0; }
+      .sub { margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+      .actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 10px;
+        border: 1px solid rgba(150, 200, 255, 0.4);
+        border-radius: 10px;
+        color: #d9ecff;
+        text-decoration: none;
+        background: linear-gradient(130deg, #17366f, #122448);
+        font-size: 12px;
+      }
+      .tools {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+      input, select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #0f1732;
+        color: var(--text);
+        padding: 10px;
+        font-size: 14px;
+      }
+      .list { margin-top: 10px; display: grid; gap: 8px; }
+      .row {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(13, 23, 48, 0.75);
+        padding: 10px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        align-items: baseline;
+      }
+      .rank { color: var(--accent); font-size: 13px; font-weight: 700; }
+      .name { font-size: 14px; font-weight: 700; }
+      .handle { margin-top: 4px; color: #9db4de; font-size: 12px; }
+      .meta {
+        margin-top: 8px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+      }
+      .m {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 9px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .m .k { color: var(--muted); font-size: 10px; }
+      .m .v { margin-top: 2px; font-size: 12px; }
+      .empty {
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+        padding: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section class="head">
+        <h1 class="title">X 平台 AI 影响力榜（移动版）</h1>
+        <div class="sub" id="meta">加载中...</div>
+        <div class="actions">
+          <a class="btn" href="/">原始图谱页</a>
+          <a class="btn" href="/quanzhong_ranking.html">指标大屏页</a>
+          <a class="btn" href="/data/circle_layers.html">圈层图（5层）</a>
+        </div>
+        <div class="tools">
+          <input id="q" placeholder="搜索 name / @handle" />
+          <select id="sort">
+            <option value="quanzhong">Quanzhong</option>
+            <option value="followers">Followers</option>
+            <option value="grey">Grey</option>
+          </select>
+        </div>
+      </section>
+      <section class="list" id="list"></section>
+    </div>
+
+    <script>
+      const f6 = (n) => (Number.isFinite(Number(n)) ? Number(n).toFixed(6) : "-");
+      const ff = (n) => {
+        const v = Number(n || 0);
+        if (!Number.isFinite(v)) return "-";
+        if (v >= 1e6) return (v / 1e6).toFixed(1) + "M";
+        if (v >= 1e3) return (v / 1e3).toFixed(1) + "K";
+        return String(Math.round(v));
+      };
+
+      function render(rows) {
+        const q = document.getElementById("q").value.trim().toLowerCase();
+        const mode = document.getElementById("sort").value;
+        const filtered = rows.filter((x) => {
+          if (!q) return true;
+          const a = String(x.name || "").toLowerCase();
+          const b = String(x.handle || "").toLowerCase();
+          return a.includes(q) || b.includes(q);
+        });
+        const sorted = filtered.slice().sort((a, b) => {
+          if (mode === "followers") return Number(b.followers || 0) - Number(a.followers || 0);
+          if (mode === "grey") return Number(b.grey_relation || 0) - Number(a.grey_relation || 0);
+          return Number(b.quanzhong_score || 0) - Number(a.quanzhong_score || 0);
+        });
+        const list = document.getElementById("list");
+        if (!sorted.length) {
+          list.innerHTML = '<div class="empty">没有匹配数据</div>';
+          return;
+        }
+        list.innerHTML = sorted.slice(0, 300).map((x, i) => `
+          <a class="row" href="https://x.com/${x.handle}" target="_blank" style="text-decoration:none;color:inherit;">
+            <div class="top">
+              <div class="rank">#${i + 1}</div>
+              <div class="name">${x.name || "-"}</div>
+            </div>
+            <div class="handle">@${x.handle || "-"}</div>
+            <div class="meta">
+              <div class="m"><div class="k">Followers</div><div class="v">${ff(x.followers)}</div></div>
+              <div class="m"><div class="k">Quanzhong</div><div class="v">${f6(x.quanzhong_score)}</div></div>
+              <div class="m"><div class="k">Grey</div><div class="v">${f6(x.grey_relation)}</div></div>
+            </div>
+            <div class="meta" style="margin-top:6px;">
+              <div class="m"><div class="k">CrossFollow</div><div class="v">${f6(x.cross_follow_ratio)}</div></div>
+              <div class="m"><div class="k">Posts</div><div class="v">${ff(x.posts_count)}</div></div>
+              <div class="m"><div class="k">Likes</div><div class="v">${ff(x.likes_count)}</div></div>
+            </div>
+          </a>
+        `).join("");
+      }
+
+      fetch("/data/top300.json")
+        .then((r) => r.json())
+        .then((d) => {
+          const rows = d.experts || [];
+          document.getElementById("meta").textContent =
+            `更新时间：${d.generated_at || "-"} ｜ 样本：${rows.length} ｜ 排序：Quanzhong`;
+          document.getElementById("q").addEventListener("input", () => render(rows));
+          document.getElementById("sort").addEventListener("change", () => render(rows));
+          render(rows);
+        })
+        .catch((e) => {
+          document.getElementById("meta").textContent = "加载失败：" + e.message;
+        });
+    </script>
+  </body>
+</html>

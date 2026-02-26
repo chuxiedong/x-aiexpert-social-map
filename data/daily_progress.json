@@ -1,0 +1,255 @@
+{
+  "updated_at": "2026-02-26T01:48:56.155397Z",
+  "summary_zh": "今日AI进展：讨论重心集中在 AI Industry 与 Model Capability。Top10 关键人物仍在推动“模型能力产品化 + 发布反馈闭环”，全网高影响博主均值分约 0.583。",
+  "summary_en": "Daily AI progress: discussion centers on AI Industry and Model Capability. Top voices keep focusing on productizing model capability and iterating via publish-feedback loops.",
+  "topic_rank": [
+    {
+      "topic": "AI Industry",
+      "count": 66
+    },
+    {
+      "topic": "Model Capability",
+      "count": 66
+    },
+    {
+      "topic": "Productization",
+      "count": 66
+    },
+    {
+      "topic": "Research Frontier",
+      "count": 26
+    },
+    {
+      "topic": "OpenAI Ecosystem",
+      "count": 18
+    },
+    {
+      "topic": "Safety & Alignment",
+      "count": 9
+    }
+  ],
+  "top10": [
+    {
+      "name": "Soumith Chintala",
+      "handle": "soumithchintala",
+      "slug": "soumithchintala",
+      "score": 0.689,
+      "topics": [
+        "Model Engineering",
+        "Robotics"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 Model Engineering 与 Robotics，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.689）。",
+      "daily_essence_en": "Daily essence: around Model Engineering and Robotics, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.689)."
+    },
+    {
+      "name": "NVIDIA Newsroom",
+      "handle": "nvidianewsroom",
+      "slug": "nvidianewsroom",
+      "score": 0.687,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.687）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.687)."
+    },
+    {
+      "name": "NVIDIA",
+      "handle": "nvidia",
+      "slug": "nvidia",
+      "score": 0.662,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.662）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.662)."
+    },
+    {
+      "name": "Oriol Vinyals",
+      "handle": "OriolVinyalsML",
+      "slug": "oriolvinyalsml",
+      "score": 0.607,
+      "topics": [
+        "Research Frontier"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 Research Frontier 与 Research Frontier，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.607）。",
+      "daily_essence_en": "Daily essence: around Research Frontier and Research Frontier, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.607)."
+    },
+    {
+      "name": "Lucas Beyer (bl16)",
+      "handle": "giffmana",
+      "slug": "giffmana",
+      "score": 0.565,
+      "topics": [
+        "OpenAI Ecosystem",
+        "Research Frontier"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 OpenAI Ecosystem 与 Research Frontier，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.565）。",
+      "daily_essence_en": "Daily essence: around OpenAI Ecosystem and Research Frontier, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.565)."
+    },
+    {
+      "name": "Hugging Face",
+      "handle": "huggingface",
+      "slug": "huggingface",
+      "score": 0.558,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.558）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.558)."
+    },
+    {
+      "name": "Aran Komatsuzaki",
+      "handle": "arankomatsuzaki",
+      "slug": "arankomatsuzaki",
+      "score": 0.532,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.532）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.532)."
+    },
+    {
+      "name": "Sasha Rush",
+      "handle": "srush_nlp",
+      "slug": "srush_nlp",
+      "score": 0.517,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.517）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.517)."
+    },
+    {
+      "name": "Yann LeCun",
+      "handle": "ylecun",
+      "slug": "ylecun",
+      "score": 0.515,
+      "topics": [
+        "Robotics"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 Robotics 与 Robotics，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.515）。",
+      "daily_essence_en": "Daily essence: around Robotics and Robotics, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.515)."
+    },
+    {
+      "name": "Peter Steinberger 🦞",
+      "handle": "steipete",
+      "slug": "steipete",
+      "score": 0.497,
+      "topics": [
+        "AI Agents"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Agents 与 AI Agents，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.497）。",
+      "daily_essence_en": "Daily essence: around AI Agents and AI Agents, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.497)."
+    }
+  ],
+  "trend_items": [
+    {
+      "name": "Soumith Chintala",
+      "handle": "soumithchintala",
+      "slug": "soumithchintala",
+      "score": 0.689,
+      "topics": [
+        "Model Engineering",
+        "Robotics"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 Model Engineering 与 Robotics，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.689）。",
+      "daily_essence_en": "Daily essence: around Model Engineering and Robotics, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.689)."
+    },
+    {
+      "name": "NVIDIA Newsroom",
+      "handle": "nvidianewsroom",
+      "slug": "nvidianewsroom",
+      "score": 0.687,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.687）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.687)."
+    },
+    {
+      "name": "NVIDIA",
+      "handle": "nvidia",
+      "slug": "nvidia",
+      "score": 0.662,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.662）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.662)."
+    },
+    {
+      "name": "Lucas Beyer (bl16)",
+      "handle": "giffmana",
+      "slug": "giffmana",
+      "score": 0.565,
+      "topics": [
+        "OpenAI Ecosystem",
+        "Research Frontier"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 OpenAI Ecosystem 与 Research Frontier，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.565）。",
+      "daily_essence_en": "Daily essence: around OpenAI Ecosystem and Research Frontier, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.565)."
+    },
+    {
+      "name": "Peter Steinberger 🦞",
+      "handle": "steipete",
+      "slug": "steipete",
+      "score": 0.497,
+      "topics": [
+        "AI Agents"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Agents 与 AI Agents，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.497）。",
+      "daily_essence_en": "Daily essence: around AI Agents and AI Agents, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.497)."
+    },
+    {
+      "name": "Hugging Face",
+      "handle": "huggingface",
+      "slug": "huggingface",
+      "score": 0.558,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.558）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.558)."
+    },
+    {
+      "name": "Sasha Rush",
+      "handle": "srush_nlp",
+      "slug": "srush_nlp",
+      "score": 0.517,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.517）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.517)."
+    },
+    {
+      "name": "Oriol Vinyals",
+      "handle": "OriolVinyalsML",
+      "slug": "oriolvinyalsml",
+      "score": 0.607,
+      "topics": [
+        "Research Frontier"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 Research Frontier 与 Research Frontier，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.607）。",
+      "daily_essence_en": "Daily essence: around Research Frontier and Research Frontier, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.607)."
+    }
+  ]
+}

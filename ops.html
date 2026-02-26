@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>运营看板</title>
+  <script src="/assets/metrics.js" defer></script>
+  <style>
+    :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
+    .wrap{max-width:1140px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;cursor:pointer}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+    .k{color:var(--muted);font-size:12px}.v{font-size:26px;font-weight:800;margin-top:6px}
+    .tbl{margin-top:10px}.row{display:flex;justify-content:space-between;gap:10px;padding:8px 4px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .muted{color:var(--muted);font-size:12px} pre{white-space:pre-wrap;background:#0e1730;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;max-height:280px;overflow:auto}
+    @media(max-width:860px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h2>运营看板 / Ops Dashboard</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn" href="/index.html">首页</a>
+      <a class="btn" href="/commercial.html">商业方案</a>
+      <a class="btn" href="/contact.html">线索收集</a>
+      <a class="btn" href="/progress.html">迭代进度</a>
+      <button class="btn" id="clearMetrics">清空埋点</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="k">总事件</div><div class="v" id="kEvents">-</div></div>
+    <div class="card"><div class="k">页面浏览</div><div class="v" id="kViews">-</div></div>
+    <div class="card"><div class="k">CTA点击</div><div class="v" id="kClicks">-</div></div>
+    <div class="card"><div class="k">最近心跳</div><div class="v" id="kBeat" style="font-size:16px">-</div></div>
+  </div>
+
+  <div class="card tbl">
+    <h3 style="margin-top:0">高频CTA</h3>
+    <div id="topCta"></div>
+  </div>
+
+  <div class="card tbl">
+    <h3 style="margin-top:0">心跳状态</h3>
+    <div id="beatStatus" class="muted">loading...</div>
+  </div>
+
+  <div class="card tbl">
+    <h3 style="margin-top:0">原始事件（最近50条）</h3>
+    <pre id="raw"></pre>
+  </div>
+</div>
+<script>
+function renderMetrics(){
+  const ev=(window.XAIMetrics&&window.XAIMetrics.read)?window.XAIMetrics.read():[];
+  const views=ev.filter(x=>x.type==='pageview').length;
+  const clicks=ev.filter(x=>x.type==='click').length;
+  document.getElementById('kEvents').textContent=ev.length;
+  document.getElementById('kViews').textContent=views;
+  document.getElementById('kClicks').textContent=clicks;
+  const cta={};
+  ev.filter(x=>x.type==='click').forEach(x=>{
+    const k=(x.payload&&x.payload.label)||'unknown';
+    cta[k]=(cta[k]||0)+1;
+  });
+  const rows=Object.entries(cta).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  document.getElementById('topCta').innerHTML=rows.map(r=>`<div class="row"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('') || '<div class="muted">暂无数据</div>';
+  document.getElementById('raw').textContent=JSON.stringify(ev.slice(-50),null,2);
+}
+
+async function loadBeat(){
+  try{
+    const d=await fetch('/data/heartbeat_status.json').then(r=>r.json());
+    document.getElementById('kBeat').textContent=(d.generated_at||'-').replace('T',' ').slice(0,19);
+    document.getElementById('beatStatus').textContent=`status=${d.status||'unknown'} | checked=${d.checks?d.checks.length:0} | build=${d.build_result||'-'}`;
+  }catch{
+    document.getElementById('beatStatus').textContent='未检测到心跳文件';
+  }
+}
+
+document.getElementById('clearMetrics').addEventListener('click',()=>{
+  if(window.XAIMetrics){window.XAIMetrics.clear();}
+  renderMetrics();
+});
+renderMetrics();
+loadBeat();
+</script>
+</body>
+</html>

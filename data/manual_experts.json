@@ -1,0 +1,14 @@
+{
+  "experts": [
+    {
+      "name": "李飞飞",
+      "handle": "drfeifei",
+      "followers": 220000,
+      "followers_label": "220K",
+      "category": "AI研究",
+      "tags": ["AI研究", "Stanford", "CV"],
+      "url": "https://x.com/drfeifei",
+      "bio": "手工白名单示例：你可以在这里固定或修正专家数据。"
+    }
+  ]
+}

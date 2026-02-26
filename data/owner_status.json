@@ -1,0 +1,95 @@
+{
+  "generated_at": "2026-02-26T01:48:55.911867Z",
+  "owner_mode": "autonomous",
+  "scope": {
+    "project": "x-ai-experts-viz",
+    "boundary": "/Users/somalia/Desktop/x-ai-experts-viz",
+    "mission": "X experts influence intelligence + commercialization"
+  },
+  "runtime": {
+    "preflight_result": "ok",
+    "heartbeat_result": "ok"
+  },
+  "health": {
+    "status": "ok",
+    "missing_count": 0,
+    "checks_count": 13,
+    "last_heartbeat": "2026-02-26T01:48:56.046617+00:00"
+  },
+  "business": {
+    "profiles_count": 300,
+    "top10_count": 10,
+    "iteration_count": 15,
+    "buddies_covered_count": 300,
+    "public_pages": [
+      "/index.html",
+      "/commercial.html",
+      "/contact.html",
+      "/ops.html",
+      "/progress.html",
+      "/owner.html",
+      "/daily_progress.html",
+      "/poster.html"
+    ],
+    "latest_changed_files": [
+      {
+        "path": "data/iteration_log.json",
+        "updated_at": "2026-02-26T01:48:56.211539Z"
+      },
+      {
+        "path": "data/heartbeat_status.json",
+        "updated_at": "2026-02-26T01:48:56.211231Z"
+      },
+      {
+        "path": "data/daily_progress.json",
+        "updated_at": "2026-02-26T01:48:56.206661Z"
+      },
+      {
+        "path": "data/daily_briefing.json",
+        "updated_at": "2026-02-26T01:48:56.206042Z"
+      },
+      {
+        "path": "data/daily_insights.json",
+        "updated_at": "2026-02-26T01:48:56.204853Z"
+      },
+      {
+        "path": "data/profiles.json",
+        "updated_at": "2026-02-26T01:48:56.180171Z"
+      },
+      {
+        "path": "poster.html",
+        "updated_at": "2026-02-26T01:48:56.155357Z"
+      },
+      {
+        "path": "daily_progress.html",
+        "updated_at": "2026-02-26T01:48:56.155270Z"
+      },
+      {
+        "path": "daily_briefing.html",
+        "updated_at": "2026-02-26T01:48:56.155043Z"
+      },
+      {
+        "path": "insights.html",
+        "updated_at": "2026-02-26T01:48:56.154922Z"
+      },
+      {
+        "path": "contact.html",
+        "updated_at": "2026-02-26T01:48:28.263248Z"
+      },
+      {
+        "path": "commercial.html",
+        "updated_at": "2026-02-26T01:48:07.901100Z"
+      }
+    ]
+  },
+  "logs": {
+    "preflight_tail": "[OK] heartbeat_status.json exists\n[OK] iteration_log.json exists\n[OK] web server reachable: http://127.0.0.1:8765\n[OK] progress page reachable\n[OK] web reachable (pid file stale)\n[OK] autopilot pid alive: 11424",
+    "heartbeat_tail": "{\"status\": \"ok\", \"missing\": 0}"
+  },
+  "next_actions": [
+    "improve X expert profile depth and summary quality",
+    "raise conversion from homepage CTA to contact lead capture",
+    "optimize circle-layer onboarding and interaction clarity",
+    "expand Top10/custom poster templates for brand campaigns"
+  ]
+}

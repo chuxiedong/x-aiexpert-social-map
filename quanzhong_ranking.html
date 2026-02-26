@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>X 平台 AI 社交影响力排名（Quanzhong）</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --card: #111933;
+        --text: #e9edff;
+        --muted: #9ea8cc;
+        --accent: #5ac8fa;
+      }
+      body {
+        margin: 0;
+        background: radial-gradient(circle at 20% 0%, #1b2c5a 0%, var(--bg) 45%);
+        color: var(--text);
+        font-family: "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 14px;
+        padding: 16px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 24px;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 14px;
+      }
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .kpi {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .kpi .label {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .kpi .val {
+        font-size: 20px;
+        margin-top: 6px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th,
+      td {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 8px 6px;
+        text-align: left;
+        white-space: nowrap;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .top3 {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .scroll {
+        overflow: auto;
+      }
+      a {
+        color: #8ad3ff;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>X 平台 AI 社交影响力排名（Top300）</h1>
+        <div class="meta" id="meta">加载中...</div>
+        <div class="kpis">
+          <div class="kpi"><div class="label">样本规模</div><div class="val" id="k-total">-</div></div>
+          <div class="kpi"><div class="label">第一名</div><div class="val" id="k-top1">-</div></div>
+          <div class="kpi"><div class="label">平均灰色关联度</div><div class="val" id="k-grey">-</div></div>
+          <div class="kpi"><div class="label">模型</div><div class="val" id="k-model">-</div></div>
+        </div>
+        <div class="scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Handle</th>
+                <th>Name</th>
+                <th>Followers</th>
+                <th>Quanzhong</th>
+                <th>Grey</th>
+                <th>CrossFollow</th>
+                <th>Posts</th>
+                <th>Comments</th>
+                <th>Likes</th>
+                <th>Reposts</th>
+                <th>AssocWeight</th>
+                <th>SemanticAI</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script>
+      const fmt = (n) => {
+        if (!Number.isFinite(n)) return "-";
+        if (n >= 1e6) return (n / 1e6).toFixed(1) + "M";
+        if (n >= 1e3) return (n / 1e3).toFixed(1) + "K";
+        return String(Math.round(n));
+      };
+      const f6 = (n) => (Number.isFinite(n) ? n.toFixed(6) : "-");
+
+      fetch("./data/top300.json")
+        .then((r) => r.json())
+        .then((d) => {
+          const experts = d.experts || [];
+          document.getElementById("meta").textContent =
+            `更新时间: ${d.generated_at || "-"} | 公式: ${d.ranking_formula || "-"}`;
+          document.getElementById("k-total").textContent = experts.length;
+          document.getElementById("k-top1").textContent = experts[0] ? "@" + experts[0].handle : "-";
+          document.getElementById("k-model").textContent = "quanzhong-grey-semantic-v1";
+
+          const avgGrey =
+            experts.reduce((s, x) => s + (Number(x.grey_relation) || 0), 0) / Math.max(1, experts.length);
+          document.getElementById("k-grey").textContent = f6(avgGrey);
+
+          const rowsEl = document.getElementById("rows");
+          rowsEl.innerHTML = experts
+            .slice(0, 300)
+            .map((x) => {
+              const cls = x.rank <= 3 ? "top3" : "";
+              return `<tr>
+                <td class="${cls}">${x.rank}</td>
+                <td><a href="https://x.com/${x.handle}" target="_blank">@${x.handle}</a></td>
+                <td>${x.name || ""}</td>
+                <td>${fmt(Number(x.followers) || 0)}</td>
+                <td>${f6(Number(x.quanzhong_score))}</td>
+                <td>${f6(Number(x.grey_relation))}</td>
+                <td>${f6(Number(x.cross_follow_ratio))}</td>
+                <td>${fmt(Number(x.posts_count) || 0)}</td>
+                <td>${fmt(Number(x.comments_count) || 0)}</td>
+                <td>${fmt(Number(x.likes_count) || 0)}</td>
+                <td>${fmt(Number(x.reposts_count) || 0)}</td>
+                <td>${f6(Number(x.association_weight))}</td>
+                <td>${f6(Number(x.semantic_ai))}</td>
+              </tr>`;
+            })
+            .join("");
+        })
+        .catch((err) => {
+          document.getElementById("meta").textContent = "加载失败: " + err.message;
+        });
+    </script>
+  </body>
+</html>

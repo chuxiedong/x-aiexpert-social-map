@@ -1,0 +1,1879 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>X 平台 AI 影响力图谱</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;700&display=swap');
+
+    :root {
+      --bg: #0b0c15;
+      --bg-2: #070810;
+      --panel: rgba(10, 12, 22, 0.78);
+      --panel-strong: rgba(8, 10, 18, 0.93);
+      --line: rgba(255, 255, 255, 0.1);
+      --line-2: rgba(120, 133, 184, 0.24);
+      --text: #e8ecff;
+      --muted: #98a4c9;
+      --hot: #7d92ff;
+      --hot-2: #7ce8ff;
+      --ok: #89f6bf;
+      --bad: #ffa9a9;
+      --shadow: 0 24px 68px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      background:
+        radial-gradient(circle at 16% 12%, rgba(125, 146, 255, 0.2), transparent 32%),
+        radial-gradient(circle at 82% 20%, rgba(124, 232, 255, 0.15), transparent 35%),
+        radial-gradient(circle at 50% 88%, rgba(128, 136, 190, 0.18), transparent 40%),
+        linear-gradient(145deg, #090a13 0%, #0b0c15 50%, #070810 100%);
+    }
+
+    .app {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 344px 1fr;
+      transition: grid-template-columns .28s ease;
+    }
+
+    .app.sidebar-collapsed {
+      grid-template-columns: 72px 1fr;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(11, 13, 25, 0.88), rgba(9, 10, 19, 0.92));
+      backdrop-filter: blur(12px);
+      padding: 14px;
+      display: grid;
+      grid-template-rows: auto auto auto auto 1fr auto;
+      gap: 10px;
+      min-width: 0;
+      position: relative;
+      z-index: 5;
+    }
+
+    .sidebar-toggle {
+      position: absolute;
+      top: 14px;
+      right: -14px;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--line-2);
+      border-radius: 8px;
+      background: rgba(15, 19, 34, 0.94);
+      color: #ced8ff;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font: 800 20px/1.1 'Sora', sans-serif;
+      letter-spacing: 0.2px;
+    }
+
+    .brand p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(8, 10, 18, 0.82);
+      border-radius: 12px;
+      color: var(--text);
+      padding: 10px 34px 10px 12px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(18, 22, 38, 0.88);
+      color: #9fb1e6;
+      font-size: 12px;
+      line-height: 20px;
+      cursor: pointer;
+      display: none;
+      padding: 0;
+    }
+
+    .search-wrap.has-value .search-clear {
+      display: inline-block;
+    }
+
+    .search-clear:hover {
+      color: #e7eeff;
+      background: rgba(30, 38, 66, 0.92);
+    }
+
+    .select-wrap select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(8, 10, 18, 0.82);
+      border-radius: 12px;
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .sidebar-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .stat-chip {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      background: rgba(8, 10, 18, 0.72);
+      min-width: 0;
+    }
+
+    .stat-chip .k {
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .stat-chip .v {
+      margin-top: 4px;
+      font: 700 14px/1.15 'Sora', sans-serif;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .expert-list {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(8, 10, 18, 0.62);
+      padding: 8px;
+      overflow: auto;
+      min-height: 160px;
+    }
+
+    .expert-row {
+      width: 100%;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text);
+      border-radius: 11px;
+      padding: 8px 9px;
+      text-align: left;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 26px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 5px;
+      transition: .2s ease;
+    }
+
+    .expert-row:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(125, 146, 255, 0.4);
+    }
+
+    .expert-row.active {
+      background: rgba(125, 146, 255, 0.15);
+      border-color: rgba(125, 146, 255, 0.64);
+    }
+
+    .rank-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: #cad6ff;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .expert-row .nm {
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .expert-row .hd {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .expert-row .fw {
+      font-size: 11px;
+      color: #cbdcff;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .sidebar-foot {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px;
+      background: rgba(8, 10, 18, 0.76);
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .sidebar-foot a { color: #9fd8ff; }
+
+    .creator-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(8, 10, 18, 0.72);
+      padding: 8px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .creator-card:hover {
+      border-color: rgba(125, 146, 255, 0.6);
+      background: rgba(125, 146, 255, 0.12);
+    }
+
+    .creator-card.active {
+      border-color: rgba(125, 146, 255, 0.72);
+      background: rgba(125, 146, 255, 0.2);
+    }
+
+    .stage {
+      position: relative;
+      padding: 14px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topbar-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar h2 {
+      margin: 0;
+      font: 700 16px/1.1 'Sora', sans-serif;
+      color: #d9e2ff;
+    }
+
+    .btn {
+      border: 1px solid var(--line-2);
+      background: rgba(10, 12, 22, 0.84);
+      color: #dce5ff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .btn.active {
+      border-color: rgba(125, 146, 255, 0.68);
+      background: rgba(125, 146, 255, 0.2);
+      color: #eef2ff;
+    }
+
+    .viz-shell {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(125, 146, 255, 0.12), transparent 35%),
+        radial-gradient(circle at 70% 60%, rgba(124, 232, 255, 0.11), transparent 36%),
+        linear-gradient(180deg, rgba(8, 10, 18, 0.76), rgba(7, 8, 14, 0.86));
+      overflow: hidden;
+      position: relative;
+      min-height: 360px;
+      box-shadow: var(--shadow);
+    }
+
+    #graph3d {
+      position: absolute;
+      inset: 0;
+      min-height: 360px;
+    }
+
+    #graph3d canvas {
+      display: block;
+      outline: none;
+    }
+
+    #bubbleSvg {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      display: block;
+    }
+
+    .legend-wrap {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      max-width: min(620px, 88%);
+      z-index: 2;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(8, 10, 18, 0.78);
+      backdrop-filter: blur(8px);
+      padding: 8px;
+    }
+
+    .legend-head {
+      border: 1px solid var(--line);
+      background: rgba(8, 10, 18, 0.78);
+      color: #d6e3ff;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-height: 140px;
+      overflow: auto;
+    }
+
+    .legend button {
+      border: 1px solid var(--line);
+      background: rgba(8, 10, 18, 0.78);
+      color: #d6e3ff;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .legend button.active {
+      border-color: rgba(125, 146, 255, 0.68);
+      background: rgba(125, 146, 255, 0.18);
+    }
+
+    .legend-wrap.collapsed .legend {
+      display: none;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    .insights {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.1fr;
+      gap: 10px;
+      min-height: 190px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      padding: 10px;
+      min-width: 0;
+      backdrop-filter: blur(8px);
+    }
+
+    .panel h3 {
+      margin: 0 0 8px;
+      font: 700 13px/1.1 'Sora', sans-serif;
+      color: #dbe5ff;
+    }
+
+    .bars {
+      display: grid;
+      gap: 6px;
+      max-height: 145px;
+      overflow: auto;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 88px 1fr 60px;
+      gap: 7px;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .track {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #7d92ff, #7ce8ff);
+    }
+
+    .lang {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .lang-box {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(7, 8, 14, 0.58);
+      padding: 8px;
+    }
+
+    .lang-box .k { font-size: 11px; color: var(--muted); }
+    .lang-box .v { margin-top: 3px; font: 700 18px/1.1 'Sora', sans-serif; }
+
+    .trend-note {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+
+    .trend-modes {
+      display: inline-flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .mode-btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(7, 8, 14, 0.55);
+      color: #ccd7ff;
+      padding: 4px 10px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .mode-btn.active {
+      border-color: rgba(124, 232, 255, 0.58);
+      background: rgba(124, 232, 255, 0.17);
+      color: #ecfbff;
+    }
+
+    #trendSvg {
+      width: 100%;
+      min-height: 132px;
+      display: block;
+    }
+
+    .rank-list {
+      display: grid;
+      gap: 6px;
+      max-height: 145px;
+      overflow: auto;
+    }
+
+    .rank-row {
+      display: grid;
+      grid-template-columns: 28px 1fr 56px 52px;
+      gap: 6px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 6px;
+      font-size: 11px;
+      background: rgba(7, 8, 14, 0.55);
+    }
+
+    .up { color: var(--ok); font-weight: 700; }
+    .down { color: var(--bad); font-weight: 700; }
+    .flat { color: #d4e4ff; font-weight: 700; }
+
+    .detail {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      width: min(380px, calc(100vw - 24px));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(8, 10, 18, 0.95);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      z-index: 30;
+      overflow: hidden;
+      display: none;
+    }
+
+    .detail.show { display: block; }
+
+    .detail-top {
+      height: 78px;
+      background: linear-gradient(135deg, rgba(125, 146, 255, 0.35), rgba(124, 232, 255, 0.15));
+      position: relative;
+    }
+
+    .detail-close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      width: 26px;
+      height: 26px;
+      background: rgba(8, 10, 18, 0.68);
+      color: #d8e5ff;
+      cursor: pointer;
+    }
+
+    .detail-body {
+      padding: 12px;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 3px solid rgba(8, 10, 18, 0.95);
+      margin-top: -43px;
+      object-fit: cover;
+      background: #12182b;
+    }
+
+    .detail-name {
+      margin-top: 8px;
+      font: 800 20px/1.1 'Sora', sans-serif;
+    }
+
+    .detail-handle {
+      color: var(--muted);
+      margin-top: 3px;
+      font-size: 13px;
+    }
+
+    .meta {
+      color: #d5e2ff;
+      font-size: 12px;
+      margin-top: 7px;
+      line-height: 1.55;
+    }
+
+    .follow {
+      margin-top: 10px;
+      display: inline-block;
+      background: #fff;
+      color: #000;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 7px 14px;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .method-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 3, 8, 0.66);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+      padding: 14px;
+    }
+
+    .method-modal.show { display: flex; }
+
+    .method-card {
+      width: min(680px, 100%);
+      max-height: 84vh;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel-strong);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .method-card h3 {
+      margin: 0 0 10px;
+      font: 800 18px/1.1 'Sora', sans-serif;
+    }
+
+    .method-card p {
+      margin: 0 0 10px;
+      color: #c7d5ff;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .method-card .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .collapsed .brand p,
+    .collapsed .search-wrap,
+    .collapsed .select-wrap,
+    .collapsed .sidebar-stats,
+    .collapsed .expert-list,
+    .collapsed .creator-card,
+    .collapsed .sidebar-foot {
+      display: none;
+    }
+
+    .collapsed .brand h1 {
+      font-size: 14px;
+      writing-mode: vertical-rl;
+      height: 180px;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1050px) {
+      .insights {
+        grid-template-columns: 1fr;
+      }
+      .detail {
+        top: auto;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        width: auto;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: 290px;
+        transform: translateX(-100%);
+        transition: transform .2s ease;
+      }
+      .sidebar.mobile-show { transform: translateX(0); }
+      .sidebar-toggle { right: -38px; }
+      .stage { padding-left: 10px; }
+      .legend-wrap { max-width: 92%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="appLayout">
+    <aside class="sidebar" id="sidebar">
+      <button class="sidebar-toggle" id="toggleSidebar">≡</button>
+
+      <div class="brand">
+        <h1>Top 300 AI 图谱</h1>
+        <p>参考 x.mitbunny.ai 的结构精髓：暗色网络舞台、榜单侧栏、悬浮详情与方法论说明。</p>
+      </div>
+
+      <div class="search-wrap" id="searchWrap">
+        <input id="search" placeholder="搜索姓名 / handle / 标签" />
+        <button class="search-clear" id="clearSearch" aria-label="清空搜索">×</button>
+      </div>
+      <div class="select-wrap">
+        <select id="categoryFilter"><option value="">全部类别</option></select>
+      </div>
+
+      <div class="sidebar-stats">
+        <div class="stat-chip"><div class="k">Experts</div><div class="v" id="countExperts">0</div></div>
+        <div class="stat-chip"><div class="k">Followers</div><div class="v" id="countFollowers">0</div></div>
+        <div class="stat-chip"><div class="k">Top</div><div class="v" id="topHandle">-</div></div>
+      </div>
+
+      <div class="expert-list" id="expertList"></div>
+
+      <button class="creator-card" id="creatorCardBtn">
+        <span class="rank-badge">x</span>
+        <span>
+          <div class="nm">Jenny</div>
+          <div class="hd">@Jenny_the_Bunny · Creator</div>
+        </span>
+      </button>
+
+      <div class="sidebar-foot">
+        数据采集：<span id="generatedAt">初始化中</span><br />
+        来源：<span id="sourceName">初始化中</span><br />
+        <a id="sourceLink" href="#" target="_blank" rel="noreferrer">查看来源</a>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <div class="topbar">
+        <h2>Top 300 AI 影响力关系舞台</h2>
+        <div class="topbar-actions">
+          <button class="btn" id="refreshData">立即刷新</button>
+          <a class="btn" id="downloadTop300" href="./data/top300.csv" download>下载Top300</a>
+          <button class="btn" id="toggleGraphMode">图谱模式：2D</button>
+          <button class="btn active" id="toggleLinks">关系连线：开</button>
+          <button class="btn" id="resetView">视角重置</button>
+          <button class="btn" id="openMethod">方法论</button>
+        </div>
+      </div>
+
+      <section class="viz-shell">
+        <div id="graph3d"></div>
+        <svg id="bubbleSvg" viewBox="0 0 1200 540" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="legend-wrap" id="legendWrap">
+          <button class="legend-head" id="toggleLegend">Legend ▾</button>
+          <div class="legend" id="legend"></div>
+        </div>
+      </section>
+
+      <section class="insights">
+        <article class="panel">
+          <h3>Top10 影响力</h3>
+          <div id="topBars" class="bars"></div>
+        </article>
+
+        <article class="panel">
+          <h3>姓名语种分布</h3>
+          <div class="lang">
+            <div class="lang-box"><div class="k">中文姓名</div><div class="v" id="cnCount">0</div></div>
+            <div class="lang-box"><div class="k">非中文姓名</div><div class="v" id="enCount">0</div></div>
+            <div class="lang-box"><div class="k">中文粉丝</div><div class="v" id="cnFollowers">0</div></div>
+            <div class="lang-box"><div class="k">非中文粉丝</div><div class="v" id="enFollowers">0</div></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h3>趋势 & 排名变化</h3>
+          <div class="trend-note" id="trendDelta">趋势初始化中</div>
+          <div class="trend-modes">
+            <button class="mode-btn active" data-mode="auto">自动</button>
+            <button class="mode-btn" data-mode="snapshot">快照</button>
+            <button class="mode-btn" data-mode="day">日</button>
+            <button class="mode-btn" data-mode="week">周</button>
+          </div>
+          <svg id="trendSvg" viewBox="0 0 620 140" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="rank-list" id="rankChanges"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <section class="detail" id="detailCard"></section>
+
+  <section class="method-modal" id="methodModal">
+    <div class="method-card">
+      <h3>Methodology</h3>
+      <p>1) 发现与筛选：以 OpenAI / Anthropic / DeepMind 等 seed accounts 为起点，基于“他们关注了谁”扩展候选池。</p>
+      <p>2) 排名逻辑：优先使用目标图谱分层，兼顾粉丝量与连接度。参考公式：<code>Score = log10(followers) × seed_connections</code>。</p>
+      <p>3) 图谱视图：默认展示全连接网络；点击节点后高亮该节点及一度关系，背景点击清空选中。</p>
+      <p>4) 辅助增强：叠加本地趋势、排名变化与白名单修正，确保“目标站主能力 + 本地运营能力”共同可用。</p>
+      <p class="muted">你可通过 <code>scripts/update_experts.py</code> 持续刷新数据。若有改进建议，可联系 <a href="https://x.com/Jenny_the_Bunny" target="_blank" rel="noreferrer" style="color:#9fd8ff">@Jenny_the_Bunny</a>。</p>
+      <button class="btn" id="closeMethod">关闭</button>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/three@0.161.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three-spritetext@1.9.6/dist/three-spritetext.min.js"></script>
+  <script src="https://unpkg.com/3d-force-graph@1.77.0/dist/3d-force-graph.min.js"></script>
+  <script>
+    const fallbackGraph = {
+      source_name: 'x.mitbunny.ai graph bundle',
+      source_url: 'https://x.mitbunny.ai',
+      nodes: [
+        { id: 'OpenAI', name: 'OpenAI', handle: 'OpenAI', group: 'company', followers: 4617379, following: 4, role: 'AI Lab', bio: 'Target-like graph fallback node.' },
+        { id: 'sama', name: 'Sam Altman', handle: 'sama', group: 'founder', followers: 4200000, following: 984, role: 'CEO at OpenAI' },
+        { id: 'karpathy', name: 'Andrej Karpathy', handle: 'karpathy', group: 'researcher', followers: 1400000, following: 308, role: 'AI Engineer' },
+        { id: 'AndrewYNg', name: 'Andrew Ng', handle: 'AndrewYNg', group: 'researcher', followers: 1100000, following: 281, role: 'Educator' },
+        { id: 'lexfridman', name: 'Lex Fridman', handle: 'lexfridman', group: 'media', followers: 4200000, following: 8, role: 'Podcast host' }
+      ],
+      links: [
+        { source: 'OpenAI', target: 'sama' },
+        { source: 'OpenAI', target: 'karpathy' },
+        { source: 'sama', target: 'lexfridman' },
+        { source: 'karpathy', target: 'AndrewYNg' }
+      ]
+    };
+
+    const fallbackMeta = {
+      generated_at: '2026-02-19T00:00:00Z',
+      source_name: 'Fallback 本地增强',
+      source_url: 'https://x.feedspot.com/artificial_intelligence_twitter_influencers/'
+    };
+
+    const groupLabelMap = {
+      company: '公司/组织',
+      founder: '创始人/建设者',
+      researcher: '研究者/学术',
+      investor: '投资人',
+      media: '媒体/社区'
+    };
+
+    const baseColors = {
+      '公司/组织': '#ffd4a3',
+      '创始人/建设者': '#a3d4ff',
+      '研究者/学术': '#e0b3ff',
+      '投资人': '#b3ffb3',
+      '媒体/社区': '#ffb3d9',
+      'AI研究': '#b28dff',
+      'AI创业': '#9cc9ff',
+      'AI工程': '#8ef0c2',
+      'AI媒体/评论': '#ffb7df',
+      'AI综合': '#ffdca9',
+      'AI商业化': '#c4b5fd',
+      '数据科学': '#f8b4b4',
+      '机器学习': '#fde68a',
+      '开源AI': '#93f5ff',
+      '机器人/强化学习': '#c2d7ff',
+      'AI政策': '#fdba74',
+      '创新战略': '#b4f1c5'
+    };
+
+    const creatorProfile = {
+      name: 'Jenny',
+      handle: 'Jenny_the_Bunny',
+      role: 'Creator of this page',
+      bio: 'Building cool things with AI. Creator of this AI influencer page. Let\'s be friends on X!',
+      joinedDate: 'Mar 2015 but never used until Feb 2026',
+      followers: 0,
+      following: 0,
+      category: '媒体/社区',
+      url: 'https://x.com/Jenny_the_Bunny'
+    };
+
+    const el = {
+      appLayout: document.getElementById('appLayout'),
+      sidebar: document.getElementById('sidebar'),
+      toggleSidebar: document.getElementById('toggleSidebar'),
+      searchWrap: document.getElementById('searchWrap'),
+      search: document.getElementById('search'),
+      clearSearch: document.getElementById('clearSearch'),
+      categoryFilter: document.getElementById('categoryFilter'),
+      countExperts: document.getElementById('countExperts'),
+      countFollowers: document.getElementById('countFollowers'),
+      topHandle: document.getElementById('topHandle'),
+      expertList: document.getElementById('expertList'),
+      creatorCardBtn: document.getElementById('creatorCardBtn'),
+      vizShell: document.querySelector('.viz-shell'),
+      graph3d: document.getElementById('graph3d'),
+      bubbleSvg: document.getElementById('bubbleSvg'),
+      legendWrap: document.getElementById('legendWrap'),
+      toggleLegend: document.getElementById('toggleLegend'),
+      legend: document.getElementById('legend'),
+      topBars: document.getElementById('topBars'),
+      cnCount: document.getElementById('cnCount'),
+      enCount: document.getElementById('enCount'),
+      cnFollowers: document.getElementById('cnFollowers'),
+      enFollowers: document.getElementById('enFollowers'),
+      trendSvg: document.getElementById('trendSvg'),
+      trendDelta: document.getElementById('trendDelta'),
+      rankChanges: document.getElementById('rankChanges'),
+      refreshData: document.getElementById('refreshData'),
+      toggleGraphMode: document.getElementById('toggleGraphMode'),
+      toggleLinks: document.getElementById('toggleLinks'),
+      resetView: document.getElementById('resetView'),
+      detailCard: document.getElementById('detailCard'),
+      openMethod: document.getElementById('openMethod'),
+      closeMethod: document.getElementById('closeMethod'),
+      methodModal: document.getElementById('methodModal'),
+      generatedAt: document.getElementById('generatedAt'),
+      sourceName: document.getElementById('sourceName'),
+      sourceLink: document.getElementById('sourceLink'),
+      trendModeButtons: Array.from(document.querySelectorAll('.mode-btn'))
+    };
+
+    let experts = [];
+    let graphLinks = [];
+    let historyTail = [];
+    let historyDaily = [];
+    let rankChanges = [];
+    let selectedHandle = null;
+    let showCreatorProfile = false;
+    let showLinks = true;
+    let trendMode = 'auto';
+    let graphMode = typeof window.ForceGraph3D === 'function' ? '3d' : '2d';
+    let legendCollapsed = false;
+    let connectionCountMap = new Map();
+    let topRankMap = new Map();
+    let forceGraph = null;
+    const graphViewport = { x: 0, y: 0, w: 1200, h: 540 };
+    let panState = null;
+
+    function numberCN(n) {
+      const v = Number(n || 0);
+      if (v >= 1e6) return (v / 1e6).toFixed(2).replace(/\.00$/, '') + 'M';
+      if (v >= 1e3) return (v / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+      return String(v);
+    }
+
+    function followerOrConn(item) {
+      const followers = Number(item?.followers || 0);
+      if (followers > 0) return numberCN(followers);
+      const key = String(item?.id || item?.handle || '');
+      const conn = connectionCountMap.get(key) || 0;
+      return `${conn} conn.`;
+    }
+
+    function applyViewBox() {
+      el.bubbleSvg.setAttribute('viewBox', `${graphViewport.x} ${graphViewport.y} ${graphViewport.w} ${graphViewport.h}`);
+    }
+
+    function graphModeAvailable(mode) {
+      if (mode === '3d') return typeof window.ForceGraph3D === 'function';
+      return true;
+    }
+
+    function applyGraphModeUI() {
+      const can3d = graphModeAvailable('3d');
+      if (!can3d && graphMode === '3d') graphMode = '2d';
+      const use3d = graphMode === '3d';
+      el.graph3d.style.display = use3d ? 'block' : 'none';
+      el.bubbleSvg.style.display = use3d ? 'none' : 'block';
+      if (el.toggleGraphMode) {
+        el.toggleGraphMode.classList.toggle('active', use3d);
+        el.toggleGraphMode.textContent = `图谱模式：${use3d ? '3D' : '2D'}`;
+      }
+    }
+
+    function isChineseName(name) {
+      return /[\u4e00-\u9fff]/.test(name || '');
+    }
+
+    function groupToCategory(group) {
+      const key = String(group || '').toLowerCase();
+      return groupLabelMap[key] || null;
+    }
+
+    function handleKey(v) {
+      return String(v || '').trim().replace(/^@+/, '').toLowerCase();
+    }
+
+    function linkEndpoint(v) {
+      if (typeof v === 'object' && v) return String(v.id || v.handle || '').trim();
+      return String(v || '').trim();
+    }
+
+    function getColor(cat) {
+      return baseColors[cat] || '#9cc9ff';
+    }
+
+    function mergePrimaryWithLocal(primaryNodes, localExperts) {
+      const localMap = new Map((localExperts || []).map(x => [handleKey(x.handle), x]));
+      return (primaryNodes || []).map(n => {
+        const handle = String(n.handle || n.id || '').replace(/^@+/, '');
+        const local = localMap.get(handleKey(handle));
+        const category = groupToCategory(n.group) || local?.category || 'AI综合';
+        const tags = [];
+        if (Array.isArray(n.bioTags)) tags.push(...n.bioTags);
+        if (Array.isArray(local?.tags)) tags.push(...local.tags);
+        return {
+          id: String(n.id || handle || ''),
+          name: n.name || handle || 'Unknown',
+          handle,
+          group: n.group || null,
+          category,
+          role: n.role || null,
+          associated: n.associated || null,
+          followers: Number(n.followers || local?.followers || 0),
+          following: Number(n.following || 0),
+          website: n.website || null,
+          location: n.location || null,
+          joinedDate: n.joinedDate || null,
+          verified: n.verified || null,
+          imageUrl: n.imageUrl || null,
+          bio: n.bio || local?.bio || '',
+          tags: [...new Set(tags.map(t => String(t).trim()).filter(Boolean))].slice(0, 8),
+          localCategory: local?.category || null,
+          url: handle ? `https://x.com/${handle}` : null
+        };
+      });
+    }
+
+    function renderDataMeta(meta, graphMeta) {
+      const dt = meta?.generated_at ? new Date(meta.generated_at) : null;
+      el.generatedAt.textContent = dt && !Number.isNaN(dt.getTime()) ? dt.toLocaleString('zh-CN') : '未知';
+      const main = graphMeta?.source_name || 'x.mitbunny.ai graph';
+      const sub = meta?.source_name || '本地补充数据';
+      el.sourceName.textContent = `${main}（主） + ${sub}（辅）`;
+      el.sourceLink.href = graphMeta?.source_url || meta?.source_url || '#';
+    }
+
+    function syncSearchClearState() {
+      const has = Boolean(el.search.value && el.search.value.trim());
+      if (el.searchWrap) el.searchWrap.classList.toggle('has-value', has);
+    }
+
+    function rankedTop300Pool() {
+      const pool = [...experts];
+      if (topRankMap.size > 0) {
+        pool.sort((a, b) => {
+          const ra = topRankMap.get(handleKey(a.handle)) ?? Number.POSITIVE_INFINITY;
+          const rb = topRankMap.get(handleKey(b.handle)) ?? Number.POSITIVE_INFINITY;
+          if (ra !== rb) return ra - rb;
+          const fa = Number(a.followers || 0);
+          const fb = Number(b.followers || 0);
+          if (fb !== fa) return fb - fa;
+          const ca = connectionCountMap.get(String(a.id || a.handle || '')) || 0;
+          const cb = connectionCountMap.get(String(b.id || b.handle || '')) || 0;
+          return cb - ca;
+        });
+      } else {
+        pool.sort((a, b) => {
+          const fa = Number(a.followers || 0);
+          const fb = Number(b.followers || 0);
+          if (fb !== fa) return fb - fa;
+          const ca = connectionCountMap.get(String(a.id || a.handle || '')) || 0;
+          const cb = connectionCountMap.get(String(b.id || b.handle || '')) || 0;
+          return cb - ca;
+        });
+      }
+      return pool.slice(0, 300);
+    }
+
+    function initCategoryFilter() {
+      const prev = el.categoryFilter.value;
+      const preferred = ['公司/组织', '创始人/建设者', '研究者/学术', '投资人', '媒体/社区'];
+      const cats = [...new Set(rankedTop300Pool().map(x => x.category).filter(Boolean))].sort((a, b) => {
+        const ia = preferred.indexOf(a);
+        const ib = preferred.indexOf(b);
+        if (ia >= 0 && ib >= 0) return ia - ib;
+        if (ia >= 0) return -1;
+        if (ib >= 0) return 1;
+        return a.localeCompare(b, 'zh-CN');
+      });
+      el.categoryFilter.innerHTML = '<option value="">全部类别</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+      if (cats.includes(prev)) el.categoryFilter.value = prev;
+    }
+
+    function filteredExperts() {
+      const q = el.search.value.trim().toLowerCase();
+      const c = el.categoryFilter.value;
+      return rankedTop300Pool().filter(x => {
+        const byCat = !c || x.category === c;
+        const blob = `${x.name || ''} ${x.handle || ''} ${x.category || ''} ${x.role || ''} ${x.associated || ''} ${x.group || ''} ${(x.tags || []).join(' ')} ${(x.bio || '')}`.toLowerCase();
+        const byQ = !q || blob.includes(q);
+        return byCat && byQ;
+      });
+    }
+
+    function renderStats(list) {
+      const total = list.reduce((s, x) => s + Number(x.followers || 0), 0);
+      el.countExperts.textContent = list.length;
+      el.countFollowers.textContent = numberCN(total);
+      el.topHandle.textContent = list[0] ? '@' + list[0].handle : '-';
+    }
+
+    function ensureSelected(list) {
+      if (showCreatorProfile) return;
+      if (!selectedHandle && list[0]) selectedHandle = list[0].handle;
+      if (selectedHandle && !list.some(x => x.handle === selectedHandle)) {
+        selectedHandle = list[0] ? list[0].handle : null;
+      }
+    }
+
+    function renderLegend() {
+      const preferred = ['公司/组织', '创始人/建设者', '研究者/学术', '投资人', '媒体/社区'];
+      const cats = [...new Set(rankedTop300Pool().map(x => x.category).filter(Boolean))].sort((a, b) => {
+        const ia = preferred.indexOf(a);
+        const ib = preferred.indexOf(b);
+        if (ia >= 0 && ib >= 0) return ia - ib;
+        if (ia >= 0) return -1;
+        if (ib >= 0) return 1;
+        return a.localeCompare(b, 'zh-CN');
+      });
+      const current = el.categoryFilter.value;
+      el.legend.innerHTML = cats.map(cat => {
+        const active = current === cat ? 'active' : '';
+        const color = getColor(cat);
+        return `<button data-cat="${cat}" class="${active}"><i class="dot" style="background:${color};color:${color}"></i>${cat}</button>`;
+      }).join('') + (current ? '<button data-cat="">清除筛选</button>' : '');
+      if (el.toggleLegend) {
+        el.toggleLegend.textContent = legendCollapsed ? 'Legend ▸' : 'Legend ▾';
+      }
+    }
+
+    function renderSidebarList(list) {
+      if (!list.length) {
+        el.expertList.innerHTML = '<div class="meta">无匹配专家</div>';
+        return;
+      }
+      el.expertList.innerHTML = list.map((x, idx) => {
+        const active = selectedHandle === x.handle ? 'active' : '';
+        const rank = topRankMap.get(handleKey(x.handle)) || (idx + 1);
+        return `
+          <button class="expert-row ${active}" data-handle="${x.handle}">
+            <span class="rank-badge">${rank}</span>
+            <span>
+              <div class="nm">${x.name || '-'}</div>
+              <div class="hd">@${x.handle}${x.role ? ' · ' + x.role : ''}</div>
+            </span>
+            <span class="fw">${followerOrConn(x)}</span>
+          </button>
+        `;
+      }).join('');
+      if (selectedHandle) {
+        const active = Array.from(el.expertList.querySelectorAll('.expert-row')).find(btn => btn.dataset.handle === selectedHandle);
+        if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function renderTopBars(list) {
+      const top = list.slice(0, 10);
+      const max = top.length ? Number(top[0].followers || 1) : 1;
+      el.topBars.innerHTML = top.map(x => {
+        const w = Math.max(4, Math.round((Number(x.followers || 0) / max) * 100));
+        return `
+          <div class="bar-row">
+            <div>@${x.handle}</div>
+            <div class="track"><div class="fill" style="width:${w}%"></div></div>
+            <div style="text-align:right">${numberCN(x.followers)}</div>
+          </div>
+        `;
+      }).join('') || '<div class="meta">无数据</div>';
+    }
+
+    function renderLanguageStats(list) {
+      const cn = list.filter(x => isChineseName(x.name));
+      const en = list.filter(x => !isChineseName(x.name));
+      el.cnCount.textContent = cn.length;
+      el.enCount.textContent = en.length;
+      el.cnFollowers.textContent = numberCN(cn.reduce((s, x) => s + Number(x.followers || 0), 0));
+      el.enFollowers.textContent = numberCN(en.reduce((s, x) => s + Number(x.followers || 0), 0));
+    }
+
+    function buildWeeklySeries(rows) {
+      if (!Array.isArray(rows)) return [];
+      const buckets = new Map();
+      rows.forEach(item => {
+        if (!item || !item.date) return;
+        const d = new Date(item.date + 'T00:00:00Z');
+        if (Number.isNaN(d.getTime())) return;
+        const start = new Date(d);
+        const day = (start.getUTCDay() + 6) % 7;
+        start.setUTCDate(start.getUTCDate() - day);
+        const key = start.toISOString().slice(0, 10);
+        const prev = buckets.get(key);
+        if (!prev || String(item.generated_at || '') > String(prev.generated_at || '')) {
+          buckets.set(key, item);
+        }
+      });
+      return Array.from(buckets.entries())
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([, v]) => v);
+    }
+
+    function trendSource() {
+      const week = buildWeeklySeries(historyDaily);
+      if (trendMode === 'snapshot') return { mode: '快照', data: historyTail };
+      if (trendMode === 'day') return { mode: '日聚合', data: historyDaily };
+      if (trendMode === 'week') return { mode: '周聚合', data: week };
+      if (historyDaily.length >= 2) return { mode: '日聚合', data: historyDaily };
+      return { mode: '快照', data: historyTail };
+    }
+
+    function renderTrendModeButtons() {
+      el.trendModeButtons.forEach(btn => {
+        const m = btn.getAttribute('data-mode');
+        btn.classList.toggle('active', m === trendMode);
+      });
+    }
+
+    function renderTrend() {
+      el.trendSvg.innerHTML = '';
+      const picked = trendSource();
+      const points = picked.data.slice(-30).filter(x => Number.isFinite(Number(x.total_followers)));
+      if (points.length < 2) {
+        el.trendDelta.textContent = '历史点不足，至少需要 2 次更新';
+        return;
+      }
+
+      const w = 620;
+      const h = 140;
+      const px = 18;
+      const py = 16;
+      const vals = points.map(x => Number(x.total_followers));
+      const min = Math.min(...vals);
+      const max = Math.max(...vals);
+      const span = Math.max(1, max - min);
+
+      const p = points.map((it, idx) => {
+        const x = px + (idx / (points.length - 1)) * (w - px * 2);
+        const y = h - py - ((Number(it.total_followers) - min) / span) * (h - py * 2);
+        return { x, y };
+      });
+
+      const areaD = `M ${p[0].x} ${h - py} ` + p.map(i => `L ${i.x} ${i.y}`).join(' ') + ` L ${p[p.length - 1].x} ${h - py} Z`;
+      const lineD = `M ${p[0].x} ${p[0].y} ` + p.slice(1).map(i => `L ${i.x} ${i.y}`).join(' ');
+
+      const area = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      area.setAttribute('d', areaD);
+      area.setAttribute('fill', 'rgba(125, 146, 255, 0.18)');
+      el.trendSvg.appendChild(area);
+
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      line.setAttribute('d', lineD);
+      line.setAttribute('fill', 'none');
+      line.setAttribute('stroke', '#7ce8ff');
+      line.setAttribute('stroke-width', '2.2');
+      el.trendSvg.appendChild(line);
+
+      const first = vals[0];
+      const last = vals[vals.length - 1];
+      const delta = last - first;
+      const sign = delta > 0 ? '+' : '';
+      el.trendDelta.textContent = `${picked.mode}变化：${sign}${numberCN(delta)}（${numberCN(first)} → ${numberCN(last)}）`;
+    }
+
+    function renderRankChanges() {
+      if (!Array.isArray(rankChanges) || rankChanges.length === 0) {
+        el.rankChanges.innerHTML = '<div class="meta">暂无排名对比数据</div>';
+        return;
+      }
+      el.rankChanges.innerHTML = rankChanges.slice(0, 8).map((x, i) => {
+        let txt = 'NEW';
+        let cls = 'flat';
+        if (typeof x.delta === 'number') {
+          if (x.delta > 0) { txt = `+${x.delta}`; cls = 'up'; }
+          else if (x.delta < 0) { txt = `${x.delta}`; cls = 'down'; }
+          else { txt = '0'; cls = 'flat'; }
+        }
+        return `
+          <div class="rank-row">
+            <div>#${i + 1}</div>
+            <div>@${x.handle}</div>
+            <div style="text-align:right">${numberCN(x.followers)}</div>
+            <div style="text-align:right" class="${cls}">${txt}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function avatarFor(item) {
+      if (!item) return '';
+      if (item.imageUrl) return item.imageUrl;
+      if (item.handle) return `https://unavatar.io/twitter/${encodeURIComponent(item.handle)}`;
+      return '';
+    }
+
+    function avatarFallback(item) {
+      const name = item?.name || item?.handle || 'AI';
+      return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1e293b&color=cbd5e1&size=128`;
+    }
+
+    function renderDetailCard() {
+      const current = showCreatorProfile ? creatorProfile : experts.find(x => x.handle === selectedHandle);
+      if (!current) {
+        el.detailCard.classList.remove('show');
+        el.detailCard.innerHTML = '';
+        return;
+      }
+      const color = getColor(current.category);
+      const verifiedBadge = current.verified === 'gold' ? '🟡' : current.verified === 'blue' ? '🔵' : '';
+      const extra = [];
+      if (current.role) extra.push(current.role);
+      if (current.associated && current.associated !== current.name) extra.push(`@${current.associated}`);
+      if (current.location) extra.push(current.location);
+      if (current.joinedDate) extra.push(`Joined ${current.joinedDate}`);
+      el.detailCard.innerHTML = `
+        <div class="detail-top" style="background:linear-gradient(135deg, ${color}55, rgba(124,232,255,.12));">
+          <button class="detail-close" id="detailCloseBtn">×</button>
+        </div>
+        <div class="detail-body">
+          <img class="avatar" src="${avatarFor(current)}" alt="${current.name}" />
+          <div class="detail-name">${current.name || '-'} ${verifiedBadge}</div>
+          <div class="detail-handle">@${current.handle}</div>
+          <div class="meta">类别：${current.category || 'AI综合'}</div>
+          <div class="meta"><b>${numberCN(current.following || 0)}</b> Following · <b>${numberCN(current.followers || 0)}</b> Followers</div>
+          <div class="meta">${extra.join(' · ') || '暂无角色信息'}</div>
+          <div class="meta">标签：${(current.tags || []).join(' / ') || '-'}${current.localCategory ? ` · 本地分类:${current.localCategory}` : ''}</div>
+          <div class="meta">${current.bio || current.localBio || '暂无简介'}</div>
+          ${current.website ? `<div class=\"meta\">网站：<a href=\"https://${current.website}\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#9fd8ff\">${current.website}</a></div>` : ''}
+          <a class="follow" href="${current.url || ('https://x.com/' + current.handle)}" target="_blank" rel="noreferrer">Follow</a>
+        </div>
+      `;
+      el.detailCard.classList.add('show');
+      const closeBtn = document.getElementById('detailCloseBtn');
+      if (closeBtn) closeBtn.addEventListener('click', () => {
+        selectedHandle = null;
+        showCreatorProfile = false;
+        renderAll();
+      });
+      const avatarEl = el.detailCard.querySelector('.avatar');
+      if (avatarEl) {
+        avatarEl.addEventListener('error', () => {
+          avatarEl.src = avatarFallback(current);
+        }, { once: true });
+      }
+    }
+
+    function graphSubset(list) {
+      const nodes = list.map(x => ({ ...x, id: String(x.id || x.handle || '') }));
+      const byId = new Map(nodes.map(n => [String(n.id || ''), n]));
+      const byHandle = new Map(nodes.map(n => [handleKey(n.handle), n]));
+      const links = (graphLinks || [])
+        .map(l => ({ source: linkEndpoint(l.source), target: linkEndpoint(l.target) }))
+        .map(l => {
+          const s = byId.get(l.source) || byHandle.get(handleKey(l.source));
+          const t = byId.get(l.target) || byHandle.get(handleKey(l.target));
+          if (!s || !t || s === t) return null;
+          return { source: s.id, target: t.id };
+        })
+        .filter(Boolean);
+      return { nodes, links };
+    }
+
+    function focus3DNode(node) {
+      if (!forceGraph || !node || !Number.isFinite(node.x) || !Number.isFinite(node.y) || !Number.isFinite(node.z)) return;
+      const base = Math.hypot(node.x, node.y, node.z) || 1;
+      const ratio = 1 + 220 / base;
+      forceGraph.cameraPosition(
+        { x: node.x * ratio, y: node.y * ratio, z: node.z * ratio },
+        { x: node.x, y: node.y, z: node.z },
+        900
+      );
+    }
+
+    function ensureForceGraph3D() {
+      if (forceGraph || !graphModeAvailable('3d')) return forceGraph;
+      forceGraph = window.ForceGraph3D({ controlType: 'orbit' })(el.graph3d)
+        .backgroundColor('rgba(0,0,0,0)')
+        .showNavInfo(false)
+        .enablePointerInteraction(true)
+        .d3VelocityDecay(0.4)
+        .d3AlphaDecay(0.02)
+        .linkHoverPrecision(0)
+        .onNodeDragEnd(node => {
+          if (!node || typeof node !== 'object') return;
+          if (Number.isFinite(node.x)) node.fx = node.x;
+          if (Number.isFinite(node.y)) node.fy = node.y;
+          if (Number.isFinite(node.z)) node.fz = node.z;
+        })
+        .onNodeClick(node => {
+          if (!node) return;
+          selectedHandle = selectedHandle === node.handle ? null : node.handle;
+          showCreatorProfile = false;
+          renderAll();
+          setTimeout(() => focus3DNode(node), 0);
+        })
+        .onBackgroundClick(() => {
+          selectedHandle = null;
+          showCreatorProfile = false;
+          renderAll();
+        });
+      return forceGraph;
+    }
+
+    function renderGraph3D(list) {
+      const fg = ensureForceGraph3D();
+      if (!fg) {
+        graphMode = '2d';
+        applyGraphModeUI();
+        renderBubbles(list);
+        return;
+      }
+
+      const shellWidth = Math.max(360, Math.round((el.vizShell?.clientWidth || 1200)));
+      const shellHeight = Math.max(360, Math.round((el.vizShell?.clientHeight || 540)));
+      const { nodes, links } = graphSubset(list);
+      const selectedNode = selectedHandle ? nodes.find(n => n.handle === selectedHandle) : null;
+      const neighbors = new Set();
+      if (selectedNode) {
+        links.forEach(l => {
+          if (l.source === selectedNode.id) neighbors.add(l.target);
+          if (l.target === selectedNode.id) neighbors.add(l.source);
+        });
+      }
+
+      fg
+        .width(shellWidth)
+        .height(shellHeight)
+        .graphData({ nodes, links })
+        .nodeVal(node => {
+          const n = Number(node.followers || 0);
+          if (n >= 1e6) return 8;
+          if (n >= 5e5) return 6.5;
+          if (n >= 1e5) return 5;
+          if (n >= 5e4) return 4;
+          if (n >= 1e4) return 3.5;
+          return 3;
+        })
+        .nodeColor(node => {
+          const base = getColor(node.category || 'AI综合');
+          if (!selectedNode) return base;
+          if (node.id === selectedNode.id || neighbors.has(node.id)) return base;
+          return '#333333';
+        })
+        .nodeLabel(node => `${node.name || '-'}\n@${node.handle || '-'}\nFollowers: ${numberCN(node.followers || 0)}`)
+        .linkOpacity(showLinks ? 0.45 : 0)
+        .linkColor(link => {
+          if (!showLinks) return 'rgba(0,0,0,0)';
+          const s = typeof link.source === 'object' ? link.source.id : link.source;
+          const t = typeof link.target === 'object' ? link.target.id : link.target;
+          const active = selectedNode && (s === selectedNode.id || t === selectedNode.id);
+          return active ? 'rgba(195,244,255,0.95)' : 'rgba(150,170,255,0.28)';
+        })
+        .linkWidth(link => {
+          const s = typeof link.source === 'object' ? link.source.id : link.source;
+          const t = typeof link.target === 'object' ? link.target.id : link.target;
+          return selectedNode && (s === selectedNode.id || t === selectedNode.id) ? 1.8 : 0.6;
+        });
+
+      if (selectedNode) {
+        setTimeout(() => {
+          const live = fg.graphData().nodes.find(n => n.id === selectedNode.id);
+          focus3DNode(live);
+        }, 45);
+      }
+    }
+
+    function renderBubbles(list) {
+      const svg = el.bubbleSvg;
+      svg.innerHTML = '';
+      if (!list.length) return;
+
+      const w = 1200;
+      const h = 540;
+      const pad = 36;
+      const max = Math.max(...list.map(x => Number(x.followers || 0)));
+      const minR = 18;
+      const maxR = 72;
+
+      const nodes = list.map((x, i) => {
+        const base = Math.sqrt(Number(x.followers || 0));
+        const r = minR + (base / Math.sqrt(max || 1)) * (maxR - minR);
+        const angle = (i / list.length) * Math.PI * 2;
+        const orbit = Math.min(w, h) * 0.29;
+        return { ...x, r, xPos: w / 2 + Math.cos(angle) * orbit, yPos: h / 2 + Math.sin(angle) * orbit };
+      });
+
+      for (let t = 0; t < 330; t++) {
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const a = nodes[i];
+            const b = nodes[j];
+            const dx = b.xPos - a.xPos;
+            const dy = b.yPos - a.yPos;
+            const d = Math.hypot(dx, dy) || 1;
+            const minD = a.r + b.r + 7;
+            if (d < minD) {
+              const push = (minD - d) * 0.5;
+              const ux = dx / d;
+              const uy = dy / d;
+              a.xPos -= ux * push;
+              a.yPos -= uy * push;
+              b.xPos += ux * push;
+              b.yPos += uy * push;
+            }
+          }
+          const spring = selectedHandle && nodes[i].handle === selectedHandle ? 0.016 : 0.006;
+          nodes[i].xPos += (w / 2 - nodes[i].xPos) * spring;
+          nodes[i].yPos += (h / 2 - nodes[i].yPos) * spring;
+          nodes[i].xPos = Math.max(pad + nodes[i].r, Math.min(w - pad - nodes[i].r, nodes[i].xPos));
+          nodes[i].yPos = Math.max(pad + nodes[i].r, Math.min(h - pad - nodes[i].r, nodes[i].yPos));
+        }
+      }
+
+      const byId = new Map(nodes.map(n => [String(n.id || ''), n]));
+      const byHandle = new Map(nodes.map(n => [handleKey(n.handle), n]));
+      const links = (graphLinks || [])
+        .map(l => ({ source: linkEndpoint(l.source), target: linkEndpoint(l.target) }))
+        .map(l => {
+          const a = byId.get(l.source) || byHandle.get(handleKey(l.source));
+          const b = byId.get(l.target) || byHandle.get(handleKey(l.target));
+          if (!a || !b || a === b) return null;
+          return { source: a, target: b };
+        })
+        .filter(Boolean);
+
+      const neighborSet = new Set();
+      if (selectedHandle) {
+        links.forEach(l => {
+          if (l.source.handle === selectedHandle) neighborSet.add(l.target.handle);
+          if (l.target.handle === selectedHandle) neighborSet.add(l.source.handle);
+        });
+      }
+
+      if (showLinks) {
+        links.forEach(l => {
+          const selected = selectedHandle && (l.source.handle === selectedHandle || l.target.handle === selectedHandle);
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', l.source.xPos);
+          line.setAttribute('y1', l.source.yPos);
+          line.setAttribute('x2', l.target.xPos);
+          line.setAttribute('y2', l.target.yPos);
+          line.setAttribute('stroke', selected ? '#c3f4ff' : 'rgba(150,170,255,0.28)');
+          line.setAttribute('stroke-width', selected ? '1.9' : '1');
+          line.setAttribute('stroke-opacity', selected ? '0.95' : '0.42');
+          svg.appendChild(line);
+        });
+      }
+
+      nodes.forEach(n => {
+        const color = getColor(n.category);
+        const active = selectedHandle === n.handle;
+        const dimmed = selectedHandle && !active && !neighborSet.has(n.handle);
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.style.cursor = 'pointer';
+        g.setAttribute('opacity', dimmed ? '0.22' : '1');
+        g.addEventListener('click', (evt) => {
+          evt.stopPropagation();
+          selectedHandle = selectedHandle === n.handle ? null : n.handle;
+          showCreatorProfile = false;
+          renderAll();
+        });
+
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', n.xPos);
+        c.setAttribute('cy', n.yPos);
+        c.setAttribute('r', n.r);
+        c.setAttribute('fill', color + '44');
+        c.setAttribute('stroke', color);
+        c.setAttribute('stroke-width', active ? '3' : '1.7');
+
+        const t1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t1.setAttribute('x', n.xPos);
+        t1.setAttribute('y', n.yPos - 2);
+        t1.setAttribute('fill', '#edf3ff');
+        t1.setAttribute('text-anchor', 'middle');
+        t1.setAttribute('font-size', Math.max(10, Math.min(16, n.r / 3.2)).toFixed(0));
+        t1.setAttribute('font-weight', active ? '800' : '700');
+        t1.textContent = '@' + n.handle;
+
+        const t2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        t2.setAttribute('x', n.xPos);
+        t2.setAttribute('y', n.yPos + 13);
+        t2.setAttribute('fill', '#cad9ff');
+        t2.setAttribute('text-anchor', 'middle');
+        t2.setAttribute('font-size', Math.max(9, Math.min(12, n.r / 4.4)).toFixed(0));
+        t2.textContent = numberCN(n.followers);
+
+        g.append(c, t1, t2);
+        svg.appendChild(g);
+      });
+    }
+
+    function renderAll() {
+      const list = filteredExperts();
+      ensureSelected(list);
+      applyGraphModeUI();
+      if (el.creatorCardBtn) el.creatorCardBtn.classList.toggle('active', showCreatorProfile);
+      if (el.legendWrap) el.legendWrap.classList.toggle('collapsed', legendCollapsed);
+      renderStats(list);
+      renderLegend();
+      renderSidebarList(list);
+      renderTopBars(list);
+      renderLanguageStats(list);
+      renderTrendModeButtons();
+      renderTrend();
+      renderRankChanges();
+      if (graphMode === '3d') renderGraph3D(list);
+      else renderBubbles(list);
+      renderDetailCard();
+    }
+
+    async function loadData() {
+      let graphMeta = fallbackGraph;
+      let localPayload = null;
+
+      try {
+        const graphRes = await fetch(`./data/mitbunny_graph.json?ts=${Date.now()}`);
+        if (!graphRes.ok) throw new Error(`graph HTTP ${graphRes.status}`);
+        const graphPayload = await graphRes.json();
+        if (!Array.isArray(graphPayload.nodes) || !Array.isArray(graphPayload.links)) {
+          throw new Error('invalid graph payload');
+        }
+        graphMeta = graphPayload;
+      } catch (err) {
+        console.warn('Load mitbunny graph failed:', err);
+        graphMeta = fallbackGraph;
+      }
+
+      try {
+        const localRes = await fetch(`./data/experts.json?ts=${Date.now()}`);
+        if (!localRes.ok) throw new Error(`local HTTP ${localRes.status}`);
+        const p = await localRes.json();
+        if (!Array.isArray(p.experts)) throw new Error('invalid local experts payload');
+        localPayload = p;
+      } catch (err) {
+        console.warn('Load local experts failed:', err);
+      }
+
+      experts = mergePrimaryWithLocal(graphMeta.nodes || [], localPayload?.experts || []);
+      graphLinks = Array.isArray(graphMeta.links) ? graphMeta.links : [];
+      connectionCountMap = new Map();
+      graphLinks.forEach(l => {
+        const s = linkEndpoint(l.source);
+        const t = linkEndpoint(l.target);
+        if (s) connectionCountMap.set(s, (connectionCountMap.get(s) || 0) + 1);
+        if (t) connectionCountMap.set(t, (connectionCountMap.get(t) || 0) + 1);
+      });
+      topRankMap = new Map();
+      if (Array.isArray(graphMeta.top300) && graphMeta.top300.length > 0) {
+        graphMeta.top300.forEach((item, idx) => {
+          const h = handleKey(item?.handle || item?.id);
+          if (!h) return;
+          topRankMap.set(h, Number(item?.rank || idx + 1));
+        });
+      }
+      if (topRankMap.size === 0) {
+        rankedTop300Pool().forEach((item, idx) => {
+          topRankMap.set(handleKey(item.handle), idx + 1);
+        });
+      }
+      if (localPayload) {
+        historyTail = Array.isArray(localPayload.history_tail) ? localPayload.history_tail : [];
+        historyDaily = Array.isArray(localPayload.history_daily) ? localPayload.history_daily : [];
+        rankChanges = Array.isArray(localPayload.rank_changes) ? localPayload.rank_changes : [];
+      } else {
+        historyTail = [];
+        historyDaily = [];
+        rankChanges = [];
+      }
+
+      renderDataMeta(localPayload || fallbackMeta, graphMeta);
+      initCategoryFilter();
+      renderAll();
+    }
+
+    el.search.addEventListener('input', () => {
+      syncSearchClearState();
+      renderAll();
+    });
+
+    if (el.clearSearch) {
+      el.clearSearch.addEventListener('click', () => {
+        el.search.value = '';
+        syncSearchClearState();
+        renderAll();
+      });
+    }
+    el.categoryFilter.addEventListener('change', () => {
+      selectedHandle = null;
+      showCreatorProfile = false;
+      renderAll();
+    });
+
+    el.expertList.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-handle]');
+      if (!btn) return;
+      const handle = btn.getAttribute('data-handle');
+      selectedHandle = selectedHandle === handle ? null : handle;
+      showCreatorProfile = false;
+      renderAll();
+      if (window.innerWidth <= 860) el.sidebar.classList.remove('mobile-show');
+    });
+
+    el.legend.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-cat]');
+      if (!btn) return;
+      el.categoryFilter.value = btn.getAttribute('data-cat') || '';
+      selectedHandle = null;
+      showCreatorProfile = false;
+      renderAll();
+    });
+
+    if (el.creatorCardBtn) {
+      el.creatorCardBtn.addEventListener('click', () => {
+        showCreatorProfile = !showCreatorProfile;
+        if (showCreatorProfile) selectedHandle = null;
+        renderAll();
+        if (window.innerWidth <= 860) el.sidebar.classList.remove('mobile-show');
+      });
+    }
+
+    if (el.toggleLegend) {
+      el.toggleLegend.addEventListener('click', () => {
+        legendCollapsed = !legendCollapsed;
+        renderAll();
+      });
+    }
+
+    el.bubbleSvg.addEventListener('click', (e) => {
+      if (graphMode !== '2d') return;
+      if (e.target === el.bubbleSvg) {
+        selectedHandle = null;
+        showCreatorProfile = false;
+        renderAll();
+      }
+    });
+
+    el.bubbleSvg.addEventListener('wheel', (e) => {
+      if (graphMode !== '2d') return;
+      e.preventDefault();
+      const scale = e.deltaY < 0 ? 0.92 : 1.08;
+      const mx = e.offsetX / el.bubbleSvg.clientWidth;
+      const my = e.offsetY / el.bubbleSvg.clientHeight;
+      const nw = Math.max(260, Math.min(2800, graphViewport.w * scale));
+      const nh = Math.max(140, Math.min(1600, graphViewport.h * scale));
+      graphViewport.x += (graphViewport.w - nw) * mx;
+      graphViewport.y += (graphViewport.h - nh) * my;
+      graphViewport.w = nw;
+      graphViewport.h = nh;
+      applyViewBox();
+    }, { passive: false });
+
+    el.bubbleSvg.addEventListener('pointerdown', (e) => {
+      if (graphMode !== '2d') return;
+      if (e.target !== el.bubbleSvg) return;
+      panState = { x: e.clientX, y: e.clientY, vx: graphViewport.x, vy: graphViewport.y };
+      el.bubbleSvg.setPointerCapture(e.pointerId);
+    });
+
+    el.bubbleSvg.addEventListener('pointermove', (e) => {
+      if (graphMode !== '2d') return;
+      if (!panState) return;
+      const dx = e.clientX - panState.x;
+      const dy = e.clientY - panState.y;
+      graphViewport.x = panState.vx - dx * (graphViewport.w / Math.max(1, el.bubbleSvg.clientWidth));
+      graphViewport.y = panState.vy - dy * (graphViewport.h / Math.max(1, el.bubbleSvg.clientHeight));
+      applyViewBox();
+    });
+
+    el.bubbleSvg.addEventListener('pointerup', () => { panState = null; });
+    el.bubbleSvg.addEventListener('pointercancel', () => { panState = null; });
+
+    if (el.toggleGraphMode) {
+      el.toggleGraphMode.addEventListener('click', () => {
+        if (graphMode === '3d') {
+          graphMode = '2d';
+          renderAll();
+          return;
+        }
+        if (!graphModeAvailable('3d')) {
+          alert('3D 图谱库加载失败，已保持 2D 模式。');
+          graphMode = '2d';
+          renderAll();
+          return;
+        }
+        graphMode = '3d';
+        renderAll();
+      });
+    }
+
+    el.toggleLinks.addEventListener('click', () => {
+      showLinks = !showLinks;
+      el.toggleLinks.classList.toggle('active', showLinks);
+      el.toggleLinks.textContent = showLinks ? '关系连线：开' : '关系连线：关';
+      renderAll();
+    });
+
+    if (el.resetView) {
+      el.resetView.addEventListener('click', () => {
+        if (graphMode === '3d' && forceGraph) {
+          forceGraph.zoomToFit(550, 40);
+        } else {
+          graphViewport.x = 0;
+          graphViewport.y = 0;
+          graphViewport.w = 1200;
+          graphViewport.h = 540;
+          applyViewBox();
+        }
+      });
+    }
+
+    if (el.refreshData) {
+      el.refreshData.addEventListener('click', async () => {
+        const old = el.refreshData.textContent;
+        el.refreshData.textContent = '刷新中...';
+        el.refreshData.classList.add('active');
+        try {
+          await loadData();
+        } finally {
+          setTimeout(() => {
+            el.refreshData.textContent = old;
+            el.refreshData.classList.remove('active');
+          }, 350);
+        }
+      });
+    }
+
+    el.trendModeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const m = btn.getAttribute('data-mode');
+        if (!m) return;
+        trendMode = m;
+        renderAll();
+      });
+    });
+
+    el.toggleSidebar.addEventListener('click', () => {
+      const mobile = window.innerWidth <= 860;
+      if (mobile) {
+        el.sidebar.classList.toggle('mobile-show');
+      } else {
+        el.appLayout.classList.toggle('sidebar-collapsed');
+        el.sidebar.classList.toggle('collapsed');
+      }
+    });
+
+    el.openMethod.addEventListener('click', () => el.methodModal.classList.add('show'));
+    el.closeMethod.addEventListener('click', () => el.methodModal.classList.remove('show'));
+    el.methodModal.addEventListener('click', (e) => {
+      if (e.target === el.methodModal) el.methodModal.classList.remove('show');
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 860) el.sidebar.classList.remove('mobile-show');
+      if (forceGraph && graphMode === '3d') {
+        forceGraph
+          .width(Math.max(360, Math.round(el.vizShell?.clientWidth || 1200)))
+          .height(Math.max(360, Math.round(el.vizShell?.clientHeight || 540)));
+      }
+    });
+
+    applyViewBox();
+    applyGraphModeUI();
+    loadData();
+    syncSearchClearState();
+    setInterval(loadData, 5 * 60 * 1000);
+  </script>
+</body>
+</html>

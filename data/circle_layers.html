@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 圈层地图</title>
+  <script src="/assets/metrics.js" defer></script>
+  <style>
+    :root {
+      --bg:#0d1220; --panel:#131a2d; --line:rgba(255,255,255,.14); --text:#e8eefc; --muted:#9badcf;
+      --c1:#7dd3fc; --c2:#34d399; --c3:#fbbf24; --c4:#f59e0b; --c5:#94a3b8;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; background: radial-gradient(circle at 15% 5%, #1e315d 0%, var(--bg) 46%); color:var(--text); font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif; }
+    .layout { max-width:1320px; margin:0 auto; padding:14px; display:grid; grid-template-columns:320px 1fr; gap:12px; }
+    .panel, .stage { border:1px solid var(--line); border-radius:14px; background:linear-gradient(180deg, rgba(20,28,48,.95), rgba(14,20,36,.95)); }
+    .panel { padding:12px; display:flex; flex-direction:column; gap:10px; }
+    .title { font-size:20px; font-weight:800; }
+    .sub { color:var(--muted); font-size:13px; line-height:1.6; }
+    .btns { display:flex; flex-wrap:wrap; gap:8px; }
+    .btn { border:1px solid rgba(125,177,255,.45); background:linear-gradient(135deg, #1d3f82, #143062); color:#eef4ff; border-radius:10px; padding:7px 10px; text-decoration:none; font-size:12px; cursor:pointer; }
+    .btn.ghost { background:#0f1730; border-color:rgba(148,163,184,.45); }
+    .search { width:100%; background:#101a32; border:1px solid rgba(148,163,184,.35); color:#e2e8f0; border-radius:10px; padding:8px 10px; }
+    .chips { display:flex; flex-wrap:wrap; gap:8px; }
+    .chip { display:inline-flex; align-items:center; gap:6px; padding:6px 9px; font-size:12px; border:1px solid var(--line); border-radius:999px; background:#10172c; cursor:pointer; }
+    .chip input { accent-color:#60a5fa; }
+    .dot { width:9px; height:9px; border-radius:999px; display:inline-block; }
+    .stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    .kpi { background:#10172c; border:1px solid var(--line); border-radius:10px; padding:8px; }
+    .k { color:var(--muted); font-size:11px; }
+    .v { margin-top:4px; font-size:18px; font-weight:700; }
+    .list { max-height:270px; overflow:auto; border:1px solid var(--line); border-radius:10px; background:#0f162b; }
+    .row { padding:8px; border-bottom:1px solid rgba(255,255,255,.06); display:flex; justify-content:space-between; gap:8px; align-items:center; }
+    .row:last-child { border-bottom:none; }
+    .name { font-size:12px; font-weight:700; }
+    .meta { color:var(--muted); font-size:11px; }
+    .stage { padding:10px; position:relative; min-height:860px; }
+    .stage-top { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; padding:0 4px; }
+    .stage-note { font-size:12px; color:var(--muted); }
+    .zoom-tools { display:flex; gap:6px; }
+    .view-tools { margin-left: 8px; }
+    .zoom-btn { border:1px solid rgba(148,163,184,.45); background:#101a32; color:#e2e8f0; border-radius:8px; width:28px; height:28px; font-size:16px; cursor:pointer; }
+    svg { width:100%; height:800px; display:block; background:
+      radial-gradient(circle at 50% 50%, rgba(45,84,154,.18), transparent 58%),
+      repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.04) 0 1px, transparent 1px 36px),
+      #0a1020;
+      border-radius:12px; border:1px solid rgba(255,255,255,.08);
+      touch-action:none;
+    }
+    .node-link text { fill:#dbe7ff; font-size:10px; paint-order:stroke; stroke:#0b1228; stroke-width:2px; pointer-events:none; }
+    .ring-guide { cursor:pointer; }
+    .ring-guide:hover { stroke:rgba(125,177,255,.7) !important; stroke-width:1.6; }
+    .footer-tip { color:var(--muted); font-size:12px; margin-top:8px; }
+    @media (max-width:980px) { .layout { grid-template-columns:1fr; } .stage { min-height:620px; } svg { height:560px; } }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="panel">
+      <div class="title">AI 圈层地图</div>
+      <div class="sub">点击圈环可聚焦该层；支持拖拽平移、滚轮缩放、右键/Alt拖拽旋转视角。</div>
+      <div class="btns">
+        <button class="btn ghost" id="goBack">返回上一页</button>
+        <a class="btn" href="/index.html">返回首页</a>
+        <a class="btn" href="/insights.html">看每日观点</a>
+        <a class="btn" href="/profiles/index.html">看人物库</a>
+        <a class="btn" href="/commercial.html">商业方案</a>
+      </div>
+      <input id="search" class="search" type="text" placeholder="搜索名字 / @handle" />
+      <div class="chips">
+        <label class="chip"><input type="checkbox" data-layer="core" checked /><span class="dot" style="background:var(--c1)"></span>核心</label>
+        <label class="chip"><input type="checkbox" data-layer="inner_core" checked /><span class="dot" style="background:var(--c2)"></span>内核</label>
+        <label class="chip"><input type="checkbox" data-layer="middle_core" checked /><span class="dot" style="background:var(--c3)"></span>中间核</label>
+        <label class="chip"><input type="checkbox" data-layer="outer_core" checked /><span class="dot" style="background:var(--c4)"></span>外核</label>
+        <label class="chip"><input type="checkbox" data-layer="surface" checked /><span class="dot" style="background:var(--c5)"></span>表层</label>
+      </div>
+      <div class="btns">
+        <button class="btn" id="showAll">恢复全部</button>
+        <button class="btn" id="focusLayerBtn">只看当前层</button>
+      </div>
+      <div class="stats">
+        <div class="kpi"><div class="k">可见节点</div><div class="v" id="k_visible">-</div></div>
+        <div class="kpi"><div class="k">平均分</div><div class="v" id="k_avg">-</div></div>
+      </div>
+      <div class="list" id="list"></div>
+      <div class="footer-tip">提示：点击图中的点可打开对应 X 主页。</div>
+    </aside>
+
+    <main class="stage">
+      <div class="stage-top">
+        <div class="stage-note">层级视图：核心 → 内核 → 中间核 → 外核 → 表层</div>
+        <div class="zoom-tools">
+          <button class="zoom-btn" id="zoomIn">+</button>
+          <button class="zoom-btn" id="zoomOut">-</button>
+          <button class="zoom-btn" id="zoomReset">⟳</button>
+        </div>
+      </div>
+      <div class="stage-top" style="margin-top:-4px;">
+        <div class="stage-note" id="stageHint">当前显示：全部</div>
+        <div style="display:flex; align-items:center;">
+          <div class="stage-note" id="zoomHint">缩放 1.00x</div>
+          <div class="zoom-tools view-tools">
+            <button class="zoom-btn" id="viewLeft">⟲</button>
+            <button class="zoom-btn" id="viewRight">⟳</button>
+            <button class="zoom-btn" id="viewTiltUp">↥</button>
+            <button class="zoom-btn" id="viewTiltDown">↧</button>
+            <button class="zoom-btn" id="viewReset">◎</button>
+            <button class="zoom-btn" id="viewAuto">▶</button>
+          </div>
+        </div>
+      </div>
+      <svg viewBox="0 0 800 800" id="viz"></svg>
+      <div class="footer-tip">操作建议：左键拖拽平移，滚轮缩放，右键或按住 Alt 拖拽旋转，点击节点跳转。</div>
+    </main>
+  </div>
+
+  <script>
+    const data = [{"x": 493.85, "y": 414.87, "name": "Soumith Chintala", "handle": "soumithchintala", "rank": 1, "layer": "core", "score": 0.794802, "color": "#7dd3fc"}, {"x": 413.72, "y": 480.74, "name": "Lucas Beyer (bl16)", "handle": "giffmana", "rank": 2, "layer": "core", "score": 0.601395, "color": "#7dd3fc"}, {"x": 356.22, "y": 311.75, "name": "Peter Steinberger 🦞", "handle": "steipete", "rank": 3, "layer": "core", "score": 0.589286, "color": "#7dd3fc"}, {"x": 488.97, "y": 454.09, "name": "Aran Komatsuzaki", "handle": "arankomatsuzaki", "rank": 4, "layer": "core", "score": 0.579985, "color": "#7dd3fc"}, {"x": 485.67, "y": 416.23, "name": "Sasha Rush", "handle": "srush_nlp", "rank": 5, "layer": "core", "score": 0.549438, "color": "#7dd3fc"}, {"x": 320.17, "y": 397.31, "name": "Oriol Vinyals", "handle": "OriolVinyalsML", "rank": 6, "layer": "core", "score": 0.548442, "color": "#7dd3fc"}, {"x": 423.05, "y": 469.22, "name": "Yann LeCun", "handle": "ylecun", "rank": 7, "layer": "core", "score": 0.51885, "color": "#7dd3fc"}, {"x": 308.38, "y": 373.42, "name": "Rosanne Liu", "handle": "savvyRL", "rank": 8, "layer": "core", "score": 0.495391, "color": "#7dd3fc"}, {"x": 332.31, "y": 357.48, "name": "NVIDIA Newsroom", "handle": "nvidianewsroom", "rank": 9, "layer": "core", "score": 0.493304, "color": "#7dd3fc"}, {"x": 501.06, "y": 404.13, "name": "Wojciech Zaremba", "handle": "woj_zaremba", "rank": 10, "layer": "core", "score": 0.479163, "color": "#7dd3fc"}, {"x": 367.67, "y": 304.31, "name": "Jim Fan", "handle": "DrJimFan", "rank": 11, "layer": "core", "score": 0.474947, "color": "#7dd3fc"}, {"x": 447.14, "y": 469.82, "name": "Anthropic", "handle": "AnthropicAI", "rank": 12, "layer": "core", "score": 0.472948, "color": "#7dd3fc"}, {"x": 344.89, "y": 491.09, "name": "Google DeepMind", "handle": "GoogleDeepMind", "rank": 13, "layer": "core", "score": 0.456196, "color": "#7dd3fc"}, {"x": 461.85, "y": 443.02, "name": "NVIDIA", "handle": "nvidia", "rank": 14, "layer": "core", "score": 0.453717, "color": "#7dd3fc"}, {"x": 318.5, "y": 337.82, "name": "Hugging Face", "handle": "huggingface", "rank": 15, "layer": "core", "score": 0.450861, "color": "#7dd3fc"}, {"x": 387.17, "y": 299.76, "name": "AK", "handle": "_akhaliq", "rank": 16, "layer": "core", "score": 0.445358, "color": "#7dd3fc"}, {"x": 490.0, "y": 384.65, "name": "Andrej Karpathy", "handle": "karpathy", "rank": 17, "layer": "core", "score": 0.441768, "color": "#7dd3fc"}, {"x": 318.91, "y": 372.5, "name": "Jeremy Howard", "handle": "jeremyphoward", "rank": 18, "layer": "core", "score": 0.4291, "color": "#7dd3fc"}, {"x": 325.1, "y": 330.97, "name": "NeurIPS Conference", "handle": "NeurIPSConf", "rank": 19, "layer": "core", "score": 0.427501, "color": "#7dd3fc"}, {"x": 308.91, "y": 351.88, "name": "hardmaru", "handle": "hardmaru", "rank": 20, "layer": "core", "score": 0.420901, "color": "#7dd3fc"}, {"x": 493.36, "y": 427.65, "name": "Richard Socher", "handle": "RichardSocher", "rank": 21, "layer": "core", "score": 0.420611, "color": "#7dd3fc"}, {"x": 380.35, "y": 477.76, "name": "clem 🤗", "handle": "ClementDelangue", "rank": 22, "layer": "core", "score": 0.416704, "color": "#7dd3fc"}, {"x": 408.08, "y": 474.44, "name": "Sara Hooker", "handle": "sarahookr", "rank": 23, "layer": "core", "score": 0.406355, "color": "#7dd3fc"}, {"x": 386.77, "y": 474.47, "name": "Sergey Levine", "handle": "svlevine", "rank": 24, "layer": "core", "score": 0.401005, "color": "#7dd3fc"}, {"x": 337.33, "y": 471.24, "name": "Demis Hassabis", "handle": "demishassabis", "rank": 25, "layer": "core", "score": 0.400375, "color": "#7dd3fc"}, {"x": 421.48, "y": 482.58, "name": "Sebastian Raschka", "handle": "rasbt", "rank": 26, "layer": "core", "score": 0.399728, "color": "#7dd3fc"}, {"x": 475.23, "y": 368.37, "name": "Horace He", "handle": "cHHillee", "rank": 27, "layer": "core", "score": 0.398438, "color": "#7dd3fc"}, {"x": 326.22, "y": 339.64, "name": "Kevin Patrick Murphy", "handle": "sirbayes", "rank": 28, "layer": "core", "score": 0.389841, "color": "#7dd3fc"}, {"x": 389.78, "y": 322.51, "name": "Dan Roy", "handle": "roydanroy", "rank": 29, "layer": "core", "score": 0.389305, "color": "#7dd3fc"}, {"x": 343.41, "y": 453.51, "name": "Jeff Dean", "handle": "JeffDean", "rank": 30, "layer": "core", "score": 0.386899, "color": "#7dd3fc"}, {"x": 331.4, "y": 317.08, "name": "Delip Rao e/σ", "handle": "deliprao", "rank": 31, "layer": "core", "score": 0.381241, "color": "#7dd3fc"}, {"x": 363.24, "y": 315.61, "name": "Boris Cherny", "handle": "bcherny", "rank": 32, "layer": "core", "score": 0.380084, "color": "#7dd3fc"}, {"x": 416.64, "y": 299.02, "name": "François Chollet", "handle": "fchollet", "rank": 33, "layer": "core", "score": 0.374631, "color": "#7dd3fc"}, {"x": 478.62, "y": 416.08, "name": "Jason Wei", "handle": "_jasonwei", "rank": 34, "layer": "core", "score": 0.374502, "color": "#7dd3fc"}, {"x": 390.73, "y": 482.84, "name": "Julien Chaumond", "handle": "julien_c", "rank": 35, "layer": "core", "score": 0.362681, "color": "#7dd3fc"}, {"x": 474.53, "y": 372.06, "name": "Sam Altman", "handle": "sama", "rank": 36, "layer": "core", "score": 0.361223, "color": "#7dd3fc"}, {"x": 359.07, "y": 495.12, "name": "Thomas G. Dietterich", "handle": "tdietterich", "rank": 37, "layer": "core", "score": 0.36014, "color": "#7dd3fc"}, {"x": 324.23, "y": 458.29, "name": "moltbook", "handle": "moltbook", "rank": 38, "layer": "core", "score": 0.357415, "color": "#7dd3fc"}, {"x": 298.56, "y": 426.83, "name": "Sander Dieleman", "handle": "sedielem", "rank": 39, "layer": "core", "score": 0.351911, "color": "#7dd3fc"}, {"x": 401.73, "y": 481.52, "name": "Gautam Kamath", "handle": "thegautamkamath", "rank": 40, "layer": "core", "score": 0.346465, "color": "#7dd3fc"}, {"x": 392.63, "y": 491.91, "name": "elvis", "handle": "omarsar0", "rank": 41, "layer": "core", "score": 0.345151, "color": "#7dd3fc"}, {"x": 474.52, "y": 344.28, "name": "Christopher Manning", "handle": "chrmanning", "rank": 42, "layer": "core", "score": 0.332227, "color": "#7dd3fc"}, {"x": 416.55, "y": 484.78, "name": "Miles Brundage", "handle": "Miles_Brundage", "rank": 43, "layer": "core", "score": 0.327779, "color": "#7dd3fc"}, {"x": 292.28, "y": 393.54, "name": "NVIDIA Omniverse", "handle": "nvidiaomniverse", "rank": 44, "layer": "core", "score": 0.3217, "color": "#7dd3fc"}, {"x": 472.0, "y": 421.96, "name": "OpenAI", "handle": "OpenAI", "rank": 45, "layer": "core", "score": 0.317283, "color": "#7dd3fc"}, {"x": 347.13, "y": 345.48, "name": "Zachary Lipton", "handle": "zacharylipton", "rank": 46, "layer": "core", "score": 0.315369, "color": "#7dd3fc"}, {"x": 311.27, "y": 447.22, "name": "Greg Brockman", "handle": "gdb", "rank": 47, "layer": "core", "score": 0.315237, "color": "#7dd3fc"}, {"x": 345.33, "y": 450.3, "name": "PyTorch", "handle": "PyTorch", "rank": 48, "layer": "core", "score": 0.312451, "color": "#7dd3fc"}, {"x": 293.94, "y": 380.38, "name": "Michael Bronstein", "handle": "mmbronstein", "rank": 49, "layer": "core", "score": 0.311399, "color": "#7dd3fc"}, {"x": 468.58, "y": 317.92, "name": "NVIDIA AI Developer", "handle": "NVIDIAAIDev", "rank": 50, "layer": "core", "score": 0.304269, "color": "#7dd3fc"}, {"x": 386.75, "y": 328.81, "name": "Kosta Derpanis (sabbatical in Munich)", "handle": "CSProfKGD", "rank": 51, "layer": "core", "score": 0.299472, "color": "#7dd3fc"}, {"x": 306.05, "y": 377.78, "name": "Claude", "handle": "claudeai", "rank": 52, "layer": "core", "score": 0.298107, "color": "#7dd3fc"}, {"x": 348.36, "y": 336.81, "name": "abhishek", "handle": "abhi1thakur", "rank": 53, "layer": "core", "score": 0.294678, "color": "#7dd3fc"}, {"x": 330.28, "y": 430.29, "name": "NVIDIA AI", "handle": "NVIDIAAI", "rank": 54, "layer": "core", "score": 0.294362, "color": "#7dd3fc"}, {"x": 484.64, "y": 374.73, "name": "Andrew Ng", "handle": "AndrewYNg", "rank": 55, "layer": "core", "score": 0.29243, "color": "#7dd3fc"}, {"x": 391.3, "y": 503.16, "name": "Thomas Wolf", "handle": "Thom_Wolf", "rank": 56, "layer": "core", "score": 0.291783, "color": "#7dd3fc"}, {"x": 439.02, "y": 481.13, "name": "Riley Goodside", "handle": "goodside", "rank": 57, "layer": "core", "score": 0.286114, "color": "#7dd3fc"}, {"x": 472.03, "y": 323.8, "name": "Sam Bowman", "handle": "sleepinyourhat", "rank": 58, "layer": "core", "score": 0.283438, "color": "#7dd3fc"}, {"x": 346.84, "y": 336.59, "name": "NVIDIA Studio", "handle": "NVIDIAStudio", "rank": 59, "layer": "core", "score": 0.283041, "color": "#7dd3fc"}, {"x": 453.84, "y": 476.96, "name": "Tibo", "handle": "thsottiaux", "rank": 60, "layer": "core", "score": 0.271378, "color": "#7dd3fc"}, {"x": 303.58, "y": 375.64, "name": "Peyman Milanfar", "handle": "docmilanfar", "rank": 61, "layer": "core", "score": 0.270496, "color": "#7dd3fc"}, {"x": 247.78, "y": 370.61, "name": "Omar Sanseviero", "handle": "osanseviero", "rank": 62, "layer": "inner_core", "score": 0.263235, "color": "#34d399"}, {"x": 342.93, "y": 513.48, "name": "NVIDIA Data Center", "handle": "NVIDIADC", "rank": 63, "layer": "inner_core", "score": 0.26175, "color": "#34d399"}, {"x": 515.24, "y": 344.97, "name": "Amanda Askell", "handle": "AmandaAskell", "rank": 64, "layer": "inner_core", "score": 0.261067, "color": "#34d399"}, {"x": 477.87, "y": 261.8, "name": "NVIDIA Robotics", "handle": "NVIDIARobotics", "rank": 65, "layer": "inner_core", "score": 0.258112, "color": "#34d399"}, {"x": 529.03, "y": 449.15, "name": "NVIDIA GTC", "handle": "NVIDIAGTC", "rank": 66, "layer": "inner_core", "score": 0.256412, "color": "#34d399"}, {"x": 549.88, "y": 348.11, "name": "Alexandr Wang", "handle": "alexandr_wang", "rank": 67, "layer": "inner_core", "score": 0.255165, "color": "#34d399"}, {"x": 270.42, "y": 411.44, "name": "koray kavukcuoglu", "handle": "koraykv", "rank": 68, "layer": "inner_core", "score": 0.249527, "color": "#34d399"}, {"x": 408.62, "y": 270.8, "name": "OpenAI Developers", "handle": "OpenAIDevs", "rank": 69, "layer": "inner_core", "score": 0.248291, "color": "#34d399"}, {"x": 506.94, "y": 511.6, "name": "Shane Gu", "handle": "shaneguML", "rank": 70, "layer": "inner_core", "score": 0.242442, "color": "#34d399"}, {"x": 262.89, "y": 355.64, "name": "Google Gemini", "handle": "GeminiApp", "rank": 71, "layer": "inner_core", "score": 0.241108, "color": "#34d399"}, {"x": 494.98, "y": 301.91, "name": "Nando de Freitas", "handle": "NandoDF", "rank": 72, "layer": "inner_core", "score": 0.240824, "color": "#34d399"}, {"x": 433.81, "y": 538.16, "name": "Douwe Kiela", "handle": "douwekiela", "rank": 73, "layer": "inner_core", "score": 0.238566, "color": "#34d399"}, {"x": 381.59, "y": 254.75, "name": "Edward Grefenstette", "handle": "egrefen", "rank": 74, "layer": "inner_core", "score": 0.238305, "color": "#34d399"}, {"x": 349.24, "y": 524.27, "name": "Bojan Tunguz", "handle": "tunguz", "rank": 75, "layer": "inner_core", "score": 0.237737, "color": "#34d399"}, {"x": 304.19, "y": 268.34, "name": "Google Antigravity", "handle": "antigravity", "rank": 76, "layer": "inner_core", "score": 0.235196, "color": "#34d399"}, {"x": 258.1, "y": 384.27, "name": "Google AI", "handle": "GoogleAI", "rank": 77, "layer": "inner_core", "score": 0.23493, "color": "#34d399"}, {"x": 420.8, "y": 529.7, "name": "merve", "handle": "mervenoyann", "rank": 78, "layer": "inner_core", "score": 0.231575, "color": "#34d399"}, {"x": 281.71, "y": 326.68, "name": "Gary Marcus", "handle": "GaryMarcus", "rank": 79, "layer": "inner_core", "score": 0.231532, "color": "#34d399"}, {"x": 425.17, "y": 532.92, "name": "John Schulman", "handle": "johnschulman2", "rank": 80, "layer": "inner_core", "score": 0.230859, "color": "#34d399"}, {"x": 311.97, "y": 304.95, "name": "Jack Clark", "handle": "jackclarkSF", "rank": 81, "layer": "inner_core", "score": 0.229427, "color": "#34d399"}, {"x": 512.06, "y": 324.28, "name": "Matthias Niessner", "handle": "MattNiessner", "rank": 82, "layer": "inner_core", "score": 0.225284, "color": "#34d399"}, {"x": 542.55, "y": 468.02, "name": "OpenClaw🦞", "handle": "openclaw", "rank": 83, "layer": "inner_core", "score": 0.224877, "color": "#34d399"}, {"x": 333.93, "y": 281.62, "name": "Anca Dragan", "handle": "ancadianadragan", "rank": 84, "layer": "inner_core", "score": 0.222641, "color": "#34d399"}, {"x": 490.78, "y": 499.53, "name": "AI Pub", "handle": "ai__pub", "rank": 85, "layer": "inner_core", "score": 0.221497, "color": "#34d399"}, {"x": 255.07, "y": 330.64, "name": "Nate Raw", "handle": "_nateraw", "rank": 86, "layer": "inner_core", "score": 0.221039, "color": "#34d399"}, {"x": 431.08, "y": 259.38, "name": "NVIDIA ANZ", "handle": "NvidiaANZ", "rank": 87, "layer": "inner_core", "score": 0.218482, "color": "#34d399"}, {"x": 457.08, "y": 545.26, "name": "TensorFlow", "handle": "TensorFlow", "rank": 88, "layer": "inner_core", "score": 0.216956, "color": "#34d399"}, {"x": 281.57, "y": 454.78, "name": "Ethan Mollick", "handle": "emollick", "rank": 89, "layer": "inner_core", "score": 0.21644, "color": "#34d399"}, {"x": 260.79, "y": 429.26, "name": "Zoubin Ghahramani", "handle": "ZoubinGhahrama1", "rank": 90, "layer": "inner_core", "score": 0.21563, "color": "#34d399"}, {"x": 329.03, "y": 264.18, "name": "Alexia Jolicoeur-Martineau", "handle": "jm_alexia", "rank": 91, "layer": "inner_core", "score": 0.21555, "color": "#34d399"}, {"x": 532.35, "y": 494.16, "name": "Varun Mohan", "handle": "_mohansolo", "rank": 92, "layer": "inner_core", "score": 0.214885, "color": "#34d399"}, {"x": 324.71, "y": 519.8, "name": "⿻ Andrew Trask", "handle": "iamtrask", "rank": 93, "layer": "inner_core", "score": 0.214519, "color": "#34d399"}, {"x": 401.33, "y": 558.01, "name": "NVIDIA AI PC", "handle": "NVIDIA_AI_PC", "rank": 94, "layer": "inner_core", "score": 0.214211, "color": "#34d399"}, {"x": 273.07, "y": 442.47, "name": "Ross Wightman", "handle": "wightmanr", "rank": 95, "layer": "inner_core", "score": 0.210599, "color": "#34d399"}, {"x": 374.63, "y": 539.91, "name": "Felix Hill", "handle": "FelixHill84", "rank": 96, "layer": "inner_core", "score": 0.210516, "color": "#34d399"}, {"x": 520.49, "y": 336.94, "name": "Matthew Berman", "handle": "MatthewBerman", "rank": 97, "layer": "inner_core", "score": 0.209777, "color": "#34d399"}, {"x": 492.05, "y": 290.63, "name": "Lior Alexander", "handle": "LiorOnAI", "rank": 98, "layer": "inner_core", "score": 0.207969, "color": "#34d399"}, {"x": 539.46, "y": 445.88, "name": "Sebastien Bubeck", "handle": "SebastienBubeck", "rank": 99, "layer": "inner_core", "score": 0.206313, "color": "#34d399"}, {"x": 483.86, "y": 260.26, "name": "Aleksa Gordić (水平问题)", "handle": "gordic_aleksa", "rank": 100, "layer": "inner_core", "score": 0.205522, "color": "#34d399"}, {"x": 544.87, "y": 327.75, "name": "Natasha Jaques", "handle": "natashajaques", "rank": 101, "layer": "inner_core", "score": 0.201853, "color": "#34d399"}, {"x": 479.08, "y": 536.27, "name": "NVIDIA Workstation", "handle": "NVIDIAworkstatn", "rank": 102, "layer": "inner_core", "score": 0.201741, "color": "#34d399"}, {"x": 432.63, "y": 540.75, "name": "Eric Zelikman", "handle": "ericzelikman", "rank": 103, "layer": "inner_core", "score": 0.197072, "color": "#34d399"}, {"x": 531.95, "y": 450.94, "name": "Sasha Luccioni, PhD 🦋🌎✨🤗", "handle": "SashaMTL", "rank": 104, "layer": "inner_core", "score": 0.196471, "color": "#34d399"}, {"x": 540.04, "y": 387.04, "name": "Google AI Developers", "handle": "googleaidevs", "rank": 105, "layer": "inner_core", "score": 0.195906, "color": "#34d399"}, {"x": 429.01, "y": 266.57, "name": "Petar Veličković", "handle": "PetarV_93", "rank": 106, "layer": "inner_core", "score": 0.195892, "color": "#34d399"}, {"x": 273.07, "y": 466.69, "name": "Lewis Tunstall", "handle": "_lewtun", "rank": 107, "layer": "inner_core", "score": 0.19473, "color": "#34d399"}, {"x": 561.4, "y": 395.36, "name": "Mira Murati", "handle": "miramurati", "rank": 108, "layer": "inner_core", "score": 0.19366, "color": "#34d399"}, {"x": 371.01, "y": 255.88, "name": "Ian Goodfellow", "handle": "goodfellow_ian", "rank": 109, "layer": "inner_core", "score": 0.191645, "color": "#34d399"}, {"x": 361.65, "y": 526.9, "name": "NVIDIA GeForce DE", "handle": "NVIDIAGeForceDE", "rank": 110, "layer": "inner_core", "score": 0.191111, "color": "#34d399"}, {"x": 257.75, "y": 322.75, "name": "NVIDIA Healthcare", "handle": "NVIDIAHealth", "rank": 111, "layer": "inner_core", "score": 0.190544, "color": "#34d399"}, {"x": 398.14, "y": 253.49, "name": "Google Labs", "handle": "GoogleLabs", "rank": 112, "layer": "inner_core", "score": 0.190123, "color": "#34d399"}, {"x": 288.58, "y": 334.88, "name": "NVIDIA HPC Developer", "handle": "NVIDIAHPCDev", "rank": 113, "layer": "inner_core", "score": 0.189946, "color": "#34d399"}, {"x": 487.28, "y": 284.08, "name": "Qian Huang", "handle": "qhwang3", "rank": 114, "layer": "inner_core", "score": 0.188719, "color": "#34d399"}, {"x": 528.66, "y": 367.64, "name": "Niels Rogge", "handle": "NielsRogge", "rank": 115, "layer": "inner_core", "score": 0.186905, "color": "#34d399"}, {"x": 450.96, "y": 519.47, "name": "Microsoft Azure", "handle": "Azure", "rank": 116, "layer": "inner_core", "score": 0.186221, "color": "#34d399"}, {"x": 332.79, "y": 267.67, "name": "NVIDIAGameDev", "handle": "NVIDIAGameDev", "rank": 117, "layer": "inner_core", "score": 0.186204, "color": "#34d399"}, {"x": 498.82, "y": 492.66, "name": "Susan Zhang", "handle": "suchenzang", "rank": 118, "layer": "inner_core", "score": 0.185003, "color": "#34d399"}, {"x": 403.78, "y": 559.01, "name": "Yuhuai (Tony) Wu", "handle": "Yuhu_ai_", "rank": 119, "layer": "inner_core", "score": 0.183367, "color": "#34d399"}, {"x": 291.43, "y": 298.83, "name": "Graham Neubig", "handle": "gneubig", "rank": 120, "layer": "inner_core", "score": 0.182709, "color": "#34d399"}, {"x": 277.1, "y": 328.69, "name": "Satya Nadella", "handle": "satyanadella", "rank": 121, "layer": "inner_core", "score": 0.181164, "color": "#34d399"}, {"x": 588.74, "y": 317.91, "name": "Bill Peebles", "handle": "billpeeb", "rank": 122, "layer": "middle_core", "score": 0.178388, "color": "#fbbf24"}, {"x": 359.02, "y": 210.02, "name": "Peter Welinder", "handle": "npew", "rank": 123, "layer": "middle_core", "score": 0.177052, "color": "#fbbf24"}, {"x": 244.86, "y": 519.12, "name": "Jan Leike", "handle": "janleike", "rank": 124, "layer": "middle_core", "score": 0.176949, "color": "#fbbf24"}, {"x": 334.75, "y": 600.85, "name": "Jay Hack", "handle": "mathemagic1an", "rank": 125, "layer": "middle_core", "score": 0.174954, "color": "#fbbf24"}, {"x": 402.32, "y": 201.63, "name": "Dan Hendrycks", "handle": "hendrycks", "rank": 126, "layer": "middle_core", "score": 0.174911, "color": "#fbbf24"}, {"x": 216.86, "y": 449.13, "name": "Mustafa Suleyman", "handle": "mustafasuleyman", "rank": 127, "layer": "middle_core", "score": 0.173943, "color": "#fbbf24"}, {"x": 622.88, "y": 394.53, "name": "Everlyn", "handle": "Everlyn_ai", "rank": 128, "layer": "middle_core", "score": 0.173592, "color": "#fbbf24"}, {"x": 443.51, "y": 584.58, "name": "James Montemagno", "handle": "JamesMontemagno", "rank": 129, "layer": "middle_core", "score": 0.171869, "color": "#fbbf24"}, {"x": 579.52, "y": 319.97, "name": "Ilya Sutskever", "handle": "ilyasut", "rank": 130, "layer": "middle_core", "score": 0.171513, "color": "#fbbf24"}, {"x": 558.75, "y": 249.55, "name": "Shengjia Zhao", "handle": "shengjia_zhao", "rank": 131, "layer": "middle_core", "score": 0.171381, "color": "#fbbf24"}, {"x": 509.71, "y": 567.59, "name": "Nils Reimers", "handle": "Nils_Reimers", "rank": 132, "layer": "middle_core", "score": 0.170888, "color": "#fbbf24"}, {"x": 337.55, "y": 192.17, "name": "Dr. Steve Keen", "handle": "ProfSteveKeen", "rank": 133, "layer": "middle_core", "score": 0.170794, "color": "#fbbf24"}, {"x": 608.35, "y": 383.25, "name": "Tulsee Doshi", "handle": "tulseedoshi", "rank": 134, "layer": "middle_core", "score": 0.170564, "color": "#fbbf24"}, {"x": 610.29, "y": 410.34, "name": "Sayak Paul", "handle": "RisingSayak", "rank": 135, "layer": "middle_core", "score": 0.169166, "color": "#fbbf24"}, {"x": 333.93, "y": 606.08, "name": "🌩️ NVIDIA GeForce NOW", "handle": "NVIDIAGFN", "rank": 136, "layer": "middle_core", "score": 0.167526, "color": "#fbbf24"}, {"x": 595.55, "y": 321.05, "name": "Catherine Olsson", "handle": "catherineols", "rank": 137, "layer": "middle_core", "score": 0.163716, "color": "#fbbf24"}, {"x": 543.55, "y": 527.25, "name": "NVIDIA DRIVE", "handle": "NVIDIADRIVE", "rank": 138, "layer": "middle_core", "score": 0.163557, "color": "#fbbf24"}, {"x": 219.72, "y": 337.36, "name": "Rohan Pandey", "handle": "khoomeik", "rank": 139, "layer": "middle_core", "score": 0.162948, "color": "#fbbf24"}, {"x": 244.37, "y": 279.54, "name": "Bryan Catanzaro", "handle": "ctnzr", "rank": 140, "layer": "middle_core", "score": 0.161094, "color": "#fbbf24"}, {"x": 461.18, "y": 603.85, "name": "NVIDIA GeForce", "handle": "NVIDIAGeForce", "rank": 141, "layer": "middle_core", "score": 0.160693, "color": "#fbbf24"}, {"x": 381.59, "y": 609.02, "name": "Boaz Barak", "handle": "boazbaraktcs", "rank": 142, "layer": "middle_core", "score": 0.159436, "color": "#fbbf24"}, {"x": 569.45, "y": 285.36, "name": "MMitchell", "handle": "mmitchell_ai", "rank": 143, "layer": "middle_core", "score": 0.15764, "color": "#fbbf24"}, {"x": 581.91, "y": 519.16, "name": "Nano Banana Pro", "handle": "NanoBanana", "rank": 144, "layer": "middle_core", "score": 0.157143, "color": "#fbbf24"}, {"x": 366.25, "y": 599.41, "name": "Sepp Hochreiter", "handle": "HochreiterSepp", "rank": 145, "layer": "middle_core", "score": 0.156246, "color": "#fbbf24"}, {"x": 424.76, "y": 214.52, "name": "NVIDIA Customer Care", "handle": "nvidiacc", "rank": 146, "layer": "middle_core", "score": 0.155968, "color": "#fbbf24"}, {"x": 384.25, "y": 609.34, "name": "heiner", "handle": "HeinrichKuttler", "rank": 147, "layer": "middle_core", "score": 0.155021, "color": "#fbbf24"}, {"x": 197.48, "y": 331.83, "name": "Igor Babuschkin", "handle": "ibab", "rank": 148, "layer": "middle_core", "score": 0.154915, "color": "#fbbf24"}, {"x": 602.02, "y": 412.29, "name": "Jürgen Schmidhuber", "handle": "SchmidhuberAI", "rank": 149, "layer": "middle_core", "score": 0.153835, "color": "#fbbf24"}, {"x": 540.8, "y": 272.86, "name": "Yoshua Bengio", "handle": "Yoshua_Bengio", "rank": 150, "layer": "middle_core", "score": 0.15353, "color": "#fbbf24"}, {"x": 189.4, "y": 337.97, "name": "Nick Turley", "handle": "nickaturley", "rank": 151, "layer": "middle_core", "score": 0.153367, "color": "#fbbf24"}, {"x": 211.47, "y": 292.45, "name": "andy jones", "handle": "andy_l_jones", "rank": 152, "layer": "middle_core", "score": 0.152697, "color": "#fbbf24"}, {"x": 533.89, "y": 538.07, "name": "Chris Olah", "handle": "ch402", "rank": 153, "layer": "middle_core", "score": 0.150804, "color": "#fbbf24"}, {"x": 559.52, "y": 282.54, "name": "Fidji Simo", "handle": "fidjissimo", "rank": 154, "layer": "middle_core", "score": 0.150622, "color": "#fbbf24"}, {"x": 538.2, "y": 234.44, "name": "Zico Kolter", "handle": "zicokolter", "rank": 155, "layer": "middle_core", "score": 0.149824, "color": "#fbbf24"}, {"x": 454.45, "y": 612.5, "name": "Yuandong Tian", "handle": "tydsh", "rank": 156, "layer": "middle_core", "score": 0.147794, "color": "#fbbf24"}, {"x": 556.51, "y": 517.96, "name": "Google AI Studio", "handle": "GoogleAIStudio", "rank": 157, "layer": "middle_core", "score": 0.14715, "color": "#fbbf24"}, {"x": 560.56, "y": 256.89, "name": "Daniel Litt", "handle": "littmath", "rank": 158, "layer": "middle_core", "score": 0.145255, "color": "#fbbf24"}, {"x": 253.59, "y": 261.37, "name": "William Fedus", "handle": "LiamFedus", "rank": 159, "layer": "middle_core", "score": 0.144783, "color": "#fbbf24"}, {"x": 574.18, "y": 317.88, "name": "Azalia Mirhoseini", "handle": "Azaliamirh", "rank": 160, "layer": "middle_core", "score": 0.143273, "color": "#fbbf24"}, {"x": 615.69, "y": 367.51, "name": "Omar Khattab", "handle": "lateinteraction", "rank": 161, "layer": "middle_core", "score": 0.143184, "color": "#fbbf24"}, {"x": 558.9, "y": 253.42, "name": "Maithra Raghu", "handle": "maithra_raghu", "rank": 162, "layer": "middle_core", "score": 0.142495, "color": "#fbbf24"}, {"x": 384.16, "y": 212.78, "name": "Nick", "handle": "nickcammarata", "rank": 163, "layer": "middle_core", "score": 0.141429, "color": "#fbbf24"}, {"x": 580.46, "y": 316.21, "name": "Rishabh Agarwal", "handle": "agarwl_", "rank": 164, "layer": "middle_core", "score": 0.140584, "color": "#fbbf24"}, {"x": 541.81, "y": 237.23, "name": "Durk Kingma", "handle": "dpkingma", "rank": 165, "layer": "middle_core", "score": 0.140396, "color": "#fbbf24"}, {"x": 377.21, "y": 614.98, "name": "Michele Catasta", "handle": "pirroh", "rank": 166, "layer": "middle_core", "score": 0.140032, "color": "#fbbf24"}, {"x": 567.56, "y": 535.27, "name": "Aaron Levie", "handle": "levie", "rank": 167, "layer": "middle_core", "score": 0.137891, "color": "#fbbf24"}, {"x": 537.72, "y": 230.5, "name": "Jakub Pachocki", "handle": "merettm", "rank": 168, "layer": "middle_core", "score": 0.135913, "color": "#fbbf24"}, {"x": 479.23, "y": 221.81, "name": "NVIDIA GeForce UK", "handle": "NVIDIAGeForceUK", "rank": 169, "layer": "middle_core", "score": 0.134098, "color": "#fbbf24"}, {"x": 330.81, "y": 591.45, "name": "Fei-Fei Li", "handle": "drfeifei", "rank": 170, "layer": "middle_core", "score": 0.13382, "color": "#fbbf24"}, {"x": 430.25, "y": 613.5, "name": "NVIDIA Networking", "handle": "NVIDIANetworkng", "rank": 171, "layer": "middle_core", "score": 0.132983, "color": "#fbbf24"}, {"x": 465.71, "y": 575.99, "name": "Zeyuan Allen-Zhu, Sc.D.", "handle": "ZeyuanAllenZhu", "rank": 172, "layer": "middle_core", "score": 0.131868, "color": "#fbbf24"}, {"x": 530.87, "y": 250.33, "name": "ChatGPT", "handle": "ChatGPTapp", "rank": 173, "layer": "middle_core", "score": 0.131615, "color": "#fbbf24"}, {"x": 359.64, "y": 618.1, "name": "Eliezer Yudkowsky ⏹️", "handle": "ESYudkowsky", "rank": 174, "layer": "middle_core", "score": 0.13142, "color": "#fbbf24"}, {"x": 230.28, "y": 523.83, "name": "Logan Kilpatrick", "handle": "OfficialLoganK", "rank": 175, "layer": "middle_core", "score": 0.131277, "color": "#fbbf24"}, {"x": 183.41, "y": 349.85, "name": "Josh Woodward", "handle": "joshwoodward", "rank": 176, "layer": "middle_core", "score": 0.13122, "color": "#fbbf24"}, {"x": 565.32, "y": 546.38, "name": "Dario Amodei", "handle": "DarioAmodei", "rank": 177, "layer": "middle_core", "score": 0.131016, "color": "#fbbf24"}, {"x": 496.3, "y": 599.95, "name": "JFPuget 🇺🇦🇨🇦🇬🇱", "handle": "JFPuget", "rank": 178, "layer": "middle_core", "score": 0.130817, "color": "#fbbf24"}, {"x": 378.49, "y": 620.61, "name": "Chris", "handle": "chatgpt21", "rank": 179, "layer": "middle_core", "score": 0.130511, "color": "#fbbf24"}, {"x": 225.01, "y": 476.3, "name": "Melanie Mitchell", "handle": "MelMitchell1", "rank": 180, "layer": "middle_core", "score": 0.130165, "color": "#fbbf24"}, {"x": 316.95, "y": 596.39, "name": "OpenAI Newsroom", "handle": "OpenAINewsroom", "rank": 181, "layer": "middle_core", "score": 0.129677, "color": "#fbbf24"}, {"x": 126.88, "y": 380.36, "name": "Josh Tobin", "handle": "josh_tobin_", "rank": 182, "layer": "outer_core", "score": 0.129006, "color": "#f59e0b"}, {"x": 164.33, "y": 276.94, "name": "Aäron van den Oord", "handle": "avdnoord", "rank": 183, "layer": "outer_core", "score": 0.127578, "color": "#f59e0b"}, {"x": 333.12, "y": 147.54, "name": "Chelsea Finn", "handle": "chelseabfinn", "rank": 184, "layer": "outer_core", "score": 0.126669, "color": "#f59e0b"}, {"x": 625.0, "y": 286.38, "name": "Thomas Kipf", "handle": "tkipf", "rank": 185, "layer": "outer_core", "score": 0.126073, "color": "#f59e0b"}, {"x": 348.19, "y": 133.61, "name": "Chris Paxton", "handle": "chris_j_paxton", "rank": 186, "layer": "outer_core", "score": 0.124889, "color": "#f59e0b"}, {"x": 266.7, "y": 155.24, "name": "Yann Dubois", "handle": "yanndubs", "rank": 187, "layer": "outer_core", "score": 0.123994, "color": "#f59e0b"}, {"x": 639.9, "y": 512.84, "name": "Christian Szegedy", "handle": "ChrSzegedy", "rank": 188, "layer": "outer_core", "score": 0.123802, "color": "#f59e0b"}, {"x": 266.77, "y": 641.62, "name": "Alexander Embiricos", "handle": "embirico", "rank": 189, "layer": "outer_core", "score": 0.123637, "color": "#f59e0b"}, {"x": 552.1, "y": 185.07, "name": "Dileep George", "handle": "dileeplearning", "rank": 190, "layer": "outer_core", "score": 0.122603, "color": "#f59e0b"}, {"x": 313.59, "y": 664.13, "name": "alphaXiv", "handle": "askalphaxiv", "rank": 191, "layer": "outer_core", "score": 0.122533, "color": "#f59e0b"}, {"x": 179.26, "y": 543.23, "name": "NVIDIA GeForce ES", "handle": "NVIDIAGeForceES", "rank": 192, "layer": "outer_core", "score": 0.122186, "color": "#f59e0b"}, {"x": 324.6, "y": 655.6, "name": "sunny madra", "handle": "sundeep", "rank": 193, "layer": "outer_core", "score": 0.122127, "color": "#f59e0b"}, {"x": 174.81, "y": 522.98, "name": "NVIDIA GeForce FR", "handle": "NVIDIAGeForceFR", "rank": 194, "layer": "outer_core", "score": 0.121593, "color": "#f59e0b"}, {"x": 273.95, "y": 143.44, "name": "NVIDIA GeForce JP", "handle": "NVIDIAGeForceJP", "rank": 195, "layer": "outer_core", "score": 0.120415, "color": "#f59e0b"}, {"x": 187.2, "y": 211.17, "name": "Hanna Wallach (@hannawallach.bsky.social)", "handle": "hannawallach", "rank": 196, "layer": "outer_core", "score": 0.119909, "color": "#f59e0b"}, {"x": 149.0, "y": 322.03, "name": "Lex Fridman", "handle": "lexfridman", "rank": 197, "layer": "outer_core", "score": 0.119478, "color": "#f59e0b"}, {"x": 342.07, "y": 645.27, "name": "Stuart Ritchie", "handle": "StuartJRitchie", "rank": 198, "layer": "outer_core", "score": 0.118621, "color": "#f59e0b"}, {"x": 165.6, "y": 271.16, "name": "Addy Osmani", "handle": "addyosmani", "rank": 199, "layer": "outer_core", "score": 0.117448, "color": "#f59e0b"}, {"x": 131.07, "y": 460.13, "name": "sam mcallister", "handle": "sammcallister", "rank": 200, "layer": "outer_core", "score": 0.116697, "color": "#f59e0b"}, {"x": 460.58, "y": 660.98, "name": "Tim Zaman", "handle": "timzaman", "rank": 201, "layer": "outer_core", "score": 0.116331, "color": "#f59e0b"}, {"x": 618.82, "y": 243.48, "name": "Emad", "handle": "EMostaque", "rank": 202, "layer": "outer_core", "score": 0.115818, "color": "#f59e0b"}, {"x": 535.68, "y": 645.68, "name": "NVIDIA Korea", "handle": "NVIDIAKorea", "rank": 203, "layer": "outer_core", "score": 0.115002, "color": "#f59e0b"}, {"x": 146.15, "y": 375.28, "name": "Xin Eric Wang", "handle": "xwang_lk", "rank": 204, "layer": "outer_core", "score": 0.114561, "color": "#f59e0b"}, {"x": 259.84, "y": 636.35, "name": "Remi Cadene", "handle": "RemiCadene", "rank": 205, "layer": "outer_core", "score": 0.112999, "color": "#f59e0b"}, {"x": 402.01, "y": 118.54, "name": "Alex Dimakis", "handle": "AlexGDimakis", "rank": 206, "layer": "outer_core", "score": 0.112823, "color": "#f59e0b"}, {"x": 443.83, "y": 672.72, "name": "pash", "handle": "pashmerepat", "rank": 207, "layer": "outer_core", "score": 0.110195, "color": "#f59e0b"}, {"x": 656.12, "y": 439.62, "name": "adammaj", "handle": "MajmudarAdam", "rank": 208, "layer": "outer_core", "score": 0.109882, "color": "#f59e0b"}, {"x": 142.36, "y": 440.58, "name": "Rohan Paul", "handle": "rohanpaul_ai", "rank": 209, "layer": "outer_core", "score": 0.109664, "color": "#f59e0b"}, {"x": 653.52, "y": 524.85, "name": "Sham Kakade", "handle": "ShamKakade6", "rank": 210, "layer": "outer_core", "score": 0.109389, "color": "#f59e0b"}, {"x": 216.99, "y": 205.69, "name": "Caitlin Kalinowski", "handle": "kalinowski007", "rank": 211, "layer": "outer_core", "score": 0.108561, "color": "#f59e0b"}, {"x": 314.34, "y": 155.57, "name": "Subbarao Kambhampati (కంభంపాటి సుబ్బారావు)", "handle": "rao2z", "rank": 212, "layer": "outer_core", "score": 0.108221, "color": "#f59e0b"}, {"x": 410.2, "y": 669.6, "name": "Alex Graveley", "handle": "alexgraveley", "rank": 213, "layer": "outer_core", "score": 0.107601, "color": "#f59e0b"}, {"x": 675.45, "y": 409.6, "name": "NVIDIA GeForce ME", "handle": "NVIDIAGeForceME", "rank": 214, "layer": "outer_core", "score": 0.105328, "color": "#f59e0b"}, {"x": 435.05, "y": 123.18, "name": "Geoffrey Hinton", "handle": "geoffreyhinton", "rank": 215, "layer": "outer_core", "score": 0.104158, "color": "#f59e0b"}, {"x": 171.94, "y": 515.94, "name": "Arena.ai", "handle": "arena", "rank": 216, "layer": "outer_core", "score": 0.10308, "color": "#f59e0b"}, {"x": 649.37, "y": 332.56, "name": "Ai2", "handle": "allen_ai", "rank": 217, "layer": "outer_core", "score": 0.102029, "color": "#f59e0b"}, {"x": 657.29, "y": 483.99, "name": "Ado", "handle": "adocomplete", "rank": 218, "layer": "outer_core", "score": 0.101361, "color": "#f59e0b"}, {"x": 551.18, "y": 187.28, "name": "xAI", "handle": "xai", "rank": 219, "layer": "outer_core", "score": 0.10075, "color": "#f59e0b"}, {"x": 485.22, "y": 145.45, "name": "Lianmin Zheng", "handle": "lm_zheng", "rank": 220, "layer": "outer_core", "score": 0.098704, "color": "#f59e0b"}, {"x": 675.23, "y": 379.02, "name": "Sriram Krishnan", "handle": "sriramk", "rank": 221, "layer": "outer_core", "score": 0.097614, "color": "#f59e0b"}, {"x": 660.07, "y": 315.57, "name": "Unsloth AI", "handle": "UnslothAI", "rank": 222, "layer": "outer_core", "score": 0.097235, "color": "#f59e0b"}, {"x": 184.15, "y": 215.29, "name": "Jeff Teper", "handle": "jeffteper", "rank": 223, "layer": "outer_core", "score": 0.094315, "color": "#f59e0b"}, {"x": 122.23, "y": 391.66, "name": "Artificial Analysis", "handle": "ArtificialAnlys", "rank": 224, "layer": "outer_core", "score": 0.093823, "color": "#f59e0b"}, {"x": 130.76, "y": 316.48, "name": "NVIDIA Japan", "handle": "NVIDIAJapan", "rank": 225, "layer": "outer_core", "score": 0.0924, "color": "#f59e0b"}, {"x": 388.67, "y": 115.93, "name": "Z.ai", "handle": "Zai_org", "rank": 226, "layer": "outer_core", "score": 0.090042, "color": "#f59e0b"}, {"x": 384.47, "y": 668.64, "name": "Rachel Thomas", "handle": "math_rachel", "rank": 227, "layer": "outer_core", "score": 0.088779, "color": "#f59e0b"}, {"x": 230.76, "y": 201.44, "name": "Min Choi", "handle": "minchoi", "rank": 228, "layer": "outer_core", "score": 0.086657, "color": "#f59e0b"}, {"x": 122.93, "y": 362.7, "name": "Palmer Luckey", "handle": "PalmerLuckey", "rank": 229, "layer": "outer_core", "score": 0.086133, "color": "#f59e0b"}, {"x": 357.73, "y": 671.29, "name": "NVIDIA SHIELD", "handle": "NVIDIASHIELD", "rank": 230, "layer": "outer_core", "score": 0.086003, "color": "#f59e0b"}, {"x": 343.28, "y": 648.4, "name": "Mike Krieger", "handle": "mikeyk", "rank": 231, "layer": "outer_core", "score": 0.085664, "color": "#f59e0b"}, {"x": 288.97, "y": 637.07, "name": "Anuj Saharan", "handle": "anujsaharan_", "rank": 232, "layer": "outer_core", "score": 0.084867, "color": "#f59e0b"}, {"x": 575.15, "y": 607.37, "name": "NVIDIA AI Japan", "handle": "NVIDIAAIJP", "rank": 233, "layer": "outer_core", "score": 0.084716, "color": "#f59e0b"}, {"x": 310.2, "y": 155.65, "name": "khipu.ai", "handle": "Khipu_AI", "rank": 234, "layer": "outer_core", "score": 0.084565, "color": "#f59e0b"}, {"x": 655.14, "y": 508.95, "name": "NVIDIA GeForce BR", "handle": "NVIDIAGeForceBR", "rank": 235, "layer": "outer_core", "score": 0.084059, "color": "#f59e0b"}, {"x": 142.83, "y": 329.45, "name": "Ashok Elluswamy", "handle": "aelluswamy", "rank": 236, "layer": "outer_core", "score": 0.079809, "color": "#f59e0b"}, {"x": 471.52, "y": 657.21, "name": "Brad Smith", "handle": "BradSmi", "rank": 237, "layer": "outer_core", "score": 0.079674, "color": "#f59e0b"}, {"x": 620.78, "y": 249.63, "name": "Jonathan Ross", "handle": "JonathanRoss321", "rank": 238, "layer": "outer_core", "score": 0.075565, "color": "#f59e0b"}, {"x": 308.36, "y": 142.81, "name": "LeRobot", "handle": "LeRobotHF", "rank": 239, "layer": "outer_core", "score": 0.073555, "color": "#f59e0b"}, {"x": 427.67, "y": 118.51, "name": "fofr", "handle": "fofrAI", "rank": 240, "layer": "outer_core", "score": 0.073322, "color": "#f59e0b"}, {"x": 665.51, "y": 409.84, "name": "Madhu Guru", "handle": "realmadhuguru", "rank": 241, "layer": "outer_core", "score": 0.072822, "color": "#f59e0b"}, {"x": 407.31, "y": 65.42, "name": "Austen Allred", "handle": "Austen", "rank": 242, "layer": "surface", "score": 0.071841, "color": "#94a3b8"}, {"x": 737.73, "y": 298.26, "name": "April C Wright", "handle": "aprilwright", "rank": 243, "layer": "surface", "score": 0.070634, "color": "#94a3b8"}, {"x": 394.74, "y": 62.96, "name": "Anshita Saini", "handle": "anshitasaini_", "rank": 244, "layer": "surface", "score": 0.066992, "color": "#94a3b8"}, {"x": 127.75, "y": 193.57, "name": "Guohao Li 🐫", "handle": "guohao_li", "rank": 245, "layer": "surface", "score": 0.063615, "color": "#94a3b8"}, {"x": 463.0, "y": 723.87, "name": "sarah guo", "handle": "saranormous", "rank": 246, "layer": "surface", "score": 0.057637, "color": "#94a3b8"}, {"x": 732.09, "y": 461.24, "name": "Tom Dörr", "handle": "tom_doerr", "rank": 247, "layer": "surface", "score": 0.057324, "color": "#94a3b8"}, {"x": 256.12, "y": 98.47, "name": "Steven Johnson", "handle": "stevenbjohnson", "rank": 248, "layer": "surface", "score": 0.05638, "color": "#94a3b8"}, {"x": 571.24, "y": 689.74, "name": "Black in AI", "handle": "black_in_ai", "rank": 249, "layer": "surface", "score": 0.055999, "color": "#94a3b8"}, {"x": 635.6, "y": 643.51, "name": "Alex Albert", "handle": "alexalbert__", "rank": 250, "layer": "surface", "score": 0.055717, "color": "#94a3b8"}, {"x": 739.47, "y": 458.07, "name": "NVIDIA GeForce Latinoamérica", "handle": "NVIDIAGeForceLA", "rank": 251, "layer": "surface", "score": 0.05414, "color": "#94a3b8"}, {"x": 90.96, "y": 267.66, "name": "AshutoshShrivastava", "handle": "ai_for_success", "rank": 252, "layer": "surface", "score": 0.054024, "color": "#94a3b8"}, {"x": 198.46, "y": 147.62, "name": "Jay Kreps", "handle": "jaykreps", "rank": 253, "layer": "surface", "score": 0.053422, "color": "#94a3b8"}, {"x": 82.54, "y": 477.91, "name": "Perplexity", "handle": "perplexity_ai", "rank": 254, "layer": "surface", "score": 0.050052, "color": "#94a3b8"}, {"x": 165.2, "y": 622.99, "name": "Alexander Wei", "handle": "alexwei_", "rank": 255, "layer": "surface", "score": 0.049482, "color": "#94a3b8"}, {"x": 246.96, "y": 691.94, "name": "kache", "handle": "yacineMTB", "rank": 256, "layer": "surface", "score": 0.048281, "color": "#94a3b8"}, {"x": 146.61, "y": 640.58, "name": "Rihard Jarc", "handle": "RihardJarc", "rank": 257, "layer": "surface", "score": 0.04747, "color": "#94a3b8"}, {"x": 571.85, "y": 96.16, "name": "Jasper", "handle": "zjasper", "rank": 258, "layer": "surface", "score": 0.04567, "color": "#94a3b8"}, {"x": 688.2, "y": 562.96, "name": "Geoffrey Litt", "handle": "geoffreylitt", "rank": 259, "layer": "surface", "score": 0.045416, "color": "#94a3b8"}, {"x": 87.15, "y": 320.89, "name": "Toby Pohlen", "handle": "TobyPhln", "rank": 260, "layer": "surface", "score": 0.042903, "color": "#94a3b8"}, {"x": 189.65, "y": 689.68, "name": "Gizem Akdag", "handle": "gizakdag", "rank": 261, "layer": "surface", "score": 0.04193, "color": "#94a3b8"}, {"x": 467.35, "y": 61.22, "name": "Microsoft Partner", "handle": "msPartner", "rank": 262, "layer": "surface", "score": 0.04065, "color": "#94a3b8"}, {"x": 409.19, "y": 54.66, "name": "World Labs", "handle": "theworldlabs", "rank": 263, "layer": "surface", "score": 0.038123, "color": "#94a3b8"}, {"x": 511.43, "y": 738.31, "name": "Derya Unutmaz, MD", "handle": "DeryaTR_", "rank": 264, "layer": "surface", "score": 0.035787, "color": "#94a3b8"}, {"x": 585.77, "y": 663.91, "name": "Muratcan Koylan", "handle": "koylanai", "rank": 265, "layer": "surface", "score": 0.032531, "color": "#94a3b8"}, {"x": 241.71, "y": 114.38, "name": "the tiny corp", "handle": "__tinygrad__", "rank": 266, "layer": "surface", "score": 0.032519, "color": "#94a3b8"}, {"x": 468.44, "y": 735.39, "name": "CIX 🦾", "handle": "cixliv", "rank": 267, "layer": "surface", "score": 0.031786, "color": "#94a3b8"}, {"x": 436.79, "y": 54.77, "name": "Brent Mayo", "handle": "BrentM_SpaceX", "rank": 268, "layer": "surface", "score": 0.031453, "color": "#94a3b8"}, {"x": 143.66, "y": 195.3, "name": "Gavin Baker", "handle": "GavinSBaker", "rank": 269, "layer": "surface", "score": 0.031303, "color": "#94a3b8"}, {"x": 662.41, "y": 629.98, "name": "Kath Korevec", "handle": "simpsoka", "rank": 270, "layer": "surface", "score": 0.031124, "color": "#94a3b8"}, {"x": 742.89, "y": 322.72, "name": "Joseph Suarez 🐡", "handle": "jsuarez", "rank": 271, "layer": "surface", "score": 0.030723, "color": "#94a3b8"}, {"x": 721.66, "y": 452.35, "name": "kalomaze", "handle": "kalomaze", "rank": 272, "layer": "surface", "score": 0.030196, "color": "#94a3b8"}, {"x": 253.11, "y": 100.89, "name": "Tristan", "handle": "ItsTKai", "rank": 273, "layer": "surface", "score": 0.029925, "color": "#94a3b8"}, {"x": 116.06, "y": 615.56, "name": "Adina Yakup", "handle": "AdinaYakup", "rank": 274, "layer": "surface", "score": 0.029763, "color": "#94a3b8"}, {"x": 708.84, "y": 559.81, "name": "Haotian Liu", "handle": "imhaotian", "rank": 275, "layer": "surface", "score": 0.026025, "color": "#94a3b8"}, {"x": 158.21, "y": 151.3, "name": "NVIDIA GeForce PL", "handle": "NVIDIAGeForcePL", "rank": 276, "layer": "surface", "score": 0.022098, "color": "#94a3b8"}, {"x": 445.85, "y": 77.58, "name": "Tatiana Tsiguleva", "handle": "ciguleva", "rank": 277, "layer": "surface", "score": 0.01834, "color": "#94a3b8"}, {"x": 115.27, "y": 192.0, "name": "Parag Agrawal", "handle": "paraga", "rank": 278, "layer": "surface", "score": 0.017133, "color": "#94a3b8"}, {"x": 724.68, "y": 366.93, "name": "Google UK", "handle": "GoogleUK", "rank": 279, "layer": "surface", "score": 0.016328, "color": "#94a3b8"}, {"x": 199.18, "y": 686.87, "name": "Mistral AI", "handle": "MistralAI", "rank": 280, "layer": "surface", "score": 0.015744, "color": "#94a3b8"}, {"x": 168.14, "y": 645.14, "name": "Visual Studio Code", "handle": "code", "rank": 281, "layer": "surface", "score": 0.015608, "color": "#94a3b8"}, {"x": 215.49, "y": 685.83, "name": "Ray Hotate 保立怜", "handle": "rayhotate", "rank": 282, "layer": "surface", "score": 0.014304, "color": "#94a3b8"}, {"x": 554.78, "y": 83.2, "name": "WiML", "handle": "WiMLworkshop", "rank": 283, "layer": "surface", "score": 0.01351, "color": "#94a3b8"}, {"x": 715.96, "y": 320.54, "name": "Jonathan Gorard", "handle": "getjonwithit", "rank": 284, "layer": "surface", "score": 0.012583, "color": "#94a3b8"}, {"x": 563.69, "y": 96.44, "name": "Mattt", "handle": "mattt", "rank": 285, "layer": "surface", "score": 0.008929, "color": "#94a3b8"}, {"x": 80.69, "y": 537.02, "name": "Jerrod Lew", "handle": "jerrod_lew", "rank": 286, "layer": "surface", "score": 0.008389, "color": "#94a3b8"}, {"x": 740.25, "y": 325.01, "name": "NVIDIA GeForce TR", "handle": "nvidiageforcetr", "rank": 287, "layer": "surface", "score": 0.008385, "color": "#94a3b8"}, {"x": 518.62, "y": 90.21, "name": "Mitchell Hashimoto", "handle": "mitchellh", "rank": 288, "layer": "surface", "score": 0.008282, "color": "#94a3b8"}, {"x": 60.46, "y": 435.33, "name": "DSPy", "handle": "DSPyOSS", "rank": 289, "layer": "surface", "score": 0.008123, "color": "#94a3b8"}, {"x": 359.84, "y": 64.72, "name": "Peter Berezin", "handle": "PeterBerezinBCA", "rank": 290, "layer": "surface", "score": 0.008121, "color": "#94a3b8"}, {"x": 597.82, "y": 133.79, "name": "American Mathematical Society", "handle": "amermathsoc", "rank": 291, "layer": "surface", "score": 0.003056, "color": "#94a3b8"}, {"x": 701.01, "y": 582.29, "name": "Kazuki Fujisawa", "handle": "kazu_fujisawa", "rank": 292, "layer": "surface", "score": 0.001481, "color": "#94a3b8"}, {"x": 413.64, "y": 753.48, "name": "McGill University", "handle": "mcgillu", "rank": 293, "layer": "surface", "score": 0.001425, "color": "#94a3b8"}, {"x": 139.45, "y": 183.54, "name": "Brian Armstrong", "handle": "brian_armstrong", "rank": 294, "layer": "surface", "score": 0.001406, "color": "#94a3b8"}, {"x": 730.2, "y": 460.2, "name": "Skild AI", "handle": "SkildAI", "rank": 295, "layer": "surface", "score": 0.001406, "color": "#94a3b8"}, {"x": 546.45, "y": 720.79, "name": "Microsoft Surface", "handle": "surface", "rank": 296, "layer": "surface", "score": 0.001333, "color": "#94a3b8"}, {"x": 497.58, "y": 85.14, "name": "Okara", "handle": "askOkara", "rank": 297, "layer": "surface", "score": 0.001066, "color": "#94a3b8"}, {"x": 644.12, "y": 171.68, "name": "Dario TLO Wünsch", "handle": "TLOgg", "rank": 298, "layer": "surface", "score": 0.000956, "color": "#94a3b8"}, {"x": 342.95, "y": 742.52, "name": "Lorwen C Nagle, PhD", "handle": "LORWEN108", "rank": 299, "layer": "surface", "score": 0.00026, "color": "#94a3b8"}, {"x": 705.35, "y": 296.66, "name": "Seth Harp", "handle": "sethharpesq", "rank": 300, "layer": "surface", "score": 0.000258, "color": "#94a3b8"}];
+    const svg = document.getElementById('viz');
+    const search = document.getElementById('search');
+    const checkboxes = [...document.querySelectorAll('input[data-layer]')];
+    const list = document.getElementById('list');
+    const kVisible = document.getElementById('k_visible');
+    const kAvg = document.getElementById('k_avg');
+    const stageHint = document.getElementById('stageHint');
+    const zoomHint = document.getElementById('zoomHint');
+    const goBackBtn = document.getElementById('goBack');
+    const viewLeftBtn = document.getElementById('viewLeft');
+    const viewRightBtn = document.getElementById('viewRight');
+    const viewTiltUpBtn = document.getElementById('viewTiltUp');
+    const viewTiltDownBtn = document.getElementById('viewTiltDown');
+    const viewResetBtn = document.getElementById('viewReset');
+    const viewAutoBtn = document.getElementById('viewAuto');
+    const ns = 'http://www.w3.org/2000/svg';
+
+    let focusedLayer = null;
+    let scale = 1;
+    let tx = 0;
+    let ty = 0;
+    const MIN_SCALE = 0.08;
+    const MAX_SCALE = 30;
+    let isDragging = false;
+    let isRotating = false;
+    let startPoint = null;
+    let activePointers = new Map();
+    let pinchState = null;
+    let panVelocity = { x: 0, y: 0, t: 0 };
+    let inertiaRAF = null;
+    let lastRenderedScale = scale;
+    let yaw = 0;     // left/right view angle
+    let pitch = 0;   // up/down tilt
+    let autoSpin = false;
+    let spinRAF = null;
+
+    const layerRings = [
+      { layer: 'core', radius: 96, color: '#7dd3fc' },
+      { layer: 'inner_core', radius: 155, color: '#34d399' },
+      { layer: 'middle_core', radius: 220, color: '#fbbf24' },
+      { layer: 'outer_core', radius: 292, color: '#f59e0b' },
+      { layer: 'surface', radius: 365, color: '#94a3b8' },
+    ];
+
+    const viewport = document.createElementNS(ns, 'g');
+    viewport.setAttribute('id', 'viewport');
+    svg.appendChild(viewport);
+
+    const ringsG = document.createElementNS(ns, 'g');
+    ringsG.setAttribute('id', 'rings');
+    viewport.appendChild(ringsG);
+
+    const nodesG = document.createElementNS(ns, 'g');
+    nodesG.setAttribute('id', 'nodes');
+    viewport.appendChild(nodesG);
+
+    layerRings.forEach(r => {
+      const circle = document.createElementNS(ns,'circle');
+      circle.setAttribute('cx','400'); circle.setAttribute('cy','400'); circle.setAttribute('r', r.radius);
+      circle.setAttribute('fill','none');
+      circle.setAttribute('stroke', 'rgba(148,163,184,.30)');
+      circle.setAttribute('stroke-width','1');
+      circle.setAttribute('class', 'ring-guide');
+      circle.dataset.layer = r.layer;
+      circle.addEventListener('click', (e) => { e.stopPropagation(); focusLayer(r.layer, true); });
+      ringsG.appendChild(circle);
+    });
+
+    function applyTransform() {
+      viewport.setAttribute('transform', `matrix(${scale} 0 0 ${scale} ${tx} ${ty})`);
+      zoomHint.textContent = `缩放 ${scale.toFixed(2)}x`;
+      if (Math.abs(scale - lastRenderedScale) > 0.001) {
+        lastRenderedScale = scale;
+        render();
+      }
+    }
+
+    function clampScale(v) { return Math.max(MIN_SCALE, Math.min(MAX_SCALE, v)); }
+
+    function clientToSvg(clientX, clientY) {
+      const rect = svg.getBoundingClientRect();
+      return {
+        x: (clientX - rect.left) * (800 / rect.width),
+        y: (clientY - rect.top) * (800 / rect.height),
+      };
+    }
+
+    function setScaleAt(nextScale, cx=400, cy=400) {
+      stopInertia();
+      const next = clampScale(nextScale);
+      const k = next / scale;
+      tx = cx - k * (cx - tx);
+      ty = cy - k * (cy - ty);
+      scale = next;
+      applyTransform();
+    }
+
+    function zoomAt(factor, cx=400, cy=400) {
+      setScaleAt(scale * factor, cx, cy);
+    }
+
+    function focusView(radius) {
+      scale = clampScale(360 / radius);
+      tx = 400 - 400 * scale;
+      ty = 400 - 400 * scale;
+      panVelocity.x = 0;
+      panVelocity.y = 0;
+      applyTransform();
+    }
+
+    function resetView() {
+      scale = 1;
+      tx = 0;
+      ty = 0;
+      panVelocity.x = 0;
+      panVelocity.y = 0;
+      applyTransform();
+    }
+
+    function stopInertia() {
+      if (inertiaRAF) cancelAnimationFrame(inertiaRAF);
+      inertiaRAF = null;
+    }
+
+    function startInertia() {
+      stopInertia();
+      const decay = 0.92;
+      const minV = 0.015;
+
+      const tick = () => {
+        panVelocity.x *= decay;
+        panVelocity.y *= decay;
+        tx += panVelocity.x;
+        ty += panVelocity.y;
+        applyTransform();
+
+        if (Math.abs(panVelocity.x) < minV && Math.abs(panVelocity.y) < minV) {
+          panVelocity.x = 0;
+          panVelocity.y = 0;
+          inertiaRAF = null;
+          return;
+        }
+        inertiaRAF = requestAnimationFrame(tick);
+      };
+      inertiaRAF = requestAnimationFrame(tick);
+    }
+
+    function filtered() {
+      const activeLayers = new Set(checkboxes.filter(cb => cb.checked).map(cb => cb.dataset.layer));
+      const q = (search.value || '').trim().toLowerCase();
+      return data.filter(n => {
+        const blob = `${n.name||''} @${n.handle||''}`.toLowerCase();
+        if (!activeLayers.has(n.layer)) return false;
+        if (q && !blob.includes(q)) return false;
+        return true;
+      });
+    }
+
+    function hash01(str) {
+      let h = 2166136261;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return ((h >>> 0) % 1000) / 1000;
+    }
+
+    function projectNode(n) {
+      const cx = 400, cy = 400;
+      const x0 = Number(n.x) - cx;
+      const y0 = Number(n.y) - cy;
+      const layerDepth = {
+        core: 26,
+        inner_core: 46,
+        middle_core: 66,
+        outer_core: 88,
+        surface: 112
+      };
+
+      // Front view is close to flat; once angle changes, it becomes galaxy-like 3D.
+      const side = hash01(String(n.handle || n.name || 'node')) > 0.5 ? 1 : -1;
+      const z0 = side * ((layerDepth[n.layer] || 62) + hash01(String(n.name || 'n')) * 24);
+      const explode = 1 + Math.max(0, scale - 1) * 0.42;
+
+      const cyaw = Math.cos(yaw), syaw = Math.sin(yaw);
+      const cp = Math.cos(pitch), sp = Math.sin(pitch);
+
+      const x1 = x0 * cyaw - z0 * syaw;
+      const z1 = x0 * syaw + z0 * cyaw;
+      const y1 = y0 * cp - z1 * sp;
+      const z2 = y0 * sp + z1 * cp;
+
+      const frontFlat = Math.abs(yaw) + Math.abs(pitch) < 0.015;
+      const depthBoost = 1 + Math.max(0, scale - 1) * 0.28;
+      const persp = frontFlat ? 1 : (640 / (640 + z2 * depthBoost));
+
+      return {
+        x: cx + x1 * explode * persp,
+        y: cy + y1 * explode * persp,
+        depth: frontFlat ? 1 : Math.max(0.78, Math.min(1.35, persp)),
+      };
+    }
+
+    function renderList(rows) {
+      list.innerHTML = rows.slice(0,60).map(n => `
+        <div class="row">
+          <div>
+            <div class="name">#${n.rank} ${n.name}</div>
+            <div class="meta">@${n.handle} · ${n.layer} · ${Number(n.score||0).toFixed(3)}</div>
+          </div>
+          <a class="btn" href="https://x.com/${n.handle}" target="_blank">X</a>
+        </div>
+      `).join('');
+    }
+
+    function render() {
+      nodesG.innerHTML = '';
+      const rows = filtered();
+      const activeNames = checkboxes.filter(cb=>cb.checked).map(cb=>cb.parentElement.textContent.trim()).join(' / ');
+      const yawDeg = (yaw * 180 / Math.PI).toFixed(0);
+      const pitchDeg = (pitch * 180 / Math.PI).toFixed(0);
+      stageHint.textContent = `当前显示：${activeNames || '无'}${focusedLayer ? ` · 聚焦 ${focusedLayer}` : ''} · 视角 ${yawDeg}°/${pitchDeg}°`;
+
+      rows.forEach(n=>{
+        const p = projectNode(n);
+        const a = document.createElementNS(ns,'a');
+        a.setAttribute('href', `https://x.com/${n.handle}`);
+        a.setAttribute('target', '_blank');
+        a.setAttribute('class', 'node-link');
+
+        const c = document.createElementNS(ns,'circle');
+        c.setAttribute('cx', p.x); c.setAttribute('cy', p.y);
+        c.setAttribute('r', Math.max(2.8, (8 - Math.log10((n.rank||1)+1)) * (0.92 + p.depth * 0.1)));
+        c.setAttribute('fill', n.color);
+        c.setAttribute('opacity','0.94');
+        c.setAttribute('stroke','rgba(255,255,255,0.45)');
+        c.setAttribute('stroke-width','0.6');
+
+        const label = document.createElementNS(ns,'text');
+        label.setAttribute('x', Number(p.x) + 5);
+        label.setAttribute('y', Number(p.y) - 5);
+        label.textContent = n.name || n.handle;
+
+        const t = document.createElementNS(ns,'title');
+        t.textContent = `#${n.rank} ${n.name} @${n.handle} | ${n.layer} | score=${n.score}`;
+        c.appendChild(t);
+        a.appendChild(c);
+        if ((n.rank||999) <= 30 || (search.value && search.value.trim())) a.appendChild(label);
+        nodesG.appendChild(a);
+      });
+
+      kVisible.textContent = String(rows.length);
+      const avg = rows.length ? (rows.reduce((s,n)=>s+Number(n.score||0),0) / rows.length) : 0;
+      kAvg.textContent = avg.toFixed(3);
+      renderList(rows.slice().sort((a,b)=>a.rank-b.rank));
+    }
+
+    function clampView() {
+      const lim = Math.PI * 0.42;
+      pitch = Math.max(-lim, Math.min(lim, pitch));
+    }
+
+    function applyView(dYaw = 0, dPitch = 0) {
+      yaw += dYaw;
+      pitch += dPitch;
+      clampView();
+      render();
+    }
+
+    function resetViewAngles() {
+      yaw = 0;
+      pitch = 0;
+      render();
+    }
+
+    function setAutoSpin(on) {
+      autoSpin = on;
+      viewAutoBtn.textContent = autoSpin ? '⏸' : '▶';
+      if (spinRAF) cancelAnimationFrame(spinRAF);
+      spinRAF = null;
+      if (!autoSpin) return;
+      const tick = () => {
+        yaw += 0.0045;
+        render();
+        spinRAF = requestAnimationFrame(tick);
+      };
+      spinRAF = requestAnimationFrame(tick);
+    }
+
+    function focusLayer(layer, zoom=true) {
+      focusedLayer = layer;
+      checkboxes.forEach(cb => { cb.checked = cb.dataset.layer === layer; });
+      render();
+      if (zoom) {
+        const r = layerRings.find(x => x.layer === layer)?.radius || 220;
+        focusView(r);
+      }
+    }
+
+    document.getElementById('showAll').addEventListener('click', () => {
+      focusedLayer = null;
+      checkboxes.forEach(cb => cb.checked = true);
+      render();
+      resetView();
+    });
+
+    document.getElementById('focusLayerBtn').addEventListener('click', () => {
+      const active = checkboxes.filter(cb => cb.checked).map(cb => cb.dataset.layer);
+      if (active.length === 1) focusLayer(active[0], true);
+    });
+
+    document.getElementById('zoomIn').addEventListener('click', () => zoomAt(1.25));
+    document.getElementById('zoomOut').addEventListener('click', () => zoomAt(1/1.25));
+    document.getElementById('zoomReset').addEventListener('click', resetView);
+    viewLeftBtn.addEventListener('click', () => applyView(-0.12, 0));
+    viewRightBtn.addEventListener('click', () => applyView(0.12, 0));
+    viewTiltUpBtn.addEventListener('click', () => applyView(0, -0.1));
+    viewTiltDownBtn.addEventListener('click', () => applyView(0, 0.1));
+    viewResetBtn.addEventListener('click', resetViewAngles);
+    viewAutoBtn.addEventListener('click', () => setAutoSpin(!autoSpin));
+
+    svg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const p = clientToSvg(e.clientX, e.clientY);
+      const factor = Math.exp(-e.deltaY * 0.0015);
+      zoomAt(factor, p.x, p.y);
+    }, { passive:false });
+
+    svg.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    svg.addEventListener('pointerdown', (e) => {
+      stopInertia();
+      svg.setPointerCapture(e.pointerId);
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (activePointers.size === 1) {
+        isRotating = e.button === 2 || e.altKey;
+        isDragging = !isRotating;
+        startPoint = { x: e.clientX, y: e.clientY, tx, ty };
+        panVelocity = { x: 0, y: 0, t: performance.now() };
+      } else if (activePointers.size === 2) {
+        const pts = [...activePointers.values()];
+        const dx = pts[1].x - pts[0].x;
+        const dy = pts[1].y - pts[0].y;
+        pinchState = { dist: Math.hypot(dx, dy), scale };
+        isDragging = false;
+        isRotating = false;
+      }
+    });
+
+    svg.addEventListener('pointermove', (e) => {
+      if (!activePointers.has(e.pointerId)) return;
+      activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (activePointers.size === 2 && pinchState) {
+        const pts = [...activePointers.values()];
+        const dx = pts[1].x - pts[0].x;
+        const dy = pts[1].y - pts[0].y;
+        const dist = Math.max(1, Math.hypot(dx, dy));
+        const ratio = dist / Math.max(1, pinchState.dist);
+        const cxClient = (pts[0].x + pts[1].x) / 2;
+        const cyClient = (pts[0].y + pts[1].y) / 2;
+        const center = clientToSvg(cxClient, cyClient);
+        setScaleAt(pinchState.scale * ratio, center.x, center.y);
+        return;
+      }
+
+      if (isRotating && startPoint) {
+        const dx = e.clientX - startPoint.x;
+        const dy = e.clientY - startPoint.y;
+        startPoint = { ...startPoint, x: e.clientX, y: e.clientY };
+        applyView(dx * 0.0052, dy * 0.0042);
+        return;
+      }
+
+      if (!isDragging || !startPoint) return;
+      const rect = svg.getBoundingClientRect();
+      const dx = (e.clientX - startPoint.x) * (800 / rect.width);
+      const dy = (e.clientY - startPoint.y) * (800 / rect.height);
+      const now = performance.now();
+      const dt = Math.max(1, now - panVelocity.t);
+      const vx = (dx + startPoint.tx - tx) / dt * 16;
+      const vy = (dy + startPoint.ty - ty) / dt * 16;
+      tx = startPoint.tx + dx;
+      ty = startPoint.ty + dy;
+      panVelocity = { x: vx, y: vy, t: now };
+      applyTransform();
+    });
+
+    function releasePointer(e) {
+      activePointers.delete(e.pointerId);
+      if (activePointers.size < 2) pinchState = null;
+      if (activePointers.size === 0) {
+        isDragging = false;
+        isRotating = false;
+        startPoint = null;
+        if (Math.abs(panVelocity.x) > 0.06 || Math.abs(panVelocity.y) > 0.06) startInertia();
+      }
+    }
+    svg.addEventListener('pointerup', releasePointer);
+    svg.addEventListener('pointercancel', releasePointer);
+    svg.addEventListener('pointerleave', releasePointer);
+
+    svg.addEventListener('dblclick', (e) => {
+      const p = clientToSvg(e.clientX, e.clientY);
+      zoomAt(1.8, p.x, p.y);
+    });
+
+    checkboxes.forEach(cb => cb.addEventListener('change', () => { focusedLayer = null; render(); }));
+    search.addEventListener('input', render);
+
+    goBackBtn.addEventListener('click', () => {
+      const hasHistory = window.history.length > 1;
+      const hasReferrer = !!document.referrer;
+      if (hasHistory) {
+        window.history.back();
+        return;
+      }
+      if (hasReferrer) {
+        window.location.href = document.referrer;
+        return;
+      }
+      window.location.href = '/index.html';
+    });
+
+    applyTransform();
+    render();
+  </script>
+</body>
+</html>

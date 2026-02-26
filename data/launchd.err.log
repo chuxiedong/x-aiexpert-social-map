@@ -1,0 +1,2 @@
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: Operation not permitted
+/bin/bash: /Users/somalia/Desktop/x-ai-experts-viz/scripts/autopilot_cycle.sh: Operation not permitted
