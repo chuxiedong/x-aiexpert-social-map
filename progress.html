@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>迭代进度</title>
-  <script src="/assets/metrics.js" defer></script>
+  <script src="./assets/metrics.js" defer></script>
   <style>
     :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--ok:#49d6a6;--bad:#f87171}
     *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -22,9 +22,9 @@
   <div class="top">
     <h2>迭代进度 / Iteration Timeline</h2>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <a class="btn" href="/index.html">首页</a>
-      <a class="btn" href="/ops.html">Ops</a>
-      <a class="btn" href="/commercial.html">商业方案</a>
+      <a class="btn" href="./index.html">首页</a>
+      <a class="btn" href="./ops.html">Ops</a>
+      <a class="btn" href="./commercial.html">商业方案</a>
     </div>
   </div>
 
@@ -42,8 +42,8 @@
 </div>
 <script>
 async function boot(){
-  const beat=await fetch('/data/heartbeat_status.json').then(r=>r.json()).catch(()=>null);
-  const log=await fetch('/data/iteration_log.json').then(r=>r.json()).catch(()=>[]);
+  const beat=await fetch('./data/heartbeat_status.json').then(r=>r.json()).catch(()=>null);
+  const log=await fetch('./data/iteration_log.json').then(r=>r.json()).catch(()=>[]);
   const rows=Array.isArray(log)?log:[];
   const avg=rows.length?Math.round(rows.reduce((s,x)=>s+Number(x.duration_ms||0),0)/rows.length):0;
   document.getElementById('kRuns').textContent=rows.length;

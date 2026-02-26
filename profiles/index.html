@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>X Influencer Profiles</title>
-<script src="/assets/metrics.js" defer></script>
+<script src="../assets/metrics.js" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -11,7 +11,7 @@
 .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.item{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:5px}
 .name{font-weight:700}.muted{color:#9db0da;font-size:12px}.line{display:flex;justify-content:space-between;gap:8px}.tag{font-size:11px;border:1px solid rgba(255,255,255,.2);padding:3px 6px;border-radius:999px}
 </style></head><body><div class="wrap">
-<div class="top"><h2>X Influencer Profiles / 博主画像库</h2><div style="display:flex;gap:8px"><a class="btn" href="/index.html">Home</a><a class="btn" href="/insights.html">Insights</a><a class="btn" href="/daily_briefing.html">Briefing</a><a class="btn" href="/daily_progress.html">每日AI进展</a><a class="btn" href="/poster.html?mode=custom">自选博主海报</a><a class="btn" href="/commercial.html">Commercial</a><a class="btn" href="/contact.html">Contact</a></div></div>
+<div class="top"><h2>X Influencer Profiles / 博主画像库</h2><div style="display:flex;gap:8px"><a class="btn" href="../index.html">Home</a><a class="btn" href="../insights.html">Insights</a><a class="btn" href="../daily_briefing.html">Briefing</a><a class="btn" href="../daily_progress.html">每日AI进展</a><a class="btn" href="../poster.html?mode=custom">自选博主海报</a><a class="btn" href="../commercial.html">Commercial</a><a class="btn" href="../contact.html">Contact</a></div></div>
 <div class="tools"><input id="q" placeholder="Search name/handle"/><select id="layer"><option value="all">All Layers</option></select><select id="sort"><option value="rank">Sort by Rank</option><option value="score">Sort by Score</option><option value="followers">Sort by Followers</option></select></div>
 <div id="grid" class="grid"></div></div>
 <script>
@@ -23,9 +23,9 @@ function render(){
   const lv=layer.value; const sv=sort.value;
   let fs=rows.filter(r=>(!key||(`${r.name} ${r.handle}`).toLowerCase().includes(key)) && (lv==='all'||r.layer===lv));
   fs.sort((a,b)=>sv==='rank'?a.rank-b.rank:sv==='followers'?(b.followers-a.followers):(b.score-a.score));
-  grid.innerHTML=fs.map(r=>`<div class="item"><div class="line"><div class="name">${r.name}</div><div class="muted">#${r.rank}</div></div><div class="muted">@${r.handle}</div><div class="line"><span class="tag">${layerLabel[r.layer]||r.layer}</span><span class="muted">score ${Number(r.score||0).toFixed(3)}</span></div><div class="line"><a class="btn" href="/profiles/${r.slug}.html">Profile</a><a class="btn" href="/poster.html?slug=${r.slug}&mode=profile">海报</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">Open X</a></div></div>`).join('');
+  grid.innerHTML=fs.map(r=>`<div class="item"><div class="line"><div class="name">${r.name}</div><div class="muted">#${r.rank}</div></div><div class="muted">@${r.handle}</div><div class="line"><span class="tag">${layerLabel[r.layer]||r.layer}</span><span class="muted">score ${Number(r.score||0).toFixed(3)}</span></div><div class="line"><a class="btn" href="../profiles/${r.slug}.html">Profile</a><a class="btn" href="../poster.html?slug=${r.slug}&mode=profile">海报</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">Open X</a></div></div>`).join('');
 }
-fetch('/data/profiles.json').then(r=>r.json()).then(d=>{
+fetch('../data/profiles.json').then(r=>r.json()).then(d=>{
   rows=d.items||[];
   const set=[...new Set(rows.map(x=>x.layer))];
   layer.innerHTML='<option value="all">All Layers</option>'+set.map(v=>`<option value="${v}">${layerLabel[v]||v}</option>`).join('');

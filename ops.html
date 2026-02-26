@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>运营看板</title>
-  <script src="/assets/metrics.js" defer></script>
+  <script src="./assets/metrics.js" defer></script>
   <style>
     :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5}
     *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -22,10 +22,10 @@
   <div class="top">
     <h2>运营看板 / Ops Dashboard</h2>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <a class="btn" href="/index.html">首页</a>
-      <a class="btn" href="/commercial.html">商业方案</a>
-      <a class="btn" href="/contact.html">线索收集</a>
-      <a class="btn" href="/progress.html">迭代进度</a>
+      <a class="btn" href="./index.html">首页</a>
+      <a class="btn" href="./commercial.html">商业方案</a>
+      <a class="btn" href="./contact.html">线索收集</a>
+      <a class="btn" href="./progress.html">迭代进度</a>
       <button class="btn" id="clearMetrics">清空埋点</button>
     </div>
   </div>
@@ -72,7 +72,7 @@ function renderMetrics(){
 
 async function loadBeat(){
   try{
-    const d=await fetch('/data/heartbeat_status.json').then(r=>r.json());
+    const d=await fetch('./data/heartbeat_status.json').then(r=>r.json());
     document.getElementById('kBeat').textContent=(d.generated_at||'-').replace('T',' ').slice(0,19);
     document.getElementById('beatStatus').textContent=`status=${d.status||'unknown'} | checked=${d.checks?d.checks.length:0} | build=${d.build_result||'-'}`;
   }catch{

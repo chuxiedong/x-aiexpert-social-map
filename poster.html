@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Share Poster</title>
-<script src="/assets/metrics.js" defer></script>
+<script src="./assets/metrics.js" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -19,7 +19,7 @@
 .picker .it{display:flex;justify-content:space-between;gap:8px;padding:5px 2px;font-size:12px;color:#d9e7ff}
 @media(max-width:860px){.row{grid-template-columns:1fr}.cfg{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
-<div class="top"><h2>Share Poster / 一键转海报</h2><div style="display:flex;gap:8px"><a class="btn" href="/index.html">Home</a><a class="btn" href="/insights.html">Insights</a><a class="btn" href="/daily_briefing.html">Top10</a><a class="btn" href="/daily_progress.html">每日AI进展</a><a class="btn" href="/commercial.html">Commercial</a><a class="btn" href="/contact.html">Contact</a></div></div>
+<div class="top"><h2>Share Poster / 一键转海报</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./insights.html">Insights</a><a class="btn" href="./daily_briefing.html">Top10</a><a class="btn" href="./daily_progress.html">每日AI进展</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
 <div class="row">
   <div class="card">
     <div id="title" style="font-size:22px;font-weight:800">Loading...</div>
@@ -269,8 +269,8 @@ document.querySelectorAll('[data-mode]').forEach(btn=>{
 [brandColorInput,brandSloganInput,brandLogoInput].forEach(el=>el.addEventListener('input',draw));
 
 Promise.all([
-  fetch('/data/profiles.json').then(r=>r.json()).catch(()=>({items:[]})),
-  fetch('/data/daily_briefing.json').then(r=>r.json()).catch(()=>({items:[]}))
+  fetch('./data/profiles.json').then(r=>r.json()).catch(()=>({items:[]})),
+  fetch('./data/daily_briefing.json').then(r=>r.json()).catch(()=>({items:[]}))
 ]).then(([p,b])=>{
   rows=p.items||[]; top10=b.items||[];
   currentItem=rows.find(x=>x.slug===slug) || top10.find(x=>x.slug===slug) || rows[0] || null;
@@ -278,4 +278,4 @@ Promise.all([
   renderPicker();
   draw();
 });
-</script><script src="/assets/share-fab.js" defer></script></body></html>
+</script><script src="./assets/share-fab.js" defer></script></body></html>
