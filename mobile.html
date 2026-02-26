@@ -178,7 +178,7 @@
         `).join("");
       }
 
-      fetch("/data/top300.json")
+      fetch("./data/top300.json")
         .then((r) => r.json())
         .then((d) => {
           const rows = d.experts || [];

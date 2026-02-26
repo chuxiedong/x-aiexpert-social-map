@@ -23,7 +23,7 @@ function render(){
   const lv=layer.value; const sv=sort.value;
   let fs=rows.filter(r=>(!key||(`${r.name} ${r.handle}`).toLowerCase().includes(key)) && (lv==='all'||r.layer===lv));
   fs.sort((a,b)=>sv==='rank'?a.rank-b.rank:sv==='followers'?(b.followers-a.followers):(b.score-a.score));
-  grid.innerHTML=fs.map(r=>`<div class="item"><div class="line"><div class="name">${r.name}</div><div class="muted">#${r.rank}</div></div><div class="muted">@${r.handle}</div><div class="line"><span class="tag">${layerLabel[r.layer]||r.layer}</span><span class="muted">score ${Number(r.score||0).toFixed(3)}</span></div><div class="line"><a class="btn" href="../profiles/${r.slug}.html">Profile</a><a class="btn" href="../poster.html?slug=${r.slug}&mode=profile">海报</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">Open X</a></div></div>`).join('');
+  grid.innerHTML=fs.map(r=>`<div class="item"><div class="line"><div class="name">${r.name}</div><div class="muted">#${r.rank}</div></div><div class="muted">@${r.handle}</div><div class="line"><span class="tag">${layerLabel[r.layer]||r.layer}</span><span class="muted">score ${Number(r.score||0).toFixed(3)}</span></div><div class="line"><a class="btn" href="./${r.slug}.html">Profile</a><a class="btn" href="../poster.html?slug=${r.slug}&mode=profile">海报</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">Open X</a></div></div>`).join('');
 }
 fetch('../data/profiles.json').then(r=>r.json()).then(d=>{
   rows=d.items||[];

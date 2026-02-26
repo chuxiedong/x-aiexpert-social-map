@@ -272,9 +272,9 @@
       });
 
       async function boot() {
-        const p = await fetch("/data/profiles.json").then((r) => r.json()).catch(() => ({ items: [] }));
-        const d = await fetch("/data/daily_insights.json").then((r) => r.json()).catch(() => ({ items: [] }));
-        const b = await fetch("/data/daily_briefing.json").then((r) => r.json()).catch(() => ({ items: [] }));
+        const p = await fetch("./data/profiles.json").then((r) => r.json()).catch(() => ({ items: [] }));
+        const d = await fetch("./data/daily_insights.json").then((r) => r.json()).catch(() => ({ items: [] }));
+        const b = await fetch("./data/daily_briefing.json").then((r) => r.json()).catch(() => ({ items: [] }));
 
         const profiles = p.items || [];
         const items = d.items || [];

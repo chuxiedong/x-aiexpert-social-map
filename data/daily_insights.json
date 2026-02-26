@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-26T01:48:56.155397Z",
+  "updated_at": "2026-02-26T03:40:26.740331Z",
   "items": [
     {
       "slug": "soumithchintala",
@@ -24193,22 +24193,22 @@
           "reciprocal": 0.0
         },
         {
-          "id": "__tinygrad__",
-          "slug": "__tinygrad__",
-          "name": "the tiny corp",
-          "handle": "__tinygrad__",
-          "layer": "surface",
+          "id": "moltbook",
+          "slug": "moltbook",
+          "name": "moltbook",
+          "handle": "moltbook",
+          "layer": "middle_core",
           "score": 0.018172,
           "association": 0.027632,
           "interaction_proxy": 0.009671,
           "reciprocal": 0.0
         },
         {
-          "id": "moltbook",
-          "slug": "moltbook",
-          "name": "moltbook",
-          "handle": "moltbook",
-          "layer": "middle_core",
+          "id": "__tinygrad__",
+          "slug": "__tinygrad__",
+          "name": "the tiny corp",
+          "handle": "__tinygrad__",
+          "layer": "surface",
           "score": 0.018172,
           "association": 0.027632,
           "interaction_proxy": 0.009671,
@@ -25440,22 +25440,22 @@
           "reciprocal": 0.0
         },
         {
-          "id": "claudeai",
-          "slug": "claudeai",
-          "name": "Claude",
-          "handle": "claudeai",
-          "layer": "inner_core",
+          "id": "jonathanross321",
+          "slug": "jonathanross321",
+          "name": "Jonathan Ross",
+          "handle": "JonathanRoss321",
+          "layer": "surface",
           "score": 0.01201,
           "association": 0.02,
           "interaction_proxy": 0.007,
           "reciprocal": 0.0
         },
         {
-          "id": "jonathanross321",
-          "slug": "jonathanross321",
-          "name": "Jonathan Ross",
-          "handle": "JonathanRoss321",
-          "layer": "surface",
+          "id": "claudeai",
+          "slug": "claudeai",
+          "name": "Claude",
+          "handle": "claudeai",
+          "layer": "inner_core",
           "score": 0.01201,
           "association": 0.02,
           "interaction_proxy": 0.007,

@@ -306,7 +306,7 @@ def profile_page(profile: dict) -> str:
     return f"""<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>{name} | X Profile</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"../assets/metrics.js\" defer></script>
 <style>
 :root{{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}}
 *{{box-sizing:border-box}} body{{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}}
@@ -322,7 +322,7 @@ def profile_page(profile: dict) -> str:
 @media (max-width:760px){{.kpis{{grid-template-columns:repeat(2,minmax(0,1fr))}} .name{{font-size:20px}}}}
 </style></head><body><div class=\"wrap\"><div class=\"card\">
 <div class=\"row\"><div><div class=\"name\">{name}</div><div class=\"handle\">@{handle}</div></div>
-<div class=\"row\"><a class=\"btn\" href=\"https://x.com/{handle}\" target=\"_blank\">Open X</a><a class=\"btn\" href=\"/profiles/index.html\">Profiles</a><a class=\"btn\" href=\"/poster.html?slug={profile['slug']}&mode=profile\">分享海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"row\"><a class=\"btn\" href=\"https://x.com/{handle}\" target=\"_blank\">Open X</a><a class=\"btn\" href=\"./index.html\">Profiles</a><a class=\"btn\" href=\"../poster.html?slug={profile['slug']}&mode=profile\">分享海报</a><a class=\"btn\" href=\"../commercial.html\">Commercial</a><a class=\"btn\" href=\"../contact.html\">Contact</a></div></div>
 <div class=\"muted\" style=\"margin-top:6px\">Layer: {layer_en} / {layer_zh}</div>
 <div class=\"tags\">{tags}</div>
 <div class=\"kpis\">
@@ -355,7 +355,7 @@ def profiles_index() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>X Influencer Profiles</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"../assets/metrics.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -365,7 +365,7 @@ def profiles_index() -> str:
 .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.item{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:5px}
 .name{font-weight:700}.muted{color:#9db0da;font-size:12px}.line{display:flex;justify-content:space-between;gap:8px}.tag{font-size:11px;border:1px solid rgba(255,255,255,.2);padding:3px 6px;border-radius:999px}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>X Influencer Profiles / 博主画像库</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/insights.html\">Insights</a><a class=\"btn\" href=\"/daily_briefing.html\">Briefing</a><a class=\"btn\" href=\"/daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"/poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>X Influencer Profiles / 博主画像库</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"../index.html\">Home</a><a class=\"btn\" href=\"../insights.html\">Insights</a><a class=\"btn\" href=\"../daily_briefing.html\">Briefing</a><a class=\"btn\" href=\"../daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"../poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"../commercial.html\">Commercial</a><a class=\"btn\" href=\"../contact.html\">Contact</a></div></div>
 <div class=\"tools\"><input id=\"q\" placeholder=\"Search name/handle\"/><select id=\"layer\"><option value=\"all\">All Layers</option></select><select id=\"sort\"><option value=\"rank\">Sort by Rank</option><option value=\"score\">Sort by Score</option><option value=\"followers\">Sort by Followers</option></select></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
@@ -377,9 +377,9 @@ function render(){
   const lv=layer.value; const sv=sort.value;
   let fs=rows.filter(r=>(!key||(`${r.name} ${r.handle}`).toLowerCase().includes(key)) && (lv==='all'||r.layer===lv));
   fs.sort((a,b)=>sv==='rank'?a.rank-b.rank:sv==='followers'?(b.followers-a.followers):(b.score-a.score));
-  grid.innerHTML=fs.map(r=>`<div class=\"item\"><div class=\"line\"><div class=\"name\">${r.name}</div><div class=\"muted\">#${r.rank}</div></div><div class=\"muted\">@${r.handle}</div><div class=\"line\"><span class=\"tag\">${layerLabel[r.layer]||r.layer}</span><span class=\"muted\">score ${Number(r.score||0).toFixed(3)}</span></div><div class=\"line\"><a class=\"btn\" href=\"/profiles/${r.slug}.html\">Profile</a><a class=\"btn\" href=\"/poster.html?slug=${r.slug}&mode=profile\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`).join('');
+  grid.innerHTML=fs.map(r=>`<div class=\"item\"><div class=\"line\"><div class=\"name\">${r.name}</div><div class=\"muted\">#${r.rank}</div></div><div class=\"muted\">@${r.handle}</div><div class=\"line\"><span class=\"tag\">${layerLabel[r.layer]||r.layer}</span><span class=\"muted\">score ${Number(r.score||0).toFixed(3)}</span></div><div class=\"line\"><a class=\"btn\" href=\"./${r.slug}.html\">Profile</a><a class=\"btn\" href=\"../poster.html?slug=${r.slug}&mode=profile\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`).join('');
 }
-fetch('/data/profiles.json').then(r=>r.json()).then(d=>{
+fetch('../data/profiles.json').then(r=>r.json()).then(d=>{
   rows=d.items||[];
   const set=[...new Set(rows.map(x=>x.layer))];
   layer.innerHTML='<option value="all">All Layers</option>'+set.map(v=>`<option value="${v}">${layerLabel[v]||v}</option>`).join('');
@@ -393,7 +393,7 @@ def insights_page() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Daily Insights</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"./assets/metrics.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -402,7 +402,7 @@ def insights_page() -> str:
 .tools{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}.tools input,.tools select{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#111a34;color:#eaf0ff}
 .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.muted{color:#9db0da;font-size:12px}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Daily Insights / 每日观点精髓</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/profiles/index.html\">Profiles</a><a class=\"btn\" href=\"/daily_briefing.html\">Top10</a><a class=\"btn\" href=\"/daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"/poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Daily Insights / 每日观点精髓</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./profiles/index.html\">Profiles</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"tools\"><input id=\"q\" placeholder=\"Search name/handle\"/><select id=\"lang\"><option value=\"zh\">中文</option><option value=\"en\">English</option></select><select id=\"time\"><option value=\"1\">24h</option><option value=\"7\">7d</option><option value=\"30\" selected>30d</option></select><select id=\"topic\"><option value=\"all\">All Topics</option></select><select id=\"layer\"><option value=\"all\">All Layers</option></select></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
@@ -422,10 +422,10 @@ function render(){
   grid.innerHTML=fs.map(r=>{
     const buddy=((r.best_buddies||[])[0]||null);
     const buddyLine=buddy?`<div class=\"muted\">最佳互动基友：${buddy.name} @${buddy.handle}</div>`:'';
-    return `<div class=\"card\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?r.daily_essence_zh:r.daily_essence_en}</p>${buddyLine}<div class=\"muted\">Recency: ${r.recency_days}d</div><div style=\"display:flex;gap:8px;margin-top:8px\"><a class=\"btn\" href=\"/profiles/${r.slug}.html\">View Profile</a><a class=\"btn\" href=\"/poster.html?slug=${r.slug}&mode=insight&lang=${l}\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`;
+    return `<div class=\"card\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?r.daily_essence_zh:r.daily_essence_en}</p>${buddyLine}<div class=\"muted\">Recency: ${r.recency_days}d</div><div style=\"display:flex;gap:8px;margin-top:8px\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">View Profile</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=insight&lang=${l}\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`;
   }).join('');
 }
-fetch('/data/daily_insights.json').then(r=>r.json()).then(d=>{
+fetch('./data/daily_insights.json').then(r=>r.json()).then(d=>{
   rows=d.items||[];
   const layerSet=[...new Set(rows.map(x=>x.layer))];
   layer.innerHTML='<option value="all">All Layers</option>'+layerSet.map(v=>`<option value="${v}">${layerLabel[v]||v}</option>`).join('');
@@ -441,7 +441,7 @@ def briefing_page() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Daily Top10 Briefing</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"./assets/metrics.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -449,12 +449,12 @@ def briefing_page() -> str:
 .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
 .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.muted{color:#9db0da;font-size:12px}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/insights.html\">Insights</a><a class=\"btn\" href=\"/daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"/poster.html?mode=top10\">Top10整合海报</a><a class=\"btn\" href=\"/poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10整合海报</a><a class=\"btn\" href=\"./poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
-fetch('/data/daily_briefing.json').then(r=>r.json()).then(d=>{
+fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
   const rows=d.items||[];
-  document.getElementById('grid').innerHTML=rows.map((r,i)=>`<div class=\"card\"><div><b>#${i+1} ${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${r.daily_essence_zh}</p><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/profiles/${r.slug}.html\">Profile</a><a class=\"btn\" href=\"/poster.html?slug=${r.slug}&mode=briefing\">单人海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`).join('');
+  document.getElementById('grid').innerHTML=rows.map((r,i)=>`<div class=\"card\"><div><b>#${i+1} ${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${r.daily_essence_zh}</p><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">Profile</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=briefing\">单人海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`).join('');
 });
 </script></body></html>"""
 
@@ -463,7 +463,7 @@ def daily_progress_page() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Daily AI Progress</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"./assets/metrics.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -473,18 +473,18 @@ def daily_progress_page() -> str:
 .muted{color:#9db0da;font-size:12px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
 .tag{display:inline-block;padding:4px 8px;border:1px solid rgba(255,255,255,.2);border-radius:999px;font-size:12px;margin-right:6px}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Daily AI Progress / 每日AI进展</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/insights.html\">Insights</a><a class=\"btn\" href=\"/daily_briefing.html\">Top10</a><a class=\"btn\" href=\"/poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Daily AI Progress / 每日AI进展</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"card\"><div id=\"sum_zh\" style=\"font-size:16px;font-weight:700\"></div><div id=\"sum_en\" class=\"muted\" style=\"margin-top:6px\"></div><div id=\"updated\" class=\"muted\" style=\"margin-top:8px\"></div></div>
 <div class=\"card\"><h3 style=\"margin-top:0\">热门主题</h3><div id=\"topics\"></div></div>
 <div class=\"card\"><h3 style=\"margin-top:0\">今日关键人物</h3><div id=\"trend\" class=\"grid\"></div></div>
 </div>
 <script>
-fetch('/data/daily_progress.json').then(r=>r.json()).then(d=>{
+fetch('./data/daily_progress.json').then(r=>r.json()).then(d=>{
   document.getElementById('sum_zh').textContent=d.summary_zh||'';
   document.getElementById('sum_en').textContent=d.summary_en||'';
   document.getElementById('updated').textContent='Updated: '+((d.updated_at||'').slice(0,19).replace('T',' '));
   document.getElementById('topics').innerHTML=(d.topic_rank||[]).map(t=>`<span class=\"tag\">${t.topic} (${t.count})</span>`).join('');
-  document.getElementById('trend').innerHTML=(d.trend_items||[]).map(r=>`<div class=\"card\" style=\"margin-top:0\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div style=\"margin-top:8px;display:flex;gap:8px\"><a class=\"btn\" href=\"/profiles/${r.slug}.html\">Profile</a><a class=\"btn\" href=\"/poster.html?slug=${r.slug}&mode=single\">海报</a></div></div>`).join('');
+  document.getElementById('trend').innerHTML=(d.trend_items||[]).map(r=>`<div class=\"card\" style=\"margin-top:0\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div style=\"margin-top:8px;display:flex;gap:8px\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">Profile</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=single\">海报</a></div></div>`).join('');
 });
 </script></body></html>"""
 
@@ -493,7 +493,7 @@ def poster_page() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Share Poster</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"./assets/metrics.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -511,7 +511,7 @@ def poster_page() -> str:
 .picker .it{display:flex;justify-content:space-between;gap:8px;padding:5px 2px;font-size:12px;color:#d9e7ff}
 @media(max-width:860px){.row{grid-template-columns:1fr}.cfg{grid-template-columns:1fr}}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Share Poster / 一键转海报</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/insights.html\">Insights</a><a class=\"btn\" href=\"/daily_briefing.html\">Top10</a><a class=\"btn\" href=\"/daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Share Poster / 一键转海报</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"row\">
   <div class=\"card\">
     <div id=\"title\" style=\"font-size:22px;font-weight:800\">Loading...</div>
@@ -653,7 +653,7 @@ function setInfo(items){
     document.getElementById('essence').textContent=lang==='en'?(r.daily_essence_en||''):(r.daily_essence_zh||'');
     document.getElementById('openProfile').style.display='inline-block';
     document.getElementById('openX').style.display='inline-block';
-    document.getElementById('openProfile').href=`/profiles/${r.slug}.html`;
+    document.getElementById('openProfile').href=`./profiles/${r.slug}.html`;
     document.getElementById('openX').href=`https://x.com/${r.handle}`;
   }else{
     document.getElementById('title').textContent=`${posterMode==='top10'?'Top10':'自选'} 聚合海报`;
@@ -728,8 +728,8 @@ document.querySelectorAll('[data-mode]').forEach(btn=>{
 [brandColorInput,brandSloganInput,brandLogoInput].forEach(el=>el.addEventListener('input',draw));
 
 Promise.all([
-  fetch('/data/profiles.json').then(r=>r.json()).catch(()=>({items:[]})),
-  fetch('/data/daily_briefing.json').then(r=>r.json()).catch(()=>({items:[]}))
+  fetch('./data/profiles.json').then(r=>r.json()).catch(()=>({items:[]})),
+  fetch('./data/daily_briefing.json').then(r=>r.json()).catch(()=>({items:[]}))
 ]).then(([p,b])=>{
   rows=p.items||[]; top10=b.items||[];
   currentItem=rows.find(x=>x.slug===slug) || top10.find(x=>x.slug===slug) || rows[0] || null;

@@ -9,12 +9,11 @@
 .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
 .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.muted{color:#9db0da;font-size:12px}
 </style></head><body><div class="wrap">
-<div class="top"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./insights.html">Insights</a><a class="btn" href="./daily_progress.html">每日AI进展</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
+<div class="top"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./insights.html">Insights</a><a class="btn" href="./daily_progress.html">每日AI进展</a><a class="btn" href="./poster.html?mode=top10">Top10整合海报</a><a class="btn" href="./poster.html?mode=custom">自选博主海报</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
 <div id="grid" class="grid"></div></div>
 <script>
 fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
   const rows=d.items||[];
-  const l=localStorage.getItem('xai_lang')||'zh';
-  document.getElementById('grid').innerHTML=rows.map((r,i)=>`<div class="card"><div><b>#${i+1} ${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?(r.daily_essence_zh||''):(r.daily_essence_en||r.daily_essence_zh||'')}</p><div style="display:flex;gap:8px"><a class="btn" href="./profiles/${r.slug}.html">${l==='zh'?'查看人物页':'Profile'}</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">${l==='zh'?'打开 X':'Open X'}</a></div></div>`).join('');
+  document.getElementById('grid').innerHTML=rows.map((r,i)=>`<div class="card"><div><b>#${i+1} ${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${r.daily_essence_zh}</p><div style="display:flex;gap:8px"><a class="btn" href="./profiles/${r.slug}.html">Profile</a><a class="btn" href="./poster.html?slug=${r.slug}&mode=briefing">单人海报</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">Open X</a></div></div>`).join('');
 });
-</script><script src="./assets/share-fab.js" defer></script></body></html>
+</script></body></html>

@@ -71,6 +71,22 @@ done
 
 页面内已内置每 5 分钟自动重载 `data/experts.json`（在 HTTP 服务模式下生效）。
 
+## 3.1) GitHub 每日自动刷新（推荐）
+
+仓库已内置工作流：`/.github/workflows/daily-data-refresh.yml`
+
+机制：
+- 每天 UTC `02:17` 自动执行（可手动点 `Run workflow` 立即触发）
+- 拉取图谱与榜单：`update_mitbunny_graph.py` + `update_experts.py`
+- 可选接入 X API（如果配置 `X_BEARER_TOKEN`）补充互动数据后重算权重
+- 重新生成所有页面与画像：`generate_content_pages.py`
+- 执行心跳与完整性校验：`heartbeat.py` + `validate_data_integrity.py`
+- 仅当数据有变化时才自动提交并推送，避免空提交
+
+失败保护：
+- 任一步骤失败即停止，不会推送半成品
+- 因此线上始终保留“上一次成功构建的数据快照”
+
 ## 4) 商业化与运营面板
 
 - 商业方案页：`/commercial.html`
