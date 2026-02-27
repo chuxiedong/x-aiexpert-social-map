@@ -74,6 +74,16 @@ const ctx=c.getContext('2d');
 let rows=[]; let top10=[]; let currentItem=null;
 let selectedSlugs=(params.get('slugs')||'').split(',').map(x=>x.trim()).filter(Boolean);
 
+function setCanvasSizeForItems(items){
+  if((items||[]).length<=1){
+    c.width=1080;
+    c.height=2260;
+    return;
+  }
+  c.width=1080;
+  c.height=3152;
+}
+
 function wrapText(ctx,text,x,y,maxWidth,lineHeight,maxLines){
   const chars=(text||'').split('');
   let line=''; let lines=0;
@@ -98,7 +108,7 @@ function getTheme(){
 }
 
 function drawBackground(theme){
-  const w=1080,h=1920;
+  const w=c.width,h=c.height;
   const g=ctx.createLinearGradient(0,0,w,h);
   g.addColorStop(0,theme.bg[0]); g.addColorStop(0.45,theme.bg[1]); g.addColorStop(1,theme.bg[2]);
   ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
@@ -134,6 +144,7 @@ function drawSingle(r){
 }
 
 function drawMulti(items){
+  setCanvasSizeForItems(items);
   const theme=getTheme(); drawBackground(theme);
   ctx.fillStyle=theme.title; ctx.font='700 56px "IBM Plex Sans",sans-serif';
   ctx.fillText(posterMode==='top10'?'Top10 AI Views':'Custom AI Views',100,160);
@@ -141,16 +152,21 @@ function drawMulti(items){
   ctx.fillText(`Count ${items.length} · ${new Date().toISOString().slice(0,10)}`,100,215);
   let y=290;
   items.slice(0,10).forEach((r,i)=>{
-    ctx.fillStyle='rgba(255,255,255,.08)'; ctx.fillRect(90,y-46,900,145);
-    ctx.strokeStyle='rgba(255,255,255,.15)'; ctx.strokeRect(90,y-46,900,145);
+    ctx.fillStyle='rgba(255,255,255,.08)'; ctx.fillRect(90,y-46,900,260);
+    ctx.strokeStyle='rgba(255,255,255,.15)'; ctx.strokeRect(90,y-46,900,260);
     ctx.fillStyle='#eaf4ff'; ctx.font='700 34px "IBM Plex Sans",sans-serif'; ctx.fillText(`#${i+1} ${r.name}`,120,y);
     ctx.fillStyle='#a9c8f3'; ctx.font='500 26px "IBM Plex Sans",sans-serif'; ctx.fillText(`@${r.handle} · score ${Number(r.score||0).toFixed(3)}`,120,y+42);
     ctx.fillStyle='#d6e5ff'; ctx.font='500 24px "IBM Plex Sans",sans-serif'; wrapText(ctx,(r.topics||[]).slice(0,2).join(' · ')||'AI Topic',120,y+78,760,34,1);
-    y+=165;
+    const quote = lang==='en'
+      ? (r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||'No share today. Please switch to another creator.')
+      : (r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||'无分享，请换一个。');
+    ctx.fillStyle='#e7f1ff'; ctx.font='500 24px "IBM Plex Sans",sans-serif';
+    wrapText(ctx,`最新分享：${quote}`,120,y+118,840,32,3);
+    y+=280;
   });
-  ctx.fillStyle='rgba(255,255,255,.12)'; ctx.fillRect(90,1720,900,120);
+  ctx.fillStyle='rgba(255,255,255,.12)'; ctx.fillRect(90,c.height-170,900,120);
   ctx.fillStyle='#dbe8ff'; ctx.font='600 30px "IBM Plex Sans",sans-serif';
-  ctx.fillText((brandSloganInput.value||'AI Influence Daily').trim() || 'AI Influence Daily',120,1788);
+  ctx.fillText((brandSloganInput.value||'AI Influence Daily').trim() || 'AI Influence Daily',120,c.height-102);
 }
 
 function pickRows(){
@@ -206,6 +222,7 @@ function setInfo(items){
 
 function draw(){
   const items=pickRows(); if(!items.length) return;
+  setCanvasSizeForItems(items);
   setInfo(items);
   if(items.length===1) drawSingle(items[0]); else drawMulti(items);
 }
