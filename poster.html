@@ -3,6 +3,7 @@
 <title>Share Poster</title>
 <script src="./assets/metrics.js" defer></script>
 <script src="./assets/expert-limit.js" defer></script>
+<script src="./assets/share-i18n.js" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -131,7 +132,9 @@ function drawSingle(r){
     ctx,
     noTodayShare
       ? (lang==='en' ? 'No share today. Please switch to another creator.' : '无分享，请换一个。')
-      : (lang==='en' ? (r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||'') : (r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||'')),
+      : (lang==='en'
+          ? (r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||'')
+          : (window.XAIShareI18n ? window.XAIShareI18n.pickZhShare(r) : (r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''))),
     100,835,880,54,10
   );
   ctx.fillStyle='#9ec0f1'; ctx.font='500 30px "IBM Plex Sans",sans-serif';
@@ -159,7 +162,7 @@ function drawMulti(items){
     ctx.fillStyle='#d6e5ff'; ctx.font='500 24px "IBM Plex Sans",sans-serif'; wrapText(ctx,(r.topics||[]).slice(0,2).join(' · ')||'AI Topic',120,y+78,760,34,1);
     const quote = lang==='en'
       ? (r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||'No share today. Please switch to another creator.')
-      : (r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||'无分享，请换一个。');
+      : (window.XAIShareI18n ? window.XAIShareI18n.pickZhShare(r) : (r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||'无分享，请换一个。'));
     ctx.fillStyle='#e7f1ff'; ctx.font='500 24px "IBM Plex Sans",sans-serif';
     wrapText(ctx,`最新分享：${quote}`,120,y+118,840,32,3);
     y+=280;
@@ -206,7 +209,9 @@ function setInfo(items){
     document.getElementById('desc').textContent=`Layer ${r.layer_en||r.layer} · score ${Number(r.score||0).toFixed(3)} · mode single${buddy?` · 今日最佳基友 ${buddy.name}`:''}`;
     document.getElementById('essence').textContent=noTodayShare
       ? '无分享，请换一个。'
-      : (lang==='en'?(r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||''):(r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''));
+      : (lang==='en'
+          ? (r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||'')
+          : (window.XAIShareI18n ? window.XAIShareI18n.pickZhShare(r) : (r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||'')));
     document.getElementById('openProfile').style.display='inline-block';
     document.getElementById('openX').style.display='inline-block';
     document.getElementById('openProfile').href=`./profiles/${r.slug}.html`;
