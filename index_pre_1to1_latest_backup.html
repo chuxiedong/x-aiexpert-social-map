@@ -1116,9 +1116,10 @@
 
     function ensureSelected(list) {
       if (showCreatorProfile) return;
-      if (!selectedHandle && list[0]) selectedHandle = list[0].handle;
+      // Default should stay as full overview; only focus after explicit user click.
+      if (!selectedHandle) return;
       if (selectedHandle && !list.some(x => x.handle === selectedHandle)) {
-        selectedHandle = list[0] ? list[0].handle : null;
+        selectedHandle = null;
       }
     }
 
@@ -1386,10 +1387,10 @@
 
     function fit3DOverview(duration = 650) {
       if (!forceGraph) return;
-      const pad = Math.max(120, Math.round((el.vizShell?.clientWidth || 1200) * 0.09));
+      const pad = Math.max(220, Math.round((el.vizShell?.clientWidth || 1200) * 0.18));
       setTimeout(() => {
         if (forceGraph) forceGraph.zoomToFit(duration, pad);
-      }, 40);
+      }, 80);
     }
 
     function ensureForceGraph3D() {

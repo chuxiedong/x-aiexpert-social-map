@@ -59,7 +59,7 @@
   <div class="layout">
     <aside class="panel">
       <div class="title">AI 圈层地图</div>
-      <div class="sub">点击圈环可聚焦该层；支持拖拽平移、滚轮缩放、右键/Alt拖拽旋转视角。</div>
+      <div class="sub">点击圈环可聚焦该层；支持按住拖拽旋转、滚轮缩放，按住 Shift 拖拽可平移。</div>
       <div class="btns">
         <button class="btn ghost" id="goBack">返回上一页</button>
         <a class="btn" href="../index.html">返回首页</a>
@@ -100,18 +100,10 @@
         <div class="stage-note" id="stageHint">当前显示：全部</div>
         <div style="display:flex; align-items:center;">
           <div class="stage-note" id="zoomHint">缩放 1.00x</div>
-          <div class="zoom-tools view-tools">
-            <button class="zoom-btn" id="viewLeft">⟲</button>
-            <button class="zoom-btn" id="viewRight">⟳</button>
-            <button class="zoom-btn" id="viewTiltUp">↥</button>
-            <button class="zoom-btn" id="viewTiltDown">↧</button>
-            <button class="zoom-btn" id="viewReset">◎</button>
-            <button class="zoom-btn" id="viewAuto">▶</button>
-          </div>
         </div>
       </div>
       <svg viewBox="0 0 800 800" id="viz"></svg>
-      <div class="footer-tip">操作建议：左键拖拽平移，滚轮缩放，右键或按住 Alt 拖拽旋转，点击节点跳转。</div>
+      <div class="footer-tip">操作建议：按住拖拽旋转，按住 Shift 拖拽平移，滚轮缩放，点击节点跳转。</div>
     </main>
   </div>
 
@@ -128,12 +120,6 @@
     const stageHint = document.getElementById('stageHint');
     const zoomHint = document.getElementById('zoomHint');
     const goBackBtn = document.getElementById('goBack');
-    const viewLeftBtn = document.getElementById('viewLeft');
-    const viewRightBtn = document.getElementById('viewRight');
-    const viewTiltUpBtn = document.getElementById('viewTiltUp');
-    const viewTiltDownBtn = document.getElementById('viewTiltDown');
-    const viewResetBtn = document.getElementById('viewReset');
-    const viewAutoBtn = document.getElementById('viewAuto');
     const ns = 'http://www.w3.org/2000/svg';
 
     let focusedLayer = null;
@@ -152,8 +138,6 @@
     let lastRenderedScale = scale;
     let yaw = 0;     // left/right view angle
     let pitch = 0;   // up/down tilt
-    let autoSpin = false;
-    let spinRAF = null;
 
     const layerRings = [
       { layer: 'core', radius: 96, color: '#7dd3fc' },
@@ -394,20 +378,6 @@
       render();
     }
 
-    function setAutoSpin(on) {
-      autoSpin = on;
-      viewAutoBtn.textContent = autoSpin ? '⏸' : '▶';
-      if (spinRAF) cancelAnimationFrame(spinRAF);
-      spinRAF = null;
-      if (!autoSpin) return;
-      const tick = () => {
-        yaw += 0.0045;
-        render();
-        spinRAF = requestAnimationFrame(tick);
-      };
-      spinRAF = requestAnimationFrame(tick);
-    }
-
     function focusLayer(layer, zoom=true) {
       focusedLayer = layer;
       checkboxes.forEach(cb => { cb.checked = cb.dataset.layer === layer; });
@@ -433,12 +403,6 @@
     document.getElementById('zoomIn').addEventListener('click', () => zoomAt(1.25));
     document.getElementById('zoomOut').addEventListener('click', () => zoomAt(1/1.25));
     document.getElementById('zoomReset').addEventListener('click', resetView);
-    viewLeftBtn.addEventListener('click', () => applyView(-0.12, 0));
-    viewRightBtn.addEventListener('click', () => applyView(0.12, 0));
-    viewTiltUpBtn.addEventListener('click', () => applyView(0, -0.1));
-    viewTiltDownBtn.addEventListener('click', () => applyView(0, 0.1));
-    viewResetBtn.addEventListener('click', resetViewAngles);
-    viewAutoBtn.addEventListener('click', () => setAutoSpin(!autoSpin));
 
     svg.addEventListener('wheel', (e) => {
       e.preventDefault();
@@ -454,8 +418,8 @@
       svg.setPointerCapture(e.pointerId);
       activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (activePointers.size === 1) {
-        isRotating = e.button === 2 || e.altKey;
-        isDragging = !isRotating;
+        isRotating = !e.shiftKey;
+        isDragging = e.shiftKey;
         startPoint = { x: e.clientX, y: e.clientY, tx, ty };
         panVelocity = { x: 0, y: 0, t: performance.now() };
       } else if (activePointers.size === 2) {
