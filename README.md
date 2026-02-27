@@ -5,6 +5,7 @@
 
 ```bash
 python3 scripts/update_mitbunny_graph.py
+export X_BEARER_TOKEN="你的X API Bearer Token"
 python3 scripts/update_experts.py --limit 300
 ```
 
@@ -78,7 +79,7 @@ done
 机制：
 - 每天 UTC `02:17` 自动执行（可手动点 `Run workflow` 立即触发）
 - 拉取图谱与榜单：`update_mitbunny_graph.py` + `update_experts.py`
-- 可选接入 X API（如果配置 `X_BEARER_TOKEN`）补充互动数据后重算权重
+- 强制使用 X API（必须配置 `X_BEARER_TOKEN`），不做 Feedspot/图片回退
 - 重新生成所有页面与画像：`generate_content_pages.py`
 - 执行心跳与完整性校验：`heartbeat.py` + `validate_data_integrity.py`
 - 仅当数据有变化时才自动提交并推送，避免空提交
@@ -140,8 +141,8 @@ bash scripts/install_launchd_autopilot.sh
 ## 数据来源
 - x.mitbunny.ai graph bundle（主）
 - https://x.mitbunny.ai
-- Feedspot Top AI Influencers on X
-- https://x.feedspot.com/artificial_intelligence_twitter_influencers/
+- X API v2 users lookup（专家资料自动抓取）
+- https://developer.x.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by
 - Top300 导出：`data/top300.json`
 - Top300 表格：`data/top300.csv`
 

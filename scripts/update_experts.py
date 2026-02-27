@@ -1,62 +1,72 @@
 #!/usr/bin/env python3
-"""Fetch AI experts from Feedspot X influencer page and export JSON for visualization."""
+"""Fetch AI experts from X API and export experts.json for visualization."""
 
 from __future__ import annotations
 
 import argparse
 import datetime as dt
-import html
 import json
+import os
 import re
-import sys
+import time
+import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
-SOURCE_URL = "https://x.feedspot.com/artificial_intelligence_twitter_influencers/"
-DEFAULT_OUTPUT = Path(__file__).resolve().parents[1] / "data" / "experts.json"
-DEFAULT_MANUAL_INPUT = Path(__file__).resolve().parents[1] / "data" / "manual_experts.json"
-DEFAULT_HISTORY_OUTPUT = Path(__file__).resolve().parents[1] / "data" / "history.json"
+DEFAULT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_TOP300_INPUT = DEFAULT_ROOT / "data" / "top300.json"
+DEFAULT_GRAPH_INPUT = DEFAULT_ROOT / "data" / "mitbunny_graph.json"
+DEFAULT_OUTPUT = DEFAULT_ROOT / "data" / "experts.json"
+DEFAULT_MANUAL_INPUT = DEFAULT_ROOT / "data" / "manual_experts.json"
+DEFAULT_HISTORY_OUTPUT = DEFAULT_ROOT / "data" / "history.json"
 
-ENTRY_PATTERN = re.compile(
-    r'alt="(?P<name>[^"]+)"[^>]*data-handle="@(?P<handle>[^"]+)"\s+data-url="(?P<url>[^"]+)".*?'
-    r'<strong>Bio</strong>\s*(?P<bio>.*?)\s*<strong>Twitter Handle\s*</strong>\s*'
-    r'<a class="ins_dhl"[^>]*>\s*@[^<]+</a>\s*'
-    r'<span class="eng-outer-wrapper[^>]*>\s*<span><strong>Twitter Followers\s*</strong>\s*(?P<followers>[^<]+)</span>',
-    re.S,
-)
-TAG_PATTERN = re.compile(r"<[^>]+>")
+SOURCE_URL = "https://developer.x.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by"
 
 KEYWORD_CATEGORY = [
-    ("AI创业", ["openai", "founder", "startup", "ceo", "entrepreneur"]),
-    ("AI研究", ["professor", "research", "scientist", "deepmind", "stanford", "mit", "meta ai"]),
+    ("AI创业", ["founder", "startup", "ceo", "builder", "product"]),
+    ("AI研究", ["research", "scientist", "professor", "lab", "phd", "deepmind"]),
     ("机器人/强化学习", ["robot", "robotics", "reinforcement", "rl"]),
     ("AI媒体/评论", ["podcast", "journalist", "writer", "newsletter", "media"]),
-    ("AI工程", ["engineer", "developer", "coding", "llm", "build", "agent"]),
+    ("AI工程", ["engineer", "developer", "llm", "agent", "infra", "open source"]),
 ]
 
 
-def parse_followers(text: str) -> int:
-    s = text.strip().upper().replace(",", "")
-    m = re.match(r"^([0-9]+(?:\.[0-9]+)?)([KMB])?$", s)
-    if not m:
-        digits = re.sub(r"[^0-9]", "", s)
-        return int(digits) if digits else 0
+def safe_api_get(url: str, bearer: str, retries: int = 4) -> dict:
+    req = urllib.request.Request(
+        url,
+        headers={
+            "Authorization": f"Bearer {bearer}",
+            "User-Agent": "x-ai-experts-viz/1.0",
+        },
+    )
+    for i in range(retries):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return json.loads(resp.read().decode("utf-8", "ignore"))
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                reset = e.headers.get("x-rate-limit-reset")
+                wait = 30
+                if reset:
+                    try:
+                        wait = max(5, int(reset) - int(time.time()) + 1)
+                    except Exception:
+                        wait = 30
+                time.sleep(wait)
+                continue
+            if i == retries - 1:
+                raise
+            time.sleep(2 + i)
+        except Exception:
+            if i == retries - 1:
+                raise
+            time.sleep(2 + i)
+    raise RuntimeError("x api request failed")
 
-    value = float(m.group(1))
-    suffix = m.group(2)
-    if suffix == "K":
-        value *= 1_000
-    elif suffix == "M":
-        value *= 1_000_000
-    elif suffix == "B":
-        value *= 1_000_000_000
-    return int(value)
 
-
-def normalize_text(raw_html: str) -> str:
-    text = TAG_PATTERN.sub(" ", raw_html)
-    text = html.unescape(text)
-    return re.sub(r"\s+", " ", text).strip()
+def normalize_handle(raw: str) -> str:
+    return str(raw or "").strip().lstrip("@")
 
 
 def pick_category(name: str, bio: str) -> str:
@@ -74,7 +84,8 @@ def pick_tags(name: str, bio: str, category: str) -> list[str]:
         ("openai", "OpenAI"),
         ("deepmind", "DeepMind"),
         ("meta", "Meta"),
-        ("stanford", "Stanford"),
+        ("anthropic", "Anthropic"),
+        ("nvidia", "NVIDIA"),
         ("robot", "机器人"),
         ("podcast", "Podcast"),
         ("llm", "LLM"),
@@ -82,58 +93,203 @@ def pick_tags(name: str, bio: str, category: str) -> list[str]:
     ]:
         if kw in blob and label not in tags:
             tags.append(label)
-    return tags[:4]
+    return tags[:6]
 
 
-def fetch_html(url: str) -> str:
-    req = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-        },
+def followers_label(n: int) -> str:
+    n = int(max(0, n))
+    if n >= 1_000_000_000:
+        return f"{n/1_000_000_000:.1f}B"
+    if n >= 1_000_000:
+        return f"{n/1_000_000:.1f}M"
+    if n >= 1_000:
+        return f"{n/1_000:.1f}K"
+    return str(n)
+
+
+def load_handles_from_top300(path: Path, limit: int) -> list[str]:
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    rows = data.get("experts") or data.get("top300") or []
+    out: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        h = normalize_handle(row.get("handle") if isinstance(row, dict) else "")
+        if not h:
+            continue
+        k = h.lower()
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(h)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def load_handles_from_graph(path: Path, limit: int) -> list[str]:
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    rows = data.get("top300") or data.get("nodes") or []
+    out: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        h = normalize_handle(row.get("handle") or row.get("id"))
+        if not h:
+            continue
+        k = h.lower()
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(h)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def lookup_users_batch(handles: list[str], bearer: str) -> dict[str, dict]:
+    if not handles:
+        return {}
+    qs = ",".join(urllib.parse.quote(h) for h in handles)
+    url = (
+        "https://api.twitter.com/2/users/by"
+        f"?usernames={qs}"
+        "&user.fields=description,profile_image_url,public_metrics,verified,location,url,created_at"
     )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        return resp.read().decode("utf-8", "ignore")
+    payload = safe_api_get(url, bearer)
+    data = payload.get("data") if isinstance(payload, dict) else None
+    rows = data if isinstance(data, list) else []
+    out: dict[str, dict] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        u = normalize_handle(row.get("username"))
+        if not u:
+            continue
+        out[u.lower()] = row
+    return out
 
 
-def extract(html_text: str, limit: int) -> list[dict]:
+def build_experts(handles: list[str], bearer: str, sleep_ms: int) -> list[dict]:
     rows: list[dict] = []
-    for m in ENTRY_PATTERN.finditer(html_text):
-        name = normalize_text(m.group("name"))
-        handle = normalize_text(m.group("handle")).lstrip("@")
-        url = normalize_text(m.group("url"))
-        bio = normalize_text(m.group("bio"))
-        followers_label = normalize_text(m.group("followers"))
-        followers = parse_followers(followers_label)
-        category = pick_category(name, bio)
-        rows.append(
-            {
-                "name": name,
-                "handle": handle,
-                "followers": followers,
-                "followers_label": followers_label,
-                "category": category,
-                "tags": pick_tags(name, bio, category),
-                "url": url,
-                "bio": bio,
-            }
-        )
-
-    rows.sort(key=lambda x: x["followers"], reverse=True)
-    rows = rows[:limit]
+    chunk = 100
+    for i in range(0, len(handles), chunk):
+        batch = handles[i : i + chunk]
+        data_map = lookup_users_batch(batch, bearer)
+        for h in batch:
+            row = data_map.get(h.lower(), {})
+            name = str(row.get("name") or h)
+            bio = str(row.get("description") or "").strip()
+            pm = row.get("public_metrics", {}) if isinstance(row.get("public_metrics"), dict) else {}
+            followers = int(pm.get("followers_count", 0) or 0)
+            category = pick_category(name, bio)
+            rows.append(
+                {
+                    "name": name,
+                    "handle": h,
+                    "followers": followers,
+                    "followers_label": followers_label(followers),
+                    "category": category,
+                    "tags": pick_tags(name, bio, category),
+                    "url": f"https://x.com/{h}",
+                    "bio": bio,
+                    "verified": bool(row.get("verified", False)),
+                    "location": str(row.get("location") or ""),
+                    "profile_image_url": str(row.get("profile_image_url") or ""),
+                    "source": "x_api_v2",
+                    "status": "ok" if row else "user_not_found",
+                }
+            )
+        if sleep_ms > 0:
+            time.sleep(sleep_ms / 1000.0)
+    rows.sort(key=lambda x: int(x.get("followers", 0)), reverse=True)
     for idx, row in enumerate(rows, start=1):
         row["rank"] = idx
     return rows
 
 
-def build_payload(experts: list[dict]) -> dict:
+def normalize_manual_expert(raw: dict) -> dict | None:
+    if not isinstance(raw, dict):
+        return None
+    name = str(raw.get("name", "")).strip()
+    handle = normalize_handle(raw.get("handle", ""))
+    url = str(raw.get("url", "")).strip() or (f"https://x.com/{handle}" if handle else "")
+    if not name or not handle:
+        return None
+    followers = raw.get("followers", 0)
+    try:
+        followers = int(followers)
+    except Exception:
+        followers = 0
+    category = str(raw.get("category", "")).strip() or "AI综合"
+    tags = raw.get("tags") if isinstance(raw.get("tags"), list) else [category]
+    tags = [str(t).strip() for t in tags if str(t).strip()][:6] or [category]
+    bio = str(raw.get("bio", "")).strip()
+    return {
+        "name": name,
+        "handle": handle,
+        "followers": max(0, followers),
+        "followers_label": raw.get("followers_label") or followers_label(max(0, followers)),
+        "category": category,
+        "tags": tags,
+        "url": url,
+        "bio": bio,
+        "source": "manual",
+        "status": "ok",
+    }
+
+
+def load_manual_experts(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    items = payload.get("experts", []) if isinstance(payload, dict) else payload
+    if not isinstance(items, list):
+        return []
+    out = []
+    for item in items:
+        row = normalize_manual_expert(item)
+        if row:
+            out.append(row)
+    return out
+
+
+def merge_manual(experts: list[dict], manual: list[dict]) -> tuple[list[dict], int]:
+    if not manual:
+        return experts, 0
+    by_handle = {str(x.get("handle", "")).lower(): dict(x) for x in experts}
+    merged = 0
+    for item in manual:
+        key = str(item.get("handle", "")).lower()
+        if not key:
+            continue
+        if key in by_handle:
+            by_handle[key].update(item)
+            merged += 1
+        else:
+            by_handle[key] = item
+            merged += 1
+    rows = sorted(by_handle.values(), key=lambda x: int(x.get("followers", 0)), reverse=True)
+    for idx, row in enumerate(rows, start=1):
+        row["rank"] = idx
+    return rows, merged
+
+
+def build_payload(experts: list[dict], input_handles: int) -> dict:
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
     return {
         "generated_at": now,
-        "source_name": "Feedspot Top AI Influencers on X",
+        "source_name": "X API v2 users lookup",
         "source_url": SOURCE_URL,
         "manual_merge": False,
+        "total_requested_handles": input_handles,
         "total_collected": len(experts),
         "experts": experts,
     }
@@ -179,7 +335,6 @@ def load_history(path: Path) -> dict:
 def append_history(history: dict, snapshot: dict, keep: int) -> dict:
     snaps = list(history.get("snapshots", []))
     snaps.append(snapshot)
-    # Deduplicate identical timestamps if script reruns in same second.
     dedup = {}
     for s in snaps:
         key = str(s.get("generated_at", ""))
@@ -199,7 +354,6 @@ def build_daily_history(snapshots: list[dict], days: int) -> list[dict]:
         day = str(snap.get("date", ""))
         if not day:
             continue
-        # Keep latest snapshot for each day.
         prev = by_day.get(day)
         if not prev or str(snap.get("generated_at", "")) > str(prev.get("generated_at", "")):
             by_day[day] = {
@@ -228,11 +382,7 @@ def build_rank_changes(experts: list[dict], snapshots: list[dict], limit: int) -
             continue
         cur_rank = int(cur.get("rank", 0))
         prev_rank = prev_map.get(handle)
-        if prev_rank is None:
-            delta = None
-        else:
-            prev_rank = int(prev_rank)
-            delta = prev_rank - cur_rank
+        delta = None if prev_rank is None else (int(prev_rank) - cur_rank)
         rows.append(
             {
                 "handle": cur.get("handle"),
@@ -246,98 +396,38 @@ def build_rank_changes(experts: list[dict], snapshots: list[dict], limit: int) -
     return rows
 
 
-def normalize_manual_expert(raw: dict) -> dict | None:
-    if not isinstance(raw, dict):
-        return None
-    name = str(raw.get("name", "")).strip()
-    handle = str(raw.get("handle", "")).strip().lstrip("@")
-    url = str(raw.get("url", "")).strip() or (f"https://x.com/{handle}" if handle else "")
-    if not name or not handle:
-        return None
-    followers = raw.get("followers", 0)
-    try:
-        followers = int(followers)
-    except Exception:
-        followers = 0
-    category = str(raw.get("category", "")).strip() or "AI综合"
-    tags = raw.get("tags") if isinstance(raw.get("tags"), list) else [category]
-    tags = [str(t).strip() for t in tags if str(t).strip()][:4] or [category]
-    bio = str(raw.get("bio", "")).strip()
-    return {
-        "name": name,
-        "handle": handle,
-        "followers": max(0, followers),
-        "followers_label": raw.get("followers_label") or str(max(0, followers)),
-        "category": category,
-        "tags": tags,
-        "url": url,
-        "bio": bio,
-    }
-
-
-def load_manual_experts(path: Path) -> list[dict]:
-    if not path.exists():
-        return []
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except Exception as err:
-        print(f"manual file parse error: {err}", file=sys.stderr)
-        return []
-    if isinstance(payload, dict):
-        items = payload.get("experts", [])
-    elif isinstance(payload, list):
-        items = payload
-    else:
-        return []
-    normalized = []
-    for item in items:
-        row = normalize_manual_expert(item)
-        if row:
-            normalized.append(row)
-    return normalized
-
-
-def merge_manual(experts: list[dict], manual: list[dict]) -> tuple[list[dict], int]:
-    if not manual:
-        return experts, 0
-    by_handle = {x["handle"].lower(): dict(x) for x in experts}
-    merged = 0
-    for item in manual:
-        key = item["handle"].lower()
-        if key in by_handle:
-            by_handle[key].update(item)
-            merged += 1
-        else:
-            by_handle[key] = item
-            merged += 1
-    rows = sorted(by_handle.values(), key=lambda x: x["followers"], reverse=True)
-    for idx, row in enumerate(rows, start=1):
-        row["rank"] = idx
-    return rows, merged
-
-
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Update experts.json for X AI influencer visualization")
-    parser.add_argument("--limit", type=int, default=300, help="Number of experts to export")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Output JSON path")
-    parser.add_argument("--manual", type=Path, default=DEFAULT_MANUAL_INPUT, help="Manual experts json path")
-    parser.add_argument("--history", type=Path, default=DEFAULT_HISTORY_OUTPUT, help="History json path")
-    parser.add_argument("--history-keep", type=int, default=180, help="Max snapshots to keep in history")
-    parser.add_argument("--history-tail", type=int, default=30, help="Tail snapshots embedded into experts json")
-    parser.add_argument("--history-days", type=int, default=60, help="Daily aggregated history points")
-    parser.add_argument("--rank-change-limit", type=int, default=15, help="How many top experts include rank change")
+    parser = argparse.ArgumentParser(description="Update experts.json from X API users lookup")
+    parser.add_argument("--limit", type=int, default=300, help="max experts")
+    parser.add_argument("--top300-input", type=Path, default=DEFAULT_TOP300_INPUT, help="top300.json path")
+    parser.add_argument("--graph-input", type=Path, default=DEFAULT_GRAPH_INPUT, help="mitbunny_graph.json path")
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="output path")
+    parser.add_argument("--manual", type=Path, default=DEFAULT_MANUAL_INPUT, help="manual experts path")
+    parser.add_argument("--history", type=Path, default=DEFAULT_HISTORY_OUTPUT, help="history path")
+    parser.add_argument("--history-keep", type=int, default=180, help="max snapshots to keep")
+    parser.add_argument("--history-tail", type=int, default=30, help="tail snapshots embedded into experts.json")
+    parser.add_argument("--history-days", type=int, default=60, help="daily aggregated history points")
+    parser.add_argument("--rank-change-limit", type=int, default=15, help="top rank change count")
+    parser.add_argument("--sleep-ms", type=int, default=250, help="sleep between API batches")
     args = parser.parse_args()
 
-    html_text = fetch_html(SOURCE_URL)
-    experts = extract(html_text, max(1, args.limit))
-    if not experts:
-        print("No experts parsed from source page.", file=sys.stderr)
-        return 2
+    token = urllib.parse.unquote(os.getenv("X_BEARER_TOKEN", "").strip())
+    if not token:
+        raise SystemExit("Missing X_BEARER_TOKEN: update_experts.py only supports X API source")
 
+    limit = max(1, args.limit)
+    handles = load_handles_from_top300(args.top300_input, limit)
+    if not handles:
+        handles = load_handles_from_graph(args.graph_input, limit)
+    if not handles:
+        raise SystemExit("No handles found from top300.json/mitbunny_graph.json")
+
+    experts = build_experts(handles, token, max(0, args.sleep_ms))
     manual_experts = load_manual_experts(args.manual)
     experts, merged_count = merge_manual(experts, manual_experts)
-    experts = experts[: max(1, args.limit)]
-    payload = build_payload(experts)
+    experts = experts[:limit]
+
+    payload = build_payload(experts, input_handles=len(handles))
     payload["manual_merge"] = merged_count > 0
     payload["manual_source"] = str(args.manual) if merged_count > 0 else None
     payload["manual_merged_count"] = merged_count
@@ -348,23 +438,21 @@ def main() -> int:
     args.history.parent.mkdir(parents=True, exist_ok=True)
     args.history.write_text(json.dumps(history, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    tail = history.get("snapshots", [])[-max(1, args.history_tail) :]
-    payload["history_tail"] = tail
+    payload["history_tail"] = history.get("snapshots", [])[-max(1, args.history_tail) :]
     payload["history_daily"] = build_daily_history(history.get("snapshots", []), max(1, args.history_days))
     payload["history_total_points"] = len(history.get("snapshots", []))
     payload["history_file"] = str(args.history)
     payload["rank_changes"] = build_rank_changes(
-        experts,
-        history.get("snapshots", []),
-        max(1, args.rank_change_limit),
+        experts, history.get("snapshots", []), max(1, args.rank_change_limit)
     )
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Updated {args.output} with {len(experts)} experts.")
+    print(f"Updated {args.output} with {len(experts)} experts (X API source).")
     print(f"Manual merged: {merged_count}")
     print(f"History points: {payload['history_total_points']}")
-    print(f"Top: @{experts[0]['handle']} ({experts[0]['followers_label']})")
+    if experts:
+        print(f"Top: @{experts[0]['handle']} ({experts[0]['followers_label']})")
     return 0
 
 

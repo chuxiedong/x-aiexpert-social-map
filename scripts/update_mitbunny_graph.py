@@ -207,6 +207,7 @@ def build_top300(payload: dict, engagement_map: dict[str, dict]) -> list[dict]:
         node_id = str(node.get("id") or "").strip()
         handle = normalize_handle(node)
         metrics = node_metrics.get(node_id) or node_metrics.get(handle) or {}
+        engagement_extra = engagement_map.get(handle.lower(), {}) if handle else {}
         rows.append(
             {
                 "id": node_id or handle,
@@ -228,6 +229,20 @@ def build_top300(payload: dict, engagement_map: dict[str, dict]) -> list[dict]:
                 "comments_count": int(metrics.get("comments_count", 0)),
                 "likes_count": int(metrics.get("likes_count", 0)),
                 "reposts_count": int(metrics.get("reposts_count", 0)),
+                "latest_tweet_id": str(engagement_extra.get("latest_tweet_id") or ""),
+                "latest_tweet_text": str(engagement_extra.get("latest_tweet_text") or ""),
+                "latest_tweet_at": str(engagement_extra.get("latest_tweet_at") or ""),
+                "latest_tweet_url": str(engagement_extra.get("latest_tweet_url") or ""),
+                "has_today_tweet": bool(engagement_extra.get("has_today_tweet")),
+                "today_hottest_tweet_id": str(engagement_extra.get("today_hottest_tweet_id") or ""),
+                "today_hottest_tweet_text": str(engagement_extra.get("today_hottest_tweet_text") or ""),
+                "today_hottest_tweet_at": str(engagement_extra.get("today_hottest_tweet_at") or ""),
+                "today_hottest_tweet_url": str(engagement_extra.get("today_hottest_tweet_url") or ""),
+                "today_hottest_tweet_heat": float(engagement_extra.get("today_hottest_tweet_heat") or 0.0),
+                "today_hottest_likes": int(engagement_extra.get("today_hottest_likes") or 0),
+                "today_hottest_reposts": int(engagement_extra.get("today_hottest_reposts") or 0),
+                "today_hottest_replies": int(engagement_extra.get("today_hottest_replies") or 0),
+                "today_hottest_quotes": int(engagement_extra.get("today_hottest_quotes") or 0),
                 "pagerank": float(metrics.get("pagerank", 0.0)),
                 "grey_relation": float(metrics.get("grey_relation", 0.0)),
                 "quanzhong_score": float(metrics.get("quanzhong_score", 0.0)),

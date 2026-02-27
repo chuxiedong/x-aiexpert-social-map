@@ -2,6 +2,7 @@
 <html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Share Poster</title>
 <script src="./assets/metrics.js" defer></script>
+<script src="./assets/expert-limit.js" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -108,15 +109,23 @@ function drawBackground(theme){
 function drawSingle(r){
   const theme=getTheme(); drawBackground(theme);
   const brandSlogan=(brandSloganInput.value||'AI Influence Daily').trim() || 'AI Influence Daily';
+  const noTodayShare = !(r && (r.latest_share_zh || r.latest_share_en));
+  const buddy = pickBestBuddyInScope(r);
   ctx.fillStyle=theme.title; ctx.font='700 58px "IBM Plex Sans",sans-serif'; ctx.fillText('AI Insight Poster',100,170);
   ctx.fillStyle=theme.meta; ctx.font='500 34px "IBM Plex Sans",sans-serif'; ctx.fillText(`@${r.handle} | score ${Number(r.score||0).toFixed(3)} | ${r.layer_en||r.layer||''}`,100,235);
   ctx.fillStyle='#ffffff'; ctx.font='800 70px "IBM Plex Sans",sans-serif'; wrapText(ctx,r.name||'',100,350,860,86,2);
   ctx.fillStyle='#bed6ff'; ctx.font='500 34px "IBM Plex Sans",sans-serif'; wrapText(ctx,(r.topics||[]).join(' · '),100,540,860,48,3);
-  ctx.fillStyle='#eef5ff'; ctx.font='600 44px "IBM Plex Sans",sans-serif'; ctx.fillText(lang==='en'?'Key Viewpoint':'今日观点精髓',100,760);
-  ctx.fillStyle='#d8e7ff'; ctx.font='500 38px "IBM Plex Sans",sans-serif'; wrapText(ctx,lang==='en'?(r.daily_essence_en||''):(r.daily_essence_zh||''),100,835,880,54,10);
-  const buddy=((r.best_buddies||[])[0]||null);
+  ctx.fillStyle='#eef5ff'; ctx.font='600 44px "IBM Plex Sans",sans-serif'; ctx.fillText(lang==='en'?'Latest Share':'最新分享',100,760);
+  ctx.fillStyle='#d8e7ff'; ctx.font='500 38px "IBM Plex Sans",sans-serif';
+  wrapText(
+    ctx,
+    noTodayShare
+      ? (lang==='en' ? 'No share today. Please switch to another creator.' : '无分享，请换一个。')
+      : (lang==='en' ? (r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||'') : (r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||'')),
+    100,835,880,54,10
+  );
   ctx.fillStyle='#9ec0f1'; ctx.font='500 30px "IBM Plex Sans",sans-serif';
-  ctx.fillText(buddy?`最佳互动基友: ${buddy.name} @${buddy.handle}`:'最佳互动基友: N/A',100,1448);
+  ctx.fillText(buddy?`今日最佳基友: ${buddy.name} @${buddy.handle}`:'今日最佳基友: N/A',100,1448);
   ctx.fillStyle=theme.box; ctx.fillRect(100,1490,880,240); ctx.strokeStyle=theme.boxStroke; ctx.strokeRect(100,1490,880,240);
   ctx.fillStyle='#a9d7ff'; ctx.font='500 34px "IBM Plex Sans",sans-serif'; ctx.fillText(styleKey==='brand'?brandSlogan:'Association + Centrality',130,1560);
   ctx.fillStyle='#ecf5ff'; ctx.font='700 52px "IBM Plex Sans",sans-serif'; ctx.fillText(`A ${Number(r.association_score||0).toFixed(3)} / C ${Number(r.centrality_score||0).toFixed(3)}`,130,1640);
@@ -153,12 +162,35 @@ function pickRows(){
   return [currentItem || rows[0]].filter(Boolean);
 }
 
+function scopeSlugs(){
+  if(posterMode==='custom'){
+    return new Set((selectedSlugs||[]).filter(Boolean));
+  }
+  if(posterMode==='top10'){
+    return new Set(top10.slice(0,10).map(x=>x.slug).filter(Boolean));
+  }
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  return new Set(rows.slice(0, limit).map(x=>x.slug).filter(Boolean));
+}
+
+function pickBestBuddyInScope(r){
+  const scope = scopeSlugs();
+  const buddies = (r && r.best_buddies) ? r.best_buddies : [];
+  if(!buddies.length) return null;
+  const inScope = buddies.filter(b=>b && b.slug && scope.has(b.slug));
+  return (inScope[0] || buddies[0] || null);
+}
+
 function setInfo(items){
   if(items.length===1){
     const r=items[0];
+    const noTodayShare = !(r && (r.latest_share_zh || r.latest_share_en));
+    const buddy = pickBestBuddyInScope(r);
     document.getElementById('title').textContent=`${r.name} @${r.handle}`;
-    document.getElementById('desc').textContent=`Layer ${r.layer_en||r.layer} · score ${Number(r.score||0).toFixed(3)} · mode single`;
-    document.getElementById('essence').textContent=lang==='en'?(r.daily_essence_en||''):(r.daily_essence_zh||'');
+    document.getElementById('desc').textContent=`Layer ${r.layer_en||r.layer} · score ${Number(r.score||0).toFixed(3)} · mode single${buddy?` · 今日最佳基友 ${buddy.name}`:''}`;
+    document.getElementById('essence').textContent=noTodayShare
+      ? '无分享，请换一个。'
+      : (lang==='en'?(r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||''):(r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''));
     document.getElementById('openProfile').style.display='inline-block';
     document.getElementById('openX').style.display='inline-block';
     document.getElementById('openProfile').href=`./profiles/${r.slug}.html`;
@@ -239,7 +271,9 @@ Promise.all([
   fetch('./data/profiles.json').then(r=>r.json()).catch(()=>({items:[]})),
   fetch('./data/daily_briefing.json').then(r=>r.json()).catch(()=>({items:[]}))
 ]).then(([p,b])=>{
-  rows=p.items||[]; top10=b.items||[];
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  rows=(p.items||[]).slice(0, limit);
+  top10=(b.items||[]).slice(0, limit);
   currentItem=rows.find(x=>x.slug===slug) || top10.find(x=>x.slug===slug) || rows[0] || null;
   if(!selectedSlugs.length) selectedSlugs=top10.slice(0,10).map(x=>x.slug).filter(Boolean);
   renderPicker();

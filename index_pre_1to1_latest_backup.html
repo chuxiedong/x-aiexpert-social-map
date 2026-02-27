@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>X 平台 AI 影响力图谱</title>
+  <script src="./assets/expert-limit.js" defer></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;700&display=swap');
 
@@ -845,8 +846,8 @@
 
     const fallbackMeta = {
       generated_at: '2026-02-19T00:00:00Z',
-      source_name: 'Fallback 本地增强',
-      source_url: 'https://x.feedspot.com/artificial_intelligence_twitter_influencers/'
+      source_name: 'X API v2 users lookup',
+      source_url: 'https://developer.x.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by'
     };
 
     const groupLabelMap = {
@@ -944,6 +945,7 @@
     let connectionCountMap = new Map();
     let topRankMap = new Map();
     let forceGraph = null;
+    let needs3DOverviewFit = true;
     const graphViewport = { x: 0, y: 0, w: 1200, h: 540 };
     let panState = null;
 
@@ -1041,9 +1043,9 @@
       const dt = meta?.generated_at ? new Date(meta.generated_at) : null;
       el.generatedAt.textContent = dt && !Number.isNaN(dt.getTime()) ? dt.toLocaleString('zh-CN') : '未知';
       const main = graphMeta?.source_name || 'x.mitbunny.ai graph';
-      const sub = meta?.source_name || '本地补充数据';
-      el.sourceName.textContent = `${main}（主） + ${sub}（辅）`;
-      el.sourceLink.href = graphMeta?.source_url || meta?.source_url || '#';
+      const sub = 'X API v2 users lookup';
+      el.sourceName.textContent = `${main}（图谱） + ${sub}（X自动抓取）`;
+      el.sourceLink.href = 'https://developer.x.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by';
     }
 
     function syncSearchClearState() {
@@ -1052,6 +1054,7 @@
     }
 
     function rankedTop300Pool() {
+      const cap = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
       const pool = [...experts];
       if (topRankMap.size > 0) {
         pool.sort((a, b) => {
@@ -1075,7 +1078,7 @@
           return cb - ca;
         });
       }
-      return pool.slice(0, 300);
+      return pool.slice(0, cap);
     }
 
     function initCategoryFilter() {
@@ -1381,6 +1384,14 @@
       );
     }
 
+    function fit3DOverview(duration = 650) {
+      if (!forceGraph) return;
+      const pad = Math.max(120, Math.round((el.vizShell?.clientWidth || 1200) * 0.09));
+      setTimeout(() => {
+        if (forceGraph) forceGraph.zoomToFit(duration, pad);
+      }, 40);
+    }
+
     function ensureForceGraph3D() {
       if (forceGraph || !graphModeAvailable('3d')) return forceGraph;
       forceGraph = window.ForceGraph3D({ controlType: 'orbit' })(el.graph3d)
@@ -1471,6 +1482,10 @@
           const live = fg.graphData().nodes.find(n => n.id === selectedNode.id);
           focus3DNode(live);
         }, 45);
+        needs3DOverviewFit = false;
+      } else if (needs3DOverviewFit) {
+        fit3DOverview(700);
+        needs3DOverviewFit = false;
       }
     }
 
@@ -1680,6 +1695,7 @@
 
       renderDataMeta(localPayload || fallbackMeta, graphMeta);
       initCategoryFilter();
+      needs3DOverviewFit = true;
       renderAll();
     }
 
@@ -1794,6 +1810,7 @@
           return;
         }
         graphMode = '3d';
+        needs3DOverviewFit = true;
         renderAll();
       });
     }
@@ -1808,7 +1825,8 @@
     if (el.resetView) {
       el.resetView.addEventListener('click', () => {
         if (graphMode === '3d' && forceGraph) {
-          forceGraph.zoomToFit(550, 40);
+          needs3DOverviewFit = true;
+          fit3DOverview(620);
         } else {
           graphViewport.x = 0;
           graphViewport.y = 0;
