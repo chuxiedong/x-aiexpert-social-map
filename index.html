@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#0b1020" />
     <title>AI Influence Intelligence</title>
     <script src="./assets/metrics.js" defer></script>
+    <script src="./assets/expert-limit.js" defer></script>
     <style>
       :root {
         --bg: #0a1022;
@@ -55,6 +56,11 @@
       .sub { margin-top: 10px; color: var(--muted); max-width: 900px; font-size: 15px; line-height: 1.65; }
       .proof { margin-top: 12px; display:flex; flex-wrap:wrap; gap:8px; }
       .badge { padding:6px 10px; font-size:12px; border-radius:999px; border:1px solid var(--line); background:#0f1730; color:#c9d8fb; }
+      .limit-box { margin-top: 10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+      .limit-box input {
+        width: 110px; background:#101a32; border:1px solid rgba(148,163,184,.35); color:#e2e8f0;
+        border-radius:10px; padding:7px 9px; font-size:12px;
+      }
       .grid { margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
       .card { border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 12px; }
       .card h3 { margin: 0 0 6px; font-size: 16px; }
@@ -88,8 +94,8 @@
           <a class="btn" href="./insights.html" data-zh="观点" data-en="Insights">Insights</a>
           <a class="btn" href="./daily_briefing.html">Top10</a>
           <a class="btn" href="./daily_progress.html" data-zh="每日进展" data-en="Daily Progress">Daily Progress</a>
-          <a class="btn" href="./data/circle_layers.html" data-zh="圈层图" data-en="Circle Map">Circle Map</a>
-          <a class="btn" href="./index_pre_1to1_latest_backup.html" data-zh="经典3D" data-en="Classic 3D">Classic 3D</a>
+          <a class="btn" href="./data/circle_layers.html" data-zh="社交核心度" data-en="Circle Map">Circle Map</a>
+          <a class="btn" href="./index_pre_1to1_latest_backup.html" data-zh="社交图谱3d" data-en="Classic 3D">Classic 3D</a>
           <a class="btn" href="./commercial.html" data-zh="商业化" data-en="Commercial">Commercial</a>
           <a class="btn" href="./contact.html" data-zh="联系" data-en="Contact">Contact</a>
         </div>
@@ -112,15 +118,20 @@
         </p>
         <div class="actions" style="margin-top:10px">
           <a class="btn main" href="./insights.html" data-zh="立即查看今日观点" data-en="View Today's Insights">立即查看今日观点</a>
-          <a class="btn" href="./data/circle_layers.html" data-zh="进入五层圈层图" data-en="Open 5-Layer Circle Map">进入五层圈层图</a>
-          <a class="btn" href="./index_pre_1to1_latest_backup.html" data-zh="打开第一版3D图" data-en="Open Classic 3D Graph">打开第一版3D图</a>
+          <a class="btn" href="./data/circle_layers.html" data-zh="社交核心度" data-en="Open 5-Layer Circle Map">社交核心度</a>
+          <a class="btn" href="./index_pre_1to1_latest_backup.html" data-zh="社交图谱3d" data-en="Open Classic 3D Graph">社交图谱3d</a>
           <a class="btn" href="./daily_briefing.html" data-zh="打开Top10简报" data-en="Open Top10 Briefing">打开Top10简报</a>
           <a class="btn" href="./daily_progress.html" data-zh="查看每日AI进展" data-en="Open Daily AI Progress">查看每日AI进展</a>
         </div>
         <div class="proof">
           <span class="badge" id="proof_updated">Updated: -</span>
-          <span class="badge" data-zh="样本规模：Top300 X AI博主" data-en="Sample: Top300 AI influencers on X">样本规模：Top300 X AI博主</span>
+          <span class="badge" id="proof_sample" data-zh="样本规模：Top300 X AI博主" data-en="Sample: Top300 AI influencers on X">样本规模：Top300 X AI博主</span>
           <span class="badge" data-zh="评分方式：关系强度 + 网络位置" data-en="Scoring: relationship strength + network position">评分方式：关系强度 + 网络位置</span>
+        </div>
+        <div class="limit-box">
+          <span class="badge" data-zh="全站样本数量" data-en="Global Sample Size">全站样本数量</span>
+          <input id="limitInput" type="number" min="10" max="1000" step="1" placeholder="10-1000" />
+          <a class="btn" href="#" id="limitApply" data-zh="应用到全站" data-en="Apply Globally">应用到全站</a>
         </div>
       </section>
 
@@ -200,6 +211,7 @@
       let lang = localStorage.getItem("xai_lang") || "zh";
       let insightRows = [];
       let top10Rows = [];
+      let globalLimit = 300;
       const root = document.documentElement;
 
       function setTheme(primary, secondary, mainA, mainB) {
@@ -248,15 +260,23 @@
           el.textContent = el.getAttribute(lang === "zh" ? "data-zh" : "data-en");
         });
         document.getElementById("langBtn").textContent = lang === "zh" ? "EN" : "中文";
+        const kTotal = Number(document.getElementById("k_total").textContent || 0) || globalLimit;
+        document.getElementById("proof_sample").textContent =
+          lang === "zh" ? `样本规模：Top${kTotal} X AI博主` : `Sample: Top${kTotal} AI influencers on X`;
       }
 
       function renderFeed() {
         const feed = document.getElementById("feed");
-        feed.innerHTML = insightRows.slice(0, 8).map((x) => `
+        const rows = (insightRows && insightRows.length ? insightRows : top10Rows).slice(0, Math.min(8, globalLimit));
+        if (!rows.length) {
+          feed.innerHTML = `<div class="item"><div class="t">${lang === "zh" ? "暂无可展示观点" : "No insights available yet"}</div><div class="m">${lang === "zh" ? "请稍后刷新，或检查 data/daily_insights.json 是否可访问。" : "Please refresh later or check data/daily_insights.json accessibility."}</div></div>`;
+          return;
+        }
+        feed.innerHTML = rows.map((x) => `
           <div class="item">
             <div class="t">${x.name} <span class="m">@${x.handle}</span></div>
             <div class="m">${(x.topics || []).join(" · ")} · ${x.layer_en || x.layer}</div>
-            <div class="d">${lang === "zh" ? x.daily_essence_zh : x.daily_essence_en}</div>
+            <div class="d">${lang === "zh" ? (x.latest_share_zh || x.latest_viewpoint_zh || x.daily_essence_zh || "") : (x.latest_share_en || x.latest_viewpoint_en || x.daily_essence_en || "")}</div>
             <div style="margin-top:8px"><a class="btn" href="./profiles/${x.slug}.html">${lang === "zh" ? "查看人物页" : "View Profile"}</a></div>
           </div>
         `).join("");
@@ -271,15 +291,27 @@
         renderFeed();
       });
 
-      async function boot() {
-        const p = await fetch("/data/profiles.json").then((r) => r.json()).catch(() => ({ items: [] }));
-        const d = await fetch("/data/daily_insights.json").then((r) => r.json()).catch(() => ({ items: [] }));
-        const b = await fetch("/data/daily_briefing.json").then((r) => r.json()).catch(() => ({ items: [] }));
+      document.getElementById("limitApply").addEventListener("click", (e) => {
+        e.preventDefault();
+        const input = document.getElementById("limitInput");
+        const n = window.XAIExpertLimit ? window.XAIExpertLimit.setLimit(input.value) : Math.max(10, Math.min(1000, Number(input.value || 300)));
+        input.value = String(n);
+        globalLimit = n;
+        renderFeed();
+        boot();
+      });
 
-        const profiles = p.items || [];
-        const items = d.items || [];
-        top10Rows = b.items || [];
-        insightRows = items;
+      async function boot() {
+        globalLimit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+        document.getElementById("limitInput").value = String(globalLimit);
+        const p = await fetch("./data/profiles.json").then((r) => r.json()).catch(() => ({ items: [] }));
+        const d = await fetch("./data/daily_insights.json").then((r) => r.json()).catch(() => ({ items: [] }));
+        const b = await fetch("./data/daily_briefing.json").then((r) => r.json()).catch(() => ({ items: [] }));
+
+        const profiles = (p.items || []).slice(0, globalLimit);
+        const items = (d.items || []).slice(0, globalLimit);
+        top10Rows = (b.items || []).slice(0, globalLimit);
+        insightRows = items.length ? items : (top10Rows || []);
 
         document.getElementById("k_total").textContent = profiles.length || "-";
         document.getElementById("k_cards").textContent = items.length || "-";

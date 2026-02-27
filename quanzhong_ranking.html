@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0b1020" />
     <link rel="manifest" href="./manifest.webmanifest" />
+    <script src="./assets/expert-limit.js" defer></script>
     <title>X 平台 AI 社交影响力排名（Quanzhong）</title>
     <style>
       :root {
@@ -136,19 +137,20 @@
         .then((r) => r.json())
         .then((d) => {
           const experts = d.experts || [];
+          const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+          const shown = experts.slice(0, limit);
           document.getElementById("meta").textContent =
-            `更新时间: ${d.generated_at || "-"} | 公式: ${d.ranking_formula || "-"}`;
-          document.getElementById("k-total").textContent = experts.length;
-          document.getElementById("k-top1").textContent = experts[0] ? "@" + experts[0].handle : "-";
+            `更新时间: ${d.generated_at || "-"} | 样本: Top${shown.length} | 公式: ${d.ranking_formula || "-"}`;
+          document.getElementById("k-total").textContent = shown.length;
+          document.getElementById("k-top1").textContent = shown[0] ? "@" + shown[0].handle : "-";
           document.getElementById("k-model").textContent = "quanzhong-grey-semantic-v1";
 
           const avgGrey =
-            experts.reduce((s, x) => s + (Number(x.grey_relation) || 0), 0) / Math.max(1, experts.length);
+            shown.reduce((s, x) => s + (Number(x.grey_relation) || 0), 0) / Math.max(1, shown.length);
           document.getElementById("k-grey").textContent = f6(avgGrey);
 
           const rowsEl = document.getElementById("rows");
-          rowsEl.innerHTML = experts
-            .slice(0, 300)
+          rowsEl.innerHTML = shown
             .map((x) => {
               const cls = x.rank <= 3 ? "top3" : "";
               return `<tr>

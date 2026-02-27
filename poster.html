@@ -2,6 +2,7 @@
 <html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Share Poster</title>
 <script src="./assets/metrics.js" defer></script>
+<script src="./assets/expert-limit.js" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -42,7 +43,7 @@
       <input id="brandSlogan" placeholder="品牌标语，如 AI Influence Daily" />
       <input id="brandLogo" style="grid-column:1/-1" placeholder="Logo URL（可选）" />
     </div>
-    <div class="meta" id="posterSizeMeta" style="margin-top:10px">Poster size: 1080x1920 · single/top10/custom supported</div>
+    <div class="meta" style="margin-top:10px">Poster size: 1080x1920 · single/top10/custom supported</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
       <button class="btn" id="downloadBtn">下载海报 PNG</button>
       <button class="btn" id="copyBtn">复制分享链接</button>
@@ -96,29 +97,8 @@ function getTheme(){
   }[styleKey] || null;
 }
 
-function setCanvasHeight(h){
-  const height=Math.max(1800, Math.ceil(h));
-  c.height=height; c.width=1080;
-  document.getElementById('posterSizeMeta').textContent=`Poster size: 1080x${height}`;
-  return height;
-}
-
-function measureLines(text,maxWidth,font){
-  const chars=(text||'').split('');
-  let line=''; const out=[];
-  const prev=ctx.font; ctx.font=font;
-  for(let i=0;i<chars.length;i++){
-    const t=line+chars[i];
-    if(ctx.measureText(t).width>maxWidth && line){ out.push(line); line=chars[i]; }
-    else line=t;
-  }
-  if(line) out.push(line);
-  ctx.font=prev;
-  return out;
-}
-
 function drawBackground(theme){
-  const w=c.width,h=c.height;
+  const w=1080,h=1920;
   const g=ctx.createLinearGradient(0,0,w,h);
   g.addColorStop(0,theme.bg[0]); g.addColorStop(0.45,theme.bg[1]); g.addColorStop(1,theme.bg[2]);
   ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
@@ -127,17 +107,25 @@ function drawBackground(theme){
 }
 
 function drawSingle(r){
-  const theme=getTheme(); setCanvasHeight(2260); drawBackground(theme);
+  const theme=getTheme(); drawBackground(theme);
   const brandSlogan=(brandSloganInput.value||'AI Influence Daily').trim() || 'AI Influence Daily';
+  const noTodayShare = !(r && (r.latest_share_zh || r.latest_share_en));
+  const buddy = pickBestBuddyInScope(r);
   ctx.fillStyle=theme.title; ctx.font='700 58px "IBM Plex Sans",sans-serif'; ctx.fillText('AI Insight Poster',100,170);
   ctx.fillStyle=theme.meta; ctx.font='500 34px "IBM Plex Sans",sans-serif'; ctx.fillText(`@${r.handle} | score ${Number(r.score||0).toFixed(3)} | ${r.layer_en||r.layer||''}`,100,235);
   ctx.fillStyle='#ffffff'; ctx.font='800 70px "IBM Plex Sans",sans-serif'; wrapText(ctx,r.name||'',100,350,860,86,2);
   ctx.fillStyle='#bed6ff'; ctx.font='500 34px "IBM Plex Sans",sans-serif'; wrapText(ctx,(r.topics||[]).join(' · '),100,540,860,48,3);
-  ctx.fillStyle='#eef5ff'; ctx.font='600 44px "IBM Plex Sans",sans-serif'; ctx.fillText(lang==='en'?'Key Viewpoint':'今日观点精髓',100,760);
-  ctx.fillStyle='#d8e7ff'; ctx.font='500 38px "IBM Plex Sans",sans-serif'; wrapText(ctx,lang==='en'?(r.daily_essence_en||''):(r.daily_essence_zh||''),100,835,880,54,10);
-  const buddy=((r.best_buddies||[])[0]||null);
+  ctx.fillStyle='#eef5ff'; ctx.font='600 44px "IBM Plex Sans",sans-serif'; ctx.fillText(lang==='en'?'Latest Share':'最新分享',100,760);
+  ctx.fillStyle='#d8e7ff'; ctx.font='500 38px "IBM Plex Sans",sans-serif';
+  wrapText(
+    ctx,
+    noTodayShare
+      ? (lang==='en' ? 'No share today. Please switch to another creator.' : '无分享，请换一个。')
+      : (lang==='en' ? (r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||'') : (r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||'')),
+    100,835,880,54,10
+  );
   ctx.fillStyle='#9ec0f1'; ctx.font='500 30px "IBM Plex Sans",sans-serif';
-  ctx.fillText(buddy?`最佳互动基友: ${buddy.name} @${buddy.handle}`:'最佳互动基友: N/A',100,1448);
+  ctx.fillText(buddy?`今日最佳基友: ${buddy.name} @${buddy.handle}`:'今日最佳基友: N/A',100,1448);
   ctx.fillStyle=theme.box; ctx.fillRect(100,1490,880,240); ctx.strokeStyle=theme.boxStroke; ctx.strokeRect(100,1490,880,240);
   ctx.fillStyle='#a9d7ff'; ctx.font='500 34px "IBM Plex Sans",sans-serif'; ctx.fillText(styleKey==='brand'?brandSlogan:'Association + Centrality',130,1560);
   ctx.fillStyle='#ecf5ff'; ctx.font='700 52px "IBM Plex Sans",sans-serif'; ctx.fillText(`A ${Number(r.association_score||0).toFixed(3)} / C ${Number(r.centrality_score||0).toFixed(3)}`,130,1640);
@@ -146,35 +134,23 @@ function drawSingle(r){
 }
 
 function drawMulti(items){
-  const theme=getTheme();
-  const cards = items.slice(0,10).map((r,i)=>{
-    const msg = (lang==='en'?(r.daily_essence_en||''):(r.daily_essence_zh||'')) || '';
-    const lines = measureLines(msg, 820, '500 24px \"IBM Plex Sans\",sans-serif').slice(0,4);
-    const h = 170 + Math.max(1, lines.length) * 34;
-    return { r, i, lines, h };
-  });
-  const totalCardsH = cards.reduce((s,x)=>s+x.h,0) + Math.max(0,cards.length-1)*16;
-  setCanvasHeight(320 + totalCardsH + 240);
-  drawBackground(theme);
+  const theme=getTheme(); drawBackground(theme);
   ctx.fillStyle=theme.title; ctx.font='700 56px "IBM Plex Sans",sans-serif';
   ctx.fillText(posterMode==='top10'?'Top10 AI Views':'Custom AI Views',100,160);
   ctx.fillStyle=theme.meta; ctx.font='500 30px "IBM Plex Sans",sans-serif';
-  ctx.fillText(`Count ${cards.length} · ${new Date().toISOString().slice(0,10)}`,100,215);
+  ctx.fillText(`Count ${items.length} · ${new Date().toISOString().slice(0,10)}`,100,215);
   let y=290;
-  cards.forEach(({r,i,lines,h})=>{
-    ctx.fillStyle='rgba(255,255,255,.08)'; ctx.fillRect(90,y-46,900,h);
-    ctx.strokeStyle='rgba(255,255,255,.15)'; ctx.strokeRect(90,y-46,900,h);
+  items.slice(0,10).forEach((r,i)=>{
+    ctx.fillStyle='rgba(255,255,255,.08)'; ctx.fillRect(90,y-46,900,145);
+    ctx.strokeStyle='rgba(255,255,255,.15)'; ctx.strokeRect(90,y-46,900,145);
     ctx.fillStyle='#eaf4ff'; ctx.font='700 34px "IBM Plex Sans",sans-serif'; ctx.fillText(`#${i+1} ${r.name}`,120,y);
     ctx.fillStyle='#a9c8f3'; ctx.font='500 26px "IBM Plex Sans",sans-serif'; ctx.fillText(`@${r.handle} · score ${Number(r.score||0).toFixed(3)}`,120,y+42);
-    ctx.fillStyle='#d6e5ff'; ctx.font='500 24px "IBM Plex Sans",sans-serif'; wrapText(ctx,(r.topics||[]).slice(0,3).join(' · ')||'AI Topic',120,y+78,760,34,2);
-    ctx.fillStyle='#edf4ff'; ctx.font='500 24px "IBM Plex Sans",sans-serif';
-    lines.forEach((ln,idx)=>ctx.fillText(ln,120,y+146+idx*34));
-    y += h + 16;
+    ctx.fillStyle='#d6e5ff'; ctx.font='500 24px "IBM Plex Sans",sans-serif'; wrapText(ctx,(r.topics||[]).slice(0,2).join(' · ')||'AI Topic',120,y+78,760,34,1);
+    y+=165;
   });
-  const footerY = c.height - 200;
-  ctx.fillStyle='rgba(255,255,255,.12)'; ctx.fillRect(90,footerY,900,120);
+  ctx.fillStyle='rgba(255,255,255,.12)'; ctx.fillRect(90,1720,900,120);
   ctx.fillStyle='#dbe8ff'; ctx.font='600 30px "IBM Plex Sans",sans-serif';
-  ctx.fillText((brandSloganInput.value||'AI Influence Daily').trim() || 'AI Influence Daily',120,footerY+68);
+  ctx.fillText((brandSloganInput.value||'AI Influence Daily').trim() || 'AI Influence Daily',120,1788);
 }
 
 function pickRows(){
@@ -186,20 +162,43 @@ function pickRows(){
   return [currentItem || rows[0]].filter(Boolean);
 }
 
+function scopeSlugs(){
+  if(posterMode==='custom'){
+    return new Set((selectedSlugs||[]).filter(Boolean));
+  }
+  if(posterMode==='top10'){
+    return new Set(top10.slice(0,10).map(x=>x.slug).filter(Boolean));
+  }
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  return new Set(rows.slice(0, limit).map(x=>x.slug).filter(Boolean));
+}
+
+function pickBestBuddyInScope(r){
+  const scope = scopeSlugs();
+  const buddies = (r && r.best_buddies) ? r.best_buddies : [];
+  if(!buddies.length) return null;
+  const inScope = buddies.filter(b=>b && b.slug && scope.has(b.slug));
+  return (inScope[0] || buddies[0] || null);
+}
+
 function setInfo(items){
   if(items.length===1){
     const r=items[0];
+    const noTodayShare = !(r && (r.latest_share_zh || r.latest_share_en));
+    const buddy = pickBestBuddyInScope(r);
     document.getElementById('title').textContent=`${r.name} @${r.handle}`;
-    document.getElementById('desc').textContent=`Layer ${r.layer_en||r.layer} · score ${Number(r.score||0).toFixed(3)} · mode single`;
-    document.getElementById('essence').textContent=lang==='en'?(r.daily_essence_en||''):(r.daily_essence_zh||'');
+    document.getElementById('desc').textContent=`Layer ${r.layer_en||r.layer} · score ${Number(r.score||0).toFixed(3)} · mode single${buddy?` · 今日最佳基友 ${buddy.name}`:''}`;
+    document.getElementById('essence').textContent=noTodayShare
+      ? '无分享，请换一个。'
+      : (lang==='en'?(r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||''):(r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''));
     document.getElementById('openProfile').style.display='inline-block';
     document.getElementById('openX').style.display='inline-block';
-    document.getElementById('openProfile').href=`/profiles/${r.slug}.html`;
+    document.getElementById('openProfile').href=`./profiles/${r.slug}.html`;
     document.getElementById('openX').href=`https://x.com/${r.handle}`;
   }else{
     document.getElementById('title').textContent=`${posterMode==='top10'?'Top10':'自选'} 聚合海报`;
     document.getElementById('desc').textContent=`共 ${items.length} 位博主 · mode ${posterMode}`;
-    document.getElementById('essence').textContent='整页海报已包含每条Top消息正文摘要，适合日报、周报、社群分发。';
+    document.getElementById('essence').textContent='可一键分享整页观点，适合日报、周报、社群分发。';
     document.getElementById('openProfile').style.display='none';
     document.getElementById('openX').style.display='none';
   }
@@ -230,7 +229,7 @@ function renderPicker(){
 document.getElementById('downloadBtn').addEventListener('click',()=>{
   const a=document.createElement('a');
   a.href=c.toDataURL('image/png');
-  a.download=`${posterMode}-${styleKey}-${c.height}.png`;
+  a.download=`${posterMode}-${styleKey}.png`;
   a.click();
 });
 document.getElementById('copyBtn').addEventListener('click',async()=>{
@@ -272,10 +271,12 @@ Promise.all([
   fetch('./data/profiles.json').then(r=>r.json()).catch(()=>({items:[]})),
   fetch('./data/daily_briefing.json').then(r=>r.json()).catch(()=>({items:[]}))
 ]).then(([p,b])=>{
-  rows=p.items||[]; top10=b.items||[];
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  rows=(p.items||[]).slice(0, limit);
+  top10=(b.items||[]).slice(0, limit);
   currentItem=rows.find(x=>x.slug===slug) || top10.find(x=>x.slug===slug) || rows[0] || null;
   if(!selectedSlugs.length) selectedSlugs=top10.slice(0,10).map(x=>x.slug).filter(Boolean);
   renderPicker();
   draw();
 });
-</script><script src="./assets/share-fab.js" defer></script></body></html>
+</script></body></html>

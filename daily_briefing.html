@@ -2,19 +2,97 @@
 <html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Daily Top10 Briefing</title>
 <script src="./assets/metrics.js" defer></script>
+<script src="./assets/expert-limit.js" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
 .wrap{max-width:1100px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
 .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
-.grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.muted{color:#9db0da;font-size:12px}
+.grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.card{position:relative;background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}
+.muted{color:#9db0da;font-size:12px}
+.share{position:absolute;right:10px;top:10px}
+.share summary{list-style:none;cursor:pointer;width:30px;height:30px;border-radius:999px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(125,177,255,.45);background:#16366d;color:#eaf2ff;font-size:14px}
+.share summary::-webkit-details-marker{display:none}
+.share-menu{position:absolute;right:0;top:36px;display:flex;flex-direction:column;gap:6px;background:#0f1933;border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px;min-width:140px;z-index:20}
+.share-menu button{cursor:pointer;border:1px solid rgba(125,177,255,.45);border-radius:8px;background:#17396f;color:#eaf2ff;padding:6px 8px;font-size:12px;text-align:left}
+.share-menu button:hover{background:#1f4686}
 </style></head><body><div class="wrap">
-<div class="top"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./insights.html">Insights</a><a class="btn" href="./daily_progress.html">每日AI进展</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
+<div class="top"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./insights.html">Insights</a><a class="btn" href="./daily_progress.html">每日AI进展</a><a class="btn" href="./poster.html?mode=top10">Top10整合海报</a><a class="btn" href="./poster.html?mode=custom">自选博主海报</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
 <div id="grid" class="grid"></div></div>
 <script>
-fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
-  const rows=d.items||[];
-  const l=localStorage.getItem('xai_lang')||'zh';
-  document.getElementById('grid').innerHTML=rows.map((r,i)=>`<div class="card"><div><b>#${i+1} ${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?(r.daily_essence_zh||''):(r.daily_essence_en||r.daily_essence_zh||'')}</p><div style="display:flex;gap:8px"><a class="btn" href="./profiles/${r.slug}.html">${l==='zh'?'查看人物页':'Profile'}</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">${l==='zh'?'打开 X':'Open X'}</a></div></div>`).join('');
+function closeShareMenus(except){
+  document.querySelectorAll('.share[open]').forEach(x=>{ if(x!==except) x.removeAttribute('open'); });
+}
+document.addEventListener('click',(e)=>{
+  if(!e.target.closest('.share')) closeShareMenus(null);
 });
-</script><script src="./assets/share-fab.js" defer></script></body></html>
+function copyText(v){
+  return navigator.clipboard.writeText(v);
+}
+fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  const rows=(d.items||[]).slice(0, limit);
+  if(!rows.length){
+    document.getElementById('grid').innerHTML = `<div class="card"><b>今日暂无满足条件的博主</b><div class="muted" style="margin-top:8px">规则：仅展示“当日有发帖”的账号，并选取其当日热度最高的一条分享。请稍后刷新，或先更新 X 互动数据。</div></div>`;
+    return;
+  }
+  document.getElementById('grid').innerHTML=rows.map((r,i)=>{
+    const shareLink = r.latest_tweet_url || `https://x.com/${r.handle}`;
+    const profileLink = `${location.origin}${location.pathname.replace(/\/[^/]*$/, '')}/profiles/${r.slug}.html`;
+    return `<div class="card">
+      <details class="share">
+        <summary title="分享">↗</summary>
+        <div class="share-menu">
+          <button data-action="poster" data-slug="${r.slug}">下载海报</button>
+          <button data-action="copy" data-url="${shareLink}" data-profile="${profileLink}">复制链接</button>
+          <button data-action="native" data-url="${shareLink}" data-title="${r.name}">系统分享</button>
+        </div>
+      </details>
+      <div><b>#${i+1} ${r.name}</b> <span class="muted">@${r.handle}</span></div>
+      <div class="muted">score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div>
+      <p><b>最新分享：</b>${r.latest_share_zh || r.latest_viewpoint_zh || r.daily_essence_zh || ''}</p>
+      <div style="display:flex;gap:8px"><a class="btn" href="./profiles/${r.slug}.html">查看人物页</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">打开 X</a></div>
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('.share').forEach(el=>{
+    el.addEventListener('toggle',()=>{ if(el.open) closeShareMenus(el); });
+  });
+  document.querySelectorAll('.share-menu button').forEach(btn=>{
+    btn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      const act = btn.dataset.action;
+      const cardShare = btn.closest('.share');
+      try{
+        if(act==='poster'){
+          const slug = btn.dataset.slug || '';
+          location.href = `./poster.html?slug=${encodeURIComponent(slug)}&mode=briefing`;
+          return;
+        }
+        if(act==='copy'){
+          const url = btn.dataset.url || btn.dataset.profile || location.href;
+          await copyText(url);
+          alert('已复制链接');
+          return;
+        }
+        if(act==='native'){
+          const url = btn.dataset.url || location.href;
+          const title = btn.dataset.title || 'Top10';
+          if(navigator.share){
+            await navigator.share({ title, url });
+          }else{
+            await copyText(url);
+            alert('当前浏览器不支持系统分享，已复制链接');
+          }
+          return;
+        }
+      }catch(_err){
+        alert('分享操作失败，请重试');
+      }finally{
+        if(cardShare) cardShare.removeAttribute('open');
+      }
+    });
+  });
+});
+</script></body></html>

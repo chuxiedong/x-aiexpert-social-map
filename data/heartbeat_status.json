@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-26T01:48:56.046617+00:00",
+  "generated_at": "2026-02-27T16:09:26.454141+00:00",
   "status": "ok",
   "build_result": "ok",
   "build_log": "Generated 300 profile pages and Top10 briefing",
@@ -8,69 +8,69 @@
     {
       "file": "index.html",
       "exists": true,
-      "size": 18746
+      "size": 21101
     },
     {
       "file": "data/circle_layers.html",
       "exists": true,
-      "size": 67443
+      "size": 67678
     },
     {
       "file": "insights.html",
       "exists": true,
-      "size": 4641
+      "size": 4910
     },
     {
       "file": "daily_briefing.html",
       "exists": true,
-      "size": 2355
+      "size": 5951
     },
     {
       "file": "daily_progress.html",
       "exists": true,
-      "size": 3049
+      "size": 3554
     },
     {
       "file": "poster.html",
       "exists": true,
-      "size": 14939
+      "size": 16390
     },
     {
       "file": "contact.html",
       "exists": true,
-      "size": 4815
+      "size": 4819
     },
     {
       "file": "commercial.html",
       "exists": true,
-      "size": 4215
+      "size": 4226
     },
     {
       "file": "ops.html",
       "exists": true,
-      "size": 4403
+      "size": 4409
     },
     {
       "file": "data/profiles.json",
       "exists": true,
-      "size": 1087190
+      "size": 1341454
     },
     {
       "file": "data/daily_insights.json",
       "exists": true,
-      "size": 1087190
+      "size": 1341454
     },
     {
       "file": "data/daily_briefing.json",
       "exists": true,
-      "size": 37209
+      "size": 157408
     },
     {
       "file": "data/daily_progress.json",
       "exists": true,
-      "size": 12510
+      "size": 67421
     }
   ],
-  "duration_ms": 164,
+  "duration_ms": 237,
   "iteration_note": "heartbeat rebuild + integrity checks"
 }

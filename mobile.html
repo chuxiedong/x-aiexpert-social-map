@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0b1020" />
     <title>X 平台 AI 影响力榜（移动版）</title>
+    <script src="./assets/expert-limit.js" defer></script>
     <link rel="manifest" href="./manifest.webmanifest" />
     <style>
       :root {
@@ -157,7 +158,8 @@
           list.innerHTML = '<div class="empty">没有匹配数据</div>';
           return;
         }
-        list.innerHTML = sorted.slice(0, 300).map((x, i) => `
+        const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+        list.innerHTML = sorted.slice(0, limit).map((x, i) => `
           <a class="row" href="https://x.com/${x.handle}" target="_blank" style="text-decoration:none;color:inherit;">
             <div class="top">
               <div class="rank">#${i + 1}</div>
@@ -178,12 +180,13 @@
         `).join("");
       }
 
-      fetch("/data/top300.json")
+      fetch("./data/top300.json")
         .then((r) => r.json())
         .then((d) => {
           const rows = d.experts || [];
+          const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
           document.getElementById("meta").textContent =
-            `更新时间：${d.generated_at || "-"} ｜ 样本：${rows.length} ｜ 排序：Quanzhong`;
+            `更新时间：${d.generated_at || "-"} ｜ 样本：Top${Math.min(limit, rows.length)} ｜ 排序：Quanzhong`;
           document.getElementById("q").addEventListener("input", () => render(rows));
           document.getElementById("sort").addEventListener("change", () => render(rows));
           render(rows);

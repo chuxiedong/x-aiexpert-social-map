@@ -232,8 +232,8 @@
           </select>
         </div>
         <div class="qz-links">
-          <a class="qz-link" href="/data/circle_layers.html" target="_blank" rel="noopener noreferrer">圈层图（5层）</a>
-          <a class="qz-link" href="/quanzhong_ranking.html" target="_blank" rel="noopener noreferrer">指标页</a>
+          <a class="qz-link" href="./data/circle_layers.html" target="_blank" rel="noopener noreferrer">圈层图（5层）</a>
+          <a class="qz-link" href="./quanzhong_ranking.html" target="_blank" rel="noopener noreferrer">指标页</a>
         </div>
         <div class="qz-list" id="qz-list"></div>
       </div>

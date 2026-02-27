@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-26T01:48:56.155397Z",
+  "updated_at": "2026-02-27T16:11:52.710680Z",
   "summary_zh": "今日AI进展：讨论重心集中在 AI Industry 与 Model Capability。Top10 关键人物仍在推动“模型能力产品化 + 发布反馈闭环”，全网高影响博主均值分约 0.583。",
   "summary_en": "Daily AI progress: discussion centers on AI Industry and Model Capability. Top voices keep focusing on productizing model capability and iterating via publish-feedback loops.",
   "topic_rank": [
@@ -163,7 +163,13 @@
         "Robotics"
       ],
       "daily_essence_zh": "今日精髓：围绕 Model Engineering 与 Robotics，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.689）。",
-      "daily_essence_en": "Daily essence: around Model Engineering and Robotics, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.689)."
+      "daily_essence_en": "Daily essence: around Model Engineering and Robotics, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.689).",
+      "latest_viewpoint_zh": "最新观点：Leaving Meta and PyTorch I'm stepping down from PyTorch and leaving Meta on November 17th. tl;dr: Didn't want to be doing PyTorch forever, seemed like the perfect time to transition right after I got back from a long leave and the project b（主题：Model Engineering）",
+      "latest_viewpoint_en": "Latest view: Leaving Meta and PyTorch I'm stepping down from PyTorch and leaving Meta on November 17th. tl;dr: Didn't want to be doing PyTorch forever, seemed like the perfect time to transition right after I got back from a long leave and the project b (topic: Model Engineering)",
+      "latest_share_zh": "Leaving Meta and PyTorch I'm stepping down from PyTorch and leaving Meta on November 17th. tl;dr: Didn't want to be doing PyTorch forever, seemed like the perfect time to transition right after I got back from a long leave and the project b",
+      "latest_share_en": "Leaving Meta and PyTorch I'm stepping down from PyTorch and leaving Meta on November 17th. tl;dr: Didn't want to be doing PyTorch forever, seemed like the perfect time to transition right after I got back from a long leave and the project b",
+      "latest_tweet_url": "https://x.com/soumithchintala",
+      "today_hottest_tweet_url": "https://x.com/soumithchintala"
     },
     {
       "name": "NVIDIA Newsroom",
@@ -176,7 +182,13 @@
         "Productization"
       ],
       "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.687）。",
-      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.687)."
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.687).",
+      "latest_viewpoint_zh": "最新观点：NEWS: For the first time, NVIDIA’s AI supercomputers will be built entirely in the U.S. — working with leading manufacturing partners to design and build factories. Production has also started for NVIDIA Blackwell chips at TSMC’s chip plant（主题：AI Industry）",
+      "latest_viewpoint_en": "Latest view: NEWS: For the first time, NVIDIA’s AI supercomputers will be built entirely in the U.S. — working with leading manufacturing partners to design and build factories. Production has also started for NVIDIA Blackwell chips at TSMC’s chip plant (topic: AI Industry)",
+      "latest_share_zh": "NEWS: For the first time, NVIDIA’s AI supercomputers will be built entirely in the U.S. — working with leading manufacturing partners to design and build factories. Production has also started for NVIDIA Blackwell chips at TSMC’s chip plant",
+      "latest_share_en": "NEWS: For the first time, NVIDIA’s AI supercomputers will be built entirely in the U.S. — working with leading manufacturing partners to design and build factories. Production has also started for NVIDIA Blackwell chips at TSMC’s chip plant",
+      "latest_tweet_url": "https://x.com/nvidianewsroom",
+      "today_hottest_tweet_url": "https://x.com/nvidianewsroom"
     },
     {
       "name": "NVIDIA",
@@ -189,7 +201,13 @@
         "Productization"
       ],
       "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.662）。",
-      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.662)."
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.662).",
+      "latest_viewpoint_zh": "最新观点：Join us at Synopsys Converge when（主题：AI Industry）",
+      "latest_viewpoint_en": "Latest view: Join us at Synopsys Converge when (topic: AI Industry)",
+      "latest_share_zh": "Join us at Synopsys Converge when",
+      "latest_share_en": "Join us at Synopsys Converge when",
+      "latest_tweet_url": "https://x.com/nvidia",
+      "today_hottest_tweet_url": "https://x.com/nvidia"
     },
     {
       "name": "Lucas Beyer (bl16)",
@@ -201,7 +219,13 @@
         "Research Frontier"
       ],
       "daily_essence_zh": "今日精髓：围绕 OpenAI Ecosystem 与 Research Frontier，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.565）。",
-      "daily_essence_en": "Daily essence: around OpenAI Ecosystem and Research Frontier, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.565)."
+      "daily_essence_en": "Daily essence: around OpenAI Ecosystem and Research Frontier, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.565).",
+      "latest_viewpoint_zh": "最新观点：My Transformer tutorial slides are now available at lucasb.eyer.be/transformer I'll append recordings to this thread as I get them. If you want to use some of the slides for your lecture, you may, as long as you credit me. If you'd like me（主题：OpenAI Ecosystem）",
+      "latest_viewpoint_en": "Latest view: My Transformer tutorial slides are now available at lucasb.eyer.be/transformer I'll append recordings to this thread as I get them. If you want to use some of the slides for your lecture, you may, as long as you credit me. If you'd like me (topic: OpenAI Ecosystem)",
+      "latest_share_zh": "My Transformer tutorial slides are now available at lucasb.eyer.be/transformer I'll append recordings to this thread as I get them. If you want to use some of the slides for your lecture, you may, as long as you credit me. If you'd like me",
+      "latest_share_en": "My Transformer tutorial slides are now available at lucasb.eyer.be/transformer I'll append recordings to this thread as I get them. If you want to use some of the slides for your lecture, you may, as long as you credit me. If you'd like me",
+      "latest_tweet_url": "https://x.com/giffmana",
+      "today_hottest_tweet_url": "https://x.com/giffmana"
     },
     {
       "name": "Peter Steinberger 🦞",
@@ -212,7 +236,13 @@
         "AI Agents"
       ],
       "daily_essence_zh": "今日精髓：围绕 AI Agents 与 AI Agents，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.497）。",
-      "daily_essence_en": "Daily essence: around AI Agents and AI Agents, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.497)."
+      "daily_essence_en": "Daily essence: around AI Agents and AI Agents, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.497).",
+      "latest_viewpoint_zh": "最新观点：to bring agents to everyone.（主题：AI Agents）",
+      "latest_viewpoint_en": "Latest view: to bring agents to everyone. (topic: AI Agents)",
+      "latest_share_zh": "to bring agents to everyone.",
+      "latest_share_en": "to bring agents to everyone.",
+      "latest_tweet_url": "https://x.com/steipete",
+      "today_hottest_tweet_url": "https://x.com/steipete"
     },
     {
       "name": "Hugging Face",
@@ -225,7 +255,13 @@
         "Productization"
       ],
       "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.558）。",
-      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.558)."
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.558).",
+      "latest_viewpoint_zh": "最新观点：We just released Transformers' boldest feature: Transformers Agents. This removes the barrier of entry to machine learning Control 100,000+ HF models by talking to Transformers and Diffusers Fully multimodal agent: text, images, video, audi（主题：AI Industry）",
+      "latest_viewpoint_en": "Latest view: We just released Transformers' boldest feature: Transformers Agents. This removes the barrier of entry to machine learning Control 100,000+ HF models by talking to Transformers and Diffusers Fully multimodal agent: text, images, video, audi (topic: AI Industry)",
+      "latest_share_zh": "We just released Transformers' boldest feature: Transformers Agents. This removes the barrier of entry to machine learning Control 100,000+ HF models by talking to Transformers and Diffusers Fully multimodal agent: text, images, video, audi",
+      "latest_share_en": "We just released Transformers' boldest feature: Transformers Agents. This removes the barrier of entry to machine learning Control 100,000+ HF models by talking to Transformers and Diffusers Fully multimodal agent: text, images, video, audi",
+      "latest_tweet_url": "https://x.com/huggingface",
+      "today_hottest_tweet_url": "https://x.com/huggingface"
     },
     {
       "name": "Sasha Rush",
@@ -238,7 +274,13 @@
         "Productization"
       ],
       "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.517）。",
-      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.517)."
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.517).",
+      "latest_viewpoint_zh": "最新观点：You use GPUs everyday, but do you (actually) know how they work? GPU-Puzzles (v0.1) - 14 short puzzles in Python with a visual debugger. No background required. Do puzzles, learn CUDA. Link: github.com/srush/GPU-Puzz（主题：AI Industry）",
+      "latest_viewpoint_en": "Latest view: You use GPUs everyday, but do you (actually) know how they work? GPU-Puzzles (v0.1) - 14 short puzzles in Python with a visual debugger. No background required. Do puzzles, learn CUDA. Link: github.com/srush/GPU-Puzz (topic: AI Industry)",
+      "latest_share_zh": "You use GPUs everyday, but do you (actually) know how they work? GPU-Puzzles (v0.1) - 14 short puzzles in Python with a visual debugger. No background required. Do puzzles, learn CUDA. Link: github.com/srush/GPU-Puzz",
+      "latest_share_en": "You use GPUs everyday, but do you (actually) know how they work? GPU-Puzzles (v0.1) - 14 short puzzles in Python with a visual debugger. No background required. Do puzzles, learn CUDA. Link: github.com/srush/GPU-Puzz",
+      "latest_tweet_url": "https://x.com/srush_nlp",
+      "today_hottest_tweet_url": "https://x.com/srush_nlp"
     },
     {
       "name": "Oriol Vinyals",
@@ -249,7 +291,49 @@
         "Research Frontier"
       ],
       "daily_essence_zh": "今日精髓：围绕 Research Frontier 与 Research Frontier，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.607）。",
-      "daily_essence_en": "Daily essence: around Research Frontier and Research Frontier, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.607)."
+      "daily_essence_en": "Daily essence: around Research Frontier and Research Frontier, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.607).",
+      "latest_viewpoint_zh": "最新观点：VP of Research & Deep Learning Lead, Google DeepMind. Gemini co-lead. Past: AlphaStar, AlphaFold, AlphaCode, WaveNet, seq2seq, distillation, TF.（主题：Research Frontier）",
+      "latest_viewpoint_en": "Latest view: VP of Research & Deep Learning Lead, Google DeepMind. Gemini co-lead. Past: AlphaStar, AlphaFold, AlphaCode, WaveNet, seq2seq, distillation, TF. (topic: Research Frontier)",
+      "latest_share_zh": "VP of Research & Deep Learning Lead, Google DeepMind. Gemini co-lead. Past: AlphaStar, AlphaFold, AlphaCode, WaveNet, seq2seq, distillation, TF.",
+      "latest_share_en": "VP of Research & Deep Learning Lead, Google DeepMind. Gemini co-lead. Past: AlphaStar, AlphaFold, AlphaCode, WaveNet, seq2seq, distillation, TF.",
+      "latest_tweet_url": "https://x.com/OriolVinyalsML",
+      "today_hottest_tweet_url": "https://x.com/OriolVinyalsML"
+    },
+    {
+      "name": "Aran Komatsuzaki",
+      "handle": "arankomatsuzaki",
+      "slug": "arankomatsuzaki",
+      "score": 0.532,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.532）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.532).",
+      "latest_viewpoint_zh": "最新观点：OpenAI did what used to be considered impossible. They made people want to use Bing.（主题：AI Industry）",
+      "latest_viewpoint_en": "Latest view: OpenAI did what used to be considered impossible. They made people want to use Bing. (topic: AI Industry)",
+      "latest_share_zh": "OpenAI did what used to be considered impossible. They made people want to use Bing.",
+      "latest_share_en": "OpenAI did what used to be considered impossible. They made people want to use Bing.",
+      "latest_tweet_url": "https://x.com/arankomatsuzaki",
+      "today_hottest_tweet_url": "https://x.com/arankomatsuzaki"
+    },
+    {
+      "name": "Yann LeCun",
+      "handle": "ylecun",
+      "slug": "ylecun",
+      "score": 0.515,
+      "topics": [
+        "Robotics"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 Robotics 与 Robotics，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.515）。",
+      "daily_essence_en": "Daily essence: around Robotics and Robotics, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.515).",
+      "latest_viewpoint_zh": "最新观点：I like his cars (I own a 2015 S, and 2023 S), his rockets, his solar energy systems, and his satellite communication system. I also like his positions on open source and patents. But I very much disagree with him on a number of issues. I di（主题：Robotics）",
+      "latest_viewpoint_en": "Latest view: I like his cars (I own a 2015 S, and 2023 S), his rockets, his solar energy systems, and his satellite communication system. I also like his positions on open source and patents. But I very much disagree with him on a number of issues. I di (topic: Robotics)",
+      "latest_share_zh": "I like his cars (I own a 2015 S, and 2023 S), his rockets, his solar energy systems, and his satellite communication system. I also like his positions on open source and patents. But I very much disagree with him on a number of issues. I di",
+      "latest_share_en": "I like his cars (I own a 2015 S, and 2023 S), his rockets, his solar energy systems, and his satellite communication system. I also like his positions on open source and patents. But I very much disagree with him on a number of issues. I di",
+      "latest_tweet_url": "https://x.com/ylecun",
+      "today_hottest_tweet_url": "https://x.com/ylecun"
     }
   ]
 }

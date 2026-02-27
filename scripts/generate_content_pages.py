@@ -134,6 +134,42 @@ def daily_essence_en(row: dict, topics: list[str]) -> str:
     )
 
 
+def _clean_tweet_text(text: str) -> str:
+    t = re.sub(r"https?://\\S+", "", text or "").strip()
+    t = re.sub(r"\\s+", " ", t)
+    return t[:240].strip()
+
+
+def latest_viewpoint_zh(row: dict, topics: list[str]) -> str:
+    txt = _clean_tweet_text(str(row.get("latest_tweet_text") or ""))
+    if not txt:
+        return daily_essence_zh(row, topics)
+    t1 = topics[0] if topics else "AI"
+    return f"最新观点：{txt}（主题：{t1}）"
+
+
+def latest_viewpoint_en(row: dict, topics: list[str]) -> str:
+    txt = _clean_tweet_text(str(row.get("latest_tweet_text") or ""))
+    if not txt:
+        return daily_essence_en(row, topics)
+    t1 = topics[0] if topics else "AI"
+    return f"Latest view: {txt} (topic: {t1})"
+
+
+def latest_share_zh(row: dict, topics: list[str]) -> str:
+    txt = _clean_tweet_text(str(row.get("today_hottest_tweet_text") or ""))
+    if txt:
+        return txt
+    return ""
+
+
+def latest_share_en(row: dict, topics: list[str]) -> str:
+    txt = _clean_tweet_text(str(row.get("today_hottest_tweet_text") or ""))
+    if txt:
+        return txt
+    return ""
+
+
 def compute_best_buddies(
     top_rows: list[dict],
     weighted_links: list[dict],
@@ -216,14 +252,14 @@ def build_daily_progress(profiles: list[dict], top10: list[dict], updated_at: st
     topic_rank = [{"topic": k, "count": v} for k, v in top_topics.most_common(6)]
 
     trend_rows = sorted(
-        profiles,
+        top10 if top10 else profiles,
         key=lambda p: (
             float(p.get("association_score") or 0) * 0.5
             + float(p.get("centrality_score") or 0) * 0.3
             + float(p.get("explainability", {}).get("interaction", 0)) * 0.2
         ),
         reverse=True,
-    )[:8]
+    )
     trend_items = [
         {
             "name": r.get("name"),
@@ -233,6 +269,12 @@ def build_daily_progress(profiles: list[dict], top10: list[dict], updated_at: st
             "topics": r.get("topics") or [],
             "daily_essence_zh": r.get("daily_essence_zh", ""),
             "daily_essence_en": r.get("daily_essence_en", ""),
+            "latest_viewpoint_zh": r.get("latest_viewpoint_zh", ""),
+            "latest_viewpoint_en": r.get("latest_viewpoint_en", ""),
+            "latest_share_zh": r.get("latest_share_zh", ""),
+            "latest_share_en": r.get("latest_share_en", ""),
+            "latest_tweet_url": r.get("latest_tweet_url", ""),
+            "today_hottest_tweet_url": r.get("today_hottest_tweet_url", ""),
         }
         for r in trend_rows
     ]
@@ -306,7 +348,8 @@ def profile_page(profile: dict) -> str:
     return f"""<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>{name} | X Profile</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"../assets/metrics.js\" defer></script>
+<script src=\"../assets/expert-limit.js\" defer></script>
 <style>
 :root{{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}}
 *{{box-sizing:border-box}} body{{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}}
@@ -322,7 +365,7 @@ def profile_page(profile: dict) -> str:
 @media (max-width:760px){{.kpis{{grid-template-columns:repeat(2,minmax(0,1fr))}} .name{{font-size:20px}}}}
 </style></head><body><div class=\"wrap\"><div class=\"card\">
 <div class=\"row\"><div><div class=\"name\">{name}</div><div class=\"handle\">@{handle}</div></div>
-<div class=\"row\"><a class=\"btn\" href=\"https://x.com/{handle}\" target=\"_blank\">Open X</a><a class=\"btn\" href=\"/profiles/index.html\">Profiles</a><a class=\"btn\" href=\"/poster.html?slug={profile['slug']}&mode=profile\">分享海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"row\"><a class=\"btn\" href=\"https://x.com/{handle}\" target=\"_blank\">Open X</a><a class=\"btn\" href=\"./index.html\">Profiles</a><a class=\"btn\" href=\"../poster.html?slug={profile['slug']}&mode=profile\">分享海报</a><a class=\"btn\" href=\"../commercial.html\">Commercial</a><a class=\"btn\" href=\"../contact.html\">Contact</a></div></div>
 <div class=\"muted\" style=\"margin-top:6px\">Layer: {layer_en} / {layer_zh}</div>
 <div class=\"tags\">{tags}</div>
 <div class=\"kpis\">
@@ -355,7 +398,8 @@ def profiles_index() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>X Influencer Profiles</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"../assets/metrics.js\" defer></script>
+<script src=\"../assets/expert-limit.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -365,7 +409,7 @@ def profiles_index() -> str:
 .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.item{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:5px}
 .name{font-weight:700}.muted{color:#9db0da;font-size:12px}.line{display:flex;justify-content:space-between;gap:8px}.tag{font-size:11px;border:1px solid rgba(255,255,255,.2);padding:3px 6px;border-radius:999px}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>X Influencer Profiles / 博主画像库</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/insights.html\">Insights</a><a class=\"btn\" href=\"/daily_briefing.html\">Briefing</a><a class=\"btn\" href=\"/daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"/poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>X Influencer Profiles / 博主画像库</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"../index.html\">Home</a><a class=\"btn\" href=\"../insights.html\">Insights</a><a class=\"btn\" href=\"../daily_briefing.html\">Briefing</a><a class=\"btn\" href=\"../daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"../poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"../commercial.html\">Commercial</a><a class=\"btn\" href=\"../contact.html\">Contact</a></div></div>
 <div class=\"tools\"><input id=\"q\" placeholder=\"Search name/handle\"/><select id=\"layer\"><option value=\"all\">All Layers</option></select><select id=\"sort\"><option value=\"rank\">Sort by Rank</option><option value=\"score\">Sort by Score</option><option value=\"followers\">Sort by Followers</option></select></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
@@ -377,10 +421,11 @@ function render(){
   const lv=layer.value; const sv=sort.value;
   let fs=rows.filter(r=>(!key||(`${r.name} ${r.handle}`).toLowerCase().includes(key)) && (lv==='all'||r.layer===lv));
   fs.sort((a,b)=>sv==='rank'?a.rank-b.rank:sv==='followers'?(b.followers-a.followers):(b.score-a.score));
-  grid.innerHTML=fs.map(r=>`<div class=\"item\"><div class=\"line\"><div class=\"name\">${r.name}</div><div class=\"muted\">#${r.rank}</div></div><div class=\"muted\">@${r.handle}</div><div class=\"line\"><span class=\"tag\">${layerLabel[r.layer]||r.layer}</span><span class=\"muted\">score ${Number(r.score||0).toFixed(3)}</span></div><div class=\"line\"><a class=\"btn\" href=\"/profiles/${r.slug}.html\">Profile</a><a class=\"btn\" href=\"/poster.html?slug=${r.slug}&mode=profile\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`).join('');
+  grid.innerHTML=fs.map(r=>`<div class=\"item\"><div class=\"line\"><div class=\"name\">${r.name}</div><div class=\"muted\">#${r.rank}</div></div><div class=\"muted\">@${r.handle}</div><div class=\"line\"><span class=\"tag\">${layerLabel[r.layer]||r.layer}</span><span class=\"muted\">score ${Number(r.score||0).toFixed(3)}</span></div><div class=\"line\"><a class=\"btn\" href=\"./${r.slug}.html\">Profile</a><a class=\"btn\" href=\"../poster.html?slug=${r.slug}&mode=profile\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`).join('');
 }
-fetch('/data/profiles.json').then(r=>r.json()).then(d=>{
-  rows=d.items||[];
+fetch('../data/profiles.json').then(r=>r.json()).then(d=>{
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  rows=(d.items||[]).slice(0, limit);
   const set=[...new Set(rows.map(x=>x.layer))];
   layer.innerHTML='<option value="all">All Layers</option>'+set.map(v=>`<option value="${v}">${layerLabel[v]||v}</option>`).join('');
   render();
@@ -393,7 +438,8 @@ def insights_page() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Daily Insights</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"./assets/metrics.js\" defer></script>
+<script src=\"./assets/expert-limit.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -402,7 +448,7 @@ def insights_page() -> str:
 .tools{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}.tools input,.tools select{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#111a34;color:#eaf0ff}
 .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.muted{color:#9db0da;font-size:12px}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Daily Insights / 每日观点精髓</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/profiles/index.html\">Profiles</a><a class=\"btn\" href=\"/daily_briefing.html\">Top10</a><a class=\"btn\" href=\"/daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"/poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Daily Insights / 每日观点精髓</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./profiles/index.html\">Profiles</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"tools\"><input id=\"q\" placeholder=\"Search name/handle\"/><select id=\"lang\"><option value=\"zh\">中文</option><option value=\"en\">English</option></select><select id=\"time\"><option value=\"1\">24h</option><option value=\"7\">7d</option><option value=\"30\" selected>30d</option></select><select id=\"topic\"><option value=\"all\">All Topics</option></select><select id=\"layer\"><option value=\"all\">All Layers</option></select></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
@@ -422,11 +468,12 @@ function render(){
   grid.innerHTML=fs.map(r=>{
     const buddy=((r.best_buddies||[])[0]||null);
     const buddyLine=buddy?`<div class=\"muted\">最佳互动基友：${buddy.name} @${buddy.handle}</div>`:'';
-    return `<div class=\"card\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?r.daily_essence_zh:r.daily_essence_en}</p>${buddyLine}<div class=\"muted\">Recency: ${r.recency_days}d</div><div style=\"display:flex;gap:8px;margin-top:8px\"><a class=\"btn\" href=\"/profiles/${r.slug}.html\">View Profile</a><a class=\"btn\" href=\"/poster.html?slug=${r.slug}&mode=insight&lang=${l}\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`;
+    return `<div class=\"card\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?'最新分享：':'Latest share: '}${l==='zh'?(r.latest_share_zh||r.latest_viewpoint_zh||''):(r.latest_share_en||r.latest_viewpoint_en||'')}</p>${buddyLine}<div class=\"muted\">Recency: ${r.recency_days}d</div><div style=\"display:flex;gap:8px;margin-top:8px\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">View Profile</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=insight&lang=${l}\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`;
   }).join('');
 }
-fetch('/data/daily_insights.json').then(r=>r.json()).then(d=>{
-  rows=d.items||[];
+fetch('./data/daily_insights.json').then(r=>r.json()).then(d=>{
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  rows=(d.items||[]).slice(0, limit);
   const layerSet=[...new Set(rows.map(x=>x.layer))];
   layer.innerHTML='<option value="all">All Layers</option>'+layerSet.map(v=>`<option value="${v}">${layerLabel[v]||v}</option>`).join('');
   const topics=[...new Set(rows.flatMap(x=>x.topics||[]))];
@@ -441,20 +488,99 @@ def briefing_page() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Daily Top10 Briefing</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"./assets/metrics.js\" defer></script>
+<script src=\"./assets/expert-limit.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
 .wrap{max-width:1100px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
 .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
-.grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.muted{color:#9db0da;font-size:12px}
+.grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.card{position:relative;background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}
+.muted{color:#9db0da;font-size:12px}
+.share{position:absolute;right:10px;top:10px}
+.share summary{list-style:none;cursor:pointer;width:30px;height:30px;border-radius:999px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(125,177,255,.45);background:#16366d;color:#eaf2ff;font-size:14px}
+.share summary::-webkit-details-marker{display:none}
+.share-menu{position:absolute;right:0;top:36px;display:flex;flex-direction:column;gap:6px;background:#0f1933;border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px;min-width:140px;z-index:20}
+.share-menu button{cursor:pointer;border:1px solid rgba(125,177,255,.45);border-radius:8px;background:#17396f;color:#eaf2ff;padding:6px 8px;font-size:12px;text-align:left}
+.share-menu button:hover{background:#1f4686}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/insights.html\">Insights</a><a class=\"btn\" href=\"/daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"/poster.html?mode=top10\">Top10整合海报</a><a class=\"btn\" href=\"/poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10整合海报</a><a class=\"btn\" href=\"./poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
-fetch('/data/daily_briefing.json').then(r=>r.json()).then(d=>{
-  const rows=d.items||[];
-  document.getElementById('grid').innerHTML=rows.map((r,i)=>`<div class=\"card\"><div><b>#${i+1} ${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${r.daily_essence_zh}</p><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/profiles/${r.slug}.html\">Profile</a><a class=\"btn\" href=\"/poster.html?slug=${r.slug}&mode=briefing\">单人海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`).join('');
+function closeShareMenus(except){
+  document.querySelectorAll('.share[open]').forEach(x=>{ if(x!==except) x.removeAttribute('open'); });
+}
+document.addEventListener('click',(e)=>{
+  if(!e.target.closest('.share')) closeShareMenus(null);
+});
+function copyText(v){
+  return navigator.clipboard.writeText(v);
+}
+fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  const rows=(d.items||[]).slice(0, limit);
+  if(!rows.length){
+    document.getElementById('grid').innerHTML = `<div class=\"card\"><b>今日暂无满足条件的博主</b><div class=\"muted\" style=\"margin-top:8px\">规则：仅展示“当日有发帖”的账号，并选取其当日热度最高的一条分享。请稍后刷新，或先更新 X 互动数据。</div></div>`;
+    return;
+  }
+  document.getElementById('grid').innerHTML=rows.map((r,i)=>{
+    const shareLink = r.latest_tweet_url || `https://x.com/${r.handle}`;
+    const profileLink = `${location.origin}${location.pathname.replace(/\\/[^/]*$/, '')}/profiles/${r.slug}.html`;
+    return `<div class=\"card\">
+      <details class=\"share\">
+        <summary title=\"分享\">↗</summary>
+        <div class=\"share-menu\">
+          <button data-action=\"poster\" data-slug=\"${r.slug}\">下载海报</button>
+          <button data-action=\"copy\" data-url=\"${shareLink}\" data-profile=\"${profileLink}\">复制链接</button>
+          <button data-action=\"native\" data-url=\"${shareLink}\" data-title=\"${r.name}\">系统分享</button>
+        </div>
+      </details>
+      <div><b>#${i+1} ${r.name}</b> <span class=\"muted\">@${r.handle}</span></div>
+      <div class=\"muted\">score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div>
+      <p><b>最新分享：</b>${r.latest_share_zh || r.latest_viewpoint_zh || r.daily_essence_zh || ''}</p>
+      <div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">查看人物页</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">打开 X</a></div>
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('.share').forEach(el=>{
+    el.addEventListener('toggle',()=>{ if(el.open) closeShareMenus(el); });
+  });
+  document.querySelectorAll('.share-menu button').forEach(btn=>{
+    btn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      const act = btn.dataset.action;
+      const cardShare = btn.closest('.share');
+      try{
+        if(act==='poster'){
+          const slug = btn.dataset.slug || '';
+          location.href = `./poster.html?slug=${encodeURIComponent(slug)}&mode=briefing`;
+          return;
+        }
+        if(act==='copy'){
+          const url = btn.dataset.url || btn.dataset.profile || location.href;
+          await copyText(url);
+          alert('已复制链接');
+          return;
+        }
+        if(act==='native'){
+          const url = btn.dataset.url || location.href;
+          const title = btn.dataset.title || 'Top10';
+          if(navigator.share){
+            await navigator.share({ title, url });
+          }else{
+            await copyText(url);
+            alert('当前浏览器不支持系统分享，已复制链接');
+          }
+          return;
+        }
+      }catch(_err){
+        alert('分享操作失败，请重试');
+      }finally{
+        if(cardShare) cardShare.removeAttribute('open');
+      }
+    });
+  });
 });
 </script></body></html>"""
 
@@ -463,7 +589,8 @@ def daily_progress_page() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Daily AI Progress</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"./assets/metrics.js\" defer></script>
+<script src=\"./assets/expert-limit.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -472,19 +599,21 @@ def daily_progress_page() -> str:
 .card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;margin-top:10px}
 .muted{color:#9db0da;font-size:12px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
 .tag{display:inline-block;padding:4px 8px;border:1px solid rgba(255,255,255,.2);border-radius:999px;font-size:12px;margin-right:6px}
+.quote{margin-top:8px;padding:8px 10px;border:1px solid rgba(106,211,255,.35);border-radius:10px;background:rgba(106,211,255,.08);line-height:1.5}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Daily AI Progress / 每日AI进展</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/insights.html\">Insights</a><a class=\"btn\" href=\"/daily_briefing.html\">Top10</a><a class=\"btn\" href=\"/poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Daily AI Progress / 每日AI进展</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"card\"><div id=\"sum_zh\" style=\"font-size:16px;font-weight:700\"></div><div id=\"sum_en\" class=\"muted\" style=\"margin-top:6px\"></div><div id=\"updated\" class=\"muted\" style=\"margin-top:8px\"></div></div>
 <div class=\"card\"><h3 style=\"margin-top:0\">热门主题</h3><div id=\"topics\"></div></div>
 <div class=\"card\"><h3 style=\"margin-top:0\">今日关键人物</h3><div id=\"trend\" class=\"grid\"></div></div>
 </div>
 <script>
-fetch('/data/daily_progress.json').then(r=>r.json()).then(d=>{
+fetch('./data/daily_progress.json').then(r=>r.json()).then(d=>{
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   document.getElementById('sum_zh').textContent=d.summary_zh||'';
   document.getElementById('sum_en').textContent=d.summary_en||'';
   document.getElementById('updated').textContent='Updated: '+((d.updated_at||'').slice(0,19).replace('T',' '));
   document.getElementById('topics').innerHTML=(d.topic_rank||[]).map(t=>`<span class=\"tag\">${t.topic} (${t.count})</span>`).join('');
-  document.getElementById('trend').innerHTML=(d.trend_items||[]).map(r=>`<div class=\"card\" style=\"margin-top:0\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div style=\"margin-top:8px;display:flex;gap:8px\"><a class=\"btn\" href=\"/profiles/${r.slug}.html\">Profile</a><a class=\"btn\" href=\"/poster.html?slug=${r.slug}&mode=single\">海报</a></div></div>`).join('');
+  document.getElementById('trend').innerHTML=(d.trend_items||[]).slice(0, limit).map(r=>`<div class=\"card\" style=\"margin-top:0\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div class=\"muted quote\">${r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''}</div><div style=\"margin-top:8px;display:flex;gap:8px;flex-wrap:wrap\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">查看人物</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">打开 X</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=single\">海报</a></div></div>`).join('');
 });
 </script></body></html>"""
 
@@ -493,7 +622,8 @@ def poster_page() -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Share Poster</title>
-<script src=\"/assets/metrics.js\" defer></script>
+<script src=\"./assets/metrics.js\" defer></script>
+<script src=\"./assets/expert-limit.js\" defer></script>
 <style>
 :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
 *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
@@ -511,7 +641,7 @@ def poster_page() -> str:
 .picker .it{display:flex;justify-content:space-between;gap:8px;padding:5px 2px;font-size:12px;color:#d9e7ff}
 @media(max-width:860px){.row{grid-template-columns:1fr}.cfg{grid-template-columns:1fr}}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Share Poster / 一键转海报</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"/index.html\">Home</a><a class=\"btn\" href=\"/insights.html\">Insights</a><a class=\"btn\" href=\"/daily_briefing.html\">Top10</a><a class=\"btn\" href=\"/daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"/commercial.html\">Commercial</a><a class=\"btn\" href=\"/contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Share Poster / 一键转海报</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"row\">
   <div class=\"card\">
     <div id=\"title\" style=\"font-size:22px;font-weight:800\">Loading...</div>
@@ -600,15 +730,23 @@ function drawBackground(theme){
 function drawSingle(r){
   const theme=getTheme(); drawBackground(theme);
   const brandSlogan=(brandSloganInput.value||'AI Influence Daily').trim() || 'AI Influence Daily';
+  const noTodayShare = !(r && (r.latest_share_zh || r.latest_share_en));
+  const buddy = pickBestBuddyInScope(r);
   ctx.fillStyle=theme.title; ctx.font='700 58px \"IBM Plex Sans\",sans-serif'; ctx.fillText('AI Insight Poster',100,170);
   ctx.fillStyle=theme.meta; ctx.font='500 34px \"IBM Plex Sans\",sans-serif'; ctx.fillText(`@${r.handle} | score ${Number(r.score||0).toFixed(3)} | ${r.layer_en||r.layer||''}`,100,235);
   ctx.fillStyle='#ffffff'; ctx.font='800 70px \"IBM Plex Sans\",sans-serif'; wrapText(ctx,r.name||'',100,350,860,86,2);
   ctx.fillStyle='#bed6ff'; ctx.font='500 34px \"IBM Plex Sans\",sans-serif'; wrapText(ctx,(r.topics||[]).join(' · '),100,540,860,48,3);
-  ctx.fillStyle='#eef5ff'; ctx.font='600 44px \"IBM Plex Sans\",sans-serif'; ctx.fillText(lang==='en'?'Key Viewpoint':'今日观点精髓',100,760);
-  ctx.fillStyle='#d8e7ff'; ctx.font='500 38px \"IBM Plex Sans\",sans-serif'; wrapText(ctx,lang==='en'?(r.daily_essence_en||''):(r.daily_essence_zh||''),100,835,880,54,10);
-  const buddy=((r.best_buddies||[])[0]||null);
+  ctx.fillStyle='#eef5ff'; ctx.font='600 44px \"IBM Plex Sans\",sans-serif'; ctx.fillText(lang==='en'?'Latest Share':'最新分享',100,760);
+  ctx.fillStyle='#d8e7ff'; ctx.font='500 38px \"IBM Plex Sans\",sans-serif';
+  wrapText(
+    ctx,
+    noTodayShare
+      ? (lang==='en' ? 'No share today. Please switch to another creator.' : '无分享，请换一个。')
+      : (lang==='en' ? (r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||'') : (r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||'')),
+    100,835,880,54,10
+  );
   ctx.fillStyle='#9ec0f1'; ctx.font='500 30px \"IBM Plex Sans\",sans-serif';
-  ctx.fillText(buddy?`最佳互动基友: ${buddy.name} @${buddy.handle}`:'最佳互动基友: N/A',100,1448);
+  ctx.fillText(buddy?`今日最佳基友: ${buddy.name} @${buddy.handle}`:'今日最佳基友: N/A',100,1448);
   ctx.fillStyle=theme.box; ctx.fillRect(100,1490,880,240); ctx.strokeStyle=theme.boxStroke; ctx.strokeRect(100,1490,880,240);
   ctx.fillStyle='#a9d7ff'; ctx.font='500 34px \"IBM Plex Sans\",sans-serif'; ctx.fillText(styleKey==='brand'?brandSlogan:'Association + Centrality',130,1560);
   ctx.fillStyle='#ecf5ff'; ctx.font='700 52px \"IBM Plex Sans\",sans-serif'; ctx.fillText(`A ${Number(r.association_score||0).toFixed(3)} / C ${Number(r.centrality_score||0).toFixed(3)}`,130,1640);
@@ -645,15 +783,38 @@ function pickRows(){
   return [currentItem || rows[0]].filter(Boolean);
 }
 
+function scopeSlugs(){
+  if(posterMode==='custom'){
+    return new Set((selectedSlugs||[]).filter(Boolean));
+  }
+  if(posterMode==='top10'){
+    return new Set(top10.slice(0,10).map(x=>x.slug).filter(Boolean));
+  }
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  return new Set(rows.slice(0, limit).map(x=>x.slug).filter(Boolean));
+}
+
+function pickBestBuddyInScope(r){
+  const scope = scopeSlugs();
+  const buddies = (r && r.best_buddies) ? r.best_buddies : [];
+  if(!buddies.length) return null;
+  const inScope = buddies.filter(b=>b && b.slug && scope.has(b.slug));
+  return (inScope[0] || buddies[0] || null);
+}
+
 function setInfo(items){
   if(items.length===1){
     const r=items[0];
+    const noTodayShare = !(r && (r.latest_share_zh || r.latest_share_en));
+    const buddy = pickBestBuddyInScope(r);
     document.getElementById('title').textContent=`${r.name} @${r.handle}`;
-    document.getElementById('desc').textContent=`Layer ${r.layer_en||r.layer} · score ${Number(r.score||0).toFixed(3)} · mode single`;
-    document.getElementById('essence').textContent=lang==='en'?(r.daily_essence_en||''):(r.daily_essence_zh||'');
+    document.getElementById('desc').textContent=`Layer ${r.layer_en||r.layer} · score ${Number(r.score||0).toFixed(3)} · mode single${buddy?` · 今日最佳基友 ${buddy.name}`:''}`;
+    document.getElementById('essence').textContent=noTodayShare
+      ? '无分享，请换一个。'
+      : (lang==='en'?(r.latest_share_en||r.latest_viewpoint_en||r.daily_essence_en||''):(r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''));
     document.getElementById('openProfile').style.display='inline-block';
     document.getElementById('openX').style.display='inline-block';
-    document.getElementById('openProfile').href=`/profiles/${r.slug}.html`;
+    document.getElementById('openProfile').href=`./profiles/${r.slug}.html`;
     document.getElementById('openX').href=`https://x.com/${r.handle}`;
   }else{
     document.getElementById('title').textContent=`${posterMode==='top10'?'Top10':'自选'} 聚合海报`;
@@ -728,10 +889,12 @@ document.querySelectorAll('[data-mode]').forEach(btn=>{
 [brandColorInput,brandSloganInput,brandLogoInput].forEach(el=>el.addEventListener('input',draw));
 
 Promise.all([
-  fetch('/data/profiles.json').then(r=>r.json()).catch(()=>({items:[]})),
-  fetch('/data/daily_briefing.json').then(r=>r.json()).catch(()=>({items:[]}))
+  fetch('./data/profiles.json').then(r=>r.json()).catch(()=>({items:[]})),
+  fetch('./data/daily_briefing.json').then(r=>r.json()).catch(()=>({items:[]}))
 ]).then(([p,b])=>{
-  rows=p.items||[]; top10=b.items||[];
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  rows=(p.items||[]).slice(0, limit);
+  top10=(b.items||[]).slice(0, limit);
   currentItem=rows.find(x=>x.slug===slug) || top10.find(x=>x.slug===slug) || rows[0] || null;
   if(!selectedSlugs.length) selectedSlugs=top10.slice(0,10).map(x=>x.slug).filter(Boolean);
   renderPicker();
@@ -808,6 +971,18 @@ def main() -> int:
             "summary_en": en_summary(row, node, LAYER_LABEL_EN[layer]),
             "daily_essence_zh": daily_essence_zh(row, topics),
             "daily_essence_en": daily_essence_en(row, topics),
+            "latest_viewpoint_zh": latest_viewpoint_zh(row, topics),
+            "latest_viewpoint_en": latest_viewpoint_en(row, topics),
+            "latest_share_zh": latest_share_zh(row, topics),
+            "latest_share_en": latest_share_en(row, topics),
+            "latest_tweet_text": str(row.get("latest_tweet_text") or ""),
+            "latest_tweet_at": str(row.get("latest_tweet_at") or ""),
+            "latest_tweet_url": str(row.get("latest_tweet_url") or ""),
+            "has_today_tweet": bool(row.get("has_today_tweet")),
+            "today_hottest_tweet_text": str(row.get("today_hottest_tweet_text") or ""),
+            "today_hottest_tweet_at": str(row.get("today_hottest_tweet_at") or ""),
+            "today_hottest_tweet_url": str(row.get("today_hottest_tweet_url") or ""),
+            "today_hottest_tweet_heat": float(row.get("today_hottest_tweet_heat") or 0.0),
             "recency_days": recency_days,
             "followers": int(row.get("followers") or 0),
             "posts_count": int(row.get("posts_count") or 0),
@@ -840,7 +1015,19 @@ def main() -> int:
     for p in profiles:
         p["best_buddies"] = best_buddies.get(str(p.get("id") or p.get("handle") or ""), [])
 
-    top10 = sorted(profiles, key=lambda x: x["score"], reverse=True)[:10]
+    daily_profiles = [
+        x for x in profiles
+        if bool(x.get("has_today_tweet")) and str(x.get("today_hottest_tweet_text") or "").strip()
+    ]
+    briefing_rows = sorted(
+        daily_profiles,
+        key=lambda x: (
+            -float(x.get("today_hottest_tweet_heat") or 0),
+            -float(x.get("score") or 0),
+            int(x.get("rank") or 999999),
+        ),
+    )
+    top10 = briefing_rows[:10]
 
     PROFILES_DIR.mkdir(parents=True, exist_ok=True)
     for p in profiles:
@@ -856,8 +1043,8 @@ def main() -> int:
     payload = {"updated_at": updated_at, "items": profiles}
     PROFILE_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     INSIGHTS_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    BRIEFING_JSON.write_text(json.dumps({"updated_at": updated_at, "items": top10}, ensure_ascii=False, indent=2), encoding="utf-8")
-    DAILY_PROGRESS_JSON.write_text(json.dumps(build_daily_progress(profiles, top10, updated_at), ensure_ascii=False, indent=2), encoding="utf-8")
+    BRIEFING_JSON.write_text(json.dumps({"updated_at": updated_at, "items": briefing_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
+    DAILY_PROGRESS_JSON.write_text(json.dumps(build_daily_progress(profiles, briefing_rows, updated_at), ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Generated {len(profiles)} profile pages and Top10 briefing")
     return 0
 
