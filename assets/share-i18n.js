@@ -43,7 +43,7 @@
   function pickZhShare(row) {
     if (!row) return "";
     const zh = row.latest_share_zh || row.latest_viewpoint_zh || row.daily_essence_zh;
-    if (zh) return zh;
+    if (zh) return hasChinese(zh) ? zh : translateEnToZh(zh);
     const en = row.latest_share_en || row.latest_viewpoint_en || row.daily_essence_en || "";
     return translateEnToZh(en);
   }

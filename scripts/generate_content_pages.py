@@ -143,7 +143,7 @@ def _clean_tweet_text(text: str) -> str:
 def latest_viewpoint_zh(row: dict, topics: list[str]) -> str:
     txt = _clean_tweet_text(str(row.get("latest_tweet_text") or ""))
     if not txt:
-        return daily_essence_zh(row, topics)
+        return ""
     t1 = topics[0] if topics else "AI"
     return f"最新观点：{txt}（主题：{t1}）"
 
@@ -151,7 +151,7 @@ def latest_viewpoint_zh(row: dict, topics: list[str]) -> str:
 def latest_viewpoint_en(row: dict, topics: list[str]) -> str:
     txt = _clean_tweet_text(str(row.get("latest_tweet_text") or ""))
     if not txt:
-        return daily_essence_en(row, topics)
+        return ""
     t1 = topics[0] if topics else "AI"
     return f"Latest view: {txt} (topic: {t1})"
 
@@ -160,6 +160,9 @@ def latest_share_zh(row: dict, topics: list[str]) -> str:
     txt = _clean_tweet_text(str(row.get("today_hottest_tweet_text") or ""))
     if txt:
         return txt
+    txt2 = _clean_tweet_text(str(row.get("latest_tweet_text") or ""))
+    if txt2:
+        return txt2
     return ""
 
 
@@ -167,7 +170,25 @@ def latest_share_en(row: dict, topics: list[str]) -> str:
     txt = _clean_tweet_text(str(row.get("today_hottest_tweet_text") or ""))
     if txt:
         return txt
+    txt2 = _clean_tweet_text(str(row.get("latest_tweet_text") or ""))
+    if txt2:
+        return txt2
     return ""
+
+
+def _recency_days_from_row(row: dict) -> int:
+    now = dt.datetime.utcnow().replace(tzinfo=dt.timezone.utc)
+    raw = str(row.get("today_hottest_tweet_at") or row.get("latest_tweet_at") or "").strip()
+    if not raw:
+        return 999
+    try:
+        parsed = dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=dt.timezone.utc)
+        diff = now - parsed.astimezone(dt.timezone.utc)
+        return max(0, int(diff.total_seconds() // 86400))
+    except Exception:
+        return 999
 
 
 def compute_best_buddies(
@@ -952,7 +973,10 @@ def main() -> int:
         centrality_score = 0.50 * pagerank_n + 0.25 * degree_n + 0.25 * followers_n
         influence = float(row.get("quanzhong_score") or (0.55 * association_score + 0.45 * centrality_score))
 
-        recency_days = 1 + ((rank - 1) % 30)
+        recency_days = _recency_days_from_row(row)
+        hottest_text = _clean_tweet_text(str(row.get("today_hottest_tweet_text") or ""))
+        latest_text = _clean_tweet_text(str(row.get("latest_tweet_text") or ""))
+        has_today = bool(row.get("has_today_tweet")) and bool(hottest_text)
 
         p = {
             "slug": slugify(handle),
@@ -978,8 +1002,8 @@ def main() -> int:
             "latest_tweet_text": str(row.get("latest_tweet_text") or ""),
             "latest_tweet_at": str(row.get("latest_tweet_at") or ""),
             "latest_tweet_url": str(row.get("latest_tweet_url") or ""),
-            "has_today_tweet": bool(row.get("has_today_tweet")),
-            "today_hottest_tweet_text": str(row.get("today_hottest_tweet_text") or ""),
+            "has_today_tweet": has_today,
+            "today_hottest_tweet_text": hottest_text,
             "today_hottest_tweet_at": str(row.get("today_hottest_tweet_at") or ""),
             "today_hottest_tweet_url": str(row.get("today_hottest_tweet_url") or ""),
             "today_hottest_tweet_heat": float(row.get("today_hottest_tweet_heat") or 0.0),
@@ -1019,6 +1043,15 @@ def main() -> int:
         x for x in profiles
         if bool(x.get("has_today_tweet")) and str(x.get("today_hottest_tweet_text") or "").strip()
     ]
+    insights_rows = sorted(
+        daily_profiles,
+        key=lambda x: (
+            int(x.get("recency_days") or 999),
+            -float(x.get("today_hottest_tweet_heat") or 0),
+            -float(x.get("score") or 0),
+            int(x.get("rank") or 999999),
+        ),
+    )
     briefing_rows = sorted(
         daily_profiles,
         key=lambda x: (
@@ -1042,7 +1075,7 @@ def main() -> int:
     updated_at = dt.datetime.utcnow().isoformat() + "Z"
     payload = {"updated_at": updated_at, "items": profiles}
     PROFILE_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    INSIGHTS_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    INSIGHTS_JSON.write_text(json.dumps({"updated_at": updated_at, "items": insights_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
     BRIEFING_JSON.write_text(json.dumps({"updated_at": updated_at, "items": briefing_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
     DAILY_PROGRESS_JSON.write_text(json.dumps(build_daily_progress(profiles, briefing_rows, updated_at), ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Generated {len(profiles)} profile pages and Top10 briefing")
