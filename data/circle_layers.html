@@ -59,7 +59,7 @@
   <div class="layout">
     <aside class="panel">
       <div class="title">AI 圈层地图</div>
-      <div class="sub">点击圈环可聚焦该层；支持按住拖拽旋转、滚轮缩放，按住 Shift 拖拽可平移。</div>
+      <div class="sub">点击圈环可聚焦该层；交互与 3D 图一致：左键拖拽旋转、右键拖拽平移、滚轮缩放。</div>
       <div class="btns">
         <button class="btn ghost" id="goBack">返回上一页</button>
         <a class="btn" href="../index.html">返回首页</a>
@@ -103,7 +103,7 @@
         </div>
       </div>
       <svg viewBox="0 0 800 800" id="viz"></svg>
-      <div class="footer-tip">操作建议：按住拖拽旋转，按住 Shift 拖拽平移，滚轮缩放，点击节点跳转。</div>
+      <div class="footer-tip">操作建议：左键拖拽旋转，右键拖拽平移，滚轮缩放，点击节点跳转。</div>
     </main>
   </div>
 
@@ -418,8 +418,17 @@
       svg.setPointerCapture(e.pointerId);
       activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (activePointers.size === 1) {
-        isRotating = !e.shiftKey;
-        isDragging = e.shiftKey;
+        const isTouch = e.pointerType === 'touch';
+        if (isTouch) {
+          isRotating = true;
+          isDragging = false;
+        } else if (e.button === 2) {
+          isRotating = false;
+          isDragging = true;
+        } else {
+          isRotating = true;
+          isDragging = false;
+        }
         startPoint = { x: e.clientX, y: e.clientY, tx, ty };
         panVelocity = { x: 0, y: 0, t: performance.now() };
       } else if (activePointers.size === 2) {
