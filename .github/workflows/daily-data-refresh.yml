@@ -29,24 +29,16 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Require X token
-        env:
-          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
-        run: |
-          if [ -z "$X_BEARER_TOKEN" ]; then
-            echo "Missing X_BEARER_TOKEN secret. This pipeline is X-only and will not fallback."
-            exit 1
-          fi
-
-      - name: Refresh graph
+      - name: Refresh graph and ranking
         run: |
           python3 scripts/update_mitbunny_graph.py
+          python3 scripts/update_experts.py --limit 300 --manual data/manual_experts.json
 
-      - name: Refresh X experts + engagement
+      - name: Refresh engagement metrics (optional)
+        if: ${{ secrets.X_BEARER_TOKEN != '' }}
         env:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
         run: |
-          python3 scripts/update_experts.py --limit 300 --manual data/manual_experts.json
           python3 scripts/update_engagement_metrics.py --limit 300 --tweets-per-user 30
           python3 scripts/update_mitbunny_graph.py
 
