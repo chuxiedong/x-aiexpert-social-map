@@ -58,3 +58,10 @@ if [[ -f "$ROOT/data/autopilot.pid" ]]; then
 else
   warn "autopilot pid file missing"
 fi
+
+if python3 "$ROOT/scripts/validate_data_integrity.py" >/tmp/xai_validate.log 2>&1; then
+  ok "data integrity validation passed"
+else
+  warn "data integrity validation failed"
+  sed -n '1,40p' /tmp/xai_validate.log || true
+fi

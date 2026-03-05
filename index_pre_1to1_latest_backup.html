@@ -1420,6 +1420,17 @@
           showCreatorProfile = false;
           renderAll();
         });
+      const controls = typeof forceGraph.controls === 'function' ? forceGraph.controls() : null;
+      if (controls) {
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.rotateSpeed = 0.85;
+        controls.zoomSpeed = 1.15;
+        controls.panSpeed = 0.85;
+        controls.minDistance = 80;
+        controls.maxDistance = 6400;
+      }
+      forceGraph.cameraPosition({ x: 0, y: 0, z: 1750 });
       return forceGraph;
     }
 
@@ -1485,7 +1496,7 @@
         }, 45);
         needs3DOverviewFit = false;
       } else if (needs3DOverviewFit) {
-        fit3DOverview(700);
+        fit3DOverview(900);
         needs3DOverviewFit = false;
       }
     }

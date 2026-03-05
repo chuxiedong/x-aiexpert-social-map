@@ -8,8 +8,11 @@ cd "$ROOT"
 mkdir -p "$ROOT/data"
 
 start_web() {
-  nohup python3 -m http.server "$PORT" >"$ROOT/data/web_${PORT}.log" 2>&1 &
-  echo $! > "$ROOT/data/web_${PORT}.pid"
+  (
+    cd "$ROOT"
+    nohup python3 -m http.server "$PORT" >"$ROOT/data/web_${PORT}.log" 2>&1 &
+    echo $! > "$ROOT/data/web_${PORT}.pid"
+  )
 }
 
 start_autopilot() {
@@ -18,11 +21,19 @@ start_autopilot() {
 }
 
 WEB_OK=0
-if curl -fsS --max-time 2 "$BASE/index.html" >/dev/null 2>&1; then
+if curl -fsS --max-time 2 "$BASE/index.html" >/dev/null 2>&1 \
+  && curl -fsS --max-time 2 "$BASE/progress.html" >/dev/null 2>&1; then
   WEB_OK=1
 fi
 
 if [[ "$WEB_OK" -eq 0 ]]; then
+  if command -v lsof >/dev/null 2>&1; then
+    STALE_PIDS=$(lsof -ti "tcp:${PORT}" 2>/dev/null || true)
+    if [[ -n "${STALE_PIDS:-}" ]]; then
+      echo "$STALE_PIDS" | xargs -n 1 kill >/dev/null 2>&1 || true
+      sleep 1
+    fi
+  fi
   start_web
   sleep 1
 fi

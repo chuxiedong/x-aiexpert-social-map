@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -45,6 +46,10 @@ def fail(msg: str) -> None:
     raise SystemExit(1)
 
 
+def warn(msg: str) -> None:
+    print(f"[validate] WARN: {msg}")
+
+
 def ensure_recent(label: str, raw_ts: str, max_age_hours: int = 72) -> None:
     ts = parse_iso(raw_ts)
     if ts is None:
@@ -52,6 +57,28 @@ def ensure_recent(label: str, raw_ts: str, max_age_hours: int = 72) -> None:
     age = dt.datetime.now(dt.timezone.utc) - ts.astimezone(dt.timezone.utc)
     if age.total_seconds() > max_age_hours * 3600:
         fail(f"{label} is stale: {raw_ts} (age>{max_age_hours}h)")
+
+
+def normalize_text(s: str) -> str:
+    s = (s or "").strip().lower()
+    s = re.sub(r"\s+", " ", s)
+    return s
+
+
+def find_dupes(values: list[str]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for raw in values:
+        key = normalize_text(raw)
+        if not key:
+            continue
+        counts[key] = counts.get(key, 0) + 1
+    return {k: v for k, v in counts.items() if v > 1}
+
+
+def link_endpoint(value: object) -> str:
+    if isinstance(value, dict):
+        return str(value.get("id") or value.get("handle") or "").strip().lower()
+    return str(value or "").strip().lower()
 
 
 def main() -> int:
@@ -74,22 +101,60 @@ def main() -> int:
     if len(experts) < 50:
         fail("top300 experts unexpectedly low")
     ensure_recent("top300.generated_at", str(ranking.get("generated_at", "")))
+    top_handles = [str(x.get("handle") or "").strip().lower() for x in experts]
+    if any(not h for h in top_handles):
+        fail("top300 contains empty handle")
+    if len(set(top_handles)) != len(top_handles):
+        fail("top300 contains duplicate handles")
 
     profiles = read_json(DATA / "profiles.json")
     profile_items = profiles.get("items") or []
     if len(profile_items) < 50:
         fail("profiles items unexpectedly low")
     ensure_recent("profiles.updated_at", str(profiles.get("updated_at", "")))
+    profile_handles = [str(x.get("handle") or "").strip().lower() for x in profile_items]
+    if any(not h for h in profile_handles):
+        fail("profiles contains empty handle")
+    if len(set(profile_handles)) != len(profile_handles):
+        fail("profiles contains duplicate handles")
 
     insights = read_json(DATA / "daily_insights.json")
-    if len(insights.get("items") or []) < 10:
+    insight_items = insights.get("items") or []
+    if len(insight_items) < 10:
         fail("daily_insights items unexpectedly low")
     ensure_recent("daily_insights.updated_at", str(insights.get("updated_at", "")))
+    generic_prefix = ("今日精髓：围绕", "today essence:")
+    latest_zh = []
+    for item in insight_items:
+        handle = str(item.get("handle") or "").strip()
+        if not handle:
+            fail("daily_insights item missing handle")
+        share_zh = str(item.get("latest_share_zh") or "").strip()
+        share_en = str(item.get("latest_share_en") or "").strip()
+        if not share_zh or not share_en:
+            fail(f"daily_insights item missing latest_share text: @{handle}")
+        if normalize_text(share_zh).startswith(generic_prefix[0]) or normalize_text(share_en).startswith(generic_prefix[1]):
+            fail(f"daily_insights contains templated generic share text: @{handle}")
+        if bool(item.get("has_today_tweet")):
+            hottest = str(item.get("today_hottest_tweet_text") or "").strip()
+            if not hottest:
+                fail(f"daily_insights has_today_tweet=true but today_hottest_tweet_text missing: @{handle}")
+        latest_zh.append(share_zh)
+    dupes = find_dupes(latest_zh)
+    if dupes:
+        fail(f"daily_insights duplicate latest_share_zh detected: {len(dupes)} duplicated texts")
 
     briefing = read_json(DATA / "daily_briefing.json")
-    if len(briefing.get("items") or []) < 10:
-        fail("daily_briefing items unexpectedly low")
+    briefing_items = briefing.get("items") or []
+    briefing_count = len(briefing_items)
+    if briefing_count < 1:
+        warn("daily_briefing has 0 items (likely no same-day posts in current window)")
     ensure_recent("daily_briefing.updated_at", str(briefing.get("updated_at", "")))
+    briefing_handles = [str(x.get("handle") or "").strip().lower() for x in briefing_items]
+    if any(not h for h in briefing_handles):
+        fail("daily_briefing contains empty handle")
+    if len(set(briefing_handles)) != len(briefing_handles):
+        fail("daily_briefing contains duplicate handles")
 
     progress = read_json(DATA / "daily_progress.json")
     if not str(progress.get("summary_zh", "")).strip():
@@ -101,6 +166,25 @@ def main() -> int:
     heartbeat = read_json(DATA / "heartbeat_status.json")
     if heartbeat.get("status") != "ok":
         fail(f"heartbeat not ok: {heartbeat.get('status')}")
+
+    graph_node_handles = {
+        str(n.get("id") or "").strip().lower()
+        for n in (graph.get("nodes") or [])
+        if str(n.get("id") or "").strip()
+    }
+    graph_node_handles |= {
+        str(n.get("handle") or "").strip().lower()
+        for n in (graph.get("nodes") or [])
+        if str(n.get("handle") or "").strip()
+    }
+    bad_links = 0
+    for link in (graph.get("links") or []):
+        s = link_endpoint(link.get("source"))
+        t = link_endpoint(link.get("target"))
+        if not s or not t or s not in graph_node_handles or t not in graph_node_handles:
+            bad_links += 1
+    if bad_links:
+        fail(f"mitbunny_graph contains unresolved links: {bad_links}")
 
     print("[validate] OK: data integrity checks passed")
     return 0
