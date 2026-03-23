@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-03-23T09:31:45.342256+00:00",
+  "generated_at": "2026-03-23T09:39:35.585454+00:00",
   "status": "ok",
-  "limit": 1,
+  "limit": 2,
   "mode": "rjina_fallback",
-  "refreshed_handles": 1,
+  "refreshed_handles": 2,
   "note": "refresh completed",
   "content_updated_at": "2026-02-27T16:11:22+00:00",
-  "source_crawled_at": "2026-03-23T09:28:22+00:00",
-  "built_at": "2026-03-23T09:31:45.155359Z"
+  "source_crawled_at": "2026-03-23T09:38:08+00:00",
+  "built_at": "2026-03-23T09:39:35.397847Z"
 }

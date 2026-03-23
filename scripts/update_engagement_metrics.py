@@ -51,13 +51,22 @@ def _clean_line(s: str) -> str:
     return s
 
 
-def _pick_latest_share_from_markdown(md: str, handle: str) -> str:
+def _posts_section(md: str, handle: str) -> str:
     text = md or ""
-    key = f"{handle}’s posts"
-    idx = text.find(key)
-    if idx == -1:
-        idx = text.find("posts\n--------------")
-    body = text[idx:] if idx != -1 else text
+    patterns = [
+        rf"^##\s+.*{re.escape(handle)}.*posts\s*$",
+        r"^##\s+.*posts\s*$",
+        r"^posts\s*$",
+    ]
+    for pat in patterns:
+        m = re.search(pat, text, flags=re.IGNORECASE | re.MULTILINE)
+        if m:
+            return text[m.end() :]
+    return text
+
+
+def _pick_latest_share_from_markdown(md: str, handle: str) -> str:
+    body = _posts_section(md, handle)
     lines = [_clean_line(x) for x in body.splitlines()]
     ban = {
         "",
@@ -115,12 +124,7 @@ def _pick_page_published_time(md: str) -> str:
 
 
 def _pick_latest_status_id(md: str, handle: str) -> str:
-    text = md or ""
-    key = f"{handle}’s posts"
-    idx = text.find(key)
-    if idx == -1:
-        idx = text.find("posts\n--------------")
-    body = text[idx:] if idx != -1 else text
+    body = _posts_section(md, handle)
     m = re.search(rf"https://x\.com/{re.escape(handle)}/status/(\d+)", body, flags=re.IGNORECASE)
     if m:
         return m.group(1)

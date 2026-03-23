@@ -1,6 +1,6 @@
 {
   "updated_at": "2026-02-27T16:11:22+00:00",
-  "built_at": "2026-03-23T09:32:57.389503Z",
+  "built_at": "2026-03-23T09:39:35.397847Z",
   "summary_zh": "今日AI进展：讨论重心集中在 AI Industry 与 Model Capability。Top10 关键人物仍在推动“模型能力产品化 + 发布反馈闭环”，全网高影响博主均值分约 0.583。",
   "summary_en": "Daily AI progress: discussion centers on AI Industry and Model Capability. Top voices keep focusing on productizing model capability and iterating via publish-feedback loops.",
   "topic_rank": [
@@ -30,19 +30,6 @@
     }
   ],
   "top10": [
-    {
-      "name": "NVIDIA Newsroom",
-      "handle": "nvidianewsroom",
-      "slug": "nvidianewsroom",
-      "score": 0.687,
-      "topics": [
-        "AI Industry",
-        "Model Capability",
-        "Productization"
-      ],
-      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.687）。",
-      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.687)."
-    },
     {
       "name": "NVIDIA",
       "handle": "nvidia",
@@ -151,6 +138,19 @@
       ],
       "daily_essence_zh": "今日精髓：围绕 Model Engineering 与 Robotics，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.689）。",
       "daily_essence_en": "Daily essence: around Model Engineering and Robotics, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.689)."
+    },
+    {
+      "name": "NVIDIA Newsroom",
+      "handle": "nvidianewsroom",
+      "slug": "nvidianewsroom",
+      "score": 0.687,
+      "topics": [
+        "AI Industry",
+        "Model Capability",
+        "Productization"
+      ],
+      "daily_essence_zh": "今日精髓：围绕 AI Industry 与 Model Capability，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.687）。",
+      "daily_essence_en": "Daily essence: around AI Industry and Model Capability, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.687)."
     }
   ],
   "trend_items": [
@@ -165,10 +165,10 @@
       ],
       "daily_essence_zh": "今日精髓：围绕 Model Engineering 与 Robotics，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.689）。",
       "daily_essence_en": "Daily essence: around Model Engineering and Robotics, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.689).",
-      "latest_viewpoint_zh": "最新观点：. Also dabble in robotics at NYU. Cofounded（主题：Model Engineering）",
-      "latest_viewpoint_en": "Latest view: . Also dabble in robotics at NYU. Cofounded (topic: Model Engineering)",
-      "latest_share_zh": ". Also dabble in robotics at NYU. Cofounded",
-      "latest_share_en": ". Also dabble in robotics at NYU. Cofounded",
+      "latest_viewpoint_zh": "最新观点：Leaving Meta and PyTorch I'm stepping down from PyTorch and leaving Meta on November 17th. tl;dr: Didn't want to be doing PyTorch forever, seemed like the perfect time to transition right after I got back from a long leave and the project b（主题：Model Engineering）",
+      "latest_viewpoint_en": "Latest view: Leaving Meta and PyTorch I'm stepping down from PyTorch and leaving Meta on November 17th. tl;dr: Didn't want to be doing PyTorch forever, seemed like the perfect time to transition right after I got back from a long leave and the project b (topic: Model Engineering)",
+      "latest_share_zh": "Leaving Meta and PyTorch I'm stepping down from PyTorch and leaving Meta on November 17th. tl;dr: Didn't want to be doing PyTorch forever, seemed like the perfect time to transition right after I got back from a long leave and the project b",
+      "latest_share_en": "Leaving Meta and PyTorch I'm stepping down from PyTorch and leaving Meta on November 17th. tl;dr: Didn't want to be doing PyTorch forever, seemed like the perfect time to transition right after I got back from a long leave and the project b",
       "latest_tweet_url": "https://x.com/soumithchintala/status/1986503070734557568",
       "today_hottest_tweet_url": ""
     },
@@ -188,8 +188,8 @@
       "latest_viewpoint_en": "Latest view: NEWS: For the first time, NVIDIA’s AI supercomputers will be built entirely in the U.S. — working with leading manufacturing partners to design and build factories. Production has also started for NVIDIA Blackwell chips at TSMC’s chip plant (topic: AI Industry)",
       "latest_share_zh": "NEWS: For the first time, NVIDIA’s AI supercomputers will be built entirely in the U.S. — working with leading manufacturing partners to design and build factories. Production has also started for NVIDIA Blackwell chips at TSMC’s chip plant",
       "latest_share_en": "NEWS: For the first time, NVIDIA’s AI supercomputers will be built entirely in the U.S. — working with leading manufacturing partners to design and build factories. Production has also started for NVIDIA Blackwell chips at TSMC’s chip plant",
-      "latest_tweet_url": "https://x.com/nvidianewsroom",
-      "today_hottest_tweet_url": "https://x.com/nvidianewsroom"
+      "latest_tweet_url": "https://x.com/nvidianewsroom/status/1986221177099194484",
+      "today_hottest_tweet_url": ""
     },
     {
       "name": "NVIDIA",
