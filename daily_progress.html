@@ -23,7 +23,9 @@ fetch('./data/daily_progress.json').then(r=>r.json()).then(d=>{
   const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   document.getElementById('sum_zh').textContent=d.summary_zh||'';
   document.getElementById('sum_en').textContent=d.summary_en||'';
-  document.getElementById('updated').textContent='Updated: '+((d.updated_at||'').slice(0,19).replace('T',' '));
+  const contentAt=((d.updated_at||'').slice(0,19).replace('T',' '));
+  const builtAt=((d.built_at||'').slice(0,19).replace('T',' '));
+  document.getElementById('updated').textContent='内容时间: '+contentAt+(builtAt?' · 页面生成: '+builtAt:'');
   document.getElementById('topics').innerHTML=(d.topic_rank||[]).map(t=>`<span class="tag">${t.topic} (${t.count})</span>`).join('');
   document.getElementById('trend').innerHTML=(d.trend_items||[]).slice(0, limit).map(r=>`<div class="card" style="margin-top:0"><div><b>${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div class="muted quote">${r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''}</div><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn" href="./profiles/${r.slug}.html">查看人物</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">打开 X</a><a class="btn" href="./poster.html?slug=${r.slug}&mode=single">海报</a></div></div>`).join('');
 });

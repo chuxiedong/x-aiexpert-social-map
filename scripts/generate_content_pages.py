@@ -652,7 +652,9 @@ fetch('./data/daily_progress.json').then(r=>r.json()).then(d=>{
   const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   document.getElementById('sum_zh').textContent=d.summary_zh||'';
   document.getElementById('sum_en').textContent=d.summary_en||'';
-  document.getElementById('updated').textContent='Updated: '+((d.updated_at||'').slice(0,19).replace('T',' '));
+  const contentAt=((d.updated_at||'').slice(0,19).replace('T',' '));
+  const builtAt=((d.built_at||'').slice(0,19).replace('T',' '));
+  document.getElementById('updated').textContent='内容时间: '+contentAt+(builtAt?' · 页面生成: '+builtAt:'');
   document.getElementById('topics').innerHTML=(d.topic_rank||[]).map(t=>`<span class=\"tag\">${t.topic} (${t.count})</span>`).join('');
   document.getElementById('trend').innerHTML=(d.trend_items||[]).slice(0, limit).map(r=>`<div class=\"card\" style=\"margin-top:0\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div class=\"muted quote\">${r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''}</div><div style=\"margin-top:8px;display:flex;gap:8px;flex-wrap:wrap\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">查看人物</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">打开 X</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=single\">海报</a></div></div>`).join('');
 });
@@ -1063,19 +1065,24 @@ def main() -> int:
         x for x in profiles
         if bool(x.get("has_today_tweet")) and str(x.get("today_hottest_tweet_text") or "").strip()
     ]
+    recent_profiles = [
+        x for x in profiles
+        if str(x.get("latest_share_zh") or "").strip() and str(x.get("latest_share_en") or "").strip()
+    ]
     insights_rows = sorted(
-        daily_profiles,
+        recent_profiles,
         key=lambda x: (
             int(x.get("recency_days") or 999),
-            -float(x.get("today_hottest_tweet_heat") or 0),
             -float(x.get("score") or 0),
             int(x.get("rank") or 999999),
         ),
     )
+    briefing_source = daily_profiles if daily_profiles else recent_profiles
     briefing_rows = sorted(
-        daily_profiles,
+        briefing_source,
         key=lambda x: (
             -float(x.get("today_hottest_tweet_heat") or 0),
+            int(x.get("recency_days") or 999),
             -float(x.get("score") or 0),
             int(x.get("rank") or 999999),
         ),
@@ -1093,7 +1100,8 @@ def main() -> int:
     POSTER_PAGE.write_text(poster_page(), encoding="utf-8")
 
     built_at = dt.datetime.utcnow().isoformat() + "Z"
-    content_updated_at = compute_content_updated_at(profiles, built_at)
+    content_fallback_at = str(data.get("generated_at") or built_at)
+    content_updated_at = compute_content_updated_at(profiles, content_fallback_at)
     payload = {"updated_at": content_updated_at, "built_at": built_at, "items": profiles}
     PROFILE_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     INSIGHTS_JSON.write_text(json.dumps({"updated_at": content_updated_at, "built_at": built_at, "items": insights_rows}, ensure_ascii=False, indent=2), encoding="utf-8")

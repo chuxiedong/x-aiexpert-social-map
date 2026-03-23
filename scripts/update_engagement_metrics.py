@@ -25,6 +25,26 @@ DEFAULT_OUTPUT = ROOT / "data" / "engagement_metrics.json"
 R_JINA_PREFIX = "https://r.jina.ai/http://x.com/"
 
 
+def load_existing_metrics(path: Path) -> dict[str, dict]:
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    rows = payload.get("metrics") if isinstance(payload, dict) else None
+    if not isinstance(rows, list):
+        return {}
+    out: dict[str, dict] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        handle = str(row.get("handle") or "").strip().lstrip("@").lower()
+        if handle:
+            out[handle] = row
+    return out
+
+
 def _clean_line(s: str) -> str:
     s = re.sub(r"\[(.*?)\]\((.*?)\)", r"\1", s or "")
     s = re.sub(r"\s+", " ", s).strip()
@@ -93,7 +113,8 @@ def fetch_latest_by_rjina(handle: str) -> dict:
     with urllib.request.urlopen(req, timeout=45) as resp:
         md = resp.read().decode("utf-8", "ignore")
     latest = _pick_latest_share_from_markdown(md, handle)
-    now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+    # r.jina fallback can help recover text, but it does not reliably give us
+    # the original post timestamp. Do not fabricate "today" freshness here.
     return {
         "posts_count": 1 if latest else 0,
         "comments_count": 0,
@@ -102,19 +123,19 @@ def fetch_latest_by_rjina(handle: str) -> dict:
         "quote_count": 0,
         "latest_tweet_id": "",
         "latest_tweet_text": latest,
-        "latest_tweet_at": now,
-        "has_today_tweet": bool(latest),
+        "latest_tweet_at": "",
+        "has_today_tweet": False,
         "today_hottest_tweet_id": "",
-        "today_hottest_tweet_text": latest,
-        "today_hottest_tweet_at": now,
-        "today_hottest_tweet_heat": 1.0 if latest else 0.0,
+        "today_hottest_tweet_text": "",
+        "today_hottest_tweet_at": "",
+        "today_hottest_tweet_heat": 0.0,
         "today_hottest_likes": 0,
         "today_hottest_reposts": 0,
         "today_hottest_replies": 0,
         "today_hottest_quotes": 0,
         "daily_tz": os.getenv("XAI_DAILY_TZ", "Asia/Shanghai"),
         "latest_tweet_url": f"https://x.com/{handle}",
-        "today_hottest_tweet_url": f"https://x.com/{handle}",
+        "today_hottest_tweet_url": "",
     }
 
 
@@ -302,7 +323,8 @@ def main() -> int:
     if not handles:
         raise SystemExit("No handles found")
 
-    metrics = []
+    existing = load_existing_metrics(args.output)
+    refreshed: dict[str, dict] = {}
     for i, handle in enumerate(handles, start=1):
         try:
             uid = lookup_user_id(handle, token)
@@ -361,9 +383,14 @@ def main() -> int:
                     "source": "x_api_v2",
                     "status": f"error:{type(e).__name__}",
                 }
-        metrics.append(row)
+        refreshed[handle.lower()] = row
         print(f"[{i}/{len(handles)}] {handle} -> {row['status']}")
         time.sleep(max(0, args.sleep_ms) / 1000.0)
+
+    merged = dict(existing)
+    merged.update(refreshed)
+    metrics = list(merged.values())
+    metrics.sort(key=lambda x: str(x.get("handle") or "").lower())
 
     payload = {
         "updated_at": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat(),

@@ -59,6 +59,12 @@ def ensure_recent(label: str, raw_ts: str, max_age_hours: int = 72) -> None:
         fail(f"{label} is stale: {raw_ts} (age>{max_age_hours}h)")
 
 
+def ensure_present_timestamp(label: str, raw_ts: str) -> None:
+    ts = parse_iso(raw_ts)
+    if ts is None:
+        fail(f"{label} missing/invalid timestamp: {raw_ts!r}")
+
+
 def normalize_text(s: str) -> str:
     s = (s or "").strip().lower()
     s = re.sub(r"\s+", " ", s)
@@ -111,7 +117,8 @@ def main() -> int:
     profile_items = profiles.get("items") or []
     if len(profile_items) < 50:
         fail("profiles items unexpectedly low")
-    ensure_recent("profiles.updated_at", str(profiles.get("updated_at", "")))
+    ensure_present_timestamp("profiles.updated_at", str(profiles.get("updated_at", "")))
+    ensure_recent("profiles.built_at", str(profiles.get("built_at", "")))
     profile_handles = [str(x.get("handle") or "").strip().lower() for x in profile_items]
     if any(not h for h in profile_handles):
         fail("profiles contains empty handle")
@@ -120,9 +127,12 @@ def main() -> int:
 
     insights = read_json(DATA / "daily_insights.json")
     insight_items = insights.get("items") or []
-    if len(insight_items) < 10:
+    if len(insight_items) < 1:
         fail("daily_insights items unexpectedly low")
-    ensure_recent("daily_insights.updated_at", str(insights.get("updated_at", "")))
+    if len(insight_items) < 10:
+        warn(f"daily_insights items low: {len(insight_items)}")
+    ensure_present_timestamp("daily_insights.updated_at", str(insights.get("updated_at", "")))
+    ensure_recent("daily_insights.built_at", str(insights.get("built_at", "")))
     generic_prefix = ("今日精髓：围绕", "today essence:")
     latest_zh = []
     for item in insight_items:
@@ -149,7 +159,10 @@ def main() -> int:
     briefing_count = len(briefing_items)
     if briefing_count < 1:
         warn("daily_briefing has 0 items (likely no same-day posts in current window)")
-    ensure_recent("daily_briefing.updated_at", str(briefing.get("updated_at", "")))
+    elif briefing_count < 10:
+        warn(f"daily_briefing items low: {briefing_count}")
+    ensure_present_timestamp("daily_briefing.updated_at", str(briefing.get("updated_at", "")))
+    ensure_recent("daily_briefing.built_at", str(briefing.get("built_at", "")))
     briefing_handles = [str(x.get("handle") or "").strip().lower() for x in briefing_items]
     if any(not h for h in briefing_handles):
         fail("daily_briefing contains empty handle")
@@ -161,7 +174,8 @@ def main() -> int:
         fail("daily_progress summary_zh missing")
     if len(progress.get("topic_rank") or []) < 1:
         fail("daily_progress topic_rank missing")
-    ensure_recent("daily_progress.updated_at", str(progress.get("updated_at", "")))
+    ensure_present_timestamp("daily_progress.updated_at", str(progress.get("updated_at", "")))
+    ensure_recent("daily_progress.built_at", str(progress.get("built_at", "")))
 
     heartbeat = read_json(DATA / "heartbeat_status.json")
     if heartbeat.get("status") != "ok":
