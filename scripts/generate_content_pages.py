@@ -563,6 +563,7 @@ def briefing_page() -> str:
 .share-menu button:hover{background:#1f4686}
 </style></head><body><div class=\"wrap\">
 <div class=\"top\"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10整合海报</a><a class=\"btn\" href=\"./poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
+<div class=\"card\" id=\"freshness\"></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
 function closeShareMenus(except){
@@ -575,6 +576,12 @@ function copyText(v){
   return navigator.clipboard.writeText(v);
 }
 fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
+  fetch('./data/refresh_status.json').then(r=>r.json()).catch(()=>null).then(rs=>{
+    const modeMap={x_api_v2:'X API',rjina_fallback:'网页回退源'};
+    const mode=rs ? (modeMap[rs.mode]||rs.mode||'未知') : '未知';
+    const stale = (d.updated_at||'').slice(0,10) !== new Date().toISOString().slice(0,10);
+    document.getElementById('freshness').innerHTML=`<div><b>内容时间：</b>${(d.updated_at||'-').replace('T',' ').slice(0,19)} <span class=\"muted\">· 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)} · 刷新来源 ${mode}</span></div><div class=\"muted\" style=\"margin-top:6px\">${stale ? '当前展示的是最近一次可用内容，不代表所有账号今天都有新帖。' : '当前展示优先使用今天热度最高的内容。'}</div>`;
+  });
   const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   const rows=(d.items||[]).slice(0, limit);
   if(!rows.length){
@@ -660,6 +667,7 @@ def daily_progress_page() -> str:
 </style></head><body><div class=\"wrap\">
 <div class=\"top\"><h2>Daily AI Progress / 每日AI进展</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"card\"><div id=\"sum_zh\" style=\"font-size:16px;font-weight:700\"></div><div id=\"sum_en\" class=\"muted\" style=\"margin-top:6px\"></div><div id=\"updated\" class=\"muted\" style=\"margin-top:8px\"></div></div>
+<div class=\"card\" id=\"freshness\"></div>
 <div class=\"card\"><h3 style=\"margin-top:0\">热门主题</h3><div id=\"topics\"></div></div>
 <div class=\"card\"><h3 style=\"margin-top:0\">今日关键人物</h3><div id=\"trend\" class=\"grid\"></div></div>
 </div>
@@ -671,6 +679,12 @@ fetch('./data/daily_progress.json').then(r=>r.json()).then(d=>{
   const contentAt=((d.updated_at||'').slice(0,19).replace('T',' '));
   const builtAt=((d.built_at||'').slice(0,19).replace('T',' '));
   document.getElementById('updated').textContent='内容时间: '+contentAt+(builtAt?' · 页面生成: '+builtAt:'');
+  fetch('./data/refresh_status.json').then(r=>r.json()).catch(()=>null).then(rs=>{
+    const modeMap={x_api_v2:'X API',rjina_fallback:'网页回退源'};
+    const mode=rs ? (modeMap[rs.mode]||rs.mode||'未知') : '未知';
+    const stale = (d.updated_at||'').slice(0,10) !== new Date().toISOString().slice(0,10);
+    document.getElementById('freshness').innerHTML=`<div><b>数据说明：</b><span class=\"muted\">刷新来源 ${mode} · 当前内容时间 ${contentAt||'-'}</span></div><div class=\"muted\" style=\"margin-top:6px\">${stale ? '本页总结基于最近一次可用抓取，不代表所有关键人物今天都有新分享。' : '本页总结基于今天抓到的分享内容生成。'}</div>`;
+  });
   document.getElementById('topics').innerHTML=(d.topic_rank||[]).map(t=>`<span class=\"tag\">${t.topic} (${t.count})</span>`).join('');
   document.getElementById('trend').innerHTML=(d.trend_items||[]).slice(0, limit).map(r=>`<div class=\"card\" style=\"margin-top:0\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div class=\"muted quote\">${r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''}</div><div style=\"margin-top:8px;display:flex;gap:8px;flex-wrap:wrap\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">查看人物</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">打开 X</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=single\">海报</a></div></div>`).join('');
 });

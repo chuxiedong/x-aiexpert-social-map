@@ -19,6 +19,7 @@
 .share-menu button:hover{background:#1f4686}
 </style></head><body><div class="wrap">
 <div class="top"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./insights.html">Insights</a><a class="btn" href="./daily_progress.html">每日AI进展</a><a class="btn" href="./poster.html?mode=top10">Top10整合海报</a><a class="btn" href="./poster.html?mode=custom">自选博主海报</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
+<div class="card" id="freshness"></div>
 <div id="grid" class="grid"></div></div>
 <script>
 function closeShareMenus(except){
@@ -31,6 +32,12 @@ function copyText(v){
   return navigator.clipboard.writeText(v);
 }
 fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
+  fetch('./data/refresh_status.json').then(r=>r.json()).catch(()=>null).then(rs=>{
+    const modeMap={x_api_v2:'X API',rjina_fallback:'网页回退源'};
+    const mode=rs ? (modeMap[rs.mode]||rs.mode||'未知') : '未知';
+    const stale = (d.updated_at||'').slice(0,10) !== new Date().toISOString().slice(0,10);
+    document.getElementById('freshness').innerHTML=`<div><b>内容时间：</b>${(d.updated_at||'-').replace('T',' ').slice(0,19)} <span class="muted">· 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)} · 刷新来源 ${mode}</span></div><div class="muted" style="margin-top:6px">${stale ? '当前展示的是最近一次可用内容，不代表所有账号今天都有新帖。' : '当前展示优先使用今天热度最高的内容。'}</div>`;
+  });
   const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   const rows=(d.items||[]).slice(0, limit);
   if(!rows.length){
