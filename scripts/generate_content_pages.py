@@ -580,7 +580,8 @@ fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
     const modeMap={x_api_v2:'X API',rjina_fallback:'网页回退源'};
     const mode=rs ? (modeMap[rs.mode]||rs.mode||'未知') : '未知';
     const stale = (d.updated_at||'').slice(0,10) !== new Date().toISOString().slice(0,10);
-    document.getElementById('freshness').innerHTML=`<div><b>内容时间：</b>${(d.updated_at||'-').replace('T',' ').slice(0,19)} <span class=\"muted\">· 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)} · 刷新来源 ${mode}</span></div><div class=\"muted\" style=\"margin-top:6px\">${stale ? '当前展示的是最近一次可用内容，不代表所有账号今天都有新帖。' : '当前展示优先使用今天热度最高的内容。'}</div>`;
+    const crawled = rs && rs.source_crawled_at ? ` · 最近抓取 ${String(rs.source_crawled_at).replace('T',' ').slice(0,19)}` : '';
+    document.getElementById('freshness').innerHTML=`<div><b>内容时间：</b>${(d.updated_at||'-').replace('T',' ').slice(0,19)} <span class=\"muted\">· 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)} · 刷新来源 ${mode}${crawled}</span></div><div class=\"muted\" style=\"margin-top:6px\">${stale ? '当前展示的是最近一次可用内容，不代表所有账号今天都有新帖。' : '当前展示优先使用今天热度最高的内容。'}</div>`;
   });
   const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   const rows=(d.items||[]).slice(0, limit);
@@ -683,7 +684,8 @@ fetch('./data/daily_progress.json').then(r=>r.json()).then(d=>{
     const modeMap={x_api_v2:'X API',rjina_fallback:'网页回退源'};
     const mode=rs ? (modeMap[rs.mode]||rs.mode||'未知') : '未知';
     const stale = (d.updated_at||'').slice(0,10) !== new Date().toISOString().slice(0,10);
-    document.getElementById('freshness').innerHTML=`<div><b>数据说明：</b><span class=\"muted\">刷新来源 ${mode} · 当前内容时间 ${contentAt||'-'}</span></div><div class=\"muted\" style=\"margin-top:6px\">${stale ? '本页总结基于最近一次可用抓取，不代表所有关键人物今天都有新分享。' : '本页总结基于今天抓到的分享内容生成。'}</div>`;
+    const crawled = rs && rs.source_crawled_at ? ` · 最近抓取 ${String(rs.source_crawled_at).replace('T',' ').slice(0,19)}` : '';
+    document.getElementById('freshness').innerHTML=`<div><b>数据说明：</b><span class=\"muted\">刷新来源 ${mode}${crawled} · 当前内容时间 ${contentAt||'-'}</span></div><div class=\"muted\" style=\"margin-top:6px\">${stale ? '本页总结基于最近一次可用抓取，不代表所有关键人物今天都有新分享。' : '本页总结基于今天抓到的分享内容生成。'}</div>`;
   });
   document.getElementById('topics').innerHTML=(d.topic_rank||[]).map(t=>`<span class=\"tag\">${t.topic} (${t.count})</span>`).join('');
   document.getElementById('trend').innerHTML=(d.trend_items||[]).slice(0, limit).map(r=>`<div class=\"card\" style=\"margin-top:0\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div class=\"muted quote\">${r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''}</div><div style=\"margin-top:8px;display:flex;gap:8px;flex-wrap:wrap\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">查看人物</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">打开 X</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=single\">海报</a></div></div>`).join('');

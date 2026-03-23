@@ -455,7 +455,8 @@
         const modeMap = { x_api_v2: "X API", rjina_fallback: "网页回退源" };
         const refreshMode = rs ? (modeMap[rs.mode] || rs.mode || "未知") : "未知";
         const refreshed = rs ? ` · 本次刷新 Top${rs.limit || globalLimit}` : "";
-        document.getElementById("hero_freshness_note").textContent = `当前观点按最近一次可用抓取生成，刷新来源：${refreshMode}${refreshed}。如果内容时间早于今天，表示页面是新的，但内容源还没有拿到更新。`;
+        const crawled = rs && rs.source_crawled_at ? ` · 最近抓取 ${(rs.source_crawled_at || "-").slice(0, 10)}` : "";
+        document.getElementById("hero_freshness_note").textContent = `当前观点按最近一次可用抓取生成，刷新来源：${refreshMode}${refreshed}${crawled}。如果内容时间早于今天，表示页面是新的，但内容源还没有拿到更新。`;
         t();
         renderFeed();
       }

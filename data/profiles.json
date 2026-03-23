@@ -1,6 +1,6 @@
 {
   "updated_at": "2026-02-27T16:11:22+00:00",
-  "built_at": "2026-03-23T03:13:37.517842Z",
+  "built_at": "2026-03-23T09:32:57.389503Z",
   "items": [
     {
       "slug": "soumithchintala",
@@ -28,7 +28,7 @@
       "latest_share_en": ". Also dabble in robotics at NYU. Cofounded",
       "latest_tweet_text": ". Also dabble in robotics at NYU. Cofounded",
       "latest_tweet_at": "",
-      "latest_tweet_url": "https://x.com/soumithchintala",
+      "latest_tweet_url": "https://x.com/soumithchintala/status/1986503070734557568",
       "has_today_tweet": false,
       "today_hottest_tweet_text": "",
       "today_hottest_tweet_at": "",
@@ -13172,22 +13172,22 @@
           "reciprocal": 0.0
         },
         {
-          "id": "mustafasuleyman",
-          "slug": "mustafasuleyman",
-          "name": "Mustafa Suleyman",
-          "handle": "mustafasuleyman",
-          "layer": "outer_core",
+          "id": "clementdelangue",
+          "slug": "clementdelangue",
+          "name": "clem 🤗",
+          "handle": "ClementDelangue",
+          "layer": "inner_core",
           "score": 0.04185,
           "association": 0.063636,
           "interaction_proxy": 0.022273,
           "reciprocal": 0.0
         },
         {
-          "id": "clementdelangue",
-          "slug": "clementdelangue",
-          "name": "clem 🤗",
-          "handle": "ClementDelangue",
-          "layer": "inner_core",
+          "id": "mustafasuleyman",
+          "slug": "mustafasuleyman",
+          "name": "Mustafa Suleyman",
+          "handle": "mustafasuleyman",
+          "layer": "outer_core",
           "score": 0.04185,
           "association": 0.063636,
           "interaction_proxy": 0.022273,
@@ -27109,22 +27109,22 @@
           "reciprocal": 0.0
         },
         {
-          "id": "moltbook",
-          "slug": "moltbook",
-          "name": "moltbook",
-          "handle": "moltbook",
-          "layer": "middle_core",
+          "id": "__tinygrad__",
+          "slug": "__tinygrad__",
+          "name": "the tiny corp",
+          "handle": "__tinygrad__",
+          "layer": "surface",
           "score": 0.018172,
           "association": 0.027632,
           "interaction_proxy": 0.009671,
           "reciprocal": 0.0
         },
         {
-          "id": "__tinygrad__",
-          "slug": "__tinygrad__",
-          "name": "the tiny corp",
-          "handle": "__tinygrad__",
-          "layer": "surface",
+          "id": "moltbook",
+          "slug": "moltbook",
+          "name": "moltbook",
+          "handle": "moltbook",
+          "layer": "middle_core",
           "score": 0.018172,
           "association": 0.027632,
           "interaction_proxy": 0.009671,
@@ -28171,10 +28171,10 @@
           "reciprocal": 0.0
         },
         {
-          "id": "satyanadella",
-          "slug": "satyanadella",
-          "name": "Satya Nadella",
-          "handle": "satyanadella",
+          "id": "nandodf",
+          "slug": "nandodf",
+          "name": "Nando de Freitas",
+          "handle": "NandoDF",
           "layer": "middle_core",
           "score": 0.01201,
           "association": 0.02,
@@ -28182,10 +28182,10 @@
           "reciprocal": 0.0
         },
         {
-          "id": "nandodf",
-          "slug": "nandodf",
-          "name": "Nando de Freitas",
-          "handle": "NandoDF",
+          "id": "satyanadella",
+          "slug": "satyanadella",
+          "name": "Satya Nadella",
+          "handle": "satyanadella",
           "layer": "middle_core",
           "score": 0.01201,
           "association": 0.02,
@@ -28501,6 +28501,17 @@
           "reciprocal": 0.0
         },
         {
+          "id": "claudeai",
+          "slug": "claudeai",
+          "name": "Claude",
+          "handle": "claudeai",
+          "layer": "inner_core",
+          "score": 0.01201,
+          "association": 0.02,
+          "interaction_proxy": 0.007,
+          "reciprocal": 0.0
+        },
+        {
           "id": "jonathanross321",
           "slug": "jonathanross321",
           "name": "Jonathan Ross",
@@ -28517,17 +28528,6 @@
           "name": "Anuj Saharan",
           "handle": "anujsaharan_",
           "layer": "surface",
-          "score": 0.01201,
-          "association": 0.02,
-          "interaction_proxy": 0.007,
-          "reciprocal": 0.0
-        },
-        {
-          "id": "claudeai",
-          "slug": "claudeai",
-          "name": "Claude",
-          "handle": "claudeai",
-          "layer": "inner_core",
           "score": 0.01201,
           "association": 0.02,
           "interaction_proxy": 0.007,

@@ -23,14 +23,25 @@ payload = {
     "refreshed_handles": int(sys.argv[5]),
     "note": sys.argv[6],
     "content_updated_at": "",
+    "source_crawled_at": "",
     "built_at": "",
 }
 daily = path.parent / "daily_progress.json"
+eng = path.parent / "engagement_metrics.json"
 if daily.exists():
     try:
         data = json.loads(daily.read_text(encoding="utf-8"))
         payload["content_updated_at"] = str(data.get("updated_at") or "")
         payload["built_at"] = str(data.get("built_at") or "")
+    except Exception:
+        pass
+if eng.exists():
+    try:
+        data = json.loads(eng.read_text(encoding="utf-8"))
+        rows = data.get("metrics") or []
+        vals = [str(x.get("latest_crawled_at") or "").strip() for x in rows if isinstance(x, dict)]
+        vals = [v for v in vals if v]
+        payload["source_crawled_at"] = max(vals) if vals else str(data.get("updated_at") or "")
     except Exception:
         pass
 path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

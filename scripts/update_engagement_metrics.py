@@ -102,6 +102,32 @@ def _pick_latest_share_from_markdown(md: str, handle: str) -> str:
     return ""
 
 
+def _pick_page_published_time(md: str) -> str:
+    m = re.search(r"^Published Time:\s*(.+)$", md or "", flags=re.MULTILINE)
+    if not m:
+        return ""
+    raw = m.group(1).strip()
+    try:
+        parsed = dt.datetime.strptime(raw, "%a, %d %b %Y %H:%M:%S %Z")
+        return parsed.replace(tzinfo=dt.timezone.utc).isoformat()
+    except Exception:
+        return raw
+
+
+def _pick_latest_status_id(md: str, handle: str) -> str:
+    text = md or ""
+    key = f"{handle}’s posts"
+    idx = text.find(key)
+    if idx == -1:
+        idx = text.find("posts\n--------------")
+    body = text[idx:] if idx != -1 else text
+    m = re.search(rf"https://x\.com/{re.escape(handle)}/status/(\d+)", body, flags=re.IGNORECASE)
+    if m:
+        return m.group(1)
+    m2 = re.search(r"https://x\.com/[^/\s)]+/status/(\d+)", body, flags=re.IGNORECASE)
+    return m2.group(1) if m2 else ""
+
+
 def fetch_latest_by_rjina(handle: str) -> dict:
     url = f"{R_JINA_PREFIX}{urllib.parse.quote(handle)}"
     req = urllib.request.Request(
@@ -113,6 +139,8 @@ def fetch_latest_by_rjina(handle: str) -> dict:
     with urllib.request.urlopen(req, timeout=45) as resp:
         md = resp.read().decode("utf-8", "ignore")
     latest = _pick_latest_share_from_markdown(md, handle)
+    latest_tweet_id = _pick_latest_status_id(md, handle)
+    latest_crawled_at = _pick_page_published_time(md)
     # r.jina fallback can help recover text, but it does not reliably give us
     # the original post timestamp. Do not fabricate "today" freshness here.
     return {
@@ -121,9 +149,10 @@ def fetch_latest_by_rjina(handle: str) -> dict:
         "likes_count": 0,
         "reposts_count": 0,
         "quote_count": 0,
-        "latest_tweet_id": "",
+        "latest_tweet_id": latest_tweet_id,
         "latest_tweet_text": latest,
         "latest_tweet_at": "",
+        "latest_crawled_at": latest_crawled_at,
         "has_today_tweet": False,
         "today_hottest_tweet_id": "",
         "today_hottest_tweet_text": "",
@@ -134,7 +163,7 @@ def fetch_latest_by_rjina(handle: str) -> dict:
         "today_hottest_replies": 0,
         "today_hottest_quotes": 0,
         "daily_tz": os.getenv("XAI_DAILY_TZ", "Asia/Shanghai"),
-        "latest_tweet_url": f"https://x.com/{handle}",
+        "latest_tweet_url": f"https://x.com/{handle}/status/{latest_tweet_id}" if latest_tweet_id else f"https://x.com/{handle}",
         "today_hottest_tweet_url": "",
     }
 
