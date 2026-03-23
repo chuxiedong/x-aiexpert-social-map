@@ -34,7 +34,7 @@ fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
   const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   const rows=(d.items||[]).slice(0, limit);
   if(!rows.length){
-    document.getElementById('grid').innerHTML = `<div class="card"><b>今日暂无满足条件的博主</b><div class="muted" style="margin-top:8px">规则：仅展示“当日有发帖”的账号，并选取其当日热度最高的一条分享。请稍后刷新，或先更新 X 互动数据。</div></div>`;
+    document.getElementById('grid').innerHTML = `<div class="card"><b>当前样本里暂时没有可展示内容</b><div class="muted" style="margin-top:8px">系统会优先展示当日热度最高的分享；如果没有当日内容，则回退到最近一次可用分享。当前返回为空，通常说明源数据还没有刷新成功。</div></div>`;
     return;
   }
   document.getElementById('grid').innerHTML=rows.map((r,i)=>{

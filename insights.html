@@ -13,9 +13,11 @@
 </style></head><body><div class="wrap">
 <div class="top"><h2>Daily Insights / 每日观点精髓</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./profiles/index.html">Profiles</a><a class="btn" href="./daily_briefing.html">Top10</a><a class="btn" href="./daily_progress.html">每日AI进展</a><a class="btn" href="./poster.html?mode=top10">Top10海报</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
 <div class="tools"><input id="q" placeholder="Search name/handle"/><select id="lang"><option value="zh">中文</option><option value="en">English</option></select><select id="time"><option value="1">24h</option><option value="7">7d</option><option value="30" selected>30d</option></select><select id="topic"><option value="all">All Topics</option></select><select id="layer"><option value="all">All Layers</option></select></div>
+<div class="card" id="freshness" style="margin-top:10px"></div>
 <div id="grid" class="grid"></div></div>
 <script>
 const q=document.getElementById('q'); const lang=document.getElementById('lang'); const layer=document.getElementById('layer'); const time=document.getElementById('time'); const topic=document.getElementById('topic'); const grid=document.getElementById('grid');
+const freshness=document.getElementById('freshness');
 const layerLabel={core:'Core/核心',inner_core:'Inner Core/内核',middle_core:'Middle Core/中间核',outer_core:'Outer Core/外核',surface:'Surface/表层'};
 let rows=[];
 function render(){
@@ -34,9 +36,15 @@ function render(){
     return `<div class="card"><div><b>${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?'最新分享：':'Latest share: '}${l==='zh'?(r.latest_share_zh||r.latest_viewpoint_zh||''):(r.latest_share_en||r.latest_viewpoint_en||'')}</p>${buddyLine}<div class="muted">Recency: ${r.recency_days}d</div><div style="display:flex;gap:8px;margin-top:8px"><a class="btn" href="./profiles/${r.slug}.html">View Profile</a><a class="btn" href="./poster.html?slug=${r.slug}&mode=insight&lang=${l}">海报</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">Open X</a></div></div>`;
   }).join('');
 }
-fetch('./data/daily_insights.json').then(r=>r.json()).then(d=>{
+Promise.all([
+  fetch('./data/daily_insights.json').then(r=>r.json()).catch(()=>({items:[]})),
+  fetch('./data/refresh_status.json').then(r=>r.json()).catch(()=>null)
+]).then(([d,rs])=>{
   const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   rows=(d.items||[]).slice(0, limit);
+  const modeMap={x_api_v2:'X API',rjina_fallback:'网页回退源'};
+  const mode=rs ? (modeMap[rs.mode]||rs.mode||'未知') : '未知';
+  freshness.innerHTML=`<div><b>内容时间：</b>${(d.updated_at||'-').replace('T',' ').slice(0,19)} <span class="muted">· 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)} · 刷新来源 ${mode}</span></div><div class="muted" style="margin-top:6px">这里展示的是每位博主最近一次可用分享；如果当天没有可确认的新帖，不会伪装成“今日观点”。</div>`;
   const layerSet=[...new Set(rows.map(x=>x.layer))];
   layer.innerHTML='<option value="all">All Layers</option>'+layerSet.map(v=>`<option value="${v}">${layerLabel[v]||v}</option>`).join('');
   const topics=[...new Set(rows.flatMap(x=>x.topics||[]))];

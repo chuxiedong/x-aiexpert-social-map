@@ -385,6 +385,12 @@ def profile_page(profile: dict) -> str:
         )
         for b in buddies
     )
+    recency_days = int(profile.get("recency_days") or 999)
+    freshness_note = (
+        f"最近内容距今 {recency_days} 天。若今天没有新帖，页面会展示最近一次可用分享，不伪装为当日观点。"
+        if recency_days < 900
+        else "当前未拿到可确认发布时间的原始帖子，页面仅展示最近一次可用抓取结果。"
+    )
 
     return f"""<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
@@ -403,11 +409,13 @@ def profile_page(profile: dict) -> str:
 .kpi{{border:1px solid var(--line);border-radius:10px;background:#0f1730;padding:9px}} .k{{font-size:12px;color:var(--muted)}} .v{{font-size:18px;font-weight:700;margin-top:2px}}
 .sec{{margin-top:12px}} .sec h3{{margin:0 0 6px;font-size:16px}}
 .bar{{height:8px;background:#0f1730;border:1px solid var(--line);border-radius:999px;overflow:hidden}} .bar > i{{display:block;height:100%;background:linear-gradient(90deg,#45d5ff,#2a6bff)}}
+.notice{{margin-top:10px;padding:10px 12px;border-radius:12px;border:1px solid rgba(106,211,255,.28);background:rgba(106,211,255,.08);color:#d7e8ff;font-size:13px;line-height:1.6}}
 @media (max-width:760px){{.kpis{{grid-template-columns:repeat(2,minmax(0,1fr))}} .name{{font-size:20px}}}}
 </style></head><body><div class=\"wrap\"><div class=\"card\">
 <div class=\"row\"><div><div class=\"name\">{name}</div><div class=\"handle\">@{handle}</div></div>
 <div class=\"row\"><a class=\"btn\" href=\"https://x.com/{handle}\" target=\"_blank\">Open X</a><a class=\"btn\" href=\"./index.html\">Profiles</a><a class=\"btn\" href=\"../poster.html?slug={profile['slug']}&mode=profile\">分享海报</a><a class=\"btn\" href=\"../commercial.html\">Commercial</a><a class=\"btn\" href=\"../contact.html\">Contact</a></div></div>
 <div class=\"muted\" style=\"margin-top:6px\">Layer: {layer_en} / {layer_zh}</div>
+<div class=\"notice\">{html.escape(freshness_note)}</div>
 <div class=\"tags\">{tags}</div>
 <div class=\"kpis\">
 <div class=\"kpi\"><div class=\"k\">Rank</div><div class=\"v\">#{rank}</div></div>
@@ -491,9 +499,11 @@ def insights_page() -> str:
 </style></head><body><div class=\"wrap\">
 <div class=\"top\"><h2>Daily Insights / 每日观点精髓</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./profiles/index.html\">Profiles</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"tools\"><input id=\"q\" placeholder=\"Search name/handle\"/><select id=\"lang\"><option value=\"zh\">中文</option><option value=\"en\">English</option></select><select id=\"time\"><option value=\"1\">24h</option><option value=\"7\">7d</option><option value=\"30\" selected>30d</option></select><select id=\"topic\"><option value=\"all\">All Topics</option></select><select id=\"layer\"><option value=\"all\">All Layers</option></select></div>
+<div class=\"card\" id=\"freshness\" style=\"margin-top:10px\"></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
 const q=document.getElementById('q'); const lang=document.getElementById('lang'); const layer=document.getElementById('layer'); const time=document.getElementById('time'); const topic=document.getElementById('topic'); const grid=document.getElementById('grid');
+const freshness=document.getElementById('freshness');
 const layerLabel={core:'Core/核心',inner_core:'Inner Core/内核',middle_core:'Middle Core/中间核',outer_core:'Outer Core/外核',surface:'Surface/表层'};
 let rows=[];
 function render(){
@@ -512,9 +522,15 @@ function render(){
     return `<div class=\"card\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?'最新分享：':'Latest share: '}${l==='zh'?(r.latest_share_zh||r.latest_viewpoint_zh||''):(r.latest_share_en||r.latest_viewpoint_en||'')}</p>${buddyLine}<div class=\"muted\">Recency: ${r.recency_days}d</div><div style=\"display:flex;gap:8px;margin-top:8px\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">View Profile</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=insight&lang=${l}\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`;
   }).join('');
 }
-fetch('./data/daily_insights.json').then(r=>r.json()).then(d=>{
+Promise.all([
+  fetch('./data/daily_insights.json').then(r=>r.json()).catch(()=>({items:[]})),
+  fetch('./data/refresh_status.json').then(r=>r.json()).catch(()=>null)
+]).then(([d,rs])=>{
   const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   rows=(d.items||[]).slice(0, limit);
+  const modeMap={x_api_v2:'X API',rjina_fallback:'网页回退源'};
+  const mode=rs ? (modeMap[rs.mode]||rs.mode||'未知') : '未知';
+  freshness.innerHTML=`<div><b>内容时间：</b>${(d.updated_at||'-').replace('T',' ').slice(0,19)} <span class=\"muted\">· 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)} · 刷新来源 ${mode}</span></div><div class=\"muted\" style=\"margin-top:6px\">这里展示的是每位博主最近一次可用分享；如果当天没有可确认的新帖，不会伪装成“今日观点”。</div>`;
   const layerSet=[...new Set(rows.map(x=>x.layer))];
   layer.innerHTML='<option value="all">All Layers</option>'+layerSet.map(v=>`<option value="${v}">${layerLabel[v]||v}</option>`).join('');
   const topics=[...new Set(rows.flatMap(x=>x.topics||[]))];
@@ -562,7 +578,7 @@ fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
   const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
   const rows=(d.items||[]).slice(0, limit);
   if(!rows.length){
-    document.getElementById('grid').innerHTML = `<div class=\"card\"><b>今日暂无满足条件的博主</b><div class=\"muted\" style=\"margin-top:8px\">规则：仅展示“当日有发帖”的账号，并选取其当日热度最高的一条分享。请稍后刷新，或先更新 X 互动数据。</div></div>`;
+    document.getElementById('grid').innerHTML = `<div class=\"card\"><b>当前样本里暂时没有可展示内容</b><div class=\"muted\" style=\"margin-top:8px\">系统会优先展示当日热度最高的分享；如果没有当日内容，则回退到最近一次可用分享。当前返回为空，通常说明源数据还没有刷新成功。</div></div>`;
     return;
   }
   document.getElementById('grid').innerHTML=rows.map((r,i)=>{

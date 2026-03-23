@@ -59,6 +59,7 @@
       .sub { margin-top: 10px; color: var(--muted); max-width: 900px; font-size: 15px; line-height: 1.65; }
       .proof { margin-top: 12px; display:flex; flex-wrap:wrap; gap:8px; }
       .badge { padding:6px 10px; font-size:12px; border-radius:999px; border:1px solid var(--line); background:#0f1730; color:#c9d8fb; }
+      .trust-note { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.6; }
       .limit-box { margin-top: 10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
       .limit-box input {
         width: 110px; background:#101a32; border:1px solid rgba(148,163,184,.35); color:#e2e8f0;
@@ -172,6 +173,7 @@
               <span class="badge" id="proof_sample" data-zh="样本规模：Top300 X AI博主" data-en="Sample: Top300 AI influencers on X">样本规模：Top300 X AI博主</span>
               <span class="badge" data-zh="评分方式：关系强度 + 网络位置" data-en="Scoring: relationship strength + network position">评分方式：关系强度 + 网络位置</span>
             </div>
+            <div class="trust-note" id="hero_freshness_note">-</div>
             <div class="limit-box">
               <span class="badge" data-zh="全站样本数量" data-en="Global Sample Size">全站样本数量</span>
               <input id="limitInput" type="number" min="10" max="1000" step="1" placeholder="10-1000" />
@@ -435,6 +437,7 @@
         const p = await fetch("./data/profiles.json").then((r) => r.json()).catch(() => ({ items: [] }));
         const d = await fetch("./data/daily_insights.json").then((r) => r.json()).catch(() => ({ items: [] }));
         const b = await fetch("./data/daily_briefing.json").then((r) => r.json()).catch(() => ({ items: [] }));
+        const rs = await fetch("./data/refresh_status.json").then((r) => r.json()).catch(() => null);
 
         const profiles = (p.items || []).slice(0, globalLimit);
         const items = (d.items || []).slice(0, globalLimit);
@@ -447,8 +450,12 @@
         document.getElementById("k_updated").textContent = (d.updated_at || "-").slice(0, 10);
         document.getElementById("hero_total").textContent = `Top${profiles.length || globalLimit}`;
         document.getElementById("hero_updated").textContent = (d.updated_at || "-").slice(5, 10);
-        const built = d.built_at ? ` · Built ${(d.built_at || "-").slice(0, 10)}` : "";
-        document.getElementById("proof_updated").textContent = `Content: ${(d.updated_at || "-").slice(0, 10)}${built}`;
+        const built = d.built_at ? ` · 页面生成 ${(d.built_at || "-").slice(0, 10)}` : "";
+        document.getElementById("proof_updated").textContent = `内容时间 ${(d.updated_at || "-").slice(0, 10)}${built}`;
+        const modeMap = { x_api_v2: "X API", rjina_fallback: "网页回退源" };
+        const refreshMode = rs ? (modeMap[rs.mode] || rs.mode || "未知") : "未知";
+        const refreshed = rs ? ` · 本次刷新 Top${rs.limit || globalLimit}` : "";
+        document.getElementById("hero_freshness_note").textContent = `当前观点按最近一次可用抓取生成，刷新来源：${refreshMode}${refreshed}。如果内容时间早于今天，表示页面是新的，但内容源还没有拿到更新。`;
         t();
         renderFeed();
       }
