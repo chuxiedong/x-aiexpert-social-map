@@ -266,7 +266,26 @@ def compute_best_buddies(
     return out
 
 
-def build_daily_progress(profiles: list[dict], top10: list[dict], updated_at: str) -> dict:
+def parse_iso_dt(value: str | None) -> dt.datetime | None:
+    if not value or not isinstance(value, str):
+        return None
+    try:
+        return dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except Exception:
+        return None
+
+
+def compute_content_updated_at(rows: list[dict], fallback: str) -> str:
+    latest_dt = None
+    for row in rows:
+        for key in ("today_hottest_tweet_at", "latest_share_at", "updated_at"):
+            parsed = parse_iso_dt(row.get(key))
+            if parsed and (latest_dt is None or parsed > latest_dt):
+                latest_dt = parsed
+    return latest_dt.isoformat() if latest_dt else fallback
+
+
+def build_daily_progress(profiles: list[dict], top10: list[dict], updated_at: str, built_at: str) -> dict:
     top_topics = Counter()
     for p in profiles[:120]:
         top_topics.update(p.get("topics") or [])
@@ -314,6 +333,7 @@ def build_daily_progress(profiles: list[dict], top10: list[dict], updated_at: st
 
     return {
         "updated_at": updated_at,
+        "built_at": built_at,
         "summary_zh": summary_zh,
         "summary_en": summary_en,
         "topic_rank": topic_rank,
@@ -1072,12 +1092,13 @@ def main() -> int:
     DAILY_PROGRESS_PAGE.write_text(daily_progress_page(), encoding="utf-8")
     POSTER_PAGE.write_text(poster_page(), encoding="utf-8")
 
-    updated_at = dt.datetime.utcnow().isoformat() + "Z"
-    payload = {"updated_at": updated_at, "items": profiles}
+    built_at = dt.datetime.utcnow().isoformat() + "Z"
+    content_updated_at = compute_content_updated_at(profiles, built_at)
+    payload = {"updated_at": content_updated_at, "built_at": built_at, "items": profiles}
     PROFILE_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    INSIGHTS_JSON.write_text(json.dumps({"updated_at": updated_at, "items": insights_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
-    BRIEFING_JSON.write_text(json.dumps({"updated_at": updated_at, "items": briefing_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
-    DAILY_PROGRESS_JSON.write_text(json.dumps(build_daily_progress(profiles, briefing_rows, updated_at), ensure_ascii=False, indent=2), encoding="utf-8")
+    INSIGHTS_JSON.write_text(json.dumps({"updated_at": content_updated_at, "built_at": built_at, "items": insights_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
+    BRIEFING_JSON.write_text(json.dumps({"updated_at": content_updated_at, "built_at": built_at, "items": briefing_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
+    DAILY_PROGRESS_JSON.write_text(json.dumps(build_daily_progress(profiles, briefing_rows, content_updated_at, built_at), ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Generated {len(profiles)} profile pages and Top10 briefing")
     return 0
 

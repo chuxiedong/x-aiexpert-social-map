@@ -59,6 +59,7 @@
       grid-template-rows: auto auto auto auto 1fr auto;
       gap: 10px;
       min-width: 0;
+      min-height: 0;
       position: relative;
       z-index: 5;
     }
@@ -178,7 +179,10 @@
       background: rgba(8, 10, 18, 0.62);
       padding: 8px;
       overflow: auto;
-      min-height: 160px;
+      min-height: 0;
+      height: 100%;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
     }
 
     .expert-row {
@@ -247,14 +251,28 @@
     .sidebar-foot {
       border: 1px solid var(--line);
       border-radius: 12px;
-      padding: 9px;
+      padding: 10px;
       background: rgba(8, 10, 18, 0.76);
       font-size: 11px;
       color: var(--muted);
       line-height: 1.55;
+      display: grid;
+      gap: 7px;
     }
 
     .sidebar-foot a { color: #9fd8ff; }
+    .sidebar-foot-title {
+      font: 700 11px/1.1 'Sora', sans-serif;
+      color: #dbe5ff;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .sidebar-foot-copy {
+      color: var(--muted);
+    }
+    .sidebar-foot .btn {
+      width: 100%;
+    }
 
     .creator-card {
       border: 1px solid var(--line);
@@ -288,15 +306,23 @@
     }
 
     .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
       gap: 10px;
+      align-items: start;
+    }
+
+    .topbar-main {
+      min-width: 0;
+      display: grid;
+      gap: 8px;
     }
 
     .topbar-actions {
       display: inline-flex;
       align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
       gap: 8px;
     }
 
@@ -304,6 +330,31 @@
       margin: 0;
       font: 700 16px/1.1 'Sora', sans-serif;
       color: #d9e2ff;
+    }
+
+    .topbar-copy {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      max-width: 860px;
+    }
+
+    .topbar-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: rgba(10, 12, 22, 0.78);
+      color: #dce5ff;
+      font-size: 11px;
     }
 
     .btn {
@@ -720,7 +771,7 @@
 
       <div class="brand">
         <h1>Top 300 AI 图谱</h1>
-        <p>参考 x.mitbunny.ai 的结构精髓：暗色网络舞台、榜单侧栏、悬浮详情与方法论说明。</p>
+        <p>快速看清谁和谁联系最紧、谁处在核心位置，以及 AI 社交网络正在如何变化。</p>
       </div>
 
       <div class="search-wrap" id="searchWrap">
@@ -740,30 +791,43 @@
       <div class="expert-list" id="expertList"></div>
 
       <button class="creator-card" id="creatorCardBtn">
-        <span class="rank-badge">x</span>
+        <span class="rank-badge">i</span>
         <span>
-          <div class="nm">Jenny</div>
-          <div class="hd">@Jenny_the_Bunny · Creator</div>
+          <div class="nm">图谱使用提示</div>
+          <div class="hd">查看玩法说明 · 清空筛选后回到全景</div>
         </span>
       </button>
 
       <div class="sidebar-foot">
-        数据采集：<span id="generatedAt">初始化中</span><br />
-        来源：<span id="sourceName">初始化中</span><br />
-        <a id="sourceLink" href="#" target="_blank" rel="noreferrer">查看来源</a>
+        <div class="sidebar-foot-title">数据说明</div>
+        <div class="sidebar-foot-copy" id="sampleSummary">当前样本规模：Top300</div>
+        <div class="sidebar-foot-copy">最近更新：<span id="generatedAt">初始化中</span></div>
+        <div class="sidebar-foot-copy" id="sourceSummary">图谱与 X 数据整理中</div>
+        <span id="sourceName" style="display:none">初始化中</span>
+        <button class="btn" id="openDataNote">查看数据来源与方法</button>
+        <a id="sourceLink" href="#" target="_blank" rel="noreferrer" style="display:none">查看来源</a>
       </div>
     </aside>
 
     <main class="stage">
       <div class="topbar">
-        <h2>Top 300 AI 影响力关系舞台</h2>
+        <div class="topbar-main">
+          <h2>AI 社交关系图谱</h2>
+          <div class="topbar-copy">看清谁在核心层、谁和谁互动最紧，以及在当前样本里哪些 AI 创作者最值得持续跟进。默认与首页保持同一份样本规模。</div>
+          <div class="topbar-meta">
+            <div class="meta-pill" id="topbarSample">样本 Top300</div>
+            <div class="meta-pill" id="topbarUpdated">最近更新：初始化中</div>
+            <div class="meta-pill">拖拽旋转 · 滚轮缩放 · 点击人物</div>
+          </div>
+        </div>
         <div class="topbar-actions">
-          <button class="btn" id="refreshData">立即刷新</button>
-          <a class="btn" id="downloadTop300" href="./data/top300.csv" download>下载Top300</a>
-          <button class="btn" id="toggleGraphMode">图谱模式：2D</button>
-          <button class="btn active" id="toggleLinks">关系连线：开</button>
-          <button class="btn" id="resetView">视角重置</button>
-          <button class="btn" id="openMethod">方法论</button>
+          <a class="btn" href="./index.html">返回首页</a>
+          <button class="btn" id="refreshData">刷新数据</button>
+          <a class="btn" id="downloadTop300" href="./data/top300.csv" download>下载榜单</a>
+          <button class="btn" id="toggleGraphMode">关系视图：2D</button>
+          <button class="btn active" id="toggleLinks">连线显示：开</button>
+          <button class="btn" id="resetView">清空并回到全景</button>
+          <button class="btn" id="openMethod">查看说明</button>
         </div>
       </div>
 
@@ -812,12 +876,13 @@
 
   <section class="method-modal" id="methodModal">
     <div class="method-card">
-      <h3>Methodology</h3>
-      <p>1) 发现与筛选：以 OpenAI / Anthropic / DeepMind 等 seed accounts 为起点，基于“他们关注了谁”扩展候选池。</p>
-      <p>2) 排名逻辑：优先使用目标图谱分层，兼顾粉丝量与连接度。参考公式：<code>Score = log10(followers) × seed_connections</code>。</p>
-      <p>3) 图谱视图：默认展示全连接网络；点击节点后高亮该节点及一度关系，背景点击清空选中。</p>
-      <p>4) 辅助增强：叠加本地趋势、排名变化与白名单修正，确保“目标站主能力 + 本地运营能力”共同可用。</p>
-      <p class="muted">你可通过 <code>scripts/update_experts.py</code> 持续刷新数据。若有改进建议，可联系 <a href="https://x.com/Jenny_the_Bunny" target="_blank" rel="noreferrer" style="color:#9fd8ff">@Jenny_the_Bunny</a>。</p>
+      <h3>数据来源与方法</h3>
+      <p>1) 候选发现：从 AI 研究机构、创始人、开发者与媒体账号出发，组合已有图谱与公开 X 数据，得到候选网络。</p>
+      <p>2) 排名方式：综合粉丝量、被连接关系、网络位置与本地图谱修正，生成 Top 300 结果。</p>
+      <p>3) 图谱交互：默认进入全景视角；点击节点后聚焦该人物和一度关系，背景点击可清空选中。</p>
+      <p>4) 数据说明：<span id="methodSourceName">初始化中</span></p>
+      <p class="muted">原始来源可通过下方链接查看，页面会按最新构建数据自动渲染。</p>
+      <a class="btn" id="methodSourceLink" href="#" target="_blank" rel="noreferrer">查看原始来源</a>
       <button class="btn" id="closeMethod">关闭</button>
     </div>
   </section>
@@ -921,13 +986,20 @@
       toggleGraphMode: document.getElementById('toggleGraphMode'),
       toggleLinks: document.getElementById('toggleLinks'),
       resetView: document.getElementById('resetView'),
+      topbarSample: document.getElementById('topbarSample'),
+      topbarUpdated: document.getElementById('topbarUpdated'),
       detailCard: document.getElementById('detailCard'),
       openMethod: document.getElementById('openMethod'),
       closeMethod: document.getElementById('closeMethod'),
       methodModal: document.getElementById('methodModal'),
       generatedAt: document.getElementById('generatedAt'),
+      sampleSummary: document.getElementById('sampleSummary'),
       sourceName: document.getElementById('sourceName'),
       sourceLink: document.getElementById('sourceLink'),
+      sourceSummary: document.getElementById('sourceSummary'),
+      openDataNote: document.getElementById('openDataNote'),
+      methodSourceName: document.getElementById('methodSourceName'),
+      methodSourceLink: document.getElementById('methodSourceLink'),
       trendModeButtons: Array.from(document.querySelectorAll('.mode-btn'))
     };
 
@@ -981,7 +1053,7 @@
       el.bubbleSvg.style.display = use3d ? 'none' : 'block';
       if (el.toggleGraphMode) {
         el.toggleGraphMode.classList.toggle('active', use3d);
-        el.toggleGraphMode.textContent = `图谱模式：${use3d ? '3D' : '2D'}`;
+        el.toggleGraphMode.textContent = `关系视图：${use3d ? '3D' : '2D'}`;
       }
     }
 
@@ -1041,11 +1113,17 @@
 
     function renderDataMeta(meta, graphMeta) {
       const dt = meta?.generated_at ? new Date(meta.generated_at) : null;
-      el.generatedAt.textContent = dt && !Number.isNaN(dt.getTime()) ? dt.toLocaleString('zh-CN') : '未知';
+      const updatedText = dt && !Number.isNaN(dt.getTime()) ? dt.toLocaleString('zh-CN') : '未知';
+      el.generatedAt.textContent = updatedText;
+      if (el.topbarUpdated) el.topbarUpdated.textContent = `最近更新：${updatedText}`;
       const main = graphMeta?.source_name || 'x.mitbunny.ai graph';
       const sub = 'X API v2 users lookup';
-      el.sourceName.textContent = `${main}（图谱） + ${sub}（X自动抓取）`;
+      const summary = '图谱数据 + X 公开用户信息整理';
+      el.sourceName.textContent = `${main} + ${sub}`;
+      if (el.methodSourceName) el.methodSourceName.textContent = `${main} + ${sub}`;
+      if (el.sourceSummary) el.sourceSummary.textContent = summary;
       el.sourceLink.href = 'https://developer.x.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by';
+      if (el.methodSourceLink) el.methodSourceLink.href = el.sourceLink.href;
     }
 
     function syncSearchClearState() {
@@ -1053,8 +1131,19 @@
       if (el.searchWrap) el.searchWrap.classList.toggle('has-value', has);
     }
 
+    function currentSampleLimit() {
+      return window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+    }
+
+    function renderSampleSummary() {
+      if (!el.sampleSummary) return;
+      const cap = Math.min(currentSampleLimit(), Math.max(0, experts.length || 0));
+      el.sampleSummary.textContent = `当前样本规模：Top${cap}（跟随首页）`;
+      if (el.topbarSample) el.topbarSample.textContent = `样本 Top${cap}`;
+    }
+
     function rankedTop300Pool() {
-      const cap = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+      const cap = currentSampleLimit();
       const pool = [...experts];
       if (topRankMap.size > 0) {
         pool.sort((a, b) => {
@@ -1387,7 +1476,7 @@
 
     function fit3DOverview(duration = 650) {
       if (!forceGraph) return;
-      const pad = Math.max(220, Math.round((el.vizShell?.clientWidth || 1200) * 0.18));
+      const pad = Math.max(280, Math.round((el.vizShell?.clientWidth || 1200) * 0.24));
       setTimeout(() => {
         if (forceGraph) forceGraph.zoomToFit(duration, pad);
       }, 80);
@@ -1430,7 +1519,7 @@
         controls.minDistance = 80;
         controls.maxDistance = 6400;
       }
-      forceGraph.cameraPosition({ x: 0, y: 0, z: 1750 });
+      forceGraph.cameraPosition({ x: 0, y: 0, z: 2200 });
       return forceGraph;
     }
 
@@ -1706,7 +1795,10 @@
       }
 
       renderDataMeta(localPayload || fallbackMeta, graphMeta);
+      renderSampleSummary();
       initCategoryFilter();
+      selectedHandle = null;
+      showCreatorProfile = false;
       needs3DOverviewFit = true;
       renderAll();
     }
@@ -1750,9 +1842,7 @@
 
     if (el.creatorCardBtn) {
       el.creatorCardBtn.addEventListener('click', () => {
-        showCreatorProfile = !showCreatorProfile;
-        if (showCreatorProfile) selectedHandle = null;
-        renderAll();
+        el.methodModal.classList.add('show');
         if (window.innerWidth <= 860) el.sidebar.classList.remove('mobile-show');
       });
     }
@@ -1830,12 +1920,18 @@
     el.toggleLinks.addEventListener('click', () => {
       showLinks = !showLinks;
       el.toggleLinks.classList.toggle('active', showLinks);
-      el.toggleLinks.textContent = showLinks ? '关系连线：开' : '关系连线：关';
+      el.toggleLinks.textContent = showLinks ? '连线显示：开' : '连线显示：关';
       renderAll();
     });
 
     if (el.resetView) {
       el.resetView.addEventListener('click', () => {
+        el.search.value = '';
+        el.categoryFilter.value = '';
+        syncSearchClearState();
+        selectedHandle = null;
+        showCreatorProfile = false;
+        renderSampleSummary();
         if (graphMode === '3d' && forceGraph) {
           needs3DOverviewFit = true;
           fit3DOverview(620);
@@ -1846,8 +1942,29 @@
           graphViewport.h = 540;
           applyViewBox();
         }
+        renderAll();
       });
     }
+
+    document.addEventListener('keydown', (e) => {
+      if (!e.key) return;
+      if (e.key.toLowerCase() === 'r') {
+        e.preventDefault();
+        selectedHandle = null;
+        showCreatorProfile = false;
+        needs3DOverviewFit = true;
+        if (graphMode === '3d') {
+          fit3DOverview(700);
+        } else {
+          graphViewport.x = 0;
+          graphViewport.y = 0;
+          graphViewport.w = 1200;
+          graphViewport.h = 540;
+          applyViewBox();
+        }
+        renderAll();
+      }
+    });
 
     if (el.refreshData) {
       el.refreshData.addEventListener('click', async () => {
@@ -1885,6 +2002,9 @@
     });
 
     el.openMethod.addEventListener('click', () => el.methodModal.classList.add('show'));
+    if (el.openDataNote) {
+      el.openDataNote.addEventListener('click', () => el.methodModal.classList.add('show'));
+    }
     el.closeMethod.addEventListener('click', () => el.methodModal.classList.remove('show'));
     el.methodModal.addEventListener('click', (e) => {
       if (e.target === el.methodModal) el.methodModal.classList.remove('show');
@@ -1897,6 +2017,15 @@
           .width(Math.max(360, Math.round(el.vizShell?.clientWidth || 1200)))
           .height(Math.max(360, Math.round(el.vizShell?.clientHeight || 540)));
       }
+    });
+
+    window.addEventListener('storage', (e) => {
+      if (e.key !== (window.XAIExpertLimit && window.XAIExpertLimit.KEY)) return;
+      selectedHandle = null;
+      showCreatorProfile = false;
+      renderSampleSummary();
+      initCategoryFilter();
+      renderAll();
     });
 
     applyViewBox();

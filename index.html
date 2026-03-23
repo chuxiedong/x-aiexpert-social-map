@@ -45,6 +45,7 @@
       .theme {
         margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
         border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: rgba(12, 21, 44, .62);
+        display: none;
       }
       .theme label { font-size: 12px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
       .theme input[type="color"] {
@@ -53,6 +54,7 @@
       .hero {
         margin-top: 12px; border: 1px solid var(--line); border-radius: 14px; padding: 20px; background: rgba(12, 21, 44, .74);
       }
+      .hero-grid { display:grid; grid-template-columns: minmax(0,1.35fr) minmax(280px,.9fr); gap: 18px; align-items: stretch; }
       h1 { margin: 0; font-size: 40px; line-height: 1.1; max-width: 920px; }
       .sub { margin-top: 10px; color: var(--muted); max-width: 900px; font-size: 15px; line-height: 1.65; }
       .proof { margin-top: 12px; display:flex; flex-wrap:wrap; gap:8px; }
@@ -66,6 +68,45 @@
       .card { border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 12px; }
       .card h3 { margin: 0 0 6px; font-size: 16px; }
       .card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+      .hero-panel {
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 16px;
+        background:
+          radial-gradient(circle at 85% 15%, rgba(106,211,255,.12), transparent 30%),
+          linear-gradient(180deg, rgba(18,27,54,.94), rgba(12,19,39,.9));
+        padding: 16px;
+        display:grid;
+        gap: 12px;
+      }
+      .hero-panel-title { font-size: 13px; font-weight: 800; letter-spacing: .08em; color:#b8cbff; text-transform: uppercase; }
+      .hero-panel-copy { color: var(--muted); font-size: 13px; line-height: 1.6; }
+      .hero-stats { display:grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+      .hero-stat {
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 12px;
+        background: rgba(7,12,26,.52);
+        padding: 12px;
+      }
+      .hero-stat .k { color: var(--muted); font-size: 12px; }
+      .hero-stat .v { margin-top: 6px; font-size: 22px; font-weight: 800; }
+      .hero-links { display:grid; gap: 8px; }
+      .hero-link {
+        display:flex; justify-content:space-between; align-items:center; gap:10px;
+        padding: 12px 14px; border-radius: 12px; text-decoration:none; color: var(--text);
+        border: 1px solid rgba(125,177,255,.2); background: rgba(10,17,36,.66);
+      }
+      .hero-link strong { display:block; font-size: 14px; }
+      .hero-link span { display:block; color: var(--muted); font-size: 12px; margin-top: 4px; }
+      .hero-link i { font-style: normal; color:#9fd8ff; font-size: 18px; }
+      .path-grid { margin-top: 14px; display:grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 10px; }
+      .path-card {
+        border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(180deg, rgba(18,27,54,.92), rgba(11,17,35,.9));
+        padding: 14px; display:grid; gap: 10px;
+      }
+      .path-tag { color:#7fe0ff; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+      .path-card h3 { margin:0; font-size:18px; }
+      .path-card p { margin:0; color:var(--muted); font-size:13px; line-height:1.6; }
+      .path-card .btn { width: fit-content; }
       .section { margin-top: 14px; }
       .section h2 { margin: 0 0 8px; font-size: 20px; }
       .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
@@ -82,6 +123,8 @@
       @media (max-width: 760px) {
         h1 { font-size: 30px; }
         .kpis { grid-template-columns: repeat(2, minmax(0,1fr)); }
+        .hero-grid { grid-template-columns: 1fr; }
+        .hero-stats { grid-template-columns: 1fr 1fr; }
       }
     </style>
   </head>
@@ -110,38 +153,105 @@
       </div>
 
       <section class="hero">
-        <h1 data-zh="快速找到值得关注的 AI 创作者和观点" data-en="Quickly find AI creators and ideas worth following">
-          快速找到值得关注的 AI 创作者和观点
-        </h1>
-        <p class="sub" data-zh="这是一个 AI 社交观察站：帮你看到谁更活跃、谁更有影响、最近在聊什么。支持圈层图、人物页、每日简报和一键海报分享。"
-           data-en="This is an AI social radar: see who is active, who is influential, and what people are discussing. Includes map view, profile pages, daily briefings, and one-click poster sharing.">
-          这是一个 AI 社交观察站：帮你看到谁更活跃、谁更有影响、最近在聊什么。支持圈层图、人物页、每日简报和一键海报分享。
-        </p>
-        <div class="actions" style="margin-top:10px">
-          <a class="btn main" href="./insights.html" data-zh="立即查看今日观点" data-en="View Today's Insights">立即查看今日观点</a>
-          <a class="btn" href="./data/circle_layers.html" data-zh="社交核心度" data-en="Open 5-Layer Circle Map">社交核心度</a>
-          <a class="btn" href="./index_pre_1to1_latest_backup.html" data-zh="社交图谱3d" data-en="Open Classic 3D Graph">社交图谱3d</a>
-          <a class="btn" href="./daily_briefing.html" data-zh="打开Top10简报" data-en="Open Top10 Briefing">打开Top10简报</a>
-          <a class="btn" href="./daily_progress.html" data-zh="查看每日AI进展" data-en="Open Daily AI Progress">查看每日AI进展</a>
-        </div>
-        <div class="proof">
-          <span class="badge" id="proof_updated">Updated: -</span>
-          <span class="badge" id="proof_sample" data-zh="样本规模：Top300 X AI博主" data-en="Sample: Top300 AI influencers on X">样本规模：Top300 X AI博主</span>
-          <span class="badge" data-zh="评分方式：关系强度 + 网络位置" data-en="Scoring: relationship strength + network position">评分方式：关系强度 + 网络位置</span>
-        </div>
-        <div class="limit-box">
-          <span class="badge" data-zh="全站样本数量" data-en="Global Sample Size">全站样本数量</span>
-          <input id="limitInput" type="number" min="10" max="1000" step="1" placeholder="10-1000" />
-          <a class="btn" href="#" id="limitApply" data-zh="应用到全站" data-en="Apply Globally">应用到全站</a>
+        <div class="hero-grid">
+          <div>
+            <h1 data-zh="用一张图和一组观点，快速看清 AI 圈谁在带节奏" data-en="See who is shaping the AI conversation through one map and one stream of ideas">
+              用一张图和一组观点，快速看清 AI 圈谁在带节奏
+            </h1>
+            <p class="sub" data-zh="这是一个面向 AI 从业者、投资人和品牌团队的社交情报首页。你可以在这里快速看到当前样本里最关键的人、他们最近在分享什么、以及谁和谁的连接最紧。"
+               data-en="This homepage is built for AI operators, investors, and brand teams. It helps you quickly see who matters, what they are sharing, and which relationships are the strongest in the current sample.">
+              这是一个面向 AI 从业者、投资人和品牌团队的社交情报首页。你可以在这里快速看到当前样本里最关键的人、他们最近在分享什么、以及谁和谁的连接最紧。
+            </p>
+            <div class="actions" style="margin-top:12px">
+              <a class="btn main" href="./insights.html" data-zh="先看最新分享" data-en="Start with Latest Shares">先看最新分享</a>
+              <a class="btn" href="./index_pre_1to1_latest_backup.html" data-zh="进入社交图谱3d" data-en="Open Social Graph 3D">进入社交图谱3d</a>
+              <a class="btn" href="./data/circle_layers.html" data-zh="进入社交核心度" data-en="Open Social Centrality">进入社交核心度</a>
+            </div>
+            <div class="proof">
+              <span class="badge" id="proof_updated">Updated: -</span>
+              <span class="badge" id="proof_sample" data-zh="样本规模：Top300 X AI博主" data-en="Sample: Top300 AI influencers on X">样本规模：Top300 X AI博主</span>
+              <span class="badge" data-zh="评分方式：关系强度 + 网络位置" data-en="Scoring: relationship strength + network position">评分方式：关系强度 + 网络位置</span>
+            </div>
+            <div class="limit-box">
+              <span class="badge" data-zh="全站样本数量" data-en="Global Sample Size">全站样本数量</span>
+              <input id="limitInput" type="number" min="10" max="1000" step="1" placeholder="10-1000" />
+              <a class="btn" href="#" id="limitApply" data-zh="应用到全站" data-en="Apply Globally">应用到全站</a>
+            </div>
+          </div>
+
+          <aside class="hero-panel">
+            <div class="hero-panel-title" data-zh="先从这里开始" data-en="Start Here">先从这里开始</div>
+            <div class="hero-panel-copy" data-zh="如果你是第一次来，先看图谱；如果你是来跟进动态，先看最新分享；如果你要传播，直接进 Top10 和海报。"
+                 data-en="If this is your first time here, start with the graph. If you want updates, start with the latest shares. If you want distribution assets, go straight to Top10 and posters.">
+              如果你是第一次来，先看图谱；如果你是来跟进动态，先看最新分享；如果你要传播，直接进 Top10 和海报。
+            </div>
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <div class="k" data-zh="当前样本" data-en="Current Sample">当前样本</div>
+                <div class="v" id="hero_total">-</div>
+              </div>
+              <div class="hero-stat">
+                <div class="k" data-zh="最近更新" data-en="Last Update">最近更新</div>
+                <div class="v" id="hero_updated">-</div>
+              </div>
+            </div>
+            <div class="hero-links">
+              <a class="hero-link" href="./index_pre_1to1_latest_backup.html">
+                <div>
+                  <strong data-zh="社交图谱3d" data-en="Social Graph 3D">社交图谱3d</strong>
+                  <span data-zh="看整体关系结构和关键人物分布" data-en="See the full relationship structure and key people">看整体关系结构和关键人物分布</span>
+                </div>
+                <i>↗</i>
+              </a>
+              <a class="hero-link" href="./data/circle_layers.html">
+                <div>
+                  <strong data-zh="社交核心度" data-en="Social Centrality">社交核心度</strong>
+                  <span data-zh="看核心、内核、中间核、外核、表层分层" data-en="See the core-to-surface five-layer structure">看核心、内核、中间核、外核、表层分层</span>
+                </div>
+                <i>↗</i>
+              </a>
+              <a class="hero-link" href="./daily_briefing.html">
+                <div>
+                  <strong data-zh="Top10 与海报" data-en="Top10 & Posters">Top10 与海报</strong>
+                  <span data-zh="把当天最值得传播的内容直接导出和分享" data-en="Export the most shareable content of the day">把当天最值得传播的内容直接导出和分享</span>
+                </div>
+                <i>↗</i>
+              </a>
+            </div>
+          </aside>
         </div>
       </section>
 
       <section class="section">
-        <h2 data-zh="这站点能帮你做什么" data-en="What You Can Do Here">这站点能帮你做什么</h2>
-        <div class="grid">
-          <div class="card"><h3 data-zh="发现重点人物" data-en="Find Key People">发现重点人物</h3><p data-zh="快速看到谁值得重点跟进，减少信息噪音。" data-en="Quickly spot who matters most and reduce noise.">快速看到谁值得重点跟进，减少信息噪音。</p></div>
-          <div class="card"><h3 data-zh="追踪每日话题" data-en="Track Daily Topics">追踪每日话题</h3><p data-zh="按时间和主题看近期讨论，抓住变化趋势。" data-en="Filter by time and topic to catch trend shifts early.">按时间和主题看近期讨论，抓住变化趋势。</p></div>
-          <div class="card"><h3 data-zh="快速对外分享" data-en="Share in One Click">快速对外分享</h3><p data-zh="把人物观点一键转成海报，直接发朋友圈、群聊或社媒。" data-en="Turn insights into posters and share to social channels instantly.">把人物观点一键转成海报，直接发朋友圈、群聊或社媒。</p></div>
+        <h2 data-zh="你最常用的三条路径" data-en="Three Core Paths">你最常用的三条路径</h2>
+        <div class="path-grid">
+          <div class="path-card">
+            <div class="path-tag">Path 01</div>
+            <h3 data-zh="先找人" data-en="Find People First">先找人</h3>
+            <p data-zh="想知道当前样本里谁更关键、谁更靠近核心圈，先去图谱和圈层页。"
+               data-en="If you want to know who is central and who sits near the core, start with the graph and centrality views.">
+              想知道当前样本里谁更关键、谁更靠近核心圈，先去图谱和圈层页。
+            </p>
+            <a class="btn" href="./index_pre_1to1_latest_backup.html" data-zh="打开图谱" data-en="Open Graph">打开图谱</a>
+          </div>
+          <div class="path-card">
+            <div class="path-tag">Path 02</div>
+            <h3 data-zh="再看内容" data-en="Read the Content">再看内容</h3>
+            <p data-zh="想知道这些人今天到底在讲什么，直接看最新分享、每日进展和 Top10。"
+               data-en="If you want to know what these people are actually saying today, go straight to latest shares, daily progress, and Top10.">
+              想知道这些人今天到底在讲什么，直接看最新分享、每日进展和 Top10。
+            </p>
+            <a class="btn" href="./insights.html" data-zh="打开最新分享" data-en="Open Latest Shares">打开最新分享</a>
+          </div>
+          <div class="path-card">
+            <div class="path-tag">Path 03</div>
+            <h3 data-zh="最后拿去传播" data-en="Turn It Into Distribution">最后拿去传播</h3>
+            <p data-zh="如果你要做对外内容、简报或社媒传播，直接进入 Top10 和海报能力。"
+               data-en="If you need outbound content, briefings, or social distribution, go straight to Top10 and poster export.">
+              如果你要做对外内容、简报或社媒传播，直接进入 Top10 和海报能力。
+            </p>
+            <a class="btn" href="./daily_briefing.html" data-zh="打开 Top10" data-en="Open Top10">打开 Top10</a>
+          </div>
         </div>
       </section>
 
@@ -214,6 +324,17 @@
       let top10Rows = [];
       let globalLimit = 300;
       const root = document.documentElement;
+      const expertLimitKey = "xai_expert_limit";
+
+      function readGlobalLimit(fallback = 300) {
+        if (window.XAIExpertLimit && typeof window.XAIExpertLimit.getLimit === "function") {
+          return window.XAIExpertLimit.getLimit(fallback);
+        }
+        const raw = localStorage.getItem(expertLimitKey);
+        const n = Number(raw);
+        if (!Number.isFinite(n)) return fallback;
+        return Math.max(10, Math.min(1000, Math.round(n)));
+      }
 
       function setTheme(primary, secondary, mainA, mainB) {
         root.style.setProperty("--brand-primary", primary);
@@ -295,7 +416,8 @@
       document.getElementById("limitApply").addEventListener("click", (e) => {
         e.preventDefault();
         const input = document.getElementById("limitInput");
-        const n = window.XAIExpertLimit ? window.XAIExpertLimit.setLimit(input.value) : Math.max(10, Math.min(1000, Number(input.value || 300)));
+        const n = window.XAIExpertLimit ? window.XAIExpertLimit.setLimit(input.value) : readGlobalLimit(Number(input.value || 300));
+        localStorage.setItem(expertLimitKey, String(n));
         input.value = String(n);
         globalLimit = n;
         renderFeed();
@@ -303,7 +425,7 @@
       });
 
       async function boot() {
-        globalLimit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+        globalLimit = readGlobalLimit(300);
         document.getElementById("limitInput").value = String(globalLimit);
         const p = await fetch("./data/profiles.json").then((r) => r.json()).catch(() => ({ items: [] }));
         const d = await fetch("./data/daily_insights.json").then((r) => r.json()).catch(() => ({ items: [] }));
@@ -318,7 +440,10 @@
         document.getElementById("k_cards").textContent = items.length || "-";
         document.getElementById("k_top10").textContent = top10Rows.length || "-";
         document.getElementById("k_updated").textContent = (d.updated_at || "-").slice(0, 10);
-        document.getElementById("proof_updated").textContent = `Updated: ${(d.updated_at || "-").slice(0, 10)}`;
+        document.getElementById("hero_total").textContent = `Top${profiles.length || globalLimit}`;
+        document.getElementById("hero_updated").textContent = (d.updated_at || "-").slice(5, 10);
+        const built = d.built_at ? ` · Built ${(d.built_at || "-").slice(0, 10)}` : "";
+        document.getElementById("proof_updated").textContent = `Content: ${(d.updated_at || "-").slice(0, 10)}${built}`;
         t();
         renderFeed();
       }
