@@ -1107,9 +1107,8 @@ def main() -> int:
             int(x.get("rank") or 999999),
         ),
     )
-    briefing_source = daily_profiles if daily_profiles else recent_profiles
-    briefing_rows = sorted(
-        briefing_source,
+    briefing_primary = sorted(
+        daily_profiles,
         key=lambda x: (
             -float(x.get("today_hottest_tweet_heat") or 0),
             int(x.get("recency_days") or 999),
@@ -1117,6 +1116,15 @@ def main() -> int:
             int(x.get("rank") or 999999),
         ),
     )
+    if len(briefing_primary) < 10:
+        seen = {str(x.get("handle") or "").lower() for x in briefing_primary}
+        briefing_fallback = [
+            x for x in insights_rows
+            if str(x.get("handle") or "").lower() not in seen
+        ]
+        briefing_rows = briefing_primary + briefing_fallback
+    else:
+        briefing_rows = briefing_primary
     top10 = briefing_rows[:10]
 
     PROFILES_DIR.mkdir(parents=True, exist_ok=True)
