@@ -170,7 +170,17 @@
     function renderFreshness() {
       const contentAt = (pageData.updated_at || '-').replace('T', ' ').slice(0, 19);
       const builtAt = (pageData.built_at || '-').replace('T', ' ').slice(0, 19);
-      const stale = (pageData.updated_at || '').slice(0, 10) !== new Date().toISOString().slice(0, 10);
+      const rows = (pageData.trend_items || []).slice(0, currentLimit);
+      const todayCount = rows.filter((r) => Boolean(r.has_today_tweet)).length;
+      let noteZh = '本页总结基于最近一次可验证分享生成，不代表所有关键人物今天都有新内容。';
+      let noteEn = 'This summary is generated from the latest verifiable shares and does not imply every key person posted today.';
+      if (todayCount === rows.length && rows.length) {
+        noteZh = '本页总结使用的都是今天可验证到的分享内容。';
+        noteEn = 'This summary is built entirely from shares that could be verified today.';
+      } else if (todayCount > 0) {
+        noteZh = `本页总结优先使用今天可验证到的分享内容；其中 ${todayCount}/${rows.length} 位关键人物有当天分享，其余人物保留最近一次可验证内容。`;
+        noteEn = `This summary prioritizes shares that could be verified today; ${todayCount}/${rows.length} key people have same-day shares, while the rest keep their latest verifiable content.`;
+      }
       document.getElementById('updatedBadge').textContent = uiLang === 'zh' ? `内容时间：${contentAt}` : `Content time: ${contentAt}`;
       document.getElementById('scopeBadge').textContent = uiLang === 'zh' ? `关键人物：Top${Math.min(currentLimit, (pageData.trend_items || []).length)}` : `Key people: Top${Math.min(currentLimit, (pageData.trend_items || []).length)}`;
       document.getElementById('freshness').innerHTML = `
@@ -178,8 +188,8 @@
           <div>
             <h2>${uiLang === 'zh' ? '时效说明' : 'Freshness note'}</h2>
             <div class="section-copy">${uiLang === 'zh'
-              ? `内容时间 ${contentAt} · 页面生成 ${builtAt}。${stale ? '本页总结基于最近一次可验证分享生成，不代表所有关键人物今天都有新内容。' : '本页总结优先使用今天可验证到的分享内容生成。'}`
-              : `Content time ${contentAt} · page built ${builtAt}. ${stale ? 'This summary is generated from the latest verifiable shares and does not imply every key person posted today.' : 'This summary prioritizes shares that could be verified today.'}`}</div>
+              ? `内容时间 ${contentAt} · 页面生成 ${builtAt}。${noteZh}`
+              : `Content time ${contentAt} · page built ${builtAt}. ${noteEn}`}</div>
           </div>
         </div>`;
     }

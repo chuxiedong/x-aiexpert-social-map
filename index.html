@@ -174,7 +174,7 @@
             </div>
             <div class="proof">
               <span class="badge" id="proof_updated">Updated: -</span>
-              <span class="badge" id="proof_sample" data-zh="样本规模：Top300 X AI博主" data-en="Sample: Top300 AI influencers on X">样本规模：Top300 X AI博主</span>
+              <span class="badge" id="proof_sample" data-zh="当前展示：Top300 X AI博主" data-en="Current view: Top300 AI influencers on X">当前展示：Top300 X AI博主</span>
               <span class="badge" data-zh="评分方式：关系强度 + 网络位置" data-en="Scoring: relationship strength + network position">评分方式：关系强度 + 网络位置</span>
             </div>
             <div class="trust-note" id="hero_freshness_note">-</div>
@@ -468,7 +468,7 @@
         document.getElementById("langBtn").textContent = lang === "zh" ? "EN" : "中文";
         const kTotal = Number(document.getElementById("k_total").textContent || 0) || globalLimit;
         document.getElementById("proof_sample").textContent =
-          lang === "zh" ? `样本规模：Top${kTotal} X AI博主` : `Sample: Top${kTotal} AI influencers on X`;
+          lang === "zh" ? `当前展示：Top${kTotal} X AI博主` : `Current view: Top${kTotal} AI influencers on X`;
       }
 
       function renderFeed() {
@@ -533,8 +533,8 @@
         const crawled = rs && rs.source_crawled_at ? (rs.source_crawled_at || "-").slice(0, 10) : (d.updated_at || "-").slice(0, 10);
         document.getElementById("hero_freshness_note").textContent =
           lang === "zh"
-            ? `当前展示基于最近一次可验证更新生成，覆盖样本 ${refreshed}，最近内容时间 ${crawled}。若某位博主当天没有新分享，会显示最近一条可验证内容并保留时间标注。`
-            : `This view is built from the latest verifiable update across ${refreshed}. Most recent content time: ${crawled}. If a creator has no new post today, the latest verifiable share stays visible with its timestamp.`;
+            ? `当前页面展示 Top${profiles.length || globalLimit}，底层可验证样本覆盖 ${refreshed}，最近内容时间 ${crawled}。若某位博主当天没有新分享，会显示最近一条可验证内容并保留时间标注。`
+            : `This page currently shows Top${profiles.length || globalLimit}, while the underlying verifiable pool covers ${refreshed}. Most recent content time: ${crawled}. If a creator has no new post today, the latest verifiable share stays visible with its timestamp.`;
         t();
         renderFeed();
       }

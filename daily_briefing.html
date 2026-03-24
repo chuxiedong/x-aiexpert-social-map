@@ -162,7 +162,16 @@
     function renderFreshness() {
       const contentAt = (pageData.updated_at || '-').replace('T', ' ').slice(0, 19);
       const builtAt = (pageData.built_at || '-').replace('T', ' ').slice(0, 19);
-      const stale = (pageData.updated_at || '').slice(0, 10) !== new Date().toISOString().slice(0, 10);
+      const todayCount = rows.filter((r) => Boolean(r.has_today_tweet)).length;
+      let noteZh = '当前样本里暂未确认到当天可验证分享，页面已回退到最近一次可验证内容，并保留时间标注。';
+      let noteEn = 'No same-day verifiable post could be confirmed in the current sample, so the page falls back to the latest verifiable shares and keeps their timestamps visible.';
+      if (todayCount === rows.length && rows.length) {
+        noteZh = '当前列表展示的是今天热度最高的可验证内容。';
+        noteEn = 'This list shows the highest-heat verifiable content from today.';
+      } else if (todayCount > 0) {
+        noteZh = `当前列表优先展示今天热度最高的可验证内容；其中 ${todayCount}/${rows.length} 位有当天可验证分享，其余回退到最近一次可验证内容并保留时间标注。`;
+        noteEn = `This list prioritizes the highest-heat verifiable content from today; ${todayCount}/${rows.length} entries have same-day verified shares, while the rest fall back to the latest verifiable content with timestamps shown.`;
+      }
       document.getElementById('scopeBadge').textContent = uiLang === 'zh' ? `当前展示：Top${rows.length || 0}` : `Current set: Top${rows.length || 0}`;
       document.getElementById('updatedBadge').textContent = uiLang === 'zh' ? `内容时间：${contentAt}` : `Content time: ${contentAt}`;
       document.getElementById('freshness').innerHTML = `
@@ -170,8 +179,8 @@
           <div>
             <h2>${uiLang === 'zh' ? '内容说明' : 'Content note'}</h2>
             <div class="section-copy">${uiLang === 'zh'
-              ? `内容时间 ${contentAt} · 页面生成 ${builtAt}。${stale ? '如果当天没有可验证新帖，页面会回退到最近一次可验证内容，但不会伪装成今天的新观点。' : '当前列表优先展示今天热度最高的可验证内容。'}`
-              : `Content time ${contentAt} · page built ${builtAt}. ${stale ? 'If a same-day post cannot be verified, the page falls back to the latest verifiable share instead of pretending it is new today.' : 'This list prioritizes the highest-heat verifiable content from today.'}`}</div>
+              ? `内容时间 ${contentAt} · 页面生成 ${builtAt}。${noteZh}`
+              : `Content time ${contentAt} · page built ${builtAt}. ${noteEn}`}</div>
           </div>
         </div>`;
     }
