@@ -1003,6 +1003,20 @@
       trendModeButtons: Array.from(document.querySelectorAll('.mode-btn'))
     };
 
+    function supportsWebGL() {
+      try {
+        const canvas = document.createElement('canvas');
+        if (!window.WebGLRenderingContext) return false;
+        return !!(
+          canvas.getContext('webgl2', { antialias: false, powerPreference: 'low-power' }) ||
+          canvas.getContext('webgl', { antialias: false, powerPreference: 'low-power' }) ||
+          canvas.getContext('experimental-webgl', { antialias: false })
+        );
+      } catch (_) {
+        return false;
+      }
+    }
+
     let experts = [];
     let graphLinks = [];
     let historyTail = [];
@@ -1012,7 +1026,8 @@
     let showCreatorProfile = false;
     let showLinks = true;
     let trendMode = 'auto';
-    let graphMode = typeof window.ForceGraph3D === 'function' ? '3d' : '2d';
+    let graph3DAvailable = typeof window.ForceGraph3D === 'function' && supportsWebGL();
+    let graphMode = graph3DAvailable ? '3d' : '2d';
     let legendCollapsed = false;
     let connectionCountMap = new Map();
     let topRankMap = new Map();
@@ -1041,7 +1056,7 @@
     }
 
     function graphModeAvailable(mode) {
-      if (mode === '3d') return typeof window.ForceGraph3D === 'function';
+      if (mode === '3d') return graph3DAvailable;
       return true;
     }
 
@@ -1053,7 +1068,9 @@
       el.bubbleSvg.style.display = use3d ? 'none' : 'block';
       if (el.toggleGraphMode) {
         el.toggleGraphMode.classList.toggle('active', use3d);
-        el.toggleGraphMode.textContent = `关系视图：${use3d ? '3D' : '2D'}`;
+        el.toggleGraphMode.textContent = can3d ? `关系视图：${use3d ? '3D' : '2D'}` : '关系视图：2D（自动）';
+        el.toggleGraphMode.title = can3d ? '切换 2D / 3D 视图' : '当前环境不支持 WebGL，已自动切换到 2D';
+        el.toggleGraphMode.disabled = !can3d;
       }
     }
 
@@ -1484,31 +1501,40 @@
 
     function ensureForceGraph3D() {
       if (forceGraph || !graphModeAvailable('3d')) return forceGraph;
-      forceGraph = window.ForceGraph3D({ controlType: 'orbit' })(el.graph3d)
-        .backgroundColor('rgba(0,0,0,0)')
-        .showNavInfo(false)
-        .enablePointerInteraction(true)
-        .d3VelocityDecay(0.4)
-        .d3AlphaDecay(0.02)
-        .linkHoverPrecision(0)
-        .onNodeDragEnd(node => {
-          if (!node || typeof node !== 'object') return;
-          if (Number.isFinite(node.x)) node.fx = node.x;
-          if (Number.isFinite(node.y)) node.fy = node.y;
-          if (Number.isFinite(node.z)) node.fz = node.z;
-        })
-        .onNodeClick(node => {
-          if (!node) return;
-          selectedHandle = selectedHandle === node.handle ? null : node.handle;
-          showCreatorProfile = false;
-          renderAll();
-          setTimeout(() => focus3DNode(node), 0);
-        })
-        .onBackgroundClick(() => {
-          selectedHandle = null;
-          showCreatorProfile = false;
-          renderAll();
-        });
+      try {
+        forceGraph = window.ForceGraph3D({ controlType: 'orbit' })(el.graph3d)
+          .backgroundColor('rgba(0,0,0,0)')
+          .showNavInfo(false)
+          .enablePointerInteraction(true)
+          .d3VelocityDecay(0.4)
+          .d3AlphaDecay(0.02)
+          .linkHoverPrecision(0)
+          .onNodeDragEnd(node => {
+            if (!node || typeof node !== 'object') return;
+            if (Number.isFinite(node.x)) node.fx = node.x;
+            if (Number.isFinite(node.y)) node.fy = node.y;
+            if (Number.isFinite(node.z)) node.fz = node.z;
+          })
+          .onNodeClick(node => {
+            if (!node) return;
+            selectedHandle = selectedHandle === node.handle ? null : node.handle;
+            showCreatorProfile = false;
+            renderAll();
+            setTimeout(() => focus3DNode(node), 0);
+          })
+          .onBackgroundClick(() => {
+            selectedHandle = null;
+            showCreatorProfile = false;
+            renderAll();
+          });
+      } catch (err) {
+        console.warn('3D graph disabled, falling back to 2D:', err);
+        graph3DAvailable = false;
+        graphMode = '2d';
+        forceGraph = null;
+        applyGraphModeUI();
+        return null;
+      }
       const controls = typeof forceGraph.controls === 'function' ? forceGraph.controls() : null;
       if (controls) {
         controls.enableDamping = true;

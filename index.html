@@ -49,8 +49,8 @@
       .theme {
         margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
         border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: rgba(12, 21, 44, .62);
-        display: none;
       }
+      .theme[hidden] { display: none; }
       .theme label { font-size: 12px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
       .theme input[type="color"] {
         width: 28px; height: 28px; border: 1px solid rgba(255,255,255,.28); border-radius: 6px; background: #0f1730; padding: 0;
@@ -149,13 +149,7 @@
           <a class="btn" href="./contact.html" data-zh="联系" data-en="Contact">Contact</a>
         </div>
       </div>
-      <div class="theme">
-        <label>主色 <input id="primaryColor" type="color" value="#1d3f82" /></label>
-        <label>按钮色 <input id="buttonColor" type="color" value="#143062" /></label>
-        <label>强调色 <input id="mainAColor" type="color" value="#28a6ff" /></label>
-        <label>主按钮深色 <input id="mainBColor" type="color" value="#1873ff" /></label>
-        <a class="btn" href="#" id="resetTheme" data-zh="重置配色" data-en="Reset Theme">重置配色</a>
-      </div>
+      <div class="theme" id="themeTools" hidden></div>
 
       <section class="hero">
         <div class="hero-grid">
@@ -219,7 +213,7 @@
               <a class="hero-link" href="./daily_briefing.html">
                 <div>
                   <strong data-zh="Top10 与海报" data-en="Top10 & Posters">Top10 与海报</strong>
-                  <span data-zh="把当天最值得传播的内容直接导出和分享" data-en="Export the most shareable content of the day">把当天最值得传播的内容直接导出和分享</span>
+                  <span data-zh="把当前最值得传播的内容直接导出和分享" data-en="Export the most shareable content available right now">把当前最值得传播的内容直接导出和分享</span>
                 </div>
                 <i>↗</i>
               </a>
@@ -250,9 +244,9 @@
           <div class="path-card">
             <div class="path-tag">Path 02</div>
             <h3 data-zh="再看内容" data-en="Read the Content">再看内容</h3>
-            <p data-zh="想知道这些人今天到底在讲什么，直接看最新分享、每日进展和 Top10。"
-               data-en="If you want to know what these people are actually saying today, go straight to latest shares, daily progress, and Top10.">
-              想知道这些人今天到底在讲什么，直接看最新分享、每日进展和 Top10。
+            <p data-zh="想知道这些人最近在讲什么，直接看最新分享、每日进展和 Top10。"
+               data-en="If you want to know what these people have been saying recently, go straight to latest shares, daily progress, and Top10.">
+              想知道这些人最近在讲什么，直接看最新分享、每日进展和 Top10。
             </p>
             <a class="btn" href="./insights.html" data-zh="打开最新分享" data-en="Open Latest Shares">打开最新分享</a>
           </div>
@@ -344,7 +338,7 @@
         <h2 data-zh="实时概览" data-en="Live Overview">实时概览</h2>
         <div class="kpis">
           <div class="kpi"><div class="k" data-zh="覆盖博主" data-en="Influencers">覆盖博主</div><div class="v" id="k_total">-</div></div>
-          <div class="kpi"><div class="k" data-zh="今日观点卡" data-en="Daily Cards">今日观点卡</div><div class="v" id="k_cards">-</div></div>
+          <div class="kpi"><div class="k" data-zh="观点卡" data-en="Insight Cards">观点卡</div><div class="v" id="k_cards">-</div></div>
           <div class="kpi"><div class="k" data-zh="Top10简报" data-en="Top10 Briefing">Top10简报</div><div class="v" id="k_top10">-</div></div>
           <div class="kpi"><div class="k" data-zh="最近更新" data-en="Last Update">最近更新</div><div class="v" id="k_updated">-</div></div>
         </div>
@@ -425,6 +419,44 @@
         root.style.setProperty("--brand-main-a", mainA);
         root.style.setProperty("--brand-main-b", mainB);
       }
+      function internalModeEnabled() {
+        const params = new URLSearchParams(location.search);
+        if (params.get("internal") === "1" || params.get("theme") === "1") {
+          localStorage.setItem("xai_internal_mode", "1");
+          return true;
+        }
+        if (params.get("internal") === "0" || params.get("theme") === "0") {
+          localStorage.removeItem("xai_internal_mode");
+          return false;
+        }
+        return localStorage.getItem("xai_internal_mode") === "1";
+      }
+      function themeToolsMarkup() {
+        return `
+          <label>主色 <input id="primaryColor" type="color" value="#1d3f82" /></label>
+          <label>按钮色 <input id="buttonColor" type="color" value="#143062" /></label>
+          <label>强调色 <input id="mainAColor" type="color" value="#28a6ff" /></label>
+          <label>主按钮深色 <input id="mainBColor" type="color" value="#1873ff" /></label>
+          <a class="btn" href="#" id="resetTheme" data-zh="重置配色" data-en="Reset Theme">重置配色</a>
+        `;
+      }
+      function syncThemeToolsVisibility() {
+        const panel = document.getElementById("themeTools");
+        if (!panel) return;
+        const enabled = internalModeEnabled();
+        panel.hidden = !enabled;
+        if (enabled && !panel.innerHTML.trim()) {
+          panel.innerHTML = themeToolsMarkup();
+          if (lang === "en") {
+            panel.querySelectorAll("[data-zh]").forEach((el) => {
+              el.textContent = el.getAttribute("data-en");
+            });
+          }
+        }
+        if (!enabled && panel.innerHTML.trim()) {
+          panel.innerHTML = "";
+        }
+      }
       function saveTheme(primary, secondary, mainA, mainB) {
         localStorage.setItem("xai_theme_primary", primary);
         localStorage.setItem("xai_theme_secondary", secondary);
@@ -437,22 +469,28 @@
         const mainA = localStorage.getItem("xai_theme_main_a") || "#28a6ff";
         const mainB = localStorage.getItem("xai_theme_main_b") || "#1873ff";
         setTheme(primary, secondary, mainA, mainB);
-        document.getElementById("primaryColor").value = primary;
-        document.getElementById("buttonColor").value = secondary;
-        document.getElementById("mainAColor").value = mainA;
-        document.getElementById("mainBColor").value = mainB;
+        const c1 = document.getElementById("primaryColor");
+        const c2 = document.getElementById("buttonColor");
+        const c3 = document.getElementById("mainAColor");
+        const c4 = document.getElementById("mainBColor");
+        if (c1) c1.value = primary;
+        if (c2) c2.value = secondary;
+        if (c3) c3.value = mainA;
+        if (c4) c4.value = mainB;
       }
       function bindThemeEvents() {
         const c1 = document.getElementById("primaryColor");
         const c2 = document.getElementById("buttonColor");
         const c3 = document.getElementById("mainAColor");
         const c4 = document.getElementById("mainBColor");
+        const reset = document.getElementById("resetTheme");
+        if (!c1 || !c2 || !c3 || !c4 || !reset) return;
         const apply = () => {
           setTheme(c1.value, c2.value, c3.value, c4.value);
           saveTheme(c1.value, c2.value, c3.value, c4.value);
         };
         [c1, c2, c3, c4].forEach((el) => el.addEventListener("input", apply));
-        document.getElementById("resetTheme").addEventListener("click", (e) => {
+        reset.addEventListener("click", (e) => {
           e.preventDefault();
           setTheme("#1d3f82", "#143062", "#28a6ff", "#1873ff");
           saveTheme("#1d3f82", "#143062", "#28a6ff", "#1873ff");
@@ -538,6 +576,7 @@
         t();
         renderFeed();
       }
+      syncThemeToolsVisibility();
       loadTheme();
       bindThemeEvents();
       boot();
