@@ -2,89 +2,707 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>合作咨询</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Lead qualification page for AI Influence Intelligence. Build a proposal brief, prefill plan intent, copy, download, and prepare outreach from one page." />
+  <title>Contact / Proposal Brief</title>
   <script src="./assets/metrics.js" defer></script>
   <style>
-    :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5}
-    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
-    .wrap{max-width:860px;margin:0 auto;padding:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px}
-    .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;cursor:pointer}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px} input,select,textarea{width:100%;background:#0f1832;border:1px solid rgba(148,163,184,.35);color:#e2e8f0;border-radius:8px;padding:8px}
-    @media(max-width:760px){.grid{grid-template-columns:1fr}}
+    :root {
+      --bg: #09101f;
+      --card: rgba(17, 27, 52, 0.94);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #edf3ff;
+      --muted: #94a9d5;
+      --brand: #6ad3ff;
+      --brand-2: #1e73ff;
+      --ok: #4fd7a5;
+      --accent: #ffca63;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(43, 84, 181, 0.4), transparent 30%),
+        linear-gradient(180deg, #09101f 0%, #0b1328 100%);
+      font-family: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 18px; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(8, 16, 31, 0.72);
+      backdrop-filter: blur(16px);
+    }
+    .brand { font-size: 18px; font-weight: 800; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 11px;
+      border: 1px solid rgba(125, 177, 255, 0.42);
+      background: linear-gradient(135deg, #183a7a, #122c5a);
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn.main {
+      background: linear-gradient(135deg, #2ca7ff, #1f6dff);
+      border-color: rgba(113, 208, 255, 0.82);
+    }
+    .btn.ghost { background: rgba(255,255,255,0.04); }
+    .hero {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(106, 211, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(16, 26, 51, 0.94), rgba(10, 16, 32, 0.96));
+      padding: 22px;
+    }
+    h1 { margin: 0; font-size: 36px; line-height: 1.08; }
+    .sub { margin-top: 10px; color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 860px; }
+    .hero-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      font-size: 12px;
+      color: #d9e5ff;
+    }
+    .grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);
+      gap: 14px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--card);
+      padding: 16px;
+    }
+    .card h2, .card h3 { margin: 0; }
+    .card-copy { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .field-grid { margin-top: 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .field { display: grid; gap: 6px; }
+    .field label { color: var(--muted); font-size: 12px; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: #0d1730;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+    }
+    textarea { resize: vertical; min-height: 120px; }
+    .toolbar { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .notice {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(106, 211, 255, 0.24);
+      background: rgba(106, 211, 255, 0.08);
+      color: #d7e6ff;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .preview-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .plan-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 202, 99, 0.24);
+      background: rgba(255, 202, 99, 0.08);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .brief {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(8, 15, 30, 0.56);
+      white-space: pre-wrap;
+      line-height: 1.7;
+      color: #e8f0ff;
+      font-size: 13px;
+    }
+    .mini-grid { margin-top: 12px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .mini-kpi {
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+    .mini-kpi .k { color: var(--muted); font-size: 12px; }
+    .mini-kpi .v { margin-top: 6px; font-size: 18px; font-weight: 800; }
+    .list {
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+      max-height: 420px;
+      overflow: auto;
+    }
+    .lead-item {
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+    .lead-item strong { display: block; font-size: 14px; }
+    .lead-item span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      .field-grid, .mini-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 30px; }
+    }
   </style>
 </head>
 <body>
-<div class="wrap">
-  <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
-    <h2 id="title" data-zh="合作咨询" data-en="Lead Capture">合作咨询</h2>
-    <div style="display:flex;gap:8px"><a class="btn" href="./index.html" data-zh="首页" data-en="Home">首页</a><a class="btn" href="./commercial.html" data-zh="商业方案" data-en="Commercial">商业方案</a></div>
-  </div>
-  <div class="card">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">AI Influence Intelligence</div>
+      <div class="actions">
+        <a class="btn ghost" href="./index.html" data-zh="首页" data-en="Home">首页</a>
+        <a class="btn ghost" href="./commercial.html" data-zh="商业方案" data-en="Commercial">商业方案</a>
+        <a class="btn ghost" href="#" id="langBtn">EN</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1 data-zh="把你的需求整理成一份可以直接成交的商务简报" data-en="Turn your needs into a proposal brief that is ready for the next sales conversation">
+        把你的需求整理成一份可以直接成交的商务简报
+      </h1>
+      <p class="sub" data-zh="这页解决的不是“留个电话”这种低价值动作，而是先把团队类型、目标、预算、时间线和预期交付说清楚。这样你拿到的是一份可复制、可下载、可发邮件的商务简报，而不是零散线索。"
+         data-en="This page does more than collect a contact. It structures the team type, goals, budget, timeline, and expected deliverables into a brief you can copy, download, or turn into an email draft.">
+        这页解决的不是“留个电话”这种低价值动作，而是先把团队类型、目标、预算、时间线和预期交付说清楚。这样你拿到的是一份可复制、可下载、可发邮件的商务简报，而不是零散线索。
+      </p>
+      <div class="hero-row">
+        <span class="badge" id="intentBadge">当前模式：预约演示</span>
+        <span class="badge" id="sourceBadge">入口来源：直接访问</span>
+        <span class="badge" data-zh="支持复制、下载和邮件草稿" data-en="Supports copy, download, and email drafts">支持复制、下载和邮件草稿</span>
+      </div>
+    </section>
+
     <div class="grid">
-      <input id="name" placeholder="姓名/公司" />
-      <input id="contact" placeholder="邮箱或微信" />
-      <select id="plan">
-        <option value="daily_intel">每日情报订阅</option>
-        <option value="brand_poster">品牌海报分发</option>
-        <option value="kol_ops">KOL关系运营</option>
-        <option value="enterprise">企业定制版</option>
-      </select>
-      <input id="budget" placeholder="预算区间（如 5k-20k/月）" />
+      <section class="card">
+        <h2 data-zh="填写团队需求" data-en="Fill in the team brief">填写团队需求</h2>
+        <p class="card-copy" data-zh="建议至少填完团队、联系人、使用场景、预算和目标。右侧会实时生成一版可以直接发给商务或内部同事的简报。"
+           data-en="Fill in the team, contact, use case, budget, and goals. The proposal brief on the right updates live.">
+          建议至少填完团队、联系人、使用场景、预算和目标。右侧会实时生成一版可以直接发给商务或内部同事的简报。
+        </p>
+        <div class="field-grid">
+          <div class="field">
+            <label for="teamName" data-zh="团队 / 公司" data-en="Team / Company">团队 / 公司</label>
+            <input id="teamName" placeholder="例如：品牌市场部 / 投资研究团队" data-ph-zh="例如：品牌市场部 / 投资研究团队" data-ph-en="For example: brand marketing team / investment research team" />
+          </div>
+          <div class="field">
+            <label for="contact" data-zh="联系人 / 邮箱 / 微信" data-en="Contact / Email / WeChat">联系人 / 邮箱 / 微信</label>
+            <input id="contact" placeholder="例如：Alice / alice@company.com" data-ph-zh="例如：Alice / alice@company.com" data-ph-en="For example: Alice / alice@company.com" />
+          </div>
+          <div class="field">
+            <label for="teamType" data-zh="团队类型" data-en="Team Type">团队类型</label>
+            <select id="teamType">
+              <option value="research">研究 / 投资</option>
+              <option value="brand">品牌 / 内容</option>
+              <option value="ops">KOL / BD / 运营</option>
+              <option value="platform">平台 / 企业创新</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="plan" data-zh="目标套餐" data-en="Target Plan">目标套餐</label>
+            <select id="plan">
+              <option value="starter">Starter</option>
+              <option value="growth">Growth</option>
+              <option value="enterprise">Enterprise</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="goal" data-zh="核心目标" data-en="Primary Goal">核心目标</label>
+            <select id="goal">
+              <option value="intel">每日情报订阅</option>
+              <option value="distribution">品牌海报与传播资产</option>
+              <option value="ops">KOL 关系运营</option>
+              <option value="exec">管理层看板 / 行业追踪</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="timeline" data-zh="期望上线时间" data-en="Desired Timeline">期望上线时间</label>
+            <select id="timeline">
+              <option value="7d">7 天内</option>
+              <option value="14d">14 天内</option>
+              <option value="30d">30 天内</option>
+              <option value="custom">先沟通后确定</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="budget" data-zh="预算区间" data-en="Budget Range">预算区间</label>
+            <input id="budget" placeholder="例如：5k-20k / 月" data-ph-zh="例如：5k-20k / 月" data-ph-en="For example: 5k-20k / month" />
+          </div>
+          <div class="field">
+            <label for="accounts" data-zh="目标账号规模" data-en="Target Account Scope">目标账号规模</label>
+            <input id="accounts" type="number" min="10" max="5000" value="300" />
+          </div>
+        </div>
+        <div class="field" style="margin-top:10px">
+          <label for="deliverables" data-zh="期望交付物" data-en="Expected Deliverables">期望交付物</label>
+          <input id="deliverables" placeholder="例如：每日简报 / 品牌海报 / KOL 清单 / 管理层版周报" data-ph-zh="例如：每日简报 / 品牌海报 / KOL 清单 / 管理层版周报" data-ph-en="For example: daily briefings / branded posters / KOL lists / executive weekly updates" />
+        </div>
+        <div class="field" style="margin-top:10px">
+          <label for="notes" data-zh="补充说明" data-en="Additional Notes">补充说明</label>
+          <textarea id="notes" placeholder="例如：我们更关注大模型基础设施与开源作者，想每周做 2 次对外栏目输出。" data-ph-zh="例如：我们更关注大模型基础设施与开源作者，想每周做 2 次对外栏目输出。" data-ph-en="For example: we care more about model infrastructure and open-source creators, and want two public editorial outputs per week."></textarea>
+        </div>
+
+        <div class="toolbar">
+          <button class="btn main" id="saveLead" data-cta="lead_save" data-zh="保存线索" data-en="Save Lead">保存线索</button>
+          <button class="btn" id="copyBrief" data-cta="lead_copy" data-zh="复制商务简报" data-en="Copy Proposal Brief">复制商务简报</button>
+          <button class="btn" id="downloadTxt" data-cta="lead_download_txt" data-zh="下载 TXT" data-en="Download TXT">下载 TXT</button>
+          <button class="btn" id="downloadJson" data-cta="lead_download_json" data-zh="下载 JSON" data-en="Download JSON">下载 JSON</button>
+          <a class="btn ghost" href="#" id="mailtoLead" data-cta="lead_mailto" data-zh="生成邮件草稿" data-en="Create Email Draft">生成邮件草稿</a>
+        </div>
+
+        <div class="notice" id="contactNotice" data-zh="这页优先解决“把需求说清楚”这件事。你可以直接生成、复制、下载和发送商务简报；如果后续要接 CRM、表单或企业流程，再在下一阶段接入。"
+             data-en="This page is designed to clarify buyer intent first. You can generate, copy, download, and send a proposal brief now, then connect CRM or form workflows in the next stage if needed.">
+          这页优先解决“把需求说清楚”这件事。你可以直接生成、复制、下载和发送商务简报；如果后续要接 CRM、表单或企业流程，再在下一阶段接入。
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="preview-head">
+          <div>
+            <h2 data-zh="商务简报预览" data-en="Proposal Brief Preview">商务简报预览</h2>
+            <p class="card-copy" data-zh="这份简报会根据你的输入自动生成，适合发给商务、创始人、项目经理或内部决策人。"
+               data-en="This brief is generated live from your inputs and is suitable for BD, founders, PMs, or internal decision-makers.">
+              这份简报会根据你的输入自动生成，适合发给商务、创始人、项目经理或内部决策人。
+            </p>
+          </div>
+          <span class="plan-pill" id="recommendedPlan">Growth</span>
+        </div>
+
+        <div class="mini-grid">
+          <div class="mini-kpi">
+            <div class="k" data-zh="目标套餐" data-en="Requested Plan">目标套餐</div>
+            <div class="v" id="briefPlan">-</div>
+          </div>
+          <div class="mini-kpi">
+            <div class="k" data-zh="建议上线时间" data-en="Recommended Go-Live">建议上线时间</div>
+            <div class="v" id="briefGoLive">-</div>
+          </div>
+          <div class="mini-kpi">
+            <div class="k" data-zh="账号规模" data-en="Account Scope">账号规模</div>
+            <div class="v" id="briefAccounts">-</div>
+          </div>
+        </div>
+
+        <div class="brief" id="briefText"></div>
+
+        <div class="notice" id="nextAction" data-zh="建议下一步：复制这份简报，发给商务对接人或内部负责人，再根据反馈确定是 Starter、Growth 还是 Enterprise。"
+             data-en="Suggested next step: copy this brief to your BD counterpart or internal owner, then confirm whether Starter, Growth, or Enterprise is the right package.">
+          建议下一步：复制这份简报，发给商务对接人或内部负责人，再根据反馈确定是 Starter、Growth 还是 Enterprise。
+        </div>
+      </section>
     </div>
-    <textarea id="notes" rows="5" placeholder="你的目标与场景"></textarea>
-    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn" id="saveLead" data-cta="save_lead" data-zh="保存线索" data-en="Save Lead">保存线索</button>
-      <button class="btn" id="copyLead" data-cta="copy_lead" data-zh="复制线索文本" data-en="Copy Lead Text">复制线索文本</button>
-      <a class="btn" id="mailtoLead" data-cta="mailto_lead" href="#" data-zh="邮件发送" data-en="Send by Email">邮件发送</a>
-    </div>
+
+    <section class="card" style="margin-top:14px">
+      <h3 data-zh="最近保存的线索" data-en="Recently Saved Leads">最近保存的线索</h3>
+      <p class="card-copy" data-zh="这里仅展示当前浏览器里保存过的最近线索，用于你本地回看和继续编辑。"
+         data-en="This list only shows leads saved in the current browser for local review and editing.">
+        这里仅展示当前浏览器里保存过的最近线索，用于你本地回看和继续编辑。
+      </p>
+      <div class="list" id="leadList"></div>
+    </section>
   </div>
-  <div class="card">
-    <h3 style="margin-top:0" data-zh="最近线索" data-en="Recent Leads">最近线索</h3>
-    <pre id="list" style="white-space:pre-wrap"></pre>
-  </div>
-</div>
-<script>
-const KEY='xai_leads_v1';
-function getLeads(){try{const d=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(d)?d:[]}catch{return[]}}
-function saveLeads(arr){localStorage.setItem(KEY,JSON.stringify(arr.slice(-500)))}
-function leadObj(){
-  return {
-    ts:new Date().toISOString(),
-    name:document.getElementById('name').value.trim(),
-    contact:document.getElementById('contact').value.trim(),
-    plan:document.getElementById('plan').value,
-    budget:document.getElementById('budget').value.trim(),
-    notes:document.getElementById('notes').value.trim(),
-  };
-}
-function render(){document.getElementById('list').textContent=JSON.stringify(getLeads().slice(-20).reverse(),null,2)}
-function asText(x){return `time=${x.ts}\nname=${x.name}\ncontact=${x.contact}\nplan=${x.plan}\nbudget=${x.budget}\nnotes=${x.notes}`}
 
-document.getElementById('saveLead').addEventListener('click',()=>{
-  const x=leadObj();
-  if(!x.name||!x.contact){alert('请填写姓名/公司和联系方式');return;}
-  const arr=getLeads(); arr.push(x); saveLeads(arr); render();
-  if(window.XAIMetrics) window.XAIMetrics.track('lead_saved',{plan:x.plan});
-  alert('线索已保存');
-});
+  <script>
+    const KEY = "xai_leads_v2";
+    const langKey = "xai_lang";
+    let lang = localStorage.getItem(langKey) || "zh";
 
-document.getElementById('copyLead').addEventListener('click',async()=>{
-  const x=leadObj();
-  const txt=asText(x);
-  try{await navigator.clipboard.writeText(txt); alert('已复制');}catch{prompt('复制以下内容：',txt)}
-});
+      const planNames = {
+        starter: "Starter",
+        growth: "Growth",
+        enterprise: "Enterprise",
+      };
 
-document.getElementById('mailtoLead').addEventListener('click',(e)=>{
-  const x=leadObj();
-  const subject=encodeURIComponent('AI Influence 合作咨询');
-  const body=encodeURIComponent(asText(x));
-  e.currentTarget.href=`mailto:?subject=${subject}&body=${body}`;
-});
-render();
-const L=localStorage.getItem('xai_lang')||'zh';
-document.querySelectorAll('[data-zh]').forEach(el=>{el.textContent=el.getAttribute(L==='zh'?'data-zh':'data-en');});
-</script>
-<script src="./assets/share-fab.js" defer></script>
+      const optionLabels = {
+        teamType: {
+          zh: { research: "研究 / 投资", brand: "品牌 / 内容", ops: "KOL / BD / 运营", platform: "平台 / 企业创新" },
+          en: { research: "Research / Investment", brand: "Brand / Content", ops: "KOL / BD / Ops", platform: "Platform / Innovation" },
+        },
+        goal: {
+          zh: { intel: "每日情报订阅", distribution: "品牌海报与传播资产", ops: "KOL 关系运营", exec: "管理层看板 / 行业追踪" },
+          en: { intel: "Daily intelligence subscription", distribution: "Branded posters and distribution assets", ops: "KOL relationship ops", exec: "Executive dashboard / industry tracking" },
+        },
+        timeline: {
+          zh: { "7d": "7 天内", "14d": "14 天内", "30d": "30 天内", custom: "先沟通后确定" },
+          en: { "7d": "Within 7 days", "14d": "Within 14 days", "30d": "Within 30 days", custom: "Discuss first" },
+        },
+      };
+
+    function readParams() {
+      const p = new URLSearchParams(location.search);
+      return {
+        intent: p.get("intent") || "demo",
+        source: p.get("source") || "direct",
+        plan: p.get("plan") || "",
+      };
+    }
+
+    function applyLang() {
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      document.title = lang === "zh" ? "联系 / 商务简报" : "Contact / Proposal Brief";
+      document.querySelectorAll("[data-zh]").forEach((el) => {
+        el.textContent = el.getAttribute(lang === "zh" ? "data-zh" : "data-en");
+      });
+      document.querySelectorAll("[data-ph-zh]").forEach((el) => {
+        el.placeholder = el.getAttribute(lang === "zh" ? "data-ph-zh" : "data-ph-en");
+      });
+      Object.entries(optionLabels).forEach(([id, dict]) => {
+        const select = document.getElementById(id);
+        if (!select) return;
+        Array.from(select.options).forEach((opt) => {
+          const label = (dict[lang] || {})[opt.value];
+          if (label) opt.textContent = label;
+        });
+      });
+      const btn = document.getElementById("langBtn");
+      if (btn) btn.textContent = lang === "zh" ? "EN" : "中文";
+    }
+
+    function getLeads() {
+      try {
+        const raw = localStorage.getItem(KEY) || "[]";
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveLeads(arr) {
+      localStorage.setItem(KEY, JSON.stringify(arr.slice(-300)));
+    }
+
+    function inferPlan(teamType, goal, budget, accounts) {
+      const budgetStr = (budget || "").toLowerCase();
+      const numericBudget = Number((budgetStr.match(/\d+/) || [0])[0]);
+      if (teamType === "platform" || goal === "ops" || accounts >= 800 || numericBudget >= 40) return "enterprise";
+      if (teamType === "brand" || goal === "distribution" || numericBudget >= 10) return "growth";
+      return "starter";
+    }
+
+    function collect() {
+      return {
+        ts: new Date().toISOString(),
+        teamName: document.getElementById("teamName").value.trim(),
+        contact: document.getElementById("contact").value.trim(),
+        teamType: document.getElementById("teamType").value,
+        plan: document.getElementById("plan").value,
+        goal: document.getElementById("goal").value,
+        timeline: document.getElementById("timeline").value,
+        budget: document.getElementById("budget").value.trim(),
+        accounts: Number(document.getElementById("accounts").value || 0),
+        deliverables: document.getElementById("deliverables").value.trim(),
+        notes: document.getElementById("notes").value.trim(),
+        source: readParams().source,
+        intent: readParams().intent,
+      };
+    }
+
+    function goLiveText(timeline) {
+      if (timeline === "7d") return lang === "zh" ? "7 天内" : "Within 7 days";
+      if (timeline === "14d") return lang === "zh" ? "14 天内" : "Within 14 days";
+      if (timeline === "30d") return lang === "zh" ? "30 天内" : "Within 30 days";
+      return lang === "zh" ? "待沟通" : "TBD";
+    }
+
+    function describeIntent(intent) {
+      const map = {
+        zh: {
+          demo: "当前模式：预约演示",
+          proposal: "当前模式：生成方案",
+          trial: "当前模式：申请试用",
+          enterprise: "当前模式：企业咨询",
+          intel: "当前模式：情报订阅",
+          distribution: "当前模式：品牌版咨询",
+          ops: "当前模式：关系运营咨询",
+        },
+        en: {
+          demo: "Mode: book demo",
+          proposal: "Mode: generate proposal",
+          trial: "Mode: request trial",
+          enterprise: "Mode: enterprise inquiry",
+          intel: "Mode: intelligence subscription",
+          distribution: "Mode: branded distribution",
+          ops: "Mode: relationship ops",
+        },
+      };
+      return (map[lang] || {})[intent] || (lang === "zh" ? `当前模式：${intent}` : `Mode: ${intent}`);
+    }
+
+    function describeSource(source) {
+      const map = {
+        zh: {
+          direct: "入口来源：直接访问",
+          home: "入口来源：首页",
+          commercial: "入口来源：商业页",
+          commercial_bottom: "入口来源：商业页底部",
+          home_bottom: "入口来源：首页底部",
+        },
+        en: {
+          direct: "Entry: direct visit",
+          home: "Entry: homepage",
+          commercial: "Entry: commercial page",
+          commercial_bottom: "Entry: commercial page footer",
+          home_bottom: "Entry: homepage footer",
+        },
+      };
+      return (map[lang] || {})[source] || (lang === "zh" ? `入口来源：${source}` : `Entry: ${source}`);
+    }
+
+    function refreshMetaBadges() {
+      const params = readParams();
+      document.getElementById("intentBadge").textContent = describeIntent(params.intent);
+      document.getElementById("sourceBadge").textContent = describeSource(params.source);
+    }
+
+    function buildBrief(x) {
+      const recommendedPlan = inferPlan(x.teamType, x.goal, x.budget, x.accounts);
+      const selectedPlan = x.plan || recommendedPlan;
+      const name = x.teamName || (lang === "zh" ? "未填写团队" : "Unnamed team");
+      const contact = x.contact || (lang === "zh" ? "未填写联系人" : "No contact provided");
+      const deliverables = x.deliverables || (lang === "zh" ? "每日简报 / 海报 / 人物页 / 圈层图" : "briefings / posters / profiles / layer map");
+      const notes = x.notes || (lang === "zh" ? "暂无补充说明" : "No extra notes");
+      const goalMapZh = {
+        intel: "每日情报订阅",
+        distribution: "品牌海报与传播资产",
+        ops: "KOL 关系运营",
+        exec: "管理层看板 / 行业追踪",
+      };
+      const goalMapEn = {
+        intel: "daily intelligence subscription",
+        distribution: "brand poster and distribution assets",
+        ops: "KOL relationship ops",
+        exec: "executive dashboard and industry tracking",
+      };
+      const teamMapZh = {
+        research: "研究 / 投资团队",
+        brand: "品牌 / 内容团队",
+        ops: "KOL / BD / 运营团队",
+        platform: "平台 / 企业创新团队",
+      };
+      const teamMapEn = {
+        research: "research / investment team",
+        brand: "brand / content team",
+        ops: "KOL / BD / operations team",
+        platform: "platform / innovation team",
+      };
+      const planText = planNames[selectedPlan];
+      const recommendedText = planNames[recommendedPlan];
+      const header = lang === "zh" ? "AI Influence 商务简报" : "AI Influence Proposal Brief";
+      const body = lang === "zh"
+        ? `${header}
+
+时间：${x.ts}
+来源：${x.source}
+意图：${x.intent}
+
+团队：${name}
+联系人：${contact}
+团队类型：${teamMapZh[x.teamType] || x.teamType}
+
+目标套餐：${planText}
+系统建议：${recommendedText}
+目标场景：${goalMapZh[x.goal] || x.goal}
+期望上线：${goLiveText(x.timeline)}
+预算区间：${x.budget || "待补充"}
+目标账号规模：Top${x.accounts || 0}
+
+期望交付物：
+${deliverables}
+
+补充说明：
+${notes}
+
+建议下一步：
+1. 先用 ${planText} 跑首版验证。
+2. 先确认样本范围、更新频率和输出节奏。
+3. 如果需要更稳数据源、私有名单或白标，再升级到 Enterprise。`
+        : `${header}
+
+Time: ${x.ts}
+Source: ${x.source}
+Intent: ${x.intent}
+
+Team: ${name}
+Contact: ${contact}
+Team type: ${teamMapEn[x.teamType] || x.teamType}
+
+Requested plan: ${planText}
+System recommendation: ${recommendedText}
+Primary goal: ${goalMapEn[x.goal] || x.goal}
+Desired go-live: ${goLiveText(x.timeline)}
+Budget: ${x.budget || "TBD"}
+Target account scope: Top${x.accounts || 0}
+
+Expected deliverables:
+${deliverables}
+
+Additional notes:
+${notes}
+
+Suggested next steps:
+1. Validate the first release with ${planText}.
+2. Confirm scope, refresh cadence, and output rhythm.
+3. Upgrade to Enterprise only if stronger data, private watchlists, or white-label delivery are required.`;
+
+      return { selectedPlan, recommendedPlan, text: body };
+    }
+
+    function renderPreview() {
+      const x = collect();
+      const brief = buildBrief(x);
+      document.getElementById("briefText").textContent = brief.text;
+      document.getElementById("briefPlan").textContent = planNames[brief.selectedPlan];
+      document.getElementById("recommendedPlan").textContent = `${lang === "zh" ? "系统建议" : "Recommended"} · ${planNames[brief.recommendedPlan]}`;
+      document.getElementById("briefGoLive").textContent = goLiveText(x.timeline);
+      document.getElementById("briefAccounts").textContent = `Top${x.accounts || 0}`;
+    }
+
+    function renderLeads() {
+      const rows = getLeads().slice(-12).reverse();
+      const box = document.getElementById("leadList");
+      if (!rows.length) {
+        box.innerHTML = `<div class="lead-item"><strong>${lang === "zh" ? "还没有保存的线索" : "No saved leads yet"}</strong><span>${lang === "zh" ? "填写左侧表单后点击保存线索，这里会出现最近记录。" : "Fill the form and save a lead to see recent entries here."}</span></div>`;
+        return;
+      }
+      box.innerHTML = rows.map((x) => `
+        <div class="lead-item">
+          <strong>${x.teamName || (lang === "zh" ? "未命名团队" : "Unnamed team")} · ${planNames[x.plan || inferPlan(x.teamType, x.goal, x.budget, Number(x.accounts || 0))]}</strong>
+          <span>${x.contact || "-"}</span>
+          <span>${((optionLabels.goal || {})[lang] || {})[x.goal] || x.goal || "-"} · Top${x.accounts || 0} · ${x.budget || "-"}</span>
+        </div>
+      `).join("");
+    }
+
+    function download(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyText(text) {
+      return navigator.clipboard.writeText(text).catch(() => {
+        window.prompt(lang === "zh" ? "复制以下内容：" : "Copy this text:", text);
+      });
+    }
+
+    function applyQueryPrefill() {
+      const params = readParams();
+      if (params.plan && planNames[params.plan]) {
+        document.getElementById("plan").value = params.plan;
+      }
+      if (params.intent === "proposal") {
+        document.getElementById("goal").value = "distribution";
+      }
+      if (params.intent === "enterprise") {
+        document.getElementById("teamType").value = "platform";
+        document.getElementById("plan").value = "enterprise";
+      }
+      if (params.intent === "trial") {
+        document.getElementById("plan").value = "starter";
+      }
+      refreshMetaBadges();
+    }
+
+    document.getElementById("langBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      lang = lang === "zh" ? "en" : "zh";
+      localStorage.setItem(langKey, lang);
+      applyLang();
+      refreshMetaBadges();
+      renderPreview();
+      renderLeads();
+    });
+
+    ["teamName", "contact", "teamType", "plan", "goal", "timeline", "budget", "accounts", "deliverables", "notes"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", renderPreview);
+      document.getElementById(id).addEventListener("change", renderPreview);
+    });
+
+    document.getElementById("saveLead").addEventListener("click", () => {
+      const x = collect();
+      if (!x.teamName || !x.contact) {
+        alert(lang === "zh" ? "请至少填写团队和联系人" : "Please fill in at least the team and contact.");
+        return;
+      }
+      const rows = getLeads();
+      rows.push(x);
+      saveLeads(rows);
+      renderLeads();
+      renderPreview();
+      if (window.XAIMetrics) window.XAIMetrics.track("lead_saved", { plan: x.plan, goal: x.goal, source: x.source });
+      alert(lang === "zh" ? "线索已保存到当前浏览器" : "Lead saved in this browser.");
+    });
+
+    document.getElementById("copyBrief").addEventListener("click", async () => {
+      const brief = buildBrief(collect());
+      await copyText(brief.text);
+    });
+
+    document.getElementById("downloadTxt").addEventListener("click", () => {
+      const x = collect();
+      const brief = buildBrief(x);
+      const name = (x.teamName || "proposal").replace(/[^\w\u4e00-\u9fa5-]+/g, "_");
+      download(`${name}_proposal.txt`, brief.text, "text/plain;charset=utf-8");
+    });
+
+    document.getElementById("downloadJson").addEventListener("click", () => {
+      const x = collect();
+      const name = (x.teamName || "proposal").replace(/[^\w\u4e00-\u9fa5-]+/g, "_");
+      download(`${name}_proposal.json`, JSON.stringify(x, null, 2), "application/json;charset=utf-8");
+    });
+
+    document.getElementById("mailtoLead").addEventListener("click", (e) => {
+      const x = collect();
+      const brief = buildBrief(x).text;
+      const subject = encodeURIComponent(lang === "zh" ? "AI Influence 合作简报" : "AI Influence Proposal Brief");
+      const body = encodeURIComponent(brief);
+      e.currentTarget.href = `mailto:?subject=${subject}&body=${body}`;
+    });
+
+    applyLang();
+    applyQueryPrefill();
+    renderPreview();
+    renderLeads();
+  </script>
+  <script src="./assets/share-fab.js" defer></script>
 </body>
 </html>

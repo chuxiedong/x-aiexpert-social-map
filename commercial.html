@@ -2,76 +2,742 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>商业化方案</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Commercial plans for AI Influence Intelligence: daily intelligence, branded distribution, KOL ops, ROI calculator, onboarding path, and enterprise delivery." />
+  <title>Commercial Plans</title>
   <script src="./assets/metrics.js" defer></script>
   <style>
-    :root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--ok:#49d6a6}
-    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
-    .wrap{max-width:1160px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
-    .btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;cursor:pointer}
-    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
-    .price{font-size:26px;font-weight:800;margin:6px 0}.muted{color:var(--muted);font-size:12px}.ok{color:var(--ok)}
-    @media(max-width:920px){.grid{grid-template-columns:1fr}}
+    :root {
+      --bg: #09101f;
+      --card: rgba(16, 26, 51, 0.92);
+      --card-strong: rgba(12, 22, 44, 0.98);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #eef4ff;
+      --muted: #93a9d6;
+      --brand: #71d0ff;
+      --brand-2: #2c77ff;
+      --accent: #ffca63;
+      --ok: #53dbab;
+      --danger: #ff8f90;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(51, 95, 189, 0.42), transparent 28%),
+        radial-gradient(circle at 100% 0%, rgba(113, 208, 255, 0.16), transparent 24%),
+        linear-gradient(180deg, #08101f 0%, #0a1226 100%);
+      font-family: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 18px; }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(8, 16, 31, 0.72);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+    }
+    .brand { font-size: 18px; font-weight: 800; letter-spacing: 0.02em; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 11px;
+      border: 1px solid rgba(125, 177, 255, 0.42);
+      background: linear-gradient(135deg, #183a7a, #122c5a);
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn.main {
+      background: linear-gradient(135deg, #2ca7ff, #1f6dff);
+      border-color: rgba(113, 208, 255, 0.82);
+      box-shadow: 0 10px 24px rgba(44, 119, 255, 0.26);
+    }
+    .btn.ghost {
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .hero {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 86% 12%, rgba(113, 208, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(16, 26, 51, 0.92), rgba(10, 16, 32, 0.96));
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    }
+    .hero-main { padding: 24px; }
+    .hero-side {
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(8, 15, 30, 0.52), rgba(8, 15, 30, 0.1));
+    }
+    h1 { margin: 0; font-size: 42px; line-height: 1.06; max-width: 760px; }
+    .sub {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 760px;
+    }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .chip {
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      color: #d9e6ff;
+      font-size: 12px;
+    }
+    .hero-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .metrics {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .metric, .mini-card, .section-card, .plan-card, .faq-item, .calc-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+    }
+    .metric { padding: 14px; }
+    .metric .k { color: var(--muted); font-size: 12px; }
+    .metric .v { margin-top: 6px; font-size: 24px; font-weight: 800; }
+    .hero-side h3 { margin: 0; font-size: 16px; }
+    .hero-side p { margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .side-list { margin-top: 14px; display: grid; gap: 10px; }
+    .mini-card { padding: 12px; }
+    .mini-card strong { display: block; font-size: 14px; }
+    .mini-card span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .section { margin-top: 18px; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .section h2 { margin: 0; font-size: 24px; }
+    .section p.head-copy { margin: 0; color: var(--muted); font-size: 13px; max-width: 760px; line-height: 1.6; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .section-card { padding: 16px; }
+    .section-card h3 { margin: 0 0 8px; font-size: 18px; }
+    .section-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .plan-card { padding: 16px; position: relative; overflow: hidden; }
+    .plan-card.featured {
+      background:
+        radial-gradient(circle at 100% 0%, rgba(113, 208, 255, 0.12), transparent 24%),
+        linear-gradient(180deg, rgba(19, 41, 81, 0.98), rgba(12, 25, 52, 0.96));
+      border-color: rgba(113, 208, 255, 0.38);
+    }
+    .plan-badge {
+      display: inline-flex;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(255, 202, 99, 0.14);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .price { margin-top: 10px; font-size: 30px; font-weight: 800; }
+    .price small { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .plan-copy { margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.7; min-height: 64px; }
+    .feature-list { margin-top: 12px; display: grid; gap: 8px; }
+    .feature-item { color: #dce7ff; font-size: 13px; line-height: 1.5; }
+    .feature-item::before { content: "● "; color: var(--ok); }
+    .plan-foot { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .matrix {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card-strong);
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 860px; }
+    th, td { padding: 14px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: left; font-size: 13px; }
+    th { color: #cfe0ff; background: rgba(255,255,255,0.03); }
+    td { color: #eaf1ff; }
+    td.muted { color: var(--muted); }
+    .calc-grid { display: grid; grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.05fr); gap: 12px; }
+    .calc-card { padding: 16px; }
+    .calc-card h3 { margin: 0 0 10px; font-size: 18px; }
+    .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .field { display: grid; gap: 6px; }
+    .field label { color: var(--muted); font-size: 12px; }
+    .field input, .field select {
+      width: 100%;
+      padding: 10px 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: #0d1730;
+      color: var(--text);
+    }
+    .calc-output {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .calc-kpi {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+    .calc-kpi .k { color: var(--muted); font-size: 12px; }
+    .calc-kpi .v { margin-top: 6px; font-size: 22px; font-weight: 800; }
+    .timeline { display: grid; gap: 10px; }
+    .timeline-step {
+      display: grid;
+      grid-template-columns: 68px 1fr;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--card);
+    }
+    .timeline-step b {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: rgba(113, 208, 255, 0.12);
+      color: var(--brand);
+      font-size: 13px;
+      font-weight: 800;
+      min-height: 44px;
+    }
+    .timeline-step strong { display: block; font-size: 15px; }
+    .timeline-step span { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .faq-grid { display: grid; gap: 10px; }
+    .faq-item { padding: 16px; }
+    .faq-item strong { display: block; font-size: 15px; }
+    .faq-item span { display: block; margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .cta-panel {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(113, 208, 255, 0.24);
+      background:
+        radial-gradient(circle at 100% 0%, rgba(113, 208, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(15, 27, 55, 0.96), rgba(9, 17, 33, 0.96));
+    }
+    .cta-panel h2 { margin: 0; font-size: 24px; }
+    .cta-panel p { margin: 10px 0 0; color: var(--muted); line-height: 1.7; }
+    .note { color: var(--muted); font-size: 12px; line-height: 1.7; }
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-side { border-left: 0; border-top: 1px solid rgba(255,255,255,0.08); }
+      .grid-3, .grid-2, .metrics, .calc-output, .calc-grid { grid-template-columns: 1fr; }
+      .field-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 34px; }
+    }
   </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="top">
-    <h2 id="title" data-zh="商业化方案" data-en="Monetization Blueprint">商业化方案</h2>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <a class="btn" href="./index.html" data-zh="首页" data-en="Home">首页</a>
-      <a class="btn" href="./contact.html" data-cta="go_contact" data-zh="发起合作" data-en="Start Partnership">发起合作</a>
-      <a class="btn" href="./ops.html" data-zh="运营看板" data-en="Ops Dashboard">运营看板</a>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">AI Influence Intelligence</div>
+      <div class="actions">
+        <a class="btn ghost" href="./index.html" data-zh="首页" data-en="Home">首页</a>
+        <a class="btn ghost" href="./insights.html" data-zh="最新分享" data-en="Latest Shares">最新分享</a>
+        <a class="btn ghost" href="./daily_briefing.html" data-zh="Top10" data-en="Top10">Top10</a>
+        <a class="btn ghost" href="#" id="langBtn">EN</a>
+        <a class="btn main" href="./contact.html?intent=demo&source=commercial" data-cta="commercial_demo_top" data-zh="预约演示" data-en="Book a Demo">预约演示</a>
+      </div>
     </div>
+
+    <section class="hero">
+      <div class="hero-main">
+        <h1 data-zh="把 AI 社交情报变成可卖的订阅、品牌传播和关系运营产品" data-en="Turn AI social intelligence into a sellable subscription, distribution system, and relationship-ops product">
+          把 AI 社交情报变成可卖的订阅、品牌传播和关系运营产品
+        </h1>
+        <p class="sub" data-zh="这页不是讲概念，而是把这套产品可以怎么卖、卖给谁、多久上线、能替团队省下多少分析和内容整理时间讲清楚。第一版商业完全态的重点是：先把公开样本、观点入口、海报导出和成交路径跑顺，再把数据源升级为更稳的企业交付。"
+           data-en="This page is not about abstractions. It explains who to sell this to, what gets delivered, how fast it can go live, and how much analyst and content-ops time it can save. The first commercial version focuses on stable public-sample delivery, insight workflows, poster exports, and a clear conversion path.">
+          这页不是讲概念，而是把这套产品可以怎么卖、卖给谁、多久上线、能替团队省下多少分析和内容整理时间讲清楚。第一版商业完全态的重点是：先把公开样本、观点入口、海报导出和成交路径跑顺，再把数据源升级为更稳的企业交付。
+        </p>
+        <div class="chips">
+          <span class="chip" data-zh="面向研究 / 品牌 / 投资团队" data-en="Built for research / brand / investment teams">面向研究 / 品牌 / 投资团队</span>
+          <span class="chip" data-zh="交付：网页 + 简报 + 海报 + 人物雷达" data-en="Delivery: site + briefings + posters + profile radar">交付：网页 + 简报 + 海报 + 人物雷达</span>
+          <span class="chip" data-zh="适合第一版商用验证" data-en="Ready for first commercial validation">适合第一版商用验证</span>
+        </div>
+        <div class="hero-cta">
+          <a class="btn main" href="./contact.html?intent=proposal&source=commercial" data-cta="commercial_get_proposal" data-zh="获取方案" data-en="Get Proposal">获取方案</a>
+          <a class="btn" href="#plans" data-cta="commercial_view_plans" data-zh="看套餐" data-en="View Plans">看套餐</a>
+          <a class="btn" href="#roi" data-cta="commercial_view_roi" data-zh="算 ROI" data-en="Calculate ROI">算 ROI</a>
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <div class="k" data-zh="推荐上线时间" data-en="Recommended Launch Window">推荐上线时间</div>
+            <div class="v">14d</div>
+          </div>
+          <div class="metric">
+            <div class="k" data-zh="适合首版样本规模" data-en="Good First-Release Scope">适合首版样本规模</div>
+            <div class="v">Top300</div>
+          </div>
+          <div class="metric">
+            <div class="k" data-zh="核心交付物" data-en="Core Deliverables">核心交付物</div>
+            <div class="v">4 类</div>
+          </div>
+        </div>
+      </div>
+      <aside class="hero-side">
+        <h3 data-zh="首版商业交付包含什么" data-en="What the First Commercial Release Includes">首版商业交付包含什么</h3>
+        <p data-zh="你拿到的不是单一网页，而是一套可连续运营的工作流：人物识别、观点提炼、圈层结构、传播素材、成交线索入口。"
+           data-en="You are not buying a single page. You are buying an operating workflow: key-person tracking, viewpoint extraction, circle structure, shareable assets, and lead capture.">
+          你拿到的不是单一网页，而是一套可连续运营的工作流：人物识别、观点提炼、圈层结构、传播素材、成交线索入口。
+        </p>
+        <div class="side-list">
+          <div class="mini-card">
+            <strong data-zh="研究订阅" data-en="Research Subscription">研究订阅</strong>
+            <span data-zh="每日 AI 进展、最新分享、Top10 观点、关键人物变化，适合研究员和投资团队。"
+                  data-en="Daily AI progress, latest shares, Top10 insights, and key-person changes for research and investment teams.">
+              每日 AI 进展、最新分享、Top10 观点、关键人物变化，适合研究员和投资团队。
+            </span>
+          </div>
+          <div class="mini-card">
+            <strong data-zh="品牌分发" data-en="Brand Distribution">品牌分发</strong>
+            <span data-zh="把观点整理成品牌海报和长图，给市场、活动、社媒团队直接使用。"
+                  data-en="Turn insights into branded posters and long-form assets for content, social, and event teams.">
+              把观点整理成品牌海报和长图，给市场、活动、社媒团队直接使用。
+            </span>
+          </div>
+          <div class="mini-card">
+            <strong data-zh="关系运营" data-en="Relationship Ops">关系运营</strong>
+            <span data-zh="用圈层图和最佳互动基友，定位合作对象、连接人和关键节点。"
+                  data-en="Use layer maps and best buddies to identify connectors, partnerships, and high-leverage targets.">
+              用圈层图和最佳互动基友，定位合作对象、连接人和关键节点。
+            </span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2 data-zh="谁会买这套产品" data-en="Who Buys This Product">谁会买这套产品</h2>
+        <p class="head-copy" data-zh="这不是泛资讯网站，而是偏 B2B 的工作台。你卖的是节省研究时间、提高传播效率、缩短找到关键人的路径。"
+           data-en="This is not a generic media site. It is a B2B working desk that saves research time, improves distribution speed, and shortens the path to key people.">
+          这不是泛资讯网站，而是偏 B2B 的工作台。你卖的是节省研究时间、提高传播效率、缩短找到关键人的路径。
+        </p>
+      </div>
+      <div class="grid-3">
+        <div class="section-card">
+          <h3 data-zh="研究与投资团队" data-en="Research & Investment Teams">研究与投资团队</h3>
+          <p data-zh="看关键人物、追日更动态、理解圈层变化，减少手动扫 X 和整理周报的时间。"
+             data-en="Track key people, monitor daily shifts, and understand layer changes without manually scanning X and writing updates from scratch.">
+            看关键人物、追日更动态、理解圈层变化，减少手动扫 X 和整理周报的时间。
+          </p>
+        </div>
+        <div class="section-card">
+          <h3 data-zh="品牌与内容团队" data-en="Brand & Content Teams">品牌与内容团队</h3>
+          <p data-zh="把每日观点和 Top10 直接做成品牌海报、传播长图和栏目内容，提升内容产出效率。"
+             data-en="Turn daily insights and Top10 into branded posters, long-form assets, and repeatable distribution content.">
+            把每日观点和 Top10 直接做成品牌海报、传播长图和栏目内容，提升内容产出效率。
+          </p>
+        </div>
+        <div class="section-card">
+          <h3 data-zh="KOL / BD / 运营团队" data-en="KOL / BD / Ops Teams">KOL / BD / 运营团队</h3>
+          <p data-zh="结合圈层结构和关系强度，定位关键连接人，为邀约、合作和社群增长提供依据。"
+             data-en="Use layers and relationship strength to identify connectors for outreach, partnerships, and community growth.">
+            结合圈层结构和关系强度，定位关键连接人，为邀约、合作和社群增长提供依据。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="plans">
+      <div class="section-head">
+        <h2 data-zh="套餐与价格带" data-en="Plans & Price Bands">套餐与价格带</h2>
+        <p class="head-copy" data-zh="首版先把三档产品卖清楚：团队试用、增长版、企业版。后面可以再拆 API、白标、私有部署。"
+           data-en="Start by selling three clear offers: trial, growth, and enterprise. API, white-label, and private deployment can come later.">
+          首版先把三档产品卖清楚：团队试用、增长版、企业版。后面可以再拆 API、白标、私有部署。
+        </p>
+      </div>
+      <div class="grid-3">
+        <div class="plan-card" data-plan="starter">
+          <span class="plan-badge" data-zh="试用版" data-en="Starter">试用版</span>
+          <div class="price">¥3,999 <small data-zh="/ 月" data-en="/ month">/ 月</small></div>
+          <div class="plan-copy" data-zh="适合 1-3 人团队，先验证这套情报台是否能替代手工整理与周报生产。"
+               data-en="Best for 1-3 person teams that want to validate the workflow before scaling internally.">
+            适合 1-3 人团队，先验证这套情报台是否能替代手工整理与周报生产。
+          </div>
+          <div class="feature-list">
+            <div class="feature-item" data-zh="每日 AI 进展 + Top10 简报" data-en="Daily AI progress + Top10 briefing">每日 AI 进展 + Top10 简报</div>
+            <div class="feature-item" data-zh="最新分享与人物页画像" data-en="Latest share stream + profile pages">最新分享与人物页画像</div>
+            <div class="feature-item" data-zh="基础海报导出与分享" data-en="Basic poster export and sharing">基础海报导出与分享</div>
+            <div class="feature-item" data-zh="每周一次圈层复盘" data-en="One weekly layer review">每周一次圈层复盘</div>
+          </div>
+          <div class="plan-foot">
+            <a class="btn main" href="./contact.html?plan=starter&intent=trial&source=commercial" data-cta="starter_trial" data-zh="申请试用" data-en="Request Trial">申请试用</a>
+            <a class="btn" href="./daily_progress.html" data-zh="查看样例" data-en="View Sample">查看样例</a>
+          </div>
+        </div>
+
+        <div class="plan-card featured" data-plan="growth">
+          <span class="plan-badge" data-zh="推荐版" data-en="Recommended">推荐版</span>
+          <div class="price">¥12,999 <small data-zh="/ 月" data-en="/ month">/ 月</small></div>
+          <div class="plan-copy" data-zh="适合品牌市场、内容团队和小型运营团队，把观点监测和品牌传播合在一起卖。"
+               data-en="Best for brand, content, and lean operations teams that need both monitoring and distribution.">
+            适合品牌市场、内容团队和小型运营团队，把观点监测和品牌传播合在一起卖。
+          </div>
+          <div class="feature-list">
+            <div class="feature-item" data-zh="自选博主海报 + 品牌主题模板" data-en="Custom creator posters + branded templates">自选博主海报 + 品牌主题模板</div>
+            <div class="feature-item" data-zh="Top10 聚合海报与栏目化输出" data-en="Top10 posters and editorial outputs">Top10 聚合海报与栏目化输出</div>
+            <div class="feature-item" data-zh="最佳互动基友与关系运营清单" data-en="Best-buddy lists for relationship ops">最佳互动基友与关系运营清单</div>
+            <div class="feature-item" data-zh="每周运营复盘与选题建议" data-en="Weekly ops review and content suggestions">每周运营复盘与选题建议</div>
+          </div>
+          <div class="plan-foot">
+            <a class="btn main" href="./contact.html?plan=growth&intent=demo&source=commercial" data-cta="growth_demo" data-zh="预约演示" data-en="Book Demo">预约演示</a>
+            <a class="btn" href="#roi" data-zh="先算 ROI" data-en="Calculate ROI">先算 ROI</a>
+          </div>
+        </div>
+
+        <div class="plan-card" data-plan="enterprise">
+          <span class="plan-badge" data-zh="企业版" data-en="Enterprise">企业版</span>
+          <div class="price">¥49,999+ <small data-zh="/ 月" data-en="/ month">/ 月</small></div>
+          <div class="plan-copy" data-zh="适合投资机构、研究院、大型平台或需要私有名单和更稳数据源的团队。"
+               data-en="For institutions, research labs, and larger platforms that need private watchlists and stronger data infrastructure.">
+            适合投资机构、研究院、大型平台或需要私有名单和更稳数据源的团队。
+          </div>
+          <div class="feature-list">
+            <div class="feature-item" data-zh="更稳数据源与更高刷新频率" data-en="Stronger data source and higher refresh cadence">更稳数据源与更高刷新频率</div>
+            <div class="feature-item" data-zh="私有名单、权限、角色分层" data-en="Private watchlists, roles, and access control">私有名单、权限、角色分层</div>
+            <div class="feature-item" data-zh="定制模型、定制标签、定制交付" data-en="Custom models, tags, and deliverables">定制模型、定制标签、定制交付</div>
+            <div class="feature-item" data-zh="白标、API、SLA 与顾问支持" data-en="White-label, API, SLA, and advisory support">白标、API、SLA 与顾问支持</div>
+          </div>
+          <div class="plan-foot">
+            <a class="btn main" href="./contact.html?plan=enterprise&intent=enterprise&source=commercial" data-cta="enterprise_quote" data-zh="获取报价" data-en="Get Quote">获取报价</a>
+            <a class="btn" href="./contact.html?plan=enterprise&intent=architecture&source=commercial" data-zh="聊架构方案" data-en="Discuss Architecture">聊架构方案</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2 data-zh="能力矩阵" data-en="Capability Matrix">能力矩阵</h2>
+        <p class="head-copy" data-zh="第一版先把最能直接产生价值的能力卖清楚：看人、读内容、出素材、做运营。"
+           data-en="The first commercial release should sell the clearest value: identify people, read content, generate assets, and support operations.">
+          第一版先把最能直接产生价值的能力卖清楚：看人、读内容、出素材、做运营。
+        </p>
+      </div>
+      <div class="matrix">
+        <table>
+          <thead>
+            <tr>
+              <th data-zh="能力项" data-en="Capability">能力项</th>
+              <th>Starter</th>
+              <th>Growth</th>
+              <th>Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-zh="最新分享 / 每日进展 / Top10" data-en="Latest shares / daily progress / Top10">最新分享 / 每日进展 / Top10</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td data-zh="人物页、圈层图、社交图谱 3D" data-en="Profiles, circle map, social graph 3D">人物页、圈层图、社交图谱 3D</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td data-zh="品牌海报和自定义主题" data-en="Branded posters and custom themes">品牌海报和自定义主题</td>
+              <td class="muted">Basic</td>
+              <td>Advanced</td>
+              <td>Advanced + White Label</td>
+            </tr>
+            <tr>
+              <td data-zh="最佳互动基友与关系运营清单" data-en="Best-buddy relationship lists">最佳互动基友与关系运营清单</td>
+              <td class="muted">View only</td>
+              <td>Included</td>
+              <td>Included</td>
+            </tr>
+            <tr>
+              <td data-zh="更稳数据源与私有名单" data-en="Stronger data source and private watchlists">更稳数据源与私有名单</td>
+              <td class="muted">-</td>
+              <td class="muted">Optional</td>
+              <td>Included</td>
+            </tr>
+            <tr>
+              <td data-zh="权限、角色、内部协同" data-en="Roles, permissions, collaboration">权限、角色、内部协同</td>
+              <td class="muted">-</td>
+              <td class="muted">-</td>
+              <td>Included</td>
+            </tr>
+            <tr>
+              <td data-zh="API / 私有部署 / SLA" data-en="API / private deployment / SLA">API / 私有部署 / SLA</td>
+              <td class="muted">-</td>
+              <td class="muted">-</td>
+              <td>Included</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="roi">
+      <div class="section-head">
+        <h2 data-zh="简单算一下 ROI" data-en="Quick ROI Calculator">简单算一下 ROI</h2>
+        <p class="head-copy" data-zh="首版商业化不需要把财务模型做得很复杂，先让客户理解这套产品能替他们省多少分析、整理和分发时间。"
+           data-en="The first commercial version does not need a complex financial model. It just needs to show how much analyst, prep, and distribution time can be saved.">
+          首版商业化不需要把财务模型做得很复杂，先让客户理解这套产品能替他们省多少分析、整理和分发时间。
+        </p>
+      </div>
+      <div class="calc-grid">
+        <div class="calc-card">
+          <h3 data-zh="输入你的团队情况" data-en="Enter Your Team Setup">输入你的团队情况</h3>
+          <div class="field-grid">
+            <div class="field">
+              <label data-zh="每周要追踪的账号数" data-en="Accounts tracked per week">每周要追踪的账号数</label>
+              <input id="calcAccounts" type="number" min="20" max="2000" value="300" />
+            </div>
+            <div class="field">
+              <label data-zh="每周产出简报/内容次数" data-en="Briefings or content outputs per week">每周产出简报/内容次数</label>
+              <input id="calcOutputs" type="number" min="1" max="50" value="10" />
+            </div>
+            <div class="field">
+              <label data-zh="团队人均时薪（元）" data-en="Average hourly cost (CNY)">团队人均时薪（元）</label>
+              <input id="calcHourly" type="number" min="50" max="5000" value="300" />
+            </div>
+            <div class="field">
+              <label data-zh="主要使用场景" data-en="Primary use case">主要使用场景</label>
+              <select id="calcMode">
+                <option value="intel">研究 / 投资</option>
+                <option value="brand">品牌 / 内容</option>
+                <option value="ops">KOL / BD / 运营</option>
+              </select>
+            </div>
+          </div>
+          <div class="calc-output">
+            <div class="calc-kpi">
+              <div class="k" data-zh="每周节省工时" data-en="Hours Saved / Week">每周节省工时</div>
+              <div class="v" id="roiHours">-</div>
+            </div>
+            <div class="calc-kpi">
+              <div class="k" data-zh="估算节省成本 / 月" data-en="Estimated Cost Saved / Month">估算节省成本 / 月</div>
+              <div class="v" id="roiCost">-</div>
+            </div>
+            <div class="calc-kpi">
+              <div class="k" data-zh="推荐套餐" data-en="Recommended Plan">推荐套餐</div>
+              <div class="v" id="roiPlan">-</div>
+            </div>
+          </div>
+        </div>
+        <div class="calc-card">
+          <h3 data-zh="怎么理解这个 ROI" data-en="How to Read This ROI">怎么理解这个 ROI</h3>
+          <p class="note" data-zh="这里算的是保守收益：减少手工扫 X、整理观点、写周报、做海报和重复拉清单的时间。如果你的团队还需要做 KOL 协作、活动邀约或行业情报输出，真实收益通常会更高。"
+             data-en="This is a conservative model. It captures less manual scanning, fewer repetitive summaries, faster poster creation, and less time spent rebuilding contact lists. If you also run KOL collaboration or industry reporting, real upside is usually higher.">
+            这里算的是保守收益：减少手工扫 X、整理观点、写周报、做海报和重复拉清单的时间。如果你的团队还需要做 KOL 协作、活动邀约或行业情报输出，真实收益通常会更高。
+          </p>
+          <div class="section-card" style="margin-top:12px">
+            <h3 data-zh="首版商业建议" data-en="Recommendation for the First Commercial Version">首版商业建议</h3>
+            <p data-zh="如果你现在还在验证需求，先卖 Starter。只要客户已经明确需要品牌海报、周更栏目或团队协作，就直接卖 Growth。只有当客户明确提出更稳数据源、私有名单、权限、白标时，再推 Enterprise。"
+               data-en="Sell Starter while validating demand. Move to Growth as soon as the buyer needs branded distribution, recurring editorial assets, or team workflows. Push Enterprise only when stronger data, private watchlists, access control, or white-label delivery is required.">
+              如果你现在还在验证需求，先卖 Starter。只要客户已经明确需要品牌海报、周更栏目或团队协作，就直接卖 Growth。只有当客户明确提出更稳数据源、私有名单、权限、白标时，再推 Enterprise。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2 data-zh="14 天上线节奏" data-en="14-Day Go-Live Path">14 天上线节奏</h2>
+        <p class="head-copy" data-zh="第一版商业完全态最关键的是不要做得过重，而是尽快把一套持续更新、可对外展示、可成交的版本跑起来。"
+           data-en="The first commercial release should not be overbuilt. The goal is to launch a version that updates reliably, looks credible, and can actually convert.">
+          第一版商业完全态最关键的是不要做得过重，而是尽快把一套持续更新、可对外展示、可成交的版本跑起来。
+        </p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-step">
+          <b>D1-3</b>
+          <div>
+            <strong data-zh="统一样本、入口和口径" data-en="Unify scope, entry points, and wording">统一样本、入口和口径</strong>
+            <span data-zh="确定样本数量、关键账号池、首页价值主张、CTA 路径和主要页面的中英表达。"
+                  data-en="Lock sample size, priority accounts, homepage positioning, CTA paths, and bilingual copy across main pages.">
+              确定样本数量、关键账号池、首页价值主张、CTA 路径和主要页面的中英表达。
+            </span>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <b>D4-7</b>
+          <div>
+            <strong data-zh="跑通日更内容和海报" data-en="Stabilize daily content and posters">跑通日更内容和海报</strong>
+            <span data-zh="确保最新分享、每日进展、Top10 和海报导出都能形成稳定内容流。"
+                  data-en="Make sure latest shares, daily progress, Top10, and poster export all work as a stable content engine.">
+              确保最新分享、每日进展、Top10 和海报导出都能形成稳定内容流。
+            </span>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <b>D8-10</b>
+          <div>
+            <strong data-zh="补齐商业页和线索入口" data-en="Complete pricing and lead capture">补齐商业页和线索入口</strong>
+            <span data-zh="明确三档套餐、能力矩阵、ROI 表达、FAQ 和联系页需求采集。"
+                  data-en="Make plans, capabilities, ROI language, FAQs, and the lead qualification page explicit.">
+              明确三档套餐、能力矩阵、ROI 表达、FAQ 和联系页需求采集。
+            </span>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <b>D11-14</b>
+          <div>
+            <strong data-zh="验证成交能力并准备第二阶段" data-en="Validate conversion and prepare phase two">验证成交能力并准备第二阶段</strong>
+            <span data-zh="对外试卖、记录线索、收集真实反馈。若成交出现，就开始切更稳数据源和更高频刷新。"
+                  data-en="Start selling externally, capture leads, collect real feedback, and only then upgrade to stronger data sources and higher refresh frequency.">
+              对外试卖、记录线索、收集真实反馈。若成交出现，就开始切更稳数据源和更高频刷新。
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2 data-zh="常见商务问题" data-en="Commercial FAQs">常见商务问题</h2>
+        <p class="head-copy" data-zh="第一版要把边界讲清楚，客户才不会期待错误。"
+           data-en="The first commercial version needs clear boundaries so expectations stay realistic.">
+          第一版要把边界讲清楚，客户才不会期待错误。
+        </p>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <strong data-zh="Q1. 这套产品现在能不能直接商用？" data-en="Q1. Is this ready for commercial use right now?">Q1. 这套产品现在能不能直接商用？</strong>
+          <span data-zh="可以。以公开样本、网页交付、简报和品牌海报为边界，这套产品已经可以做第一版商用验证。更高频、更大规模、更稳的数据刷新建议在成交后切换到更强数据源。"
+                data-en="Yes. As a first commercial version built around public samples, web delivery, briefings, and branded assets, it is ready. Stronger data refresh should be added once commercial demand is validated.">
+            可以。以公开样本、网页交付、简报和品牌海报为边界，这套产品已经可以做第一版商用验证。更高频、更大规模、更稳的数据刷新建议在成交后切换到更强数据源。
+          </span>
+        </div>
+        <div class="faq-item">
+          <strong data-zh="Q2. 为什么还有 Starter / Growth / Enterprise 三档？" data-en="Q2. Why keep three plans instead of one?">Q2. 为什么还有 Starter / Growth / Enterprise 三档？</strong>
+          <span data-zh="因为三类买家要买的不是同一件东西。Starter 买验证，Growth 买传播效率，Enterprise 买更稳数据和组织级交付。三档比一口价更容易成交。"
+                data-en="Because buyers are not buying the same thing. Starter buys validation, Growth buys distribution speed, and Enterprise buys stronger data and org-level delivery.">
+            因为三类买家要买的不是同一件东西。Starter 买验证，Growth 买传播效率，Enterprise 买更稳数据和组织级交付。三档比一口价更容易成交。
+          </span>
+        </div>
+        <div class="faq-item">
+          <strong data-zh="Q3. 公开数据链路够不够？" data-en="Q3. Is the public data chain enough?">Q3. 公开数据链路够不够？</strong>
+          <span data-zh="够做首版商用验证，但不适合长期承诺大规模高频刷新。当前版本已经把来源和时间戳展示清楚，正式企业交付建议切换到更稳数据源。"
+                data-en="It is enough for a first commercial release, but not for long-term guarantees at higher scale and higher frequency. Enterprise delivery should move to a stronger data source.">
+            够做首版商用验证，但不适合长期承诺大规模高频刷新。当前版本已经把来源和时间戳展示清楚，正式企业交付建议切换到更稳数据源。
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-panel">
+      <h2 data-zh="如果你现在要开始卖，这一版已经够用了" data-en="If you want to start selling now, this version is already enough">如果你现在要开始卖，这一版已经够用了</h2>
+      <p data-zh="先用公开样本把情报、海报、人物雷达和商业路径跑顺，拿到第一批真实客户反馈，再把第二阶段预算放到更稳数据源、权限和白标。"
+         data-en="Use the public-sample version to validate intelligence, posters, profile radar, and conversion flow. Once buyers respond, invest phase-two budget into stronger data, permissions, and white-label delivery.">
+        先用公开样本把情报、海报、人物雷达和商业路径跑顺，拿到第一批真实客户反馈，再把第二阶段预算放到更稳数据源、权限和白标。
+      </p>
+      <div class="hero-cta">
+        <a class="btn main" href="./contact.html?intent=proposal&source=commercial_bottom" data-cta="commercial_bottom_proposal" data-zh="生成商务简报" data-en="Generate Proposal Brief">生成商务简报</a>
+        <a class="btn" href="./contact.html?intent=demo&source=commercial_bottom" data-cta="commercial_bottom_demo" data-zh="预约演示" data-en="Book Demo">预约演示</a>
+        <a class="btn ghost" href="./index.html" data-zh="返回首页" data-en="Back Home">返回首页</a>
+      </div>
+    </section>
   </div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Starter - 团队试用</h3>
-      <div class="price">¥3,999 / 月</div>
-      <div class="muted">适合中小团队观察AI舆情和关键博主</div>
-      <p class="ok">√ 每日AI进展 + Top10简报</p>
-      <p class="ok">√ Top10海报自动生成</p>
-      <p class="ok">√ 每周1次圈层报告</p>
-      <a class="btn" href="./contact.html" data-cta="buy_starter">申请试用</a>
-    </div>
-    <div class="card">
-      <h3>Growth - 品牌增长</h3>
-      <div class="price">¥12,999 / 月</div>
-      <div class="muted">适合品牌市场、内容团队、社媒运营</div>
-      <p class="ok">√ 自选博主海报 + 品牌模板</p>
-      <p class="ok">√ 最佳互动基友运营清单</p>
-      <p class="ok">√ 每日自动化分发素材包</p>
-      <a class="btn" href="./contact.html" data-cta="buy_growth">预约演示</a>
-    </div>
-    <div class="card">
-      <h3>Enterprise - 企业版</h3>
-      <div class="price">¥49,999+ / 月</div>
-      <div class="muted">适合投资机构/研究院/大型平台</div>
-      <p class="ok">√ 私有数据接入和权限体系</p>
-      <p class="ok">√ 实时API和定制评分模型</p>
-      <p class="ok">√ SLA与专属顾问交付</p>
-      <a class="btn" href="./contact.html" data-cta="buy_enterprise">定制报价</a>
-    </div>
-  </div>
+  <script>
+    const langKey = "xai_lang";
+    let lang = localStorage.getItem(langKey) || "zh";
 
-  <div class="card">
-    <h3 style="margin-top:0">90天增长执行框架</h3>
-    <p>第1-2周：完成目标账户池与圈层分组；第3-6周：日更进展+海报分发；第7-10周：按互动关系做联动运营；第11-12周：沉淀可复用KOL资产库。</p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <a class="btn" href="./daily_progress.html" data-zh="查看每日进展样例" data-en="View Daily Progress Sample">查看每日进展样例</a>
-      <a class="btn" href="./insights.html" data-zh="查看观点入口" data-en="Open Insights">查看观点入口</a>
-      <a class="btn" href="./data/circle_layers.html" data-zh="进入圈层地图" data-en="Open Circle Map">进入圈层地图</a>
-    </div>
-  </div>
-</div>
-<script>
-  const l = localStorage.getItem('xai_lang') || 'zh';
-  document.querySelectorAll('[data-zh]').forEach(el => {
-    el.textContent = el.getAttribute(l === 'zh' ? 'data-zh' : 'data-en');
-  });
-</script>
-<script src="./assets/share-fab.js" defer></script>
+    function applyLang() {
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+      document.title = lang === "zh" ? "商业方案" : "Commercial Plans";
+      document.querySelectorAll("[data-zh]").forEach((el) => {
+        el.textContent = el.getAttribute(lang === "zh" ? "data-zh" : "data-en");
+      });
+      const btn = document.getElementById("langBtn");
+      if (btn) btn.textContent = lang === "zh" ? "EN" : "中文";
+    }
+
+    function formatMoney(n) {
+      const v = Math.max(0, Math.round(n));
+      return `¥${v.toLocaleString("en-US")}`;
+    }
+
+    function recommendPlan(accounts, outputs, hourly, mode) {
+      if (accounts >= 500 || hourly >= 800 || mode === "ops") return "Enterprise";
+      if (outputs >= 8 || mode === "brand") return "Growth";
+      return "Starter";
+    }
+
+    function calcRoi() {
+      const accounts = Number(document.getElementById("calcAccounts").value || 0);
+      const outputs = Number(document.getElementById("calcOutputs").value || 0);
+      const hourly = Number(document.getElementById("calcHourly").value || 0);
+      const mode = document.getElementById("calcMode").value || "intel";
+
+      const scanHours = accounts * 0.015;
+      const outputHours = outputs * (mode === "brand" ? 1.7 : mode === "ops" ? 1.5 : 1.2);
+      const coordinationHours = mode === "ops" ? 5 : mode === "brand" ? 3 : 2;
+      const savedHours = Math.round((scanHours + outputHours + coordinationHours) * 10) / 10;
+      const savedCost = savedHours * hourly * 4;
+      const plan = recommendPlan(accounts, outputs, hourly, mode);
+
+      document.getElementById("roiHours").textContent = `${savedHours}h`;
+      document.getElementById("roiCost").textContent = formatMoney(savedCost);
+      document.getElementById("roiPlan").textContent = plan;
+    }
+
+    function highlightPlanFromQuery() {
+      const params = new URLSearchParams(location.search);
+      const plan = (params.get("plan") || "").toLowerCase();
+      if (!plan) return;
+      document.querySelectorAll("[data-plan]").forEach((el) => {
+        el.style.transform = "";
+        el.style.boxShadow = "";
+      });
+      const hit = document.querySelector(`[data-plan="${plan}"]`);
+      if (hit) {
+        hit.style.transform = "translateY(-2px)";
+        hit.style.boxShadow = "0 18px 40px rgba(0,0,0,.18)";
+      }
+    }
+
+    document.getElementById("langBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      lang = lang === "zh" ? "en" : "zh";
+      localStorage.setItem(langKey, lang);
+      applyLang();
+    });
+
+    ["calcAccounts", "calcOutputs", "calcHourly", "calcMode"].forEach((id) => {
+      document.getElementById(id).addEventListener("input", calcRoi);
+      document.getElementById(id).addEventListener("change", calcRoi);
+    });
+
+    applyLang();
+    calcRoi();
+    highlightPlanFromQuery();
+  </script>
+  <script src="./assets/share-fab.js" defer></script>
 </body>
 </html>
