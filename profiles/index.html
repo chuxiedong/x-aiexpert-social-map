@@ -34,4 +34,70 @@ fetch('../data/profiles.json').then(r=>r.json()).then(d=>{
   render();
 });
 q.addEventListener('input',render); layer.addEventListener('change',render); sort.addEventListener('change',render);
-</script></body></html>
+</script><!-- codex-i18n-fix:start -->
+<script>
+(() => {
+  const lang = localStorage.getItem('xai_lang') || 'zh';
+  const t = (zh, en) => lang === 'zh' ? zh : en;
+  const q = document.getElementById('q');
+  const layer = document.getElementById('layer');
+  const sort = document.getElementById('sort');
+
+  function localize() {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.title = t('博主画像库', 'Creator Profiles');
+    const h2 = document.querySelector('.top h2');
+    if (h2) h2.textContent = t('博主画像库', 'Creator Profiles');
+    const labels = [
+      t('首页', 'Home'),
+      t('最新分享', 'Latest Shares'),
+      'Top10',
+      t('每日进展', 'Daily Progress'),
+      t('热点词云', 'Topic Cloud'),
+      t('公共信号', 'Public Signals'),
+      t('自选海报', 'Custom Poster'),
+      t('商业化', 'Commercial'),
+      t('联系', 'Contact')
+    ];
+    document.querySelectorAll('.top .btn').forEach((btn, idx) => {
+      if (labels[idx]) btn.textContent = labels[idx];
+    });
+    if (q) q.placeholder = t('搜索姓名 / @handle', 'Search name/handle');
+    if (layer && layer.options.length && layer.options[0].value === 'all') {
+      layer.options[0].textContent = t('全部圈层', 'All Layers');
+    }
+    if (sort) {
+      const labels = {
+        rank: t('按排名排序', 'Sort by Rank'),
+        score: t('按分数排序', 'Sort by Score'),
+        followers: t('按粉丝数排序', 'Sort by Followers')
+      };
+      [...sort.options].forEach((option) => {
+        option.textContent = labels[option.value] || option.textContent;
+      });
+    }
+    document.querySelectorAll('#grid .item').forEach((item) => {
+      item.querySelectorAll('.muted').forEach((node) => {
+        node.textContent = node.textContent.replace(/^score\s+/i, t('影响力分 ', 'score '));
+      });
+      const btns = item.querySelectorAll('.btn');
+      if (btns[0]) btns[0].textContent = t('人物页', 'Profile');
+      if (btns[1]) btns[1].textContent = t('海报', 'Poster');
+      if (btns[2]) btns[2].textContent = t('打开 X', 'Open X');
+    });
+  }
+
+  const origRender = window.render;
+  if (typeof origRender === 'function' && !origRender.__codexI18nWrapped) {
+    window.render = function() {
+      origRender();
+      localize();
+    };
+    window.render.__codexI18nWrapped = true;
+  }
+  localize();
+  setTimeout(localize, 200);
+})();
+</script>
+<!-- codex-i18n-fix:end -->
+</body></html>

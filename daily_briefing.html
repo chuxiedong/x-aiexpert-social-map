@@ -103,4 +103,51 @@ fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
     });
   });
 });
-</script></body></html>
+</script><!-- codex-i18n-fix:start -->
+<script>
+(() => {
+  const lang = localStorage.getItem('xai_lang') || 'zh';
+  const t = (zh, en) => lang === 'zh' ? zh : en;
+  const grid = document.getElementById('grid');
+  function localize() {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.title = t('Top10 观点', 'Top10 Briefing');
+    const h2 = document.querySelector('.top h2');
+    if (h2) h2.textContent = t('Top10 观点', 'Top10 Briefing');
+    const nav = [
+      t('首页', 'Home'),
+      t('最新分享', 'Latest Shares'),
+      t('每日进展', 'Daily Progress'),
+      t('热点词云', 'Topic Cloud'),
+      t('公共信号', 'Public Signals'),
+      t('Top10整合海报', 'Top10 Poster'),
+      t('自选博主海报', 'Custom Poster'),
+      t('商业化', 'Commercial'),
+      t('联系', 'Contact')
+    ];
+    document.querySelectorAll('.top .btn').forEach((btn, idx) => {
+      if (nav[idx]) btn.textContent = nav[idx];
+    });
+    document.querySelectorAll('.share summary').forEach((node) => {
+      node.title = t('分享', 'Share');
+    });
+    document.querySelectorAll('.share-menu button[data-action="poster"]').forEach((btn) => btn.textContent = t('下载海报', 'Download Poster'));
+    document.querySelectorAll('.share-menu button[data-action="copy"]').forEach((btn) => btn.textContent = t('复制链接', 'Copy Link'));
+    document.querySelectorAll('.share-menu button[data-action="native"]').forEach((btn) => btn.textContent = t('系统分享', 'System Share'));
+    document.querySelectorAll('#grid .card').forEach((card) => {
+      const p = card.querySelector('p');
+      if (p && lang === 'en') p.innerHTML = p.innerHTML.replace('最新分享：', 'Latest share: ');
+      const btns = card.querySelectorAll('.btn');
+      if (btns[0]) btns[0].textContent = t('查看人物页', 'View Profile');
+      if (btns[1]) btns[1].textContent = t('打开 X', 'Open X');
+    });
+  }
+  localize();
+  if (grid) {
+    new MutationObserver(localize).observe(grid, { childList: true, subtree: true });
+  }
+  setTimeout(localize, 200);
+})();
+</script>
+<!-- codex-i18n-fix:end -->
+</body></html>

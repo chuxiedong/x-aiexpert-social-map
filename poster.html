@@ -59,7 +59,7 @@
 const params=new URLSearchParams(location.search);
 const slug=params.get('slug')||'';
 const modeFromUrl=(params.get('mode')||'single').toLowerCase();
-const lang=params.get('lang')||'zh';
+const lang=(params.get('lang')||localStorage.getItem('xai_lang')||'zh');
 let styleKey=params.get('style')||'clean';
 let posterMode = (modeFromUrl==='top10'||modeFromUrl==='custom') ? modeFromUrl : 'single';
 const brandColorInput=document.getElementById('brandColor');
@@ -279,4 +279,161 @@ Promise.all([
   renderPicker();
   draw();
 });
-</script></body></html>
+</script><!-- codex-i18n-fix:start -->
+<script>
+(() => {
+  const locale = (new URLSearchParams(location.search).get('lang') || localStorage.getItem('xai_lang') || 'zh');
+  const isZh = locale === 'zh';
+  const t = (zh, en) => isZh ? zh : en;
+  const titleNode = document.getElementById('title');
+  const descNode = document.getElementById('desc');
+  const essenceNode = document.getElementById('essence');
+  const qMeta = document.querySelector('.meta[style*="margin-top:10px"]');
+
+  function localizeStatic() {
+    document.documentElement.lang = isZh ? 'zh-CN' : 'en';
+    document.title = t('一键转海报', 'Share Poster');
+    const h2 = document.querySelector('.top h2');
+    if (h2) h2.textContent = t('一键转海报', 'Share Poster');
+    const nav = [
+      t('首页', 'Home'),
+      t('最新分享', 'Latest Shares'),
+      'Top10',
+      t('每日进展', 'Daily Progress'),
+      t('热点词云', 'Topic Cloud'),
+      t('公共信号', 'Public Signals'),
+      t('商业化', 'Commercial'),
+      t('联系', 'Contact')
+    ];
+    document.querySelectorAll('.top .btn').forEach((btn, idx) => {
+      if (nav[idx]) btn.textContent = nav[idx];
+    });
+    if (titleNode && titleNode.textContent.trim() === 'Loading...') titleNode.textContent = t('加载中...', 'Loading...');
+    document.querySelectorAll('[data-mode="single"]').forEach((n) => n.textContent = t('单人海报', 'Single Poster'));
+    document.querySelectorAll('[data-mode="top10"]').forEach((n) => n.textContent = t('Top10整合海报', 'Top10 Poster'));
+    document.querySelectorAll('[data-mode="custom"]').forEach((n) => n.textContent = t('自选博主海报', 'Custom Poster'));
+    document.querySelectorAll('[data-style="clean"]').forEach((n) => n.textContent = t('简洁版', 'Clean'));
+    document.querySelectorAll('[data-style="pro"]').forEach((n) => n.textContent = t('商务版', 'Business'));
+    document.querySelectorAll('[data-style="vivid"]').forEach((n) => n.textContent = t('活力版', 'Vivid'));
+    document.querySelectorAll('[data-style="brand"]').forEach((n) => n.textContent = t('品牌版', 'Brand'));
+    if (window.brandColorInput) brandColorInput.placeholder = t('品牌色，如 #2f7cff', 'Brand color, e.g. #2f7cff');
+    if (window.brandSloganInput) brandSloganInput.placeholder = t('品牌标语，如 AI Influence Daily', 'Brand slogan, e.g. AI Influence Daily');
+    if (window.brandLogoInput) brandLogoInput.placeholder = t('Logo URL（可选）', 'Logo URL (optional)');
+    if (qMeta) qMeta.textContent = t('海报尺寸: 1080x1920 · 支持单人 / Top10 / 自选模式', 'Poster size: 1080x1920 · single / top10 / custom');
+    const btns = document.querySelectorAll('#downloadBtn, #copyBtn, #openProfile, #openX');
+    if (btns[0]) btns[0].textContent = t('下载海报 PNG', 'Download PNG');
+    if (btns[1]) btns[1].textContent = t('复制分享链接', 'Copy Share Link');
+    if (btns[2]) btns[2].textContent = t('打开博主页', 'Open Profile');
+    if (btns[3]) btns[3].textContent = t('打开 X', 'Open X');
+  }
+
+  if (isZh && typeof window.drawSingle === 'function') {
+    window.drawSingle = function(r) {
+      const theme = getTheme();
+      drawBackground(theme);
+      const brandSlogan = (brandSloganInput.value || 'AI Influence Daily').trim() || 'AI Influence Daily';
+      const noTodayShare = !(r && (r.latest_share_zh || r.latest_share_en));
+      const buddy = pickBestBuddyInScope(r);
+      ctx.fillStyle = theme.title;
+      ctx.font = '700 58px "IBM Plex Sans",sans-serif';
+      ctx.fillText('AI 观点海报', 100, 170);
+      ctx.fillStyle = theme.meta;
+      ctx.font = '500 34px "IBM Plex Sans",sans-serif';
+      ctx.fillText(`@${r.handle} | 影响力分 ${Number(r.score || 0).toFixed(3)} | ${r.layer_zh || r.layer || ''}`, 100, 235);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 70px "IBM Plex Sans",sans-serif';
+      wrapText(ctx, r.name || '', 100, 350, 860, 86, 2);
+      ctx.fillStyle = '#bed6ff';
+      ctx.font = '500 34px "IBM Plex Sans",sans-serif';
+      wrapText(ctx, (r.topics || []).join(' · '), 100, 540, 860, 48, 3);
+      ctx.fillStyle = '#eef5ff';
+      ctx.font = '600 44px "IBM Plex Sans",sans-serif';
+      ctx.fillText('最新分享', 100, 760);
+      ctx.fillStyle = '#d8e7ff';
+      ctx.font = '500 38px "IBM Plex Sans",sans-serif';
+      wrapText(ctx, noTodayShare ? '无分享，请换一个。' : (r.latest_share_zh || r.latest_viewpoint_zh || r.daily_essence_zh || ''), 100, 835, 880, 54, 10);
+      ctx.fillStyle = '#9ec0f1';
+      ctx.font = '500 30px "IBM Plex Sans",sans-serif';
+      ctx.fillText(buddy ? `今日最佳基友: ${buddy.name} @${buddy.handle}` : '今日最佳基友: 暂无', 100, 1448);
+      ctx.fillStyle = theme.box;
+      ctx.fillRect(100, 1490, 880, 240);
+      ctx.strokeStyle = theme.boxStroke;
+      ctx.strokeRect(100, 1490, 880, 240);
+      ctx.fillStyle = '#a9d7ff';
+      ctx.font = '500 34px "IBM Plex Sans",sans-serif';
+      ctx.fillText(styleKey === 'brand' ? brandSlogan : '关联度 + 核心度', 130, 1560);
+      ctx.fillStyle = '#ecf5ff';
+      ctx.font = '700 52px "IBM Plex Sans",sans-serif';
+      ctx.fillText(`A ${Number(r.association_score || 0).toFixed(3)} / C ${Number(r.centrality_score || 0).toFixed(3)}`, 130, 1640);
+      ctx.fillStyle = '#a9d7ff';
+      ctx.font = '500 30px "IBM Plex Sans",sans-serif';
+      ctx.fillText('x-ai-experts-viz · 可分享观点卡片', 130, 1710);
+      ctx.fillStyle = '#8ab5e8';
+      ctx.font = '500 26px "IBM Plex Sans",sans-serif';
+      ctx.fillText(`https://x.com/${r.handle}`, 100, 1830);
+    };
+  }
+
+  if (isZh && typeof window.drawMulti === 'function') {
+    window.drawMulti = function(items) {
+      const theme = getTheme();
+      drawBackground(theme);
+      ctx.fillStyle = theme.title;
+      ctx.font = '700 56px "IBM Plex Sans",sans-serif';
+      ctx.fillText(posterMode === 'top10' ? 'Top10 观点合集' : '自选观点合集', 100, 160);
+      ctx.fillStyle = theme.meta;
+      ctx.font = '500 30px "IBM Plex Sans",sans-serif';
+      ctx.fillText(`数量 ${items.length} · ${new Date().toISOString().slice(0, 10)}`, 100, 215);
+      let y = 290;
+      items.slice(0, 10).forEach((r, i) => {
+        ctx.fillStyle = 'rgba(255,255,255,.08)';
+        ctx.fillRect(90, y - 46, 900, 145);
+        ctx.strokeStyle = 'rgba(255,255,255,.15)';
+        ctx.strokeRect(90, y - 46, 900, 145);
+        ctx.fillStyle = '#eaf4ff';
+        ctx.font = '700 34px "IBM Plex Sans",sans-serif';
+        ctx.fillText(`#${i + 1} ${r.name}`, 120, y);
+        ctx.fillStyle = '#a9c8f3';
+        ctx.font = '500 26px "IBM Plex Sans",sans-serif';
+        ctx.fillText(`@${r.handle} · 影响力分 ${Number(r.score || 0).toFixed(3)}`, 120, y + 42);
+        ctx.fillStyle = '#d6e5ff';
+        ctx.font = '500 24px "IBM Plex Sans",sans-serif';
+        wrapText(ctx, (r.topics || []).slice(0, 2).join(' · ') || '热点主题', 120, y + 78, 760, 34, 1);
+        y += 165;
+      });
+      ctx.fillStyle = 'rgba(255,255,255,.12)';
+      ctx.fillRect(90, 1720, 900, 120);
+      ctx.fillStyle = '#dbe8ff';
+      ctx.font = '600 30px "IBM Plex Sans",sans-serif';
+      ctx.fillText((brandSloganInput.value || 'AI Influence Daily').trim() || 'AI Influence Daily', 120, 1788);
+    };
+  }
+
+  const origSetInfo = window.setInfo;
+  if (typeof origSetInfo === 'function' && !origSetInfo.__codexI18nWrapped) {
+    window.setInfo = function(items) {
+      origSetInfo(items);
+      localizeStatic();
+      if (!isZh) return;
+      if (items.length === 1) {
+        const r = items[0];
+        const noTodayShare = !(r && (r.latest_share_zh || r.latest_share_en));
+        const buddy = pickBestBuddyInScope(r);
+        if (titleNode) titleNode.textContent = `${r.name} @${r.handle}`;
+        if (descNode) descNode.textContent = `圈层 ${r.layer_zh || r.layer || ''} · 影响力分 ${Number(r.score || 0).toFixed(3)} · 单人海报${buddy ? ` · 今日最佳基友 ${buddy.name}` : ''}`;
+        if (essenceNode) essenceNode.textContent = noTodayShare ? '无分享，请换一个。' : (r.latest_share_zh || r.latest_viewpoint_zh || r.daily_essence_zh || '');
+      } else {
+        if (titleNode) titleNode.textContent = `${posterMode === 'top10' ? 'Top10' : '自选'} 聚合海报`;
+        if (descNode) descNode.textContent = `共 ${items.length} 位博主 · ${posterMode === 'top10' ? 'Top10模式' : '自选模式'}`;
+        if (essenceNode) essenceNode.textContent = '可一键分享整页观点，适合日报、周报、社群分发。';
+      }
+    };
+    window.setInfo.__codexI18nWrapped = true;
+  }
+
+  localizeStatic();
+  setTimeout(localizeStatic, 200);
+})();
+</script>
+<!-- codex-i18n-fix:end -->
+</body></html>

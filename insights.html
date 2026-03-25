@@ -62,4 +62,90 @@ Promise.all([
   render();
 });
 [q,lang,layer,time,topic].forEach(el=>el.addEventListener(el.tagName==='INPUT'?'input':'change',render));
-</script></body></html>
+</script><!-- codex-i18n-fix:start -->
+<script>
+(() => {
+  const q = document.getElementById('q');
+  const langSel = document.getElementById('lang');
+  const timeSel = document.getElementById('time');
+  const topicSel = document.getElementById('topic');
+  const layerSel = document.getElementById('layer');
+  const freshness = document.getElementById('freshness');
+
+  function currentLang() {
+    return langSel ? langSel.value : (localStorage.getItem('xai_lang') || 'zh');
+  }
+  function t(zh, en) {
+    return currentLang() === 'zh' ? zh : en;
+  }
+  function localize() {
+    const lang = currentLang();
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.title = t('最新分享', 'Latest Shares');
+    const h2 = document.querySelector('.top h2');
+    if (h2) h2.textContent = t('最新分享', 'Latest Shares');
+    const nav = [
+      t('首页', 'Home'),
+      t('人物库', 'Profiles'),
+      'Top10',
+      t('每日进展', 'Daily Progress'),
+      t('热点词云', 'Topic Cloud'),
+      t('公共信号', 'Public Signals'),
+      t('Top10海报', 'Top10 Poster'),
+      t('商业化', 'Commercial'),
+      t('联系', 'Contact')
+    ];
+    document.querySelectorAll('.top .btn').forEach((btn, idx) => {
+      if (nav[idx]) btn.textContent = nav[idx];
+    });
+    if (q) q.placeholder = t('搜索姓名 / @handle', 'Search name/handle');
+    if (topicSel && topicSel.options.length && topicSel.options[0].value === 'all') {
+      topicSel.options[0].textContent = t('全部主题', 'All Topics');
+    }
+    if (layerSel && layerSel.options.length && layerSel.options[0].value === 'all') {
+      layerSel.options[0].textContent = t('全部圈层', 'All Layers');
+    }
+    if (timeSel) {
+      const mapping = { '1': '24h', '7': '7d', '30': '30d' };
+      [...timeSel.options].forEach((option) => {
+        option.textContent = mapping[option.value] || option.textContent;
+      });
+    }
+    if (freshness && lang === 'zh') {
+      freshness.innerHTML = freshness.innerHTML.replace(/Recency:/g, '新鲜度：');
+    }
+    document.querySelectorAll('#grid .card').forEach((card) => {
+      card.querySelectorAll('.muted').forEach((node) => {
+        node.textContent = node.textContent.replace(/^Recency:\s*/i, t('新鲜度：', 'Recency: '));
+        if (lang === 'en') node.textContent = node.textContent.replace(/^最佳互动基友：/, 'Best buddy: ');
+      });
+      const btns = card.querySelectorAll('.btn');
+      if (btns[0]) btns[0].textContent = t('查看人物页', 'View Profile');
+      if (btns[1]) btns[1].textContent = t('海报', 'Poster');
+      if (btns[2]) btns[2].textContent = t('打开 X', 'Open X');
+    });
+  }
+
+  if (langSel) {
+    const stored = localStorage.getItem('xai_lang') || 'zh';
+    langSel.value = stored;
+    langSel.addEventListener('change', () => {
+      localStorage.setItem('xai_lang', langSel.value);
+      setTimeout(localize, 0);
+    });
+  }
+
+  const origRender = window.render;
+  if (typeof origRender === 'function' && !origRender.__codexI18nWrapped) {
+    window.render = function() {
+      origRender();
+      localize();
+    };
+    window.render.__codexI18nWrapped = true;
+  }
+  localize();
+  setTimeout(localize, 200);
+})();
+</script>
+<!-- codex-i18n-fix:end -->
+</body></html>

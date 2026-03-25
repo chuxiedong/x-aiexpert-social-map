@@ -46,4 +46,80 @@
 <div class="sec"><h3>English Summary</h3><div>Tim Zaman is in the Outer Core layer as a OpenAI. Composite influence score: 0.295. Public profile signals focus on Frontier Clusters at OpenAI. Formerly DeepMind, Tesla AI (head of AI Infra), X/Twitter, NVIDIA..</div></div>
 <div class="sec"><h3>今日观点精髓（中文）</h3><div class="muted">今日精髓：围绕 OpenAI Ecosystem 与 AI Infrastructure，强调“模型能力要进入可复用产品链路”，并持续优化发布-反馈-迭代闭环（影响力分 0.295）。</div></div>
 <div class="sec"><h3>Daily Insight (EN)</h3><div class="muted">Daily essence: around OpenAI Ecosystem and AI Infrastructure, the key point is turning model capability into reusable product loops, then iterating with publish-feedback cycles (influence score 0.295).</div></div>
-</div></div></body></html>
+</div></div><!-- codex-i18n-fix:start -->
+<script>
+(() => {
+  const lang = localStorage.getItem('xai_lang') || 'zh';
+  const t = (zh, en) => lang === 'zh' ? zh : en;
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  const name = (document.querySelector('.name') || {}).textContent || 'Profile';
+  document.title = lang === 'zh' ? `${name} | 博主画像` : `${name} | Profile`;
+  const links = [...document.querySelectorAll('.row .btn')];
+  links.forEach((link) => {
+    const href = link.getAttribute('href') || '';
+    if (/^https:\/\/x\.com\//.test(href)) link.textContent = t('打开 X', 'Open X');
+    else if (href === './index.html') link.textContent = t('返回人物库', 'Profiles');
+    else if (href.includes('../topics.html')) link.textContent = t('热点词云', 'Topic Cloud');
+    else if (href.includes('../public_signals.html')) link.textContent = t('公共信号', 'Public Signals');
+    else if (href.includes('../poster.html')) link.textContent = t('分享海报', 'Share Poster');
+    else if (href.includes('../commercial.html')) link.textContent = t('商业化', 'Commercial');
+    else if (href.includes('../contact.html')) link.textContent = t('联系', 'Contact');
+  });
+  const layerLine = document.querySelector('.card > .muted');
+  if (layerLine) {
+    const parts = layerLine.textContent.split('/').map((x) => x.trim());
+    const zhLayer = parts[1] || parts[0] || '';
+    const enLayer = parts[0].replace(/^Layer:\s*/i, '').trim() || parts[1] || '';
+    layerLine.textContent = lang === 'zh' ? `圈层：${zhLayer}` : `Layer: ${enLayer}`;
+  }
+  const notice = document.querySelector('.notice');
+  if (notice && lang !== 'zh') {
+    notice.textContent = notice.textContent
+      .replace('最近分享时间：', 'Latest share time: ')
+      .replace('最近内容距今', 'Content recency: ')
+      .replace('天。若今天没有新帖，页面会展示最近一次可用分享，不伪装为当日观点。', ' day(s). If there is no new post today, the page keeps the latest verifiable share instead of pretending it is from today.')
+      .replace('当前未拿到可确认发布时间的原始帖子，页面仅展示最近一次可用抓取结果。', 'No verified source timestamp is available yet, so the page shows the latest usable captured share.');
+  }
+  const kpiLabels = lang === 'zh'
+    ? ['排名','影响力分','粉丝数','关联度','核心度','发帖/评论','点赞/转发']
+    : ['Rank','Influence Score','Followers','Association Score','Centrality Score','Posts/Comments','Likes/Reposts'];
+  document.querySelectorAll('.kpi .k').forEach((node, idx) => {
+    if (idx < kpiLabels.length) node.textContent = kpiLabels[idx];
+  });
+  const sections = [...document.querySelectorAll('.sec')];
+  if (sections[0]) {
+    const h3 = sections[0].querySelector('h3');
+    if (h3) h3.textContent = t('评分解释', 'Explainability');
+    const info = sections[0].querySelector('.muted');
+    if (info && lang !== 'zh') info.textContent = 'Association reflects cross-follow, interaction strength, and link weight. Centrality reflects PageRank, connectivity, and audience scale.';
+    const children = [...sections[0].children];
+    children.forEach((child) => {
+      if (child.textContent.startsWith('Association:')) child.textContent = lang === 'zh' ? child.textContent.replace('Association:', '关联度：') : child.textContent;
+      if (child.textContent.startsWith('Centrality:')) child.textContent = lang === 'zh' ? child.textContent.replace('Centrality:', '核心度：') : child.textContent;
+      if (child.textContent.startsWith('Cross-follow')) {
+        child.textContent = lang === 'zh'
+          ? child.textContent.replace('Cross-follow', '交叉关注').replace('Interaction', '互动').replace('PageRank', 'PageRank')
+          : child.textContent;
+      }
+    });
+  }
+  if (sections[1]) {
+    const h3 = sections[1].querySelector('h3');
+    if (h3) h3.textContent = t('最佳互动基友 Top5', 'Top 5 Best Buddies');
+    const info = sections[1].querySelector('.muted');
+    if (info && lang !== 'zh') info.textContent = 'Computed from association-centrality relationship strength plus interaction proxy signals.';
+  }
+  if (sections[2]) sections[2].querySelector('h3').textContent = t('中文简介', 'Chinese Summary');
+  if (sections[3]) {
+    sections[3].querySelector('h3').textContent = t('英文简介', 'English Summary');
+    sections[3].style.display = lang === 'zh' ? 'none' : '';
+  }
+  if (sections[4]) sections[4].querySelector('h3').textContent = t('最新分享', 'Latest Share');
+  if (sections[5]) {
+    sections[5].querySelector('h3').textContent = t('英文观点', 'Daily Insight (EN)');
+    sections[5].style.display = lang === 'zh' ? 'none' : '';
+  }
+})();
+</script>
+<!-- codex-i18n-fix:end -->
+</body></html>

@@ -37,4 +37,60 @@ fetch('./data/daily_progress.json').then(r=>r.json()).then(d=>{
   document.getElementById('topics').innerHTML=(d.topic_rank||[]).map(t=>`<span class="tag">${t.topic} (${t.count})</span>`).join('');
   document.getElementById('trend').innerHTML=(d.trend_items||[]).slice(0, limit).map(r=>`<div class="card" style="margin-top:0"><div><b>${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div class="muted quote">${r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''}</div><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn" href="./profiles/${r.slug}.html">查看人物</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">打开 X</a><a class="btn" href="./poster.html?slug=${r.slug}&mode=single">海报</a></div></div>`).join('');
 });
-</script></body></html>
+</script><!-- codex-i18n-fix:start -->
+<script>
+(() => {
+  const lang = localStorage.getItem('xai_lang') || 'zh';
+  const t = (zh, en) => lang === 'zh' ? zh : en;
+  const trend = document.getElementById('trend');
+  function localize() {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.title = t('每日领域进展', 'Daily Domain Progress');
+    const h2 = document.querySelector('.top h2');
+    if (h2) h2.textContent = t('每日领域进展', 'Daily Domain Progress');
+    const nav = [
+      t('首页', 'Home'),
+      t('最新分享', 'Latest Shares'),
+      'Top10',
+      t('热点词云', 'Topic Cloud'),
+      t('公共信号', 'Public Signals'),
+      t('Top10海报', 'Top10 Poster'),
+      t('商业化', 'Commercial'),
+      t('联系', 'Contact')
+    ];
+    document.querySelectorAll('.top .btn').forEach((btn, idx) => {
+      if (nav[idx]) btn.textContent = nav[idx];
+    });
+    const cards = document.querySelectorAll('.wrap > .card');
+    if (cards[1]) {
+      const title = cards[1].querySelector('b');
+      if (title) title.textContent = t('数据说明：', 'Data note:');
+    }
+    if (cards[2]) {
+      const h3 = cards[2].querySelector('h3');
+      if (h3) h3.textContent = t('热门主题', 'Top Topics');
+    }
+    if (cards[3]) {
+      const h3 = cards[3].querySelector('h3');
+      if (h3) h3.textContent = t('今日关键人物', 'Key People Today');
+    }
+    const zh = document.getElementById('sum_zh');
+    const en = document.getElementById('sum_en');
+    if (zh && en) {
+      zh.style.display = lang === 'zh' ? '' : 'none';
+      en.style.display = lang === 'zh' ? 'none' : '';
+    }
+    document.querySelectorAll('#trend .card').forEach((card) => {
+      const btns = card.querySelectorAll('.btn');
+      if (btns[0]) btns[0].textContent = t('查看人物', 'View Profile');
+      if (btns[1]) btns[1].textContent = t('打开 X', 'Open X');
+      if (btns[2]) btns[2].textContent = t('海报', 'Poster');
+    });
+  }
+  localize();
+  if (trend) new MutationObserver(localize).observe(trend, { childList: true, subtree: true });
+  setTimeout(localize, 200);
+})();
+</script>
+<!-- codex-i18n-fix:end -->
+</body></html>

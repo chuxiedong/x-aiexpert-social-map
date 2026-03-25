@@ -131,7 +131,7 @@
     <div class="topbar">
       <div class="brand" id="brandText">Domain Influence Intelligence</div>
       <div class="actions">
-        <a class="btn ghost" href="./index.html">Home</a>
+        <a class="btn ghost" href="./index.html" data-zh="首页" data-en="Home">首页</a>
         <a class="btn ghost" href="./topics.html" data-zh="热点词云" data-en="Topic Cloud">热点词云</a>
         <a class="btn ghost" href="./insights.html" data-zh="最新分享" data-en="Insights">最新分享</a>
         <a class="btn ghost" href="./commercial.html" data-zh="商业化" data-en="Commercial">商业化</a>
@@ -148,7 +148,7 @@
           <p class="sub" id="heroSummary"></p>
           <div class="chips" id="sourceChips"></div>
           <div class="badges">
-            <span class="badge" id="updatedBadge">Updated: -</span>
+            <span class="badge" id="updatedBadge">内容时间: -</span>
             <span class="badge" id="topicCountBadge">Topics: -</span>
             <span class="badge" data-zh="实时外部信号：GitHub / Hacker News / Wikipedia" data-en="Live external signals: GitHub / Hacker News / Wikipedia">实时外部信号：GitHub / Hacker News / Wikipedia</span>
           </div>
@@ -249,6 +249,10 @@
       if (payload?.domain) {
         document.title = lang === 'zh' ? `${payload.domain.site_title_zh} / 公共信号` : `${payload.domain.site_title_en} / Public Signals`;
         el('brandText').textContent = lang === 'zh' ? payload.domain.site_title_zh : payload.domain.site_title_en;
+      }
+      if (payload) {
+        el('updatedBadge').textContent = `${text('内容时间', 'Updated')}: ${(payload.updated_at || '-').slice(0, 10)}`;
+        el('topicCountBadge').textContent = `${text('话题数', 'Topics')}: ${(payload.topics || []).length}`;
       }
       renderTopicList();
       renderDetail();
@@ -566,7 +570,7 @@
       }
       selectedTopicId = location.hash.replace(/^#/, '') || payload.topics[0].id;
       el('heroSummary').textContent = lang === 'zh' ? payload.summary_zh : payload.summary_en;
-      el('updatedBadge').textContent = `Updated: ${(payload.updated_at || '-').slice(0, 10)}`;
+      el('updatedBadge').textContent = `${text('内容时间', 'Updated')}: ${(payload.updated_at || '-').slice(0, 10)}`;
       el('topicCountBadge').textContent = `${text('话题数', 'Topics')}: ${payload.topics.length}`;
       el('sourceChips').innerHTML = (payload.source_catalog || []).map((item) => `<span class="chip">${item.name} · ${lang === 'zh' ? item.role_zh : item.role_en}</span>`).join('');
       renderTopicList();

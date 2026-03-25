@@ -8,6 +8,7 @@ import html
 import json
 import math
 import re
+import subprocess
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -1512,6 +1513,9 @@ def main() -> int:
     DAILY_PROGRESS_JSON.write_text(json.dumps(build_daily_progress(profiles, briefing_rows, content_updated_at, built_at, ctx), ensure_ascii=False, indent=2), encoding="utf-8")
     DOMAIN_CONTEXT_JSON.write_text(json.dumps(ctx, ensure_ascii=False, indent=2), encoding="utf-8")
     TOPIC_CLOUD_JSON.write_text(json.dumps(topic_cloud, ensure_ascii=False, indent=2), encoding="utf-8")
+    fixer = ROOT / "scripts" / "fix_generated_i18n.py"
+    if fixer.exists():
+        subprocess.run(["python3", str(fixer)], check=True)
     print(f"Generated {len(profiles)} profile pages and Top10 briefing")
     return 0
 

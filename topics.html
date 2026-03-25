@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Topic Cloud</title>
+<script src="./assets/metrics.js" defer></script>
+<style>
+:root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
+.row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(320px,.8fr);gap:12px}
+.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}
+.muted{color:#9db0da;font-size:12px}
+.cloud{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;min-height:460px}
+.term{display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(106,211,255,.08);color:#eaf4ff;cursor:pointer;transform-origin:center;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.term:hover,.term.active{transform:translateY(-2px) scale(1.02);border-color:rgba(106,211,255,.55);background:rgba(106,211,255,.18)}
+.pill{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid rgba(255,255,255,.16);border-radius:999px;margin:0 8px 8px 0;font-size:12px;cursor:pointer}
+.pill.active{border-color:rgba(106,211,255,.55);background:rgba(106,211,255,.12)}
+.list{display:grid;gap:8px;margin-top:10px}
+.item{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px;background:#0f1831}
+@media (max-width:860px){.row{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<div class="top"><h2>Topic Cloud / 热点词云</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./insights.html">Insights</a><a class="btn" href="./daily_briefing.html">Top10</a><a class="btn" href="./daily_progress.html">每日进展</a><a class="btn" href="./profiles/index.html">Profiles</a><a class="btn" href="./public_signals.html">公共信号</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
+<div class="card" id="summary" style="margin-top:10px"></div>
+<div class="row" style="margin-top:12px">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap">
+      <h3 style="margin:0">热点词云</h3>
+      <div class="muted">点击词或主题，查看对应人物</div>
+    </div>
+    <div id="topics" style="margin-top:10px"></div>
+    <div id="cloud" class="cloud" style="margin-top:12px"></div>
+  </div>
+  <div class="card">
+    <h3 style="margin:0">关联人物</h3>
+    <div class="muted" id="selectionNote" style="margin-top:8px">先选择一个话题或热词</div>
+    <div id="list" class="list"></div>
+  </div>
+</div></div>
+<script>
+let topicRows=[]; let termRows=[]; let activeTopic=''; let activeTerm='';
+function escapeHtml(v){ return String(v||'').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
+function renderSelection(){
+  const list=document.getElementById('list');
+  const note=document.getElementById('selectionNote');
+  let people=[];
+  if(activeTerm){
+    const row=termRows.find(x=>x.term===activeTerm);
+    people=row ? (row.people||[]) : [];
+    note.textContent=`热词：${activeTerm} · 关联 ${people.length} 位人物`;
+  }else if(activeTopic){
+    const row=topicRows.find(x=>x.topic===activeTopic);
+    people=row ? (row.people||[]) : [];
+    note.textContent=`主题：${activeTopic} · 关联 ${people.length} 位人物`;
+  }else{
+    note.textContent='先选择一个话题或热词';
+  }
+  list.innerHTML=people.length ? people.map(p=>`<a class="item" href="./profiles/${encodeURIComponent(p.slug||'')}.html"><b>${escapeHtml(p.name||'')}</b><div class="muted" style="margin-top:4px">@${escapeHtml(p.handle||'')}</div></a>`).join('') : '<div class="item muted">暂无匹配人物</div>';
+}
+function renderTopics(){
+  const wrap=document.getElementById('topics');
+  wrap.innerHTML=topicRows.map(r=>`<span class="pill ${activeTopic===r.topic?'active':''}" data-topic="${escapeHtml(r.topic)}">${escapeHtml(r.topic)} <span class="muted">(${r.count})</span></span>`).join('');
+  wrap.querySelectorAll('[data-topic]').forEach(el=>el.addEventListener('click',()=>{
+    activeTopic = el.dataset.topic === activeTopic ? '' : el.dataset.topic;
+    activeTerm = '';
+    renderTopics(); renderTerms(); renderSelection();
+  }));
+}
+function renderTerms(){
+  const cloud=document.getElementById('cloud');
+  cloud.innerHTML=termRows.map((r,idx)=>{
+    const hue = 192 + (idx % 8) * 12;
+    return `<span class="term ${activeTerm===r.term?'active':''}" data-term="${escapeHtml(r.term)}" style="font-size:${r.font_size}px;transform:rotate(${r.angle}deg);background:hsla(${hue},85%,68%,0.10)">${escapeHtml(r.term)}</span>`;
+  }).join('');
+  cloud.querySelectorAll('[data-term]').forEach(el=>el.addEventListener('click',()=>{
+    activeTerm = el.dataset.term === activeTerm ? '' : el.dataset.term;
+    activeTopic = '';
+    renderTopics(); renderTerms(); renderSelection();
+  }));
+}
+fetch('./data/topic_cloud.json').then(r=>r.json()).then(d=>{
+  topicRows=d.topics||[];
+  termRows=d.terms||[];
+  document.getElementById('summary').innerHTML=`<div><b>${escapeHtml((d.domain||{}).domain_name_en||'Domain')} Topic Cloud</b><span class="muted"> · 内容时间 ${(d.updated_at||'-').replace('T',' ').slice(0,19)} · 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)}</span></div><div style="margin-top:8px">${escapeHtml(d.summary_zh||'')}</div><div class="muted" style="margin-top:6px">${escapeHtml(d.summary_en||'')}</div>`;
+  renderTopics(); renderTerms(); renderSelection();
+}).catch(()=>{
+  document.getElementById('summary').innerHTML='<b>词云数据暂不可用</b><div class="muted" style="margin-top:8px">请先执行数据生成脚本。</div>';
+});
+</script><!-- codex-i18n-fix:start -->
+<script>
+(() => {
+  const lang = localStorage.getItem('xai_lang') || 'zh';
+  const t = (zh, en) => lang === 'zh' ? zh : en;
+  const summary = document.getElementById('summary');
+  const list = document.getElementById('list');
+  function localize() {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.title = t('热点词云', 'Topic Cloud');
+    const h2 = document.querySelector('.top h2');
+    if (h2) h2.textContent = t('热点词云', 'Topic Cloud');
+    const nav = [
+      t('首页', 'Home'),
+      t('最新分享', 'Latest Shares'),
+      'Top10',
+      t('每日进展', 'Daily Progress'),
+      t('人物库', 'Profiles'),
+      t('公共信号', 'Public Signals'),
+      t('商业化', 'Commercial'),
+      t('联系', 'Contact')
+    ];
+    document.querySelectorAll('.top .btn').forEach((btn, idx) => {
+      if (nav[idx]) btn.textContent = nav[idx];
+    });
+    const cols = document.querySelectorAll('.row .card');
+    if (cols[0]) {
+      const h3 = cols[0].querySelector('h3');
+      if (h3) h3.textContent = t('热点词云', 'Topic Cloud');
+      const muted = cols[0].querySelector('.muted');
+      if (muted) muted.textContent = t('点击词或主题，查看对应人物', 'Click a topic or term to inspect linked creators');
+    }
+    if (cols[1]) {
+      const h3 = cols[1].querySelector('h3');
+      if (h3) h3.textContent = t('关联人物', 'Linked Creators');
+      const note = document.getElementById('selectionNote');
+      if (note && note.textContent.trim() === '先选择一个话题或热词') {
+        note.textContent = t('先选择一个话题或热词', 'Pick a topic or term first');
+      }
+    }
+    if (summary) {
+      const muted = summary.querySelector('.muted');
+      if (muted) muted.style.display = lang === 'zh' ? 'none' : '';
+      const bold = summary.querySelector('b');
+      if (bold && lang === 'zh') bold.textContent = '热点词云';
+    }
+    if (list) {
+      list.querySelectorAll('.item.muted').forEach((node) => {
+        node.textContent = t('暂无匹配人物', 'No linked creators');
+      });
+    }
+  }
+  localize();
+  if (summary) new MutationObserver(localize).observe(summary, { childList: true, subtree: true });
+  if (list) new MutationObserver(localize).observe(list, { childList: true, subtree: true });
+  setTimeout(localize, 200);
+})();
+</script>
+<!-- codex-i18n-fix:end -->
+</body></html>
