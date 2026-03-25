@@ -1,0 +1,476 @@
+{
+  "updated_at": "2026-03-24T12:07:12+00:00",
+  "built_at": "2026-03-25T01:27:10.484041+00:00",
+  "domain": {
+    "slug": "ai",
+    "domain_name_zh": "AI",
+    "domain_name_en": "AI",
+    "site_title_zh": "领域社交影响力情报台",
+    "site_title_en": "Domain Influence Intelligence",
+    "platform_name": "X"
+  },
+  "summary_zh": "这页把 AI 领域在 X 上的热点，叠加到开源社区、跨平台讨论和百科解释层，帮助你判断哪些话题只是站内热，哪些已经外溢成公共信号。",
+  "summary_en": "This page layers open-source momentum, cross-platform discussion, and public explainers onto the hottest AI topics on X so you can spot what is only hot inside X versus what is turning into a broader signal.",
+  "source_catalog": [
+    {
+      "name": "GitHub Search API",
+      "role_zh": "开源动向",
+      "role_en": "Open-source momentum",
+      "mode": "build_optional + browser_live"
+    },
+    {
+      "name": "Hacker News API",
+      "role_zh": "跨平台讨论",
+      "role_en": "Cross-platform discussion",
+      "mode": "browser_live"
+    },
+    {
+      "name": "Wikipedia Search API",
+      "role_zh": "热点解释",
+      "role_en": "Topic explainers",
+      "mode": "browser_live"
+    }
+  ],
+  "topics": [
+    {
+      "id": "research-frontier",
+      "rank": 1,
+      "label": "Research Frontier",
+      "count": 119,
+      "creator_count": 12,
+      "people": [
+        {
+          "handle": "OriolVinyalsML",
+          "slug": "oriolvinyalsml",
+          "name": "Oriol Vinyals"
+        },
+        {
+          "handle": "giffmana",
+          "slug": "giffmana",
+          "name": "Lucas Beyer (bl16)"
+        },
+        {
+          "handle": "arankomatsuzaki",
+          "slug": "arankomatsuzaki",
+          "name": "Aran Komatsuzaki"
+        },
+        {
+          "handle": "srush_nlp",
+          "slug": "srush_nlp",
+          "name": "Sasha Rush"
+        },
+        {
+          "handle": "ylecun",
+          "slug": "ylecun",
+          "name": "Yann LeCun"
+        },
+        {
+          "handle": "rasbt",
+          "slug": "rasbt",
+          "name": "Sebastian Raschka"
+        },
+        {
+          "handle": "savvyRL",
+          "slug": "savvyrl",
+          "name": "Rosanne Liu"
+        },
+        {
+          "handle": "woj_zaremba",
+          "slug": "woj_zaremba",
+          "name": "Wojciech Zaremba"
+        }
+      ],
+      "keywords": [
+        "research",
+        "paper",
+        "science",
+        "arxiv",
+        "breakthrough"
+      ],
+      "x_signal_score": 1.0,
+      "local_summary_zh": "在当前 X 领域博主 中，Research Frontier 相关讨论出现 119 次，关联人物 12 位。",
+      "local_summary_en": "Within the current X domain creators, Research Frontier appears 119 times across 12 linked creators.",
+      "github": {
+        "query": "(\"research\" OR \"paper\" OR \"science\") \"AI\" stars:>50",
+        "status": "ok",
+        "queried_at": "2026-03-25T01:27:06.796659+00:00",
+        "repo_count": 0,
+        "items": []
+      },
+      "live_sources": {
+        "github": "browser_and_build",
+        "hackernews": "browser_live",
+        "wikipedia": "browser_live"
+      }
+    },
+    {
+      "id": "productization",
+      "rank": 2,
+      "label": "Productization",
+      "count": 110,
+      "creator_count": 12,
+      "people": [
+        {
+          "handle": "nvidianewsroom",
+          "slug": "nvidianewsroom",
+          "name": "NVIDIA Newsroom"
+        },
+        {
+          "handle": "julien_c",
+          "slug": "julien_c",
+          "name": "Julien Chaumond"
+        },
+        {
+          "handle": "demishassabis",
+          "slug": "demishassabis",
+          "name": "Demis Hassabis"
+        },
+        {
+          "handle": "RichardSocher",
+          "slug": "richardsocher",
+          "name": "Richard Socher"
+        },
+        {
+          "handle": "NeurIPSConf",
+          "slug": "neuripsconf",
+          "name": "NeurIPS Conference"
+        },
+        {
+          "handle": "abhi1thakur",
+          "slug": "abhi1thakur",
+          "name": "abhishek"
+        },
+        {
+          "handle": "GoogleAI",
+          "slug": "googleai",
+          "name": "Google AI"
+        },
+        {
+          "handle": "docmilanfar",
+          "slug": "docmilanfar",
+          "name": "Peyman Milanfar"
+        }
+      ],
+      "keywords": [
+        "product",
+        "shipping",
+        "deploy",
+        "distribution",
+        "go to market"
+      ],
+      "x_signal_score": 0.9244,
+      "local_summary_zh": "在当前 X 领域博主 中，Productization 相关讨论出现 110 次，关联人物 12 位。",
+      "local_summary_en": "Within the current X domain creators, Productization appears 110 times across 12 linked creators.",
+      "github": {
+        "query": "(\"product\" OR \"shipping\" OR \"deploy\") \"AI\" stars:>50",
+        "status": "ok",
+        "queried_at": "2026-03-25T01:27:07.460518+00:00",
+        "repo_count": 0,
+        "items": []
+      },
+      "live_sources": {
+        "github": "browser_and_build",
+        "hackernews": "browser_live",
+        "wikipedia": "browser_live"
+      }
+    },
+    {
+      "id": "industry",
+      "rank": 3,
+      "label": "Industry",
+      "count": 102,
+      "creator_count": 12,
+      "people": [
+        {
+          "handle": "demishassabis",
+          "slug": "demishassabis",
+          "name": "Demis Hassabis"
+        },
+        {
+          "handle": "RichardSocher",
+          "slug": "richardsocher",
+          "name": "Richard Socher"
+        },
+        {
+          "handle": "NeurIPSConf",
+          "slug": "neuripsconf",
+          "name": "NeurIPS Conference"
+        },
+        {
+          "handle": "abhi1thakur",
+          "slug": "abhi1thakur",
+          "name": "abhishek"
+        },
+        {
+          "handle": "GoogleAI",
+          "slug": "googleai",
+          "name": "Google AI"
+        },
+        {
+          "handle": "docmilanfar",
+          "slug": "docmilanfar",
+          "name": "Peyman Milanfar"
+        },
+        {
+          "handle": "deliprao",
+          "slug": "deliprao",
+          "name": "Delip Rao e/σ"
+        },
+        {
+          "handle": "NVIDIAGTC",
+          "slug": "nvidiagtc",
+          "name": "NVIDIA GTC"
+        }
+      ],
+      "keywords": [
+        "Industry"
+      ],
+      "x_signal_score": 0.8571,
+      "local_summary_zh": "在当前 X 领域博主 中，Industry 相关讨论出现 102 次，关联人物 12 位。",
+      "local_summary_en": "Within the current X domain creators, Industry appears 102 times across 12 linked creators.",
+      "github": {
+        "query": "(\"Industry\") \"AI\" stars:>50",
+        "status": "ok",
+        "queried_at": "2026-03-25T01:27:08.140750+00:00",
+        "repo_count": 0,
+        "items": []
+      },
+      "live_sources": {
+        "github": "browser_and_build",
+        "hackernews": "browser_live",
+        "wikipedia": "browser_live"
+      }
+    },
+    {
+      "id": "capability",
+      "rank": 4,
+      "label": "Capability",
+      "count": 102,
+      "creator_count": 12,
+      "people": [
+        {
+          "handle": "demishassabis",
+          "slug": "demishassabis",
+          "name": "Demis Hassabis"
+        },
+        {
+          "handle": "RichardSocher",
+          "slug": "richardsocher",
+          "name": "Richard Socher"
+        },
+        {
+          "handle": "NeurIPSConf",
+          "slug": "neuripsconf",
+          "name": "NeurIPS Conference"
+        },
+        {
+          "handle": "abhi1thakur",
+          "slug": "abhi1thakur",
+          "name": "abhishek"
+        },
+        {
+          "handle": "GoogleAI",
+          "slug": "googleai",
+          "name": "Google AI"
+        },
+        {
+          "handle": "docmilanfar",
+          "slug": "docmilanfar",
+          "name": "Peyman Milanfar"
+        },
+        {
+          "handle": "deliprao",
+          "slug": "deliprao",
+          "name": "Delip Rao e/σ"
+        },
+        {
+          "handle": "NVIDIAGTC",
+          "slug": "nvidiagtc",
+          "name": "NVIDIA GTC"
+        }
+      ],
+      "keywords": [
+        "Capability"
+      ],
+      "x_signal_score": 0.8571,
+      "local_summary_zh": "在当前 X 领域博主 中，Capability 相关讨论出现 102 次，关联人物 12 位。",
+      "local_summary_en": "Within the current X domain creators, Capability appears 102 times across 12 linked creators.",
+      "github": {
+        "query": "(\"Capability\") \"AI\" stars:>50",
+        "status": "ok",
+        "queried_at": "2026-03-25T01:27:08.891147+00:00",
+        "repo_count": 0,
+        "items": []
+      },
+      "live_sources": {
+        "github": "browser_and_build",
+        "hackernews": "browser_live",
+        "wikipedia": "browser_live"
+      }
+    },
+    {
+      "id": "openai-ecosystem",
+      "rank": 5,
+      "label": "OpenAI Ecosystem",
+      "count": 46,
+      "creator_count": 12,
+      "people": [
+        {
+          "handle": "giffmana",
+          "slug": "giffmana",
+          "name": "Lucas Beyer (bl16)"
+        },
+        {
+          "handle": "rasbt",
+          "slug": "rasbt",
+          "name": "Sebastian Raschka"
+        },
+        {
+          "handle": "woj_zaremba",
+          "slug": "woj_zaremba",
+          "name": "Wojciech Zaremba"
+        },
+        {
+          "handle": "_jasonwei",
+          "slug": "_jasonwei",
+          "name": "Jason Wei"
+        },
+        {
+          "handle": "DrJimFan",
+          "slug": "drjimfan",
+          "name": "Jim Fan"
+        },
+        {
+          "handle": "sama",
+          "slug": "sama",
+          "name": "Sam Altman"
+        },
+        {
+          "handle": "OpenAI",
+          "slug": "openai",
+          "name": "OpenAI"
+        },
+        {
+          "handle": "karpathy",
+          "slug": "karpathy",
+          "name": "Andrej Karpathy"
+        }
+      ],
+      "keywords": [
+        "openai",
+        "chatgpt",
+        "gpt",
+        "sora",
+        "codex"
+      ],
+      "x_signal_score": 0.3866,
+      "local_summary_zh": "在当前 X 领域博主 中，OpenAI Ecosystem 相关讨论出现 46 次，关联人物 12 位。",
+      "local_summary_en": "Within the current X domain creators, OpenAI Ecosystem appears 46 times across 12 linked creators.",
+      "github": {
+        "query": "\"openai\" OR \"chatgpt\" OR \"gpt\" stars:>50",
+        "status": "ok",
+        "queried_at": "2026-03-25T01:27:09.675398+00:00",
+        "repo_count": 7717,
+        "items": [
+          {
+            "full_name": "nextlevelbuilder/goclaw",
+            "url": "https://github.com/nextlevelbuilder/goclaw",
+            "stars": 1113,
+            "description": "GoClaw - GoClaw is OpenClaw rebuilt in Go — with multi-tenant isolation, 5-layer security, and native concurrency. Deploy AI agent teams at scale without compromising on safety.",
+            "updated_at": "2026-03-25T01:26:45Z"
+          },
+          {
+            "full_name": "wsshow/feikong-teams",
+            "url": "https://github.com/wsshow/feikong-teams",
+            "stars": 55,
+            "description": "一个基于多智能体协作的 AI 助手，支持命令行和Web界面，提供团队模式、自定义会议模式和多智能体讨论模式（圆桌会议模式）三种工作方式，通过多个专业智能体协同工作来完成复杂的编程和系统任务。",
+            "updated_at": "2026-03-25T01:25:03Z"
+          },
+          {
+            "full_name": "stickerdaniel/linkedin-mcp-server",
+            "url": "https://github.com/stickerdaniel/linkedin-mcp-server",
+            "stars": 1139,
+            "description": "This MCP server allows Claude and other AI assistants to access your LinkedIn. Scrape LinkedIn profiles, companies and jobs, and perform job searches.",
+            "updated_at": "2026-03-25T01:25:57Z"
+          }
+        ]
+      },
+      "live_sources": {
+        "github": "browser_and_build",
+        "hackernews": "browser_live",
+        "wikipedia": "browser_live"
+      }
+    },
+    {
+      "id": "model-capability",
+      "rank": 6,
+      "label": "Model Capability",
+      "count": 23,
+      "creator_count": 12,
+      "people": [
+        {
+          "handle": "huggingface",
+          "slug": "huggingface",
+          "name": "Hugging Face"
+        },
+        {
+          "handle": "rasbt",
+          "slug": "rasbt",
+          "name": "Sebastian Raschka"
+        },
+        {
+          "handle": "sarahookr",
+          "slug": "sarahookr",
+          "name": "Sara Hooker"
+        },
+        {
+          "handle": "NVIDIADC",
+          "slug": "nvidiadc",
+          "name": "NVIDIA Data Center"
+        },
+        {
+          "handle": "sedielem",
+          "slug": "sedielem",
+          "name": "Sander Dieleman"
+        },
+        {
+          "handle": "Everlyn_ai",
+          "slug": "everlyn_ai",
+          "name": "Everlyn"
+        },
+        {
+          "handle": "NandoDF",
+          "slug": "nandodf",
+          "name": "Nando de Freitas"
+        },
+        {
+          "handle": "gneubig",
+          "slug": "gneubig",
+          "name": "Graham Neubig"
+        }
+      ],
+      "keywords": [
+        "model",
+        "reasoning",
+        "multimodal",
+        "inference",
+        "benchmark"
+      ],
+      "x_signal_score": 0.1933,
+      "local_summary_zh": "在当前 X 领域博主 中，Model Capability 相关讨论出现 23 次，关联人物 12 位。",
+      "local_summary_en": "Within the current X domain creators, Model Capability appears 23 times across 12 linked creators.",
+      "github": {
+        "query": "(\"model\" OR \"reasoning\" OR \"multimodal\") \"AI\" stars:>50",
+        "status": "ok",
+        "queried_at": "2026-03-25T01:27:10.483972+00:00",
+        "repo_count": 0,
+        "items": []
+      },
+      "live_sources": {
+        "github": "browser_and_build",
+        "hackernews": "browser_live",
+        "wikipedia": "browser_live"
+      }
+    }
+  ]
+}

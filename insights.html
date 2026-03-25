@@ -1,414 +1,65 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1020" />
-  <title>最新分享</title>
-  <script src="./assets/metrics.js" defer></script>
-  <script src="./assets/expert-limit.js" defer></script>
-  <style>
-    :root {
-      --bg: #09101f;
-      --card: rgba(17, 27, 52, 0.94);
-      --line: rgba(255, 255, 255, 0.12);
-      --text: #edf3ff;
-      --muted: #94a9d5;
-      --brand: #6ad3ff;
-      --brand-2: #1e73ff;
-      --brand-soft: rgba(106, 211, 255, 0.1);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 8% 0%, rgba(43, 84, 181, 0.44), transparent 30%),
-        linear-gradient(180deg, #09101f 0%, #0b1328 100%);
-      font-family: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
-    }
-    .wrap { max-width: 1180px; margin: 0 auto; padding: 18px; }
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      padding: 12px 14px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: rgba(8, 16, 31, 0.72);
-      backdrop-filter: blur(16px);
-      position: sticky;
-      top: 12px;
-      z-index: 10;
-    }
-    .brand { font-size: 18px; font-weight: 800; }
-    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 9px 13px;
-      border-radius: 11px;
-      border: 1px solid rgba(125, 177, 255, 0.42);
-      background: linear-gradient(135deg, #183a7a, #122c5a);
-      color: var(--text);
-      text-decoration: none;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .btn.main {
-      background: linear-gradient(135deg, #2ca7ff, #1f6dff);
-      border-color: rgba(113, 208, 255, 0.82);
-    }
-    .btn.ghost { background: rgba(255, 255, 255, 0.04); }
-    .hero,
-    .panel,
-    .card,
-    .cta-panel {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--card);
-    }
-    .hero {
-      margin-top: 14px;
-      padding: 22px;
-      background:
-        radial-gradient(circle at 100% 0%, rgba(106, 211, 255, 0.12), transparent 28%),
-        linear-gradient(180deg, rgba(16, 26, 51, 0.94), rgba(10, 16, 32, 0.96));
-    }
-    h1 { margin: 0; font-size: 36px; line-height: 1.08; }
-    .sub { margin-top: 10px; color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 860px; }
-    .hero-row,
-    .hero-cta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-    .badge {
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(255, 255, 255, 0.04);
-      color: #d9e5ff;
-      font-size: 12px;
-    }
-    .panel { margin-top: 14px; padding: 16px; }
-    .section-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: end; }
-    .section-head h2 { margin: 0; font-size: 22px; }
-    .section-copy { color: var(--muted); font-size: 13px; line-height: 1.7; max-width: 760px; }
-    .controls {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: 1.4fr repeat(3, minmax(160px, 0.7fr));
-      gap: 10px;
-    }
-    .field { display: grid; gap: 6px; }
-    .field label { color: var(--muted); font-size: 12px; }
-    .field input,
-    .field select {
-      width: 100%;
-      padding: 10px 11px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: #0d1730;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 14px;
-    }
-    .grid {
-      margin-top: 14px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 12px;
-    }
-    .card { padding: 16px; }
-    .card-head { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
-    .card h3 { margin: 0; font-size: 28px; line-height: 1.12; }
-    .handle { color: var(--muted); font-size: 13px; margin-top: 4px; }
-    .meta { margin-top: 8px; color: var(--muted); font-size: 12px; line-height: 1.6; }
-    .quote {
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(106, 211, 255, 0.2);
-      background: rgba(106, 211, 255, 0.07);
-      color: #ecf3ff;
-      line-height: 1.7;
-      min-height: 116px;
-    }
-    .buddy,
-    .time-line { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.6; }
-    .tag-list { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag {
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.03);
-      font-size: 11px;
-      color: #dce8ff;
-    }
-    .card-actions { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
-    .cta-panel {
-      margin-top: 18px;
-      padding: 18px;
-      background:
-        radial-gradient(circle at 100% 0%, rgba(106, 211, 255, 0.1), transparent 26%),
-        linear-gradient(180deg, rgba(15, 27, 55, 0.96), rgba(9, 17, 33, 0.96));
-    }
-    .cta-panel h2 { margin: 0; font-size: 24px; }
-    .cta-panel p { margin: 10px 0 0; color: var(--muted); line-height: 1.7; }
-    .empty {
-      padding: 18px;
-      border-radius: 16px;
-      border: 1px dashed rgba(255, 255, 255, 0.14);
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    @media (max-width: 980px) {
-      .controls { grid-template-columns: 1fr; }
-      .grid { grid-template-columns: 1fr; }
-      h1 { font-size: 30px; }
-    }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">AI Influence Intelligence</div>
-      <div class="actions">
-        <a class="btn ghost" href="./index.html" data-zh="首页" data-en="Home">首页</a>
-        <a class="btn ghost" href="./profiles/index.html" data-zh="人物库" data-en="Profiles">人物库</a>
-        <a class="btn ghost" href="./daily_briefing.html" data-zh="Top10" data-en="Top10">Top10</a>
-        <a class="btn ghost" href="./daily_progress.html" data-zh="每日进展" data-en="Daily Progress">每日进展</a>
-        <a class="btn ghost" href="./commercial.html" data-zh="商业方案" data-en="Commercial">商业方案</a>
-        <a class="btn ghost" href="./contact.html?source=insights&intent=demo" data-zh="联系" data-en="Contact">联系</a>
-        <a class="btn" href="#" id="langBtn">EN</a>
-      </div>
-    </div>
-
-    <section class="hero">
-      <h1 data-zh="最新分享：快速看谁最近在说什么" data-en="Latest Shares: see who is talking and what they are saying">最新分享：快速看谁最近在说什么</h1>
-      <p class="sub" data-zh="这页优先展示每位关键人物最近一条可验证分享，而不是把旧内容伪装成“今日观点”。适合研究、内容和市场团队快速扫面，再决定要不要进入人物页、Top10 或海报输出。" data-en="This page shows the latest verifiable share for each key creator instead of pretending every entry is a fresh post today. It is built for fast scanning before you open profiles, Top10, or export assets.">这页优先展示每位关键人物最近一条可验证分享，而不是把旧内容伪装成“今日观点”。适合研究、内容和市场团队快速扫面，再决定要不要进入人物页、Top10 或海报输出。</p>
-      <div class="hero-row">
-        <span class="badge" id="scopeBadge">样本范围：Top300</span>
-        <span class="badge" id="updatedBadge">最近内容时间：-</span>
-        <span class="badge" data-zh="默认按内容新鲜度与影响力排序" data-en="Sorted by freshness first, influence second">默认按内容新鲜度与影响力排序</span>
-      </div>
-      <div class="hero-cta">
-        <a class="btn main" href="./commercial.html" data-zh="查看商业方案" data-en="View Commercial Plans">查看商业方案</a>
-        <a class="btn" href="./daily_briefing.html" data-zh="看 Top10" data-en="Open Top10">看 Top10</a>
-        <a class="btn" href="./contact.html?source=insights&intent=demo" data-zh="预约演示" data-en="Book a Demo">预约演示</a>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <div>
-          <h2 data-zh="筛选你真正关心的人和话题" data-en="Filter the people and topics you actually care about">筛选你真正关心的人和话题</h2>
-          <div class="section-copy" data-zh="搜索某个名字或账号，限定最近时间窗口，或只看某个圈层与主题。全站样本数量会沿用首页设定。" data-en="Search by name or handle, restrict the time window, or focus on a specific layer or topic. The sample size follows the setting from the homepage.">搜索某个名字或账号，限定最近时间窗口，或只看某个圈层与主题。全站样本数量会沿用首页设定。</div>
-        </div>
-      </div>
-      <div class="controls">
-        <div class="field">
-          <label for="q" data-zh="搜索名字 / @handle" data-en="Search name / @handle">搜索名字 / @handle</label>
-          <input id="q" data-ph-zh="例如：nvidia / soumith" data-ph-en="For example: nvidia / soumith" placeholder="例如：nvidia / soumith" />
-        </div>
-        <div class="field">
-          <label for="time" data-zh="时间范围" data-en="Time Window">时间范围</label>
-          <select id="time"></select>
-        </div>
-        <div class="field">
-          <label for="layer" data-zh="圈层" data-en="Layer">圈层</label>
-          <select id="layer"></select>
-        </div>
-        <div class="field">
-          <label for="topic" data-zh="主题" data-en="Topic">主题</label>
-          <select id="topic"></select>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel" id="freshness"></section>
-    <section id="grid" class="grid"></section>
-
-    <section class="cta-panel">
-      <h2 data-zh="想把这套页面变成团队常用工作台？" data-en="Want to turn this into a working desk for your team?">想把这套页面变成团队常用工作台？</h2>
-      <p data-zh="首版已经能支撑研究跟踪、品牌栏目和内容分发。下一步如果要做团队交付，可以把它打包成订阅、品牌版和企业版。" data-en="The current release is already strong enough for research tracking, branded editorial workflows, and content distribution. The next step is packaging it as Starter, Growth, or Enterprise delivery.">首版已经能支撑研究跟踪、品牌栏目和内容分发。下一步如果要做团队交付，可以把它打包成订阅、品牌版和企业版。</p>
-      <div class="hero-cta">
-        <a class="btn main" href="./commercial.html" data-zh="查看套餐" data-en="View Plans">查看套餐</a>
-        <a class="btn" href="./contact.html?source=insights&intent=proposal" data-zh="生成商务简报" data-en="Generate Proposal Brief">生成商务简报</a>
-      </div>
-    </section>
-  </div>
-
-  <script>
-    const langKey = "xai_lang";
-    let uiLang = localStorage.getItem(langKey) || "zh";
-    const q = document.getElementById("q");
-    const time = document.getElementById("time");
-    const layer = document.getElementById("layer");
-    const topic = document.getElementById("topic");
-    const grid = document.getElementById("grid");
-    const freshness = document.getElementById("freshness");
-    let rows = [];
-    let currentLimit = 300;
-    let pageData = { updated_at: "", built_at: "" };
-
-    const layerNames = {
-      core: { zh: "核心", en: "Core" },
-      inner_core: { zh: "内核", en: "Inner Core" },
-      middle_core: { zh: "中间核", en: "Middle Core" },
-      outer_core: { zh: "外核", en: "Outer Core" },
-      surface: { zh: "表层", en: "Surface" },
-    };
-
-    function getLayerName(value) {
-      return (layerNames[value] || {})[uiLang] || value;
-    }
-
-    function applyLang() {
-      document.documentElement.lang = uiLang === "zh" ? "zh-CN" : "en";
-      document.title = uiLang === "zh" ? "最新分享" : "Latest Shares";
-      document.querySelectorAll("[data-zh]").forEach((el) => {
-        el.textContent = el.getAttribute(uiLang === "zh" ? "data-zh" : "data-en");
-      });
-      document.querySelectorAll("[data-ph-zh]").forEach((el) => {
-        el.placeholder = el.getAttribute(uiLang === "zh" ? "data-ph-zh" : "data-ph-en");
-      });
-      document.getElementById("langBtn").textContent = uiLang === "zh" ? "EN" : "中文";
-      renderTimeOptions();
-      renderLayerOptions();
-      renderTopicOptions();
-      render();
-    }
-
-    function renderTimeOptions() {
-      const value = time.value || "7";
-      const labels = uiLang === "zh"
-        ? { "1": "最近 24 小时", "7": "最近 7 天", "30": "最近 30 天" }
-        : { "1": "Last 24h", "7": "Last 7 days", "30": "Last 30 days" };
-      time.innerHTML = Object.entries(labels).map(([v, label]) => `<option value="${v}">${label}</option>`).join("");
-      time.value = labels[value] ? value : "7";
-    }
-
-    function renderLayerOptions() {
-      const selected = layer.value || "all";
-      const set = [...new Set(rows.map((x) => x.layer).filter(Boolean))];
-      const first = `<option value="all">${uiLang === "zh" ? "全部圈层" : "All Layers"}</option>`;
-      layer.innerHTML = first + set.map((v) => `<option value="${v}">${getLayerName(v)}</option>`).join("");
-      layer.value = [...set, "all"].includes(selected) ? selected : "all";
-    }
-
-    function renderTopicOptions() {
-      const selected = topic.value || "all";
-      const set = [...new Set(rows.flatMap((x) => x.topics || []).filter(Boolean))];
-      const first = `<option value="all">${uiLang === "zh" ? "全部主题" : "All Topics"}</option>`;
-      topic.innerHTML = first + set.map((v) => `<option value="${v}">${v}</option>`).join("");
-      topic.value = [...set, "all"].includes(selected) ? selected : "all";
-    }
-
-    function renderFreshness(data = pageData) {
-      const contentAt = (data.updated_at || "-").replace("T", " ").slice(0, 19);
-      const builtAt = (data.built_at || "-").replace("T", " ").slice(0, 19);
-      const stale = (data.updated_at || "").slice(0, 10) !== new Date().toISOString().slice(0, 10);
-      document.getElementById("scopeBadge").textContent = uiLang === "zh" ? `样本范围：Top${currentLimit}` : `Scope: Top${currentLimit}`;
-      document.getElementById("updatedBadge").textContent = uiLang === "zh" ? `最近内容时间：${contentAt}` : `Latest content time: ${contentAt}`;
-      freshness.innerHTML = `
-        <div class="section-head">
-          <div>
-            <h2>${uiLang === "zh" ? "内容时效说明" : "Content freshness"}</h2>
-            <div class="section-copy">${uiLang === "zh"
-              ? `内容时间 ${contentAt} · 页面生成 ${builtAt}。${stale ? "当前列表优先展示最近一次可验证分享，不会把旧内容伪装成今天的新观点。" : "当前列表优先展示今天能确认到的最新分享。"}`
-              : `Content time ${contentAt} · page built ${builtAt}. ${stale ? "This list shows the latest verifiable shares and does not pretend older posts are new today." : "This list prioritizes the freshest shares that could be verified today."}`}</div>
-          </div>
-        </div>`;
-    }
-
-    function render() {
-      const key = (q.value || "").toLowerCase().trim();
-      const lv = layer.value || "all";
-      const tv = Number(time.value || 7);
-      const tp = topic.value || "all";
-      const filtered = rows.filter((r) => {
-        const hasKey = !key || `${r.name} ${r.handle}`.toLowerCase().includes(key);
-        const inLayer = lv === "all" || r.layer === lv;
-        const recency = Number(r.recency_days ?? 999);
-        const inTime = recency <= tv;
-        const inTopic = tp === "all" || (r.topics || []).includes(tp);
-        return hasKey && inLayer && inTime && inTopic;
-      }).sort((a, b) => {
-        const ra = Number(a.recency_days ?? 999);
-        const rb = Number(b.recency_days ?? 999);
-        if (ra !== rb) return ra - rb;
-        const ta = Number(a.sort_ts ?? 0);
-        const tb = Number(b.sort_ts ?? 0);
-        if (ta !== tb) return tb - ta;
-        return Number(b.score || 0) - Number(a.score || 0);
-      });
-
-      if (!filtered.length) {
-        grid.innerHTML = `<div class="empty">${uiLang === "zh"
-          ? "当前筛选条件下没有可展示内容。你可以放宽时间范围、清空关键词，或稍后再看。"
-          : "No entries match the current filters. Try a wider time window, remove the search keyword, or come back later."}</div>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map((r) => {
-        const buddy = (r.best_buddies || [])[0] || null;
-        const share = uiLang === "zh"
-          ? (r.latest_share_zh || r.latest_viewpoint_zh || r.daily_essence_zh || "")
-          : (r.latest_share_en || r.latest_viewpoint_en || r.daily_essence_en || "");
-        const shareTime = r.latest_tweet_at_label || (r.latest_tweet_at || "").replace("T", " ").slice(0, 16) || "-";
-        const topics = (r.topics || []).map((x) => `<span class="tag">${x}</span>`).join("");
-        const profileUrl = `./profiles/${r.slug}.html`;
-        const xUrl = r.latest_tweet_url || `https://x.com/${r.handle}`;
-        return `
-          <article class="card">
-            <div class="card-head">
-              <div>
-                <h3>${r.name}</h3>
-                <div class="handle">@${r.handle}</div>
-              </div>
-              <div class="badge">#${Number(r.rank || 0)} · ${Number(r.score || 0).toFixed(3)}</div>
-            </div>
-            <div class="meta">${getLayerName(r.layer)} · ${(r.topics || []).join(" · ") || (uiLang === "zh" ? "未分类" : "Uncategorized")}</div>
-            <div class="tag-list">${topics}</div>
-            <div class="quote">${uiLang === "zh" ? "最新分享：" : "Latest share: "}${share || (uiLang === "zh" ? "暂无可用内容" : "No share available")}</div>
-            <div class="buddy">${buddy
-              ? (uiLang === "zh" ? `今日最佳基友：${buddy.name} @${buddy.handle}` : `Best buddy today: ${buddy.name} @${buddy.handle}`)
-              : (uiLang === "zh" ? "今日最佳基友：暂无" : "Best buddy today: none")}</div>
-            <div class="time-line">${uiLang === "zh" ? "分享时间：" : "Share time: "}${shareTime} · ${uiLang === "zh" ? `距今 ${Number(r.recency_days ?? 999)} 天` : `${Number(r.recency_days ?? 999)}d ago`}</div>
-            <div class="card-actions">
-              <a class="btn" href="${profileUrl}">${uiLang === "zh" ? "查看人物页" : "View Profile"}</a>
-              <a class="btn" href="./poster.html?slug=${encodeURIComponent(r.slug)}&mode=insight&lang=${uiLang}">${uiLang === "zh" ? "生成海报" : "Create Poster"}</a>
-              <a class="btn ghost" href="${xUrl}" target="_blank" rel="noreferrer">${uiLang === "zh" ? "打开 X" : "Open X"}</a>
-            </div>
-          </article>`;
-      }).join("");
-    }
-
-    async function boot() {
-      currentLimit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
-      const data = await fetch("./data/daily_insights.json").then((r) => r.json()).catch(() => ({ items: [] }));
-      pageData = data || { updated_at: "", built_at: "" };
-      rows = (data.items || []).slice(0, currentLimit);
-      renderFreshness(pageData);
-      applyLang();
-    }
-
-    document.getElementById("langBtn").addEventListener("click", (e) => {
-      e.preventDefault();
-      uiLang = uiLang === "zh" ? "en" : "zh";
-      localStorage.setItem(langKey, uiLang);
-      applyLang();
-      renderFreshness(pageData);
-    });
-
-    [q, time, layer, topic].forEach((el) => {
-      el.addEventListener(el.tagName === "INPUT" ? "input" : "change", render);
-    });
-
-    boot();
-  </script>
-  <script src="./assets/share-fab.js" defer></script>
-</body>
-</html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Daily Insights</title>
+<script src="./assets/metrics.js" defer></script>
+<script src="./assets/expert-limit.js" defer></script>
+<style>
+:root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
+.tools{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}.tools input,.tools select{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#111a34;color:#eaf0ff}
+.grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.muted{color:#9db0da;font-size:12px}
+</style></head><body><div class="wrap">
+<div class="top"><h2>Latest Shares / 最新分享</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./profiles/index.html">Profiles</a><a class="btn" href="./daily_briefing.html">Top10</a><a class="btn" href="./daily_progress.html">每日进展</a><a class="btn" href="./topics.html">热点词云</a><a class="btn" href="./public_signals.html">公共信号</a><a class="btn" href="./poster.html?mode=top10">Top10海报</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
+<div class="tools"><input id="q" placeholder="Search name/handle"/><select id="lang"><option value="zh">中文</option><option value="en">English</option></select><select id="time"><option value="1">24h</option><option value="7">7d</option><option value="30" selected>30d</option></select><select id="topic"><option value="all">All Topics</option></select><select id="layer"><option value="all">All Layers</option></select></div>
+<div class="card" id="freshness" style="margin-top:10px"></div>
+<div id="grid" class="grid"></div></div>
+<script>
+const q=document.getElementById('q'); const lang=document.getElementById('lang'); const layer=document.getElementById('layer'); const time=document.getElementById('time'); const topic=document.getElementById('topic'); const grid=document.getElementById('grid');
+const freshness=document.getElementById('freshness');
+const layerLabel={core:'Core/核心',inner_core:'Inner Core/内核',middle_core:'Middle Core/中间核',outer_core:'Outer Core/外核',surface:'Surface/表层'};
+let rows=[];
+function render(){
+  const key=(q.value||'').toLowerCase().trim(), l=lang.value, lv=layer.value, tv=parseInt(time.value||'30',10), tp=topic.value;
+  let fs=rows.filter(r=>{
+    const hasKey=!key||(`${r.name} ${r.handle}`).toLowerCase().includes(key);
+    const inLayer=lv==='all'||r.layer===lv;
+    const recency=Number(r.recency_days ?? 999);
+    const inTime=recency<=tv;
+    const inTopic=tp==='all'||(r.topics||[]).includes(tp);
+    return hasKey&&inLayer&&inTime&&inTopic;
+  });
+  fs.sort((a,b)=>{
+    const ra=Number(a.recency_days ?? 999), rb=Number(b.recency_days ?? 999);
+    if(ra!==rb) return ra-rb;
+    const ta=Number(a.sort_ts ?? 0), tb=Number(b.sort_ts ?? 0);
+    if(ta!==tb) return tb-ta;
+    const sa=Number(a.score||0), sb=Number(b.score||0);
+    if(sa!==sb) return sb-sa;
+    return Number(a.rank||999999)-Number(b.rank||999999);
+  });
+  grid.innerHTML=fs.map(r=>{
+    const buddy=((r.best_buddies||[])[0]||null);
+    const buddyLine=buddy?`<div class="muted">最佳互动基友：${buddy.name} @${buddy.handle}</div>`:'';
+    const shareTime=r.latest_tweet_at_label||r.latest_tweet_at||'';
+    return `<div class="card"><div><b>${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?'最新分享：':'Latest share: '}${l==='zh'?(r.latest_share_zh||r.latest_viewpoint_zh||''):(r.latest_share_en||r.latest_viewpoint_en||'')}</p>${buddyLine}<div class="muted">${l==='zh'?'分享时间：':'Share time: '}${shareTime}</div><div class="muted">Recency: ${r.recency_days}d</div><div style="display:flex;gap:8px;margin-top:8px"><a class="btn" href="./profiles/${r.slug}.html">View Profile</a><a class="btn" href="./poster.html?slug=${r.slug}&mode=insight&lang=${l}">海报</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">Open X</a></div></div>`;
+  }).join('');
+}
+Promise.all([
+  fetch('./data/daily_insights.json').then(r=>r.json()).catch(()=>({items:[]})),
+  fetch('./data/refresh_status.json').then(r=>r.json()).catch(()=>null)
+]).then(([d,rs])=>{
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  rows=(d.items||[]).slice(0, limit);
+  const modeMap={x_api_v2:'X API',rjina_fallback:'网页回退源'};
+  const mode=rs ? (modeMap[rs.mode]||rs.mode||'未知') : '未知';
+  freshness.innerHTML=`<div><b>内容时间：</b>${(d.updated_at||'-').replace('T',' ').slice(0,19)} <span class="muted">· 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)} · 刷新来源 ${mode}</span></div><div class="muted" style="margin-top:6px">这里展示的是每位博主最近一次可用分享；如果当天没有可确认的新帖，不会伪装成“今日观点”。</div>`;
+  const layerSet=[...new Set(rows.map(x=>x.layer))];
+  layer.innerHTML='<option value="all">All Layers</option>'+layerSet.map(v=>`<option value="${v}">${layerLabel[v]||v}</option>`).join('');
+  const topics=[...new Set(rows.flatMap(x=>x.topics||[]))];
+  topic.innerHTML='<option value="all">All Topics</option>'+topics.map(v=>`<option value="${v}">${v}</option>`).join('');
+  render();
+});
+[q,lang,layer,time,topic].forEach(el=>el.addEventListener(el.tagName==='INPUT'?'input':'change',render));
+</script></body></html>

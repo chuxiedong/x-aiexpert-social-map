@@ -19,12 +19,17 @@ REQUIRED_FILES = [
     DATA / "daily_insights.json",
     DATA / "daily_briefing.json",
     DATA / "daily_progress.json",
+    DATA / "domain_context.json",
+    DATA / "topic_cloud.json",
+    DATA / "public_signals.json",
     DATA / "heartbeat_status.json",
     ROOT / "index.html",
     ROOT / "insights.html",
     ROOT / "daily_briefing.html",
     ROOT / "daily_progress.html",
     ROOT / "poster.html",
+    ROOT / "topics.html",
+    ROOT / "public_signals.html",
 ]
 
 
@@ -176,6 +181,34 @@ def main() -> int:
         fail("daily_progress topic_rank missing")
     ensure_present_timestamp("daily_progress.updated_at", str(progress.get("updated_at", "")))
     ensure_recent("daily_progress.built_at", str(progress.get("built_at", "")))
+
+    domain_context = read_json(DATA / "domain_context.json")
+    if not str(domain_context.get("domain_name_zh", "")).strip():
+        fail("domain_context domain_name_zh missing")
+    if not str(domain_context.get("site_title_en", "")).strip():
+        fail("domain_context site_title_en missing")
+
+    topic_cloud = read_json(DATA / "topic_cloud.json")
+    ensure_present_timestamp("topic_cloud.updated_at", str(topic_cloud.get("updated_at", "")))
+    ensure_recent("topic_cloud.built_at", str(topic_cloud.get("built_at", "")))
+    if len(topic_cloud.get("topics") or []) < 1:
+        fail("topic_cloud topics unexpectedly low")
+    if len(topic_cloud.get("terms") or []) < 5:
+        fail("topic_cloud terms unexpectedly low")
+
+    public_signals = read_json(DATA / "public_signals.json")
+    ensure_present_timestamp("public_signals.updated_at", str(public_signals.get("updated_at", "")))
+    ensure_recent("public_signals.built_at", str(public_signals.get("built_at", "")))
+    signal_topics = public_signals.get("topics") or []
+    if len(signal_topics) < 3:
+        fail("public_signals topics unexpectedly low")
+    for item in signal_topics:
+        if not str(item.get("id") or "").strip():
+            fail("public_signals topic missing id")
+        if not str(item.get("label") or "").strip():
+            fail("public_signals topic missing label")
+        if not isinstance(item.get("keywords") or [], list):
+            fail("public_signals topic keywords invalid")
 
     heartbeat = read_json(DATA / "heartbeat_status.json")
     if heartbeat.get("status") != "ok":

@@ -6,6 +6,7 @@ from __future__ import annotations
 import datetime as dt
 import html
 import json
+import math
 import re
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -16,12 +17,58 @@ PROFILE_JSON = ROOT / "data" / "profiles.json"
 INSIGHTS_JSON = ROOT / "data" / "daily_insights.json"
 BRIEFING_JSON = ROOT / "data" / "daily_briefing.json"
 DAILY_PROGRESS_JSON = ROOT / "data" / "daily_progress.json"
+DOMAIN_CONFIG_PATH = ROOT / "data" / "domain_config.json"
+DOMAIN_CONTEXT_JSON = ROOT / "data" / "domain_context.json"
+TOPIC_CLOUD_JSON = ROOT / "data" / "topic_cloud.json"
 PROFILES_DIR = ROOT / "profiles"
 PROFILE_INDEX = PROFILES_DIR / "index.html"
 INSIGHTS_PAGE = ROOT / "insights.html"
 BRIEFING_PAGE = ROOT / "daily_briefing.html"
 POSTER_PAGE = ROOT / "poster.html"
 DAILY_PROGRESS_PAGE = ROOT / "daily_progress.html"
+TOPICS_PAGE = ROOT / "topics.html"
+
+DEFAULT_DOMAIN_CONFIG = {
+    "slug": "ai",
+    "site_title_zh": "领域社交影响力情报台",
+    "site_title_en": "Domain Influence Intelligence",
+    "domain_name_zh": "AI",
+    "domain_name_en": "AI",
+    "platform_name": "X",
+    "entity_label_zh": "博主",
+    "entity_label_en": "creators",
+    "sample_pool_label_zh": "X 领域博主",
+    "sample_pool_label_en": "X domain creators",
+    "topics_page_zh": "热点词云",
+    "topics_page_en": "Topic Cloud",
+    "insights_page_zh": "最新分享",
+    "insights_page_en": "Latest Shares",
+    "progress_page_zh": "每日进展",
+    "progress_page_en": "Daily Progress",
+    "include_handles": [],
+    "match_keywords": [],
+    "exclude_keywords": [],
+    "topic_taxonomy": [
+        {"topic": "AI Agents", "keywords": ["agent", "agents", "assistant", "workflow", "tool use"]},
+        {"topic": "Model Capability", "keywords": ["model", "reasoning", "multimodal", "inference", "benchmark"]},
+        {"topic": "Productization", "keywords": ["product", "shipping", "deploy", "go to market", "distribution"]},
+        {"topic": "AI Industry", "keywords": ["industry", "enterprise", "platform", "ecosystem", "market"]},
+        {"topic": "Research Frontier", "keywords": ["research", "paper", "science", "arxiv", "breakthrough"]},
+        {"topic": "OpenAI Ecosystem", "keywords": ["openai", "chatgpt", "gpt", "sora", "codex"]},
+        {"topic": "Model Engineering", "keywords": ["pytorch", "training", "fine-tuning", "cuda", "weights"]},
+        {"topic": "Robotics", "keywords": ["robot", "robots", "robotics", "physical ai"]},
+        {"topic": "AI Infrastructure", "keywords": ["infra", "infrastructure", "gpu", "cluster", "compute"]},
+        {"topic": "Safety & Alignment", "keywords": ["safety", "alignment", "governance", "policy", "risk"]},
+    ],
+    "default_topics": ["Industry", "Capability", "Productization"],
+    "term_stopwords": [
+        "about", "after", "again", "against", "also", "been", "being", "because", "between", "could", "every",
+        "first", "from", "have", "into", "just", "latest", "looks", "like", "more", "most", "much", "over",
+        "people", "really", "share", "their", "there", "these", "this", "today", "using", "very", "what",
+        "when", "where", "with", "would", "your", "that", "than", "they", "them", "then", "were", "will",
+        "open", "source", "just", "news", "thread", "check", "out", "here", "https", "http", "com",
+    ],
+}
 
 LAYER_LABEL_ZH = {
     "core": "核心",
@@ -37,6 +84,32 @@ LAYER_LABEL_EN = {
     "outer_core": "Outer Core",
     "surface": "Surface",
 }
+
+
+def load_domain_config() -> dict:
+    config = json.loads(json.dumps(DEFAULT_DOMAIN_CONFIG, ensure_ascii=False))
+    if DOMAIN_CONFIG_PATH.exists():
+        try:
+            user_cfg = json.loads(DOMAIN_CONFIG_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            user_cfg = {}
+        if isinstance(user_cfg, dict):
+            for key, value in user_cfg.items():
+                config[key] = value
+    return config
+
+
+def taxonomy_pairs(domain: dict) -> list[tuple[str, str]]:
+    pairs: list[tuple[str, str]] = []
+    for item in domain.get("topic_taxonomy") or []:
+        if not isinstance(item, dict):
+            continue
+        topic = str(item.get("topic") or "").strip()
+        for keyword in item.get("keywords") or []:
+            kw = str(keyword or "").strip().lower()
+            if topic and kw:
+                pairs.append((kw, topic))
+    return pairs
 
 
 def slugify(handle: str) -> str:
@@ -69,27 +142,159 @@ def layer_by_rank(rank: int, total: int) -> str:
     return "surface"
 
 
-def topic_from_text(text: str) -> list[str]:
+def topic_from_text(text: str, domain: dict) -> list[str]:
     t = text.lower()
     topics = []
-    pairs = [
-        ("llm", "LLM"),
-        ("agent", "AI Agents"),
-        ("openai", "OpenAI Ecosystem"),
-        ("anthropic", "Safety & Alignment"),
-        ("deepmind", "Research Frontier"),
-        ("pytorch", "Model Engineering"),
-        ("robot", "Robotics"),
-        ("startup", "AI Startups"),
-        ("infra", "AI Infrastructure"),
-        ("safety", "AI Safety"),
-    ]
+    pairs = taxonomy_pairs(domain)
     for k, v in pairs:
         if k in t and v not in topics:
             topics.append(v)
     if not topics:
-        topics = ["AI Industry", "Model Capability", "Productization"]
+        topics = list(domain.get("default_topics") or DEFAULT_DOMAIN_CONFIG["default_topics"])
     return topics[:3]
+
+
+def tokenize_terms(text: str, stopwords: set[str]) -> list[str]:
+    terms = []
+    for token in re.findall(r"[A-Za-z][A-Za-z0-9\-\+#\.]{2,}", text or ""):
+        low = token.lower().strip(".")
+        if low in stopwords:
+            continue
+        if low.startswith("www") or low.endswith(".com"):
+            continue
+        terms.append(low)
+    return terms
+
+
+def domain_context(domain: dict, total_count: int) -> dict:
+    domain_zh = str(domain.get("domain_name_zh") or "该领域")
+    domain_en = str(domain.get("domain_name_en") or "this domain")
+    entity_zh = str(domain.get("entity_label_zh") or "博主")
+    entity_en = str(domain.get("entity_label_en") or "creators")
+    platform = str(domain.get("platform_name") or "X")
+    sample_zh = str(domain.get("sample_pool_label_zh") or f"{platform} 领域{entity_zh}")
+    sample_en = str(domain.get("sample_pool_label_en") or f"{platform} domain {entity_en}")
+    return {
+        "slug": str(domain.get("slug") or "domain"),
+        "site_title_zh": str(domain.get("site_title_zh") or f"{domain_zh} 社交影响力情报台"),
+        "site_title_en": str(domain.get("site_title_en") or f"{domain_en} Influence Intelligence"),
+        "domain_name_zh": domain_zh,
+        "domain_name_en": domain_en,
+        "entity_label_zh": entity_zh,
+        "entity_label_en": entity_en,
+        "platform_name": platform,
+        "sample_pool_label_zh": sample_zh,
+        "sample_pool_label_en": sample_en,
+        "topics_page_zh": str(domain.get("topics_page_zh") or "热点词云"),
+        "topics_page_en": str(domain.get("topics_page_en") or "Topic Cloud"),
+        "insights_page_zh": str(domain.get("insights_page_zh") or "最新分享"),
+        "insights_page_en": str(domain.get("insights_page_en") or "Latest Shares"),
+        "progress_page_zh": str(domain.get("progress_page_zh") or "每日进展"),
+        "progress_page_en": str(domain.get("progress_page_en") or "Daily Progress"),
+        "total_profiles": int(total_count),
+        "filters": {
+            "include_handles": list(domain.get("include_handles") or []),
+            "match_keywords": list(domain.get("match_keywords") or []),
+            "exclude_keywords": list(domain.get("exclude_keywords") or []),
+        },
+    }
+
+
+def domain_matches(row: dict, node: dict, domain: dict) -> bool:
+    include_handles = {str(x).strip().lstrip("@").lower() for x in (domain.get("include_handles") or []) if str(x).strip()}
+    match_keywords = [str(x).strip().lower() for x in (domain.get("match_keywords") or []) if str(x).strip()]
+    exclude_keywords = [str(x).strip().lower() for x in (domain.get("exclude_keywords") or []) if str(x).strip()]
+    handle = str(row.get("handle") or row.get("id") or "").strip().lstrip("@").lower()
+    haystack = " ".join(
+        [
+            handle,
+            str(row.get("name") or ""),
+            str(row.get("role") or ""),
+            str(row.get("group") or ""),
+            str(node.get("bio") or ""),
+            str(node.get("role") or ""),
+            str(node.get("group") or ""),
+            str(row.get("latest_tweet_text") or ""),
+        ]
+    ).lower()
+    if include_handles and handle in include_handles:
+        return True
+    if exclude_keywords and any(k in haystack for k in exclude_keywords):
+        return False
+    if match_keywords:
+        return any(k in haystack for k in match_keywords)
+    return True
+
+
+def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, domain: dict, ctx: dict) -> dict:
+    stopwords = {str(x).strip().lower() for x in (domain.get("term_stopwords") or []) if str(x).strip()}
+    stopwords |= {"rt", "amp", "the", "and", "for", "you", "are", "our", "its", "via"}
+    term_counter: Counter[str] = Counter()
+    topic_counter: Counter[str] = Counter()
+    topic_people: dict[str, dict[str, dict]] = defaultdict(dict)
+    term_people: dict[str, dict[str, dict]] = defaultdict(dict)
+
+    for row in profiles:
+        handle = str(row.get("handle") or "").strip()
+        slug = str(row.get("slug") or "").strip()
+        name = str(row.get("name") or handle).strip()
+        texts = " ".join(
+            [
+                str(row.get("latest_tweet_text") or ""),
+                str(row.get("today_hottest_tweet_text") or ""),
+                " ".join(row.get("topics") or []),
+                str(row.get("role") or ""),
+                str(row.get("group") or ""),
+            ]
+        )
+        for topic in row.get("topics") or []:
+            topic_counter[topic] += 1
+            if handle:
+                topic_people[topic][handle.lower()] = {"handle": handle, "slug": slug, "name": name}
+        for term in tokenize_terms(texts, stopwords):
+            term_counter[term] += 1
+            if handle:
+                term_people[term][handle.lower()] = {"handle": handle, "slug": slug, "name": name}
+
+    top_topics = [
+        {
+            "topic": topic,
+            "count": count,
+            "people": list((topic_people.get(topic) or {}).values())[:12],
+        }
+        for topic, count in topic_counter.most_common(18)
+    ]
+    top_terms = []
+    max_count = max(term_counter.values()) if term_counter else 1
+    for idx, (term, count) in enumerate(term_counter.most_common(48)):
+        weight = 0.24 + 0.76 * (count / max_count)
+        size = 16 + int(round(44 * weight))
+        angle = (-9, -4, 0, 4, 9)[idx % 5]
+        top_terms.append(
+            {
+                "term": term,
+                "count": count,
+                "weight": round(weight, 4),
+                "font_size": size,
+                "angle": angle,
+                "people": list((term_people.get(term) or {}).values())[:16],
+            }
+        )
+
+    lead = top_topics[0]["topic"] if top_topics else (ctx.get("domain_name_en") or "Domain")
+    second = top_topics[1]["topic"] if len(top_topics) > 1 else lead
+    summary_zh = f"当前热点集中在 {lead} 与 {second}，词云基于最近可用分享、人物标签和角色描述生成。"
+    summary_en = f"Current hotspots cluster around {lead} and {second}, based on recent shares, creator tags, and role descriptions."
+
+    return {
+        "updated_at": updated_at,
+        "built_at": built_at,
+        "domain": ctx,
+        "summary_zh": summary_zh,
+        "summary_en": summary_en,
+        "topics": top_topics,
+        "terms": top_terms,
+    }
 
 
 def zh_summary(row: dict, node: dict, layer_zh: str) -> str:
@@ -191,6 +396,33 @@ def _recency_days_from_row(row: dict) -> int:
         return 999
 
 
+def _sort_timestamp_from_row(row: dict) -> float:
+    raw = str(row.get("today_hottest_tweet_at") or row.get("latest_tweet_at") or "").strip()
+    if not raw:
+        return 0.0
+    try:
+        parsed = dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=dt.timezone.utc)
+        return parsed.timestamp()
+    except Exception:
+        return 0.0
+
+
+def _display_share_time(label: str, iso_ts: str) -> str:
+    raw_label = str(label or "").strip()
+    if raw_label:
+        return raw_label
+    raw_iso = str(iso_ts or "").strip()
+    if not raw_iso:
+        return ""
+    try:
+        parsed = dt.datetime.fromisoformat(raw_iso.replace("Z", "+00:00")).astimezone(dt.timezone.utc)
+        return parsed.strftime("%Y-%m-%d %H:%M UTC")
+    except Exception:
+        return raw_iso
+
+
 def compute_best_buddies(
     top_rows: list[dict],
     weighted_links: list[dict],
@@ -285,7 +517,7 @@ def compute_content_updated_at(rows: list[dict], fallback: str) -> str:
     return latest_dt.isoformat() if latest_dt else fallback
 
 
-def build_daily_progress(profiles: list[dict], top10: list[dict], updated_at: str, built_at: str) -> dict:
+def build_daily_progress(profiles: list[dict], top10: list[dict], updated_at: str, built_at: str, ctx: dict) -> dict:
     top_topics = Counter()
     for p in profiles[:120]:
         top_topics.update(p.get("topics") or [])
@@ -319,15 +551,17 @@ def build_daily_progress(profiles: list[dict], top10: list[dict], updated_at: st
         for r in trend_rows
     ]
 
-    lead_topic_zh = topic_rank[0]["topic"] if topic_rank else "AI Industry"
+    lead_topic_zh = topic_rank[0]["topic"] if topic_rank else (ctx.get("domain_name_en") or "Domain")
     second_topic_zh = topic_rank[1]["topic"] if len(topic_rank) > 1 else lead_topic_zh
+    domain_zh = str(ctx.get("domain_name_zh") or "该领域")
+    domain_en = str(ctx.get("domain_name_en") or "this domain")
     summary_zh = (
-        f"今日AI进展：讨论重心集中在 {lead_topic_zh} 与 {second_topic_zh}。"
+        f"今日{domain_zh}进展：讨论重心集中在 {lead_topic_zh} 与 {second_topic_zh}。"
         f"Top10 关键人物仍在推动“模型能力产品化 + 发布反馈闭环”，"
         f"全网高影响博主均值分约 {sum(float(x.get('score') or 0) for x in top10) / max(1, len(top10)):.3f}。"
     )
     summary_en = (
-        f"Daily AI progress: discussion centers on {lead_topic_zh} and {second_topic_zh}. "
+        f"Daily {domain_en} progress: discussion centers on {lead_topic_zh} and {second_topic_zh}. "
         f"Top voices keep focusing on productizing model capability and iterating via publish-feedback loops."
     )
 
@@ -353,7 +587,7 @@ def build_daily_progress(profiles: list[dict], top10: list[dict], updated_at: st
     }
 
 
-def profile_page(profile: dict) -> str:
+def profile_page(profile: dict, ctx: dict) -> str:
     name = html.escape(profile["name"])
     handle = html.escape(profile["handle"])
     zh = html.escape(profile["summary_zh"])
@@ -386,15 +620,19 @@ def profile_page(profile: dict) -> str:
         for b in buddies
     )
     recency_days = int(profile.get("recency_days") or 999)
+    latest_share_time = _display_share_time(
+        str(profile.get("latest_tweet_at_label") or ""),
+        str(profile.get("latest_tweet_at") or ""),
+    )
     freshness_note = (
-        f"最近内容距今 {recency_days} 天。若今天没有新帖，页面会展示最近一次可用分享，不伪装为当日观点。"
+        f"最近分享时间：{latest_share_time or '未知'}。最近内容距今 {recency_days} 天。若今天没有新帖，页面会展示最近一次可用分享，不伪装为当日观点。"
         if recency_days < 900
-        else "当前未拿到可确认发布时间的原始帖子，页面仅展示最近一次可用抓取结果。"
+        else f"最近分享时间：{latest_share_time or '未知'}。当前未拿到可确认发布时间的原始帖子，页面仅展示最近一次可用抓取结果。"
     )
 
     return f"""<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
-<title>{name} | X Profile</title>
+<title>{name} | {html.escape(str(ctx.get("site_title_en") or "Profile"))}</title>
 <script src=\"../assets/metrics.js\" defer></script>
 <script src=\"../assets/expert-limit.js\" defer></script>
 <style>
@@ -413,7 +651,7 @@ def profile_page(profile: dict) -> str:
 @media (max-width:760px){{.kpis{{grid-template-columns:repeat(2,minmax(0,1fr))}} .name{{font-size:20px}}}}
 </style></head><body><div class=\"wrap\"><div class=\"card\">
 <div class=\"row\"><div><div class=\"name\">{name}</div><div class=\"handle\">@{handle}</div></div>
-<div class=\"row\"><a class=\"btn\" href=\"https://x.com/{handle}\" target=\"_blank\">Open X</a><a class=\"btn\" href=\"./index.html\">Profiles</a><a class=\"btn\" href=\"../poster.html?slug={profile['slug']}&mode=profile\">分享海报</a><a class=\"btn\" href=\"../commercial.html\">Commercial</a><a class=\"btn\" href=\"../contact.html\">Contact</a></div></div>
+<div class=\"row\"><a class=\"btn\" href=\"https://x.com/{handle}\" target=\"_blank\">Open X</a><a class=\"btn\" href=\"./index.html\">Profiles</a><a class=\"btn\" href=\"../topics.html\">{html.escape(str(ctx.get("topics_page_zh") or "热点词云"))}</a><a class=\"btn\" href=\"../public_signals.html\">公共信号</a><a class=\"btn\" href=\"../poster.html?slug={profile['slug']}&mode=profile\">分享海报</a><a class=\"btn\" href=\"../commercial.html\">Commercial</a><a class=\"btn\" href=\"../contact.html\">Contact</a></div></div>
 <div class=\"muted\" style=\"margin-top:6px\">Layer: {layer_en} / {layer_zh}</div>
 <div class=\"notice\">{html.escape(freshness_note)}</div>
 <div class=\"tags\">{tags}</div>
@@ -443,7 +681,7 @@ def profile_page(profile: dict) -> str:
 </div></div></body></html>"""
 
 
-def profiles_index() -> str:
+def profiles_index(ctx: dict) -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>X Influencer Profiles</title>
@@ -458,7 +696,7 @@ def profiles_index() -> str:
 .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.item{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:5px}
 .name{font-weight:700}.muted{color:#9db0da;font-size:12px}.line{display:flex;justify-content:space-between;gap:8px}.tag{font-size:11px;border:1px solid rgba(255,255,255,.2);padding:3px 6px;border-radius:999px}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>X Influencer Profiles / 博主画像库</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"../index.html\">Home</a><a class=\"btn\" href=\"../insights.html\">Insights</a><a class=\"btn\" href=\"../daily_briefing.html\">Briefing</a><a class=\"btn\" href=\"../daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"../poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"../commercial.html\">Commercial</a><a class=\"btn\" href=\"../contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>X Influencer Profiles / 博主画像库</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"../index.html\">Home</a><a class=\"btn\" href=\"../insights.html\">Insights</a><a class=\"btn\" href=\"../daily_briefing.html\">Briefing</a><a class=\"btn\" href=\"../daily_progress.html\">每日进展</a><a class=\"btn\" href=\"../topics.html\">热点词云</a><a class=\"btn\" href=\"../public_signals.html\">公共信号</a><a class=\"btn\" href=\"../poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"../commercial.html\">Commercial</a><a class=\"btn\" href=\"../contact.html\">Contact</a></div></div>
 <div class=\"tools\"><input id=\"q\" placeholder=\"Search name/handle\"/><select id=\"layer\"><option value=\"all\">All Layers</option></select><select id=\"sort\"><option value=\"rank\">Sort by Rank</option><option value=\"score\">Sort by Score</option><option value=\"followers\">Sort by Followers</option></select></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
@@ -483,7 +721,7 @@ q.addEventListener('input',render); layer.addEventListener('change',render); sor
 </script></body></html>"""
 
 
-def insights_page() -> str:
+def insights_page(ctx: dict) -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Daily Insights</title>
@@ -497,7 +735,7 @@ def insights_page() -> str:
 .tools{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}.tools input,.tools select{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:#111a34;color:#eaf0ff}
 .grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}.muted{color:#9db0da;font-size:12px}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Daily Insights / 每日观点精髓</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./profiles/index.html\">Profiles</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Latest Shares / 最新分享</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./profiles/index.html\">Profiles</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日进展</a><a class=\"btn\" href=\"./topics.html\">热点词云</a><a class=\"btn\" href=\"./public_signals.html\">公共信号</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"tools\"><input id=\"q\" placeholder=\"Search name/handle\"/><select id=\"lang\"><option value=\"zh\">中文</option><option value=\"en\">English</option></select><select id=\"time\"><option value=\"1\">24h</option><option value=\"7\">7d</option><option value=\"30\" selected>30d</option></select><select id=\"topic\"><option value=\"all\">All Topics</option></select><select id=\"layer\"><option value=\"all\">All Layers</option></select></div>
 <div class=\"card\" id=\"freshness\" style=\"margin-top:10px\"></div>
 <div id=\"grid\" class=\"grid\"></div></div>
@@ -511,15 +749,25 @@ function render(){
   let fs=rows.filter(r=>{
     const hasKey=!key||(`${r.name} ${r.handle}`).toLowerCase().includes(key);
     const inLayer=lv==='all'||r.layer===lv;
-    const inTime=(r.recency_days||30)<=tv;
+    const recency=Number(r.recency_days ?? 999);
+    const inTime=recency<=tv;
     const inTopic=tp==='all'||(r.topics||[]).includes(tp);
     return hasKey&&inLayer&&inTime&&inTopic;
   });
-  fs.sort((a,b)=>a.rank-b.rank);
+  fs.sort((a,b)=>{
+    const ra=Number(a.recency_days ?? 999), rb=Number(b.recency_days ?? 999);
+    if(ra!==rb) return ra-rb;
+    const ta=Number(a.sort_ts ?? 0), tb=Number(b.sort_ts ?? 0);
+    if(ta!==tb) return tb-ta;
+    const sa=Number(a.score||0), sb=Number(b.score||0);
+    if(sa!==sb) return sb-sa;
+    return Number(a.rank||999999)-Number(b.rank||999999);
+  });
   grid.innerHTML=fs.map(r=>{
     const buddy=((r.best_buddies||[])[0]||null);
     const buddyLine=buddy?`<div class=\"muted\">最佳互动基友：${buddy.name} @${buddy.handle}</div>`:'';
-    return `<div class=\"card\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?'最新分享：':'Latest share: '}${l==='zh'?(r.latest_share_zh||r.latest_viewpoint_zh||''):(r.latest_share_en||r.latest_viewpoint_en||'')}</p>${buddyLine}<div class=\"muted\">Recency: ${r.recency_days}d</div><div style=\"display:flex;gap:8px;margin-top:8px\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">View Profile</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=insight&lang=${l}\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`;
+    const shareTime=r.latest_tweet_at_label||r.latest_tweet_at||'';
+    return `<div class=\"card\"><div><b>${r.name}</b> <span class=\"muted\">@${r.handle}</span></div><div class=\"muted\">${layerLabel[r.layer]||r.layer} · score ${Number(r.score||0).toFixed(3)} · ${(r.topics||[]).join(' · ')}</div><p>${l==='zh'?'最新分享：':'Latest share: '}${l==='zh'?(r.latest_share_zh||r.latest_viewpoint_zh||''):(r.latest_share_en||r.latest_viewpoint_en||'')}</p>${buddyLine}<div class=\"muted\">${l==='zh'?'分享时间：':'Share time: '}${shareTime}</div><div class=\"muted\">Recency: ${r.recency_days}d</div><div style=\"display:flex;gap:8px;margin-top:8px\"><a class=\"btn\" href=\"./profiles/${r.slug}.html\">View Profile</a><a class=\"btn\" href=\"./poster.html?slug=${r.slug}&mode=insight&lang=${l}\">海报</a><a class=\"btn\" href=\"https://x.com/${r.handle}\" target=\"_blank\">Open X</a></div></div>`;
   }).join('');
 }
 Promise.all([
@@ -541,7 +789,7 @@ Promise.all([
 </script></body></html>"""
 
 
-def briefing_page() -> str:
+def briefing_page(ctx: dict) -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Daily Top10 Briefing</title>
@@ -562,7 +810,7 @@ def briefing_page() -> str:
 .share-menu button{cursor:pointer;border:1px solid rgba(125,177,255,.45);border-radius:8px;background:#17396f;color:#eaf2ff;padding:6px 8px;font-size:12px;text-align:left}
 .share-menu button:hover{background:#1f4686}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Top10 Daily Briefing / 每日十大观点</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10整合海报</a><a class=\"btn\" href=\"./poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Top10 Briefing / 十大观点</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_progress.html\">每日进展</a><a class=\"btn\" href=\"./topics.html\">热点词云</a><a class=\"btn\" href=\"./public_signals.html\">公共信号</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10整合海报</a><a class=\"btn\" href=\"./poster.html?mode=custom\">自选博主海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"card\" id=\"freshness\"></div>
 <div id=\"grid\" class=\"grid\"></div></div>
 <script>
@@ -650,10 +898,10 @@ fetch('./data/daily_briefing.json').then(r=>r.json()).then(d=>{
 </script></body></html>"""
 
 
-def daily_progress_page() -> str:
+def daily_progress_page(ctx: dict) -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
-<title>Daily AI Progress</title>
+<title>Daily Domain Progress</title>
 <script src=\"./assets/metrics.js\" defer></script>
 <script src=\"./assets/expert-limit.js\" defer></script>
 <style>
@@ -666,7 +914,7 @@ def daily_progress_page() -> str:
 .tag{display:inline-block;padding:4px 8px;border:1px solid rgba(255,255,255,.2);border-radius:999px;font-size:12px;margin-right:6px}
 .quote{margin-top:8px;padding:8px 10px;border:1px solid rgba(106,211,255,.35);border-radius:10px;background:rgba(106,211,255,.08);line-height:1.5}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Daily AI Progress / 每日AI进展</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Daily Domain Progress / 每日领域进展</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./topics.html\">热点词云</a><a class=\"btn\" href=\"./public_signals.html\">公共信号</a><a class=\"btn\" href=\"./poster.html?mode=top10\">Top10海报</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"card\"><div id=\"sum_zh\" style=\"font-size:16px;font-weight:700\"></div><div id=\"sum_en\" class=\"muted\" style=\"margin-top:6px\"></div><div id=\"updated\" class=\"muted\" style=\"margin-top:8px\"></div></div>
 <div class=\"card\" id=\"freshness\"></div>
 <div class=\"card\"><h3 style=\"margin-top:0\">热门主题</h3><div id=\"topics\"></div></div>
@@ -693,7 +941,7 @@ fetch('./data/daily_progress.json').then(r=>r.json()).then(d=>{
 </script></body></html>"""
 
 
-def poster_page() -> str:
+def poster_page(ctx: dict) -> str:
     return """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Share Poster</title>
@@ -716,7 +964,7 @@ def poster_page() -> str:
 .picker .it{display:flex;justify-content:space-between;gap:8px;padding:5px 2px;font-size:12px;color:#d9e7ff}
 @media(max-width:860px){.row{grid-template-columns:1fr}.cfg{grid-template-columns:1fr}}
 </style></head><body><div class=\"wrap\">
-<div class=\"top\"><h2>Share Poster / 一键转海报</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日AI进展</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
+<div class=\"top\"><h2>Share Poster / 一键转海报</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日进展</a><a class=\"btn\" href=\"./topics.html\">热点词云</a><a class=\"btn\" href=\"./public_signals.html\">公共信号</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"row\">
   <div class=\"card\">
     <div id=\"title\" style=\"font-size:22px;font-weight:800\">Loading...</div>
@@ -978,10 +1226,109 @@ Promise.all([
 </script></body></html>"""
 
 
+def topics_page(ctx: dict) -> str:
+    return """<!doctype html>
+<html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
+<title>Topic Cloud</title>
+<script src=\"./assets/metrics.js\" defer></script>
+<style>
+:root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
+.row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(320px,.8fr);gap:12px}
+.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}
+.muted{color:#9db0da;font-size:12px}
+.cloud{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;min-height:460px}
+.term{display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(106,211,255,.08);color:#eaf4ff;cursor:pointer;transform-origin:center;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.term:hover,.term.active{transform:translateY(-2px) scale(1.02);border-color:rgba(106,211,255,.55);background:rgba(106,211,255,.18)}
+.pill{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid rgba(255,255,255,.16);border-radius:999px;margin:0 8px 8px 0;font-size:12px;cursor:pointer}
+.pill.active{border-color:rgba(106,211,255,.55);background:rgba(106,211,255,.12)}
+.list{display:grid;gap:8px;margin-top:10px}
+.item{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px;background:#0f1831}
+@media (max-width:860px){.row{grid-template-columns:1fr}}
+</style></head><body><div class=\"wrap\">
+<div class=\"top\"><h2>Topic Cloud / 热点词云</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日进展</a><a class=\"btn\" href=\"./profiles/index.html\">Profiles</a><a class=\"btn\" href=\"./public_signals.html\">公共信号</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
+<div class=\"card\" id=\"summary\" style=\"margin-top:10px\"></div>
+<div class=\"row\" style=\"margin-top:12px\">
+  <div class=\"card\">
+    <div style=\"display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap\">
+      <h3 style=\"margin:0\">热点词云</h3>
+      <div class=\"muted\">点击词或主题，查看对应人物</div>
+    </div>
+    <div id=\"topics\" style=\"margin-top:10px\"></div>
+    <div id=\"cloud\" class=\"cloud\" style=\"margin-top:12px\"></div>
+  </div>
+  <div class=\"card\">
+    <h3 style=\"margin:0\">关联人物</h3>
+    <div class=\"muted\" id=\"selectionNote\" style=\"margin-top:8px\">先选择一个话题或热词</div>
+    <div id=\"list\" class=\"list\"></div>
+  </div>
+</div></div>
+<script>
+let topicRows=[]; let termRows=[]; let activeTopic=''; let activeTerm='';
+function escapeHtml(v){ return String(v||'').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[ch])); }
+function renderSelection(){
+  const list=document.getElementById('list');
+  const note=document.getElementById('selectionNote');
+  let people=[];
+  if(activeTerm){
+    const row=termRows.find(x=>x.term===activeTerm);
+    people=row ? (row.people||[]) : [];
+    note.textContent=`热词：${activeTerm} · 关联 ${people.length} 位人物`;
+  }else if(activeTopic){
+    const row=topicRows.find(x=>x.topic===activeTopic);
+    people=row ? (row.people||[]) : [];
+    note.textContent=`主题：${activeTopic} · 关联 ${people.length} 位人物`;
+  }else{
+    note.textContent='先选择一个话题或热词';
+  }
+  list.innerHTML=people.length ? people.map(p=>`<a class=\"item\" href=\"./profiles/${encodeURIComponent(p.slug||'')}.html\"><b>${escapeHtml(p.name||'')}</b><div class=\"muted\" style=\"margin-top:4px\">@${escapeHtml(p.handle||'')}</div></a>`).join('') : '<div class=\"item muted\">暂无匹配人物</div>';
+}
+function renderTopics(){
+  const wrap=document.getElementById('topics');
+  wrap.innerHTML=topicRows.map(r=>`<span class=\"pill ${activeTopic===r.topic?'active':''}\" data-topic=\"${escapeHtml(r.topic)}\">${escapeHtml(r.topic)} <span class=\"muted\">(${r.count})</span></span>`).join('');
+  wrap.querySelectorAll('[data-topic]').forEach(el=>el.addEventListener('click',()=>{
+    activeTopic = el.dataset.topic === activeTopic ? '' : el.dataset.topic;
+    activeTerm = '';
+    renderTopics(); renderTerms(); renderSelection();
+  }));
+}
+function renderTerms(){
+  const cloud=document.getElementById('cloud');
+  cloud.innerHTML=termRows.map((r,idx)=>{
+    const hue = 192 + (idx % 8) * 12;
+    return `<span class=\"term ${activeTerm===r.term?'active':''}\" data-term=\"${escapeHtml(r.term)}\" style=\"font-size:${r.font_size}px;transform:rotate(${r.angle}deg);background:hsla(${hue},85%,68%,0.10)\">${escapeHtml(r.term)}</span>`;
+  }).join('');
+  cloud.querySelectorAll('[data-term]').forEach(el=>el.addEventListener('click',()=>{
+    activeTerm = el.dataset.term === activeTerm ? '' : el.dataset.term;
+    activeTopic = '';
+    renderTopics(); renderTerms(); renderSelection();
+  }));
+}
+fetch('./data/topic_cloud.json').then(r=>r.json()).then(d=>{
+  topicRows=d.topics||[];
+  termRows=d.terms||[];
+  document.getElementById('summary').innerHTML=`<div><b>${escapeHtml((d.domain||{}).domain_name_en||'Domain')} Topic Cloud</b><span class=\"muted\"> · 内容时间 ${(d.updated_at||'-').replace('T',' ').slice(0,19)} · 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)}</span></div><div style=\"margin-top:8px\">${escapeHtml(d.summary_zh||'')}</div><div class=\"muted\" style=\"margin-top:6px\">${escapeHtml(d.summary_en||'')}</div>`;
+  renderTopics(); renderTerms(); renderSelection();
+}).catch(()=>{
+  document.getElementById('summary').innerHTML='<b>词云数据暂不可用</b><div class=\"muted\" style=\"margin-top:8px\">请先执行数据生成脚本。</div>';
+});
+</script></body></html>"""
+
+
 def main() -> int:
+    domain = load_domain_config()
     data = json.loads(GRAPH_PATH.read_text(encoding="utf-8"))
-    top = data.get("top300", [])
+    raw_top = data.get("top300", [])
     nodes = {str(n.get("id") or n.get("handle") or ""): n for n in data.get("nodes", []) if isinstance(n, dict)}
+    top = [
+        row for row in raw_top
+        if isinstance(row, dict) and domain_matches(row, nodes.get(str(row.get("id") or row.get("handle") or ""), {}), domain)
+    ]
+    if not top:
+        top = list(raw_top)
+    ctx = domain_context(domain, len(top))
 
     metrics = {
         "association_weight": [float(x.get("association_weight") or 0) for x in top],
@@ -1007,8 +1354,16 @@ def main() -> int:
         handle = str(row.get("handle") or nid).lstrip("@")
         rank = int(row.get("rank") or total)
         layer = layer_by_rank(rank, total)
-        bio = f"{node.get('bio','')} {row.get('role','')} {row.get('group','')}"
-        topics = topic_from_text(bio)
+        text_scope = " ".join(
+            [
+                str(node.get("bio") or ""),
+                str(row.get("role") or ""),
+                str(row.get("group") or ""),
+                str(row.get("latest_tweet_text") or ""),
+                str(row.get("today_hottest_tweet_text") or ""),
+            ]
+        )
+        topics = topic_from_text(text_scope, domain)
 
         association_weight_n = norm(float(row.get("association_weight") or 0), *bounds["association_weight"])
         cross_follow_ratio_n = norm(float(row.get("cross_follow_ratio") or 0), *bounds["cross_follow_ratio"])
@@ -1028,6 +1383,7 @@ def main() -> int:
         influence = float(row.get("quanzhong_score") or (0.55 * association_score + 0.45 * centrality_score))
 
         recency_days = _recency_days_from_row(row)
+        sort_ts = _sort_timestamp_from_row(row)
         hottest_text = _clean_tweet_text(str(row.get("today_hottest_tweet_text") or ""))
         latest_text = _clean_tweet_text(str(row.get("latest_tweet_text") or ""))
         has_today = bool(row.get("has_today_tweet")) and bool(hottest_text)
@@ -1055,6 +1411,8 @@ def main() -> int:
             "latest_share_en": latest_share_en(row, topics),
             "latest_tweet_text": str(row.get("latest_tweet_text") or ""),
             "latest_tweet_at": str(row.get("latest_tweet_at") or ""),
+            "latest_tweet_at_label": str(row.get("latest_tweet_at_label") or ""),
+            "latest_crawled_at": str(row.get("latest_crawled_at") or ""),
             "latest_tweet_url": str(row.get("latest_tweet_url") or ""),
             "has_today_tweet": has_today,
             "today_hottest_tweet_text": hottest_text,
@@ -1062,6 +1420,7 @@ def main() -> int:
             "today_hottest_tweet_url": str(row.get("today_hottest_tweet_url") or ""),
             "today_hottest_tweet_heat": float(row.get("today_hottest_tweet_heat") or 0.0),
             "recency_days": recency_days,
+            "sort_ts": sort_ts,
             "followers": int(row.get("followers") or 0),
             "posts_count": int(row.get("posts_count") or 0),
             "comments_count": int(row.get("comments_count") or 0),
@@ -1104,7 +1463,8 @@ def main() -> int:
     insights_rows = sorted(
         recent_profiles,
         key=lambda x: (
-            int(x.get("recency_days") or 999),
+            int(x["recency_days"]) if x.get("recency_days") is not None else 999,
+            -float(x["sort_ts"]) if x.get("sort_ts") is not None else 0.0,
             -float(x.get("score") or 0),
             int(x.get("rank") or 999999),
         ),
@@ -1113,7 +1473,8 @@ def main() -> int:
         daily_profiles,
         key=lambda x: (
             -float(x.get("today_hottest_tweet_heat") or 0),
-            int(x.get("recency_days") or 999),
+            int(x["recency_days"]) if x.get("recency_days") is not None else 999,
+            -float(x["sort_ts"]) if x.get("sort_ts") is not None else 0.0,
             -float(x.get("score") or 0),
             int(x.get("rank") or 999999),
         ),
@@ -1131,22 +1492,26 @@ def main() -> int:
 
     PROFILES_DIR.mkdir(parents=True, exist_ok=True)
     for p in profiles:
-        (PROFILES_DIR / f"{p['slug']}.html").write_text(profile_page(p), encoding="utf-8")
+        (PROFILES_DIR / f"{p['slug']}.html").write_text(profile_page(p, ctx), encoding="utf-8")
 
-    PROFILE_INDEX.write_text(profiles_index(), encoding="utf-8")
-    INSIGHTS_PAGE.write_text(insights_page(), encoding="utf-8")
-    BRIEFING_PAGE.write_text(briefing_page(), encoding="utf-8")
-    DAILY_PROGRESS_PAGE.write_text(daily_progress_page(), encoding="utf-8")
-    POSTER_PAGE.write_text(poster_page(), encoding="utf-8")
+    PROFILE_INDEX.write_text(profiles_index(ctx), encoding="utf-8")
+    INSIGHTS_PAGE.write_text(insights_page(ctx), encoding="utf-8")
+    BRIEFING_PAGE.write_text(briefing_page(ctx), encoding="utf-8")
+    DAILY_PROGRESS_PAGE.write_text(daily_progress_page(ctx), encoding="utf-8")
+    POSTER_PAGE.write_text(poster_page(ctx), encoding="utf-8")
+    TOPICS_PAGE.write_text(topics_page(ctx), encoding="utf-8")
 
     built_at = dt.datetime.utcnow().isoformat() + "Z"
     content_fallback_at = str(data.get("generated_at") or built_at)
     content_updated_at = compute_content_updated_at(profiles, content_fallback_at)
     payload = {"updated_at": content_updated_at, "built_at": built_at, "items": profiles}
+    topic_cloud = build_topic_cloud(profiles, content_updated_at, built_at, domain, ctx)
     PROFILE_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     INSIGHTS_JSON.write_text(json.dumps({"updated_at": content_updated_at, "built_at": built_at, "items": insights_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
     BRIEFING_JSON.write_text(json.dumps({"updated_at": content_updated_at, "built_at": built_at, "items": briefing_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
-    DAILY_PROGRESS_JSON.write_text(json.dumps(build_daily_progress(profiles, briefing_rows, content_updated_at, built_at), ensure_ascii=False, indent=2), encoding="utf-8")
+    DAILY_PROGRESS_JSON.write_text(json.dumps(build_daily_progress(profiles, briefing_rows, content_updated_at, built_at, ctx), ensure_ascii=False, indent=2), encoding="utf-8")
+    DOMAIN_CONTEXT_JSON.write_text(json.dumps(ctx, ensure_ascii=False, indent=2), encoding="utf-8")
+    TOPIC_CLOUD_JSON.write_text(json.dumps(topic_cloud, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Generated {len(profiles)} profile pages and Top10 briefing")
     return 0
 

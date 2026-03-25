@@ -1,240 +1,40 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1020" />
-  <title>每日AI进展</title>
-  <script src="./assets/metrics.js" defer></script>
-  <script src="./assets/expert-limit.js" defer></script>
-  <style>
-    :root {
-      --bg: #09101f;
-      --card: rgba(17, 27, 52, 0.94);
-      --line: rgba(255,255,255,0.12);
-      --text: #edf3ff;
-      --muted: #94a9d5;
-      --brand: #6ad3ff;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 8% 0%, rgba(43, 84, 181, 0.44), transparent 30%),
-        linear-gradient(180deg, #09101f 0%, #0b1328 100%);
-      font-family: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
-    }
-    .wrap { max-width: 1180px; margin: 0 auto; padding: 18px; }
-    .topbar {
-      display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
-      padding:12px 14px; border:1px solid var(--line); border-radius:16px;
-      background: rgba(8,16,31,0.72); backdrop-filter: blur(16px); position:sticky; top:12px; z-index:10;
-    }
-    .brand { font-size:18px; font-weight:800; }
-    .actions { display:flex; gap:8px; flex-wrap:wrap; }
-    .btn {
-      display:inline-flex; align-items:center; justify-content:center; gap:8px;
-      padding:9px 13px; border-radius:11px; border:1px solid rgba(125,177,255,0.42);
-      background: linear-gradient(135deg, #183a7a, #122c5a); color: var(--text); text-decoration:none; cursor:pointer; font-size:13px;
-    }
-    .btn.main { background: linear-gradient(135deg, #2ca7ff, #1f6dff); border-color: rgba(113,208,255,0.82); }
-    .btn.ghost { background: rgba(255,255,255,0.04); }
-    .hero, .panel, .card, .cta-panel { border:1px solid var(--line); border-radius:18px; background: var(--card); }
-    .hero {
-      margin-top:14px; padding:22px;
-      background: radial-gradient(circle at 100% 0%, rgba(106,211,255,0.12), transparent 28%), linear-gradient(180deg, rgba(16,26,51,0.94), rgba(10,16,32,0.96));
-    }
-    h1 { margin:0; font-size:36px; line-height:1.08; }
-    .sub { margin-top:10px; color:var(--muted); font-size:15px; line-height:1.7; max-width:860px; }
-    .hero-row, .hero-cta { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
-    .badge, .tag {
-      padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.04); color:#d9e5ff; font-size:12px;
-    }
-    .panel { margin-top:14px; padding:16px; }
-    .section-head { display:flex; justify-content:space-between; gap:12px; align-items:end; flex-wrap:wrap; }
-    .section-head h2 { margin:0; font-size:22px; }
-    .section-copy { color:var(--muted); font-size:13px; line-height:1.7; max-width:760px; }
-    .summary-zh { font-size:18px; font-weight:800; line-height:1.6; }
-    .summary-en { margin-top:8px; color:var(--muted); line-height:1.7; }
-    .grid { margin-top:14px; display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px; }
-    .card { padding:16px; }
-    .meta { margin-top:8px; color:var(--muted); font-size:12px; line-height:1.6; }
-    .quote {
-      margin-top:14px; padding:14px; min-height:118px; border-radius:14px; line-height:1.7;
-      border:1px solid rgba(106,211,255,0.2); background: rgba(106,211,255,0.07);
-    }
-    .tags { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
-    .card-actions { margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
-    .cta-panel {
-      margin-top:18px; padding:18px;
-      background: radial-gradient(circle at 100% 0%, rgba(106,211,255,0.1), transparent 26%), linear-gradient(180deg, rgba(15,27,55,0.96), rgba(9,17,33,0.96));
-    }
-    .cta-panel h2 { margin:0; font-size:24px; }
-    .cta-panel p { margin:10px 0 0; color:var(--muted); line-height:1.7; }
-    @media (max-width: 980px) { .grid { grid-template-columns:1fr; } h1 { font-size:30px; } }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">AI Influence Intelligence</div>
-      <div class="actions">
-        <a class="btn ghost" href="./index.html" data-zh="首页" data-en="Home">首页</a>
-        <a class="btn ghost" href="./insights.html" data-zh="最新分享" data-en="Latest Shares">最新分享</a>
-        <a class="btn ghost" href="./daily_briefing.html" data-zh="Top10" data-en="Top10">Top10</a>
-        <a class="btn ghost" href="./profiles/index.html" data-zh="人物库" data-en="Profiles">人物库</a>
-        <a class="btn ghost" href="./commercial.html" data-zh="商业方案" data-en="Commercial">商业方案</a>
-        <a class="btn ghost" href="./contact.html?source=progress&intent=demo" data-zh="联系" data-en="Contact">联系</a>
-        <a class="btn" href="#" id="langBtn">EN</a>
-      </div>
-    </div>
-
-    <section class="hero">
-      <h1 data-zh="每日AI进展：先看当前主线，再看关键人物" data-en="Daily AI Progress: see the current thread first, then the key people behind it">每日AI进展：先看当前主线，再看关键人物</h1>
-      <p class="sub" data-zh="这页把当前样本里的讨论浓缩成一张适合团队扫读的摘要卡。你可以先看总趋势，再看热门主题和关键人物最近分享，适合晨会、周报和管理层同步。" data-en="This page condenses the current sample into a compact summary card for teams. Start with the overall trend, then review hot topics and the key people behind the conversation. It works well for standups, weekly updates, and executive syncs.">这页把当前样本里的讨论浓缩成一张适合团队扫读的摘要卡。你可以先看总趋势，再看热门主题和关键人物最近分享，适合晨会、周报和管理层同步。</p>
-      <div class="hero-row">
-        <span class="badge" id="updatedBadge">内容时间：-</span>
-        <span class="badge" id="scopeBadge">关键人物：-</span>
-        <span class="badge" data-zh="适合做每日同步与行业速览" data-en="Built for daily syncs and industry briefings">适合做每日同步与行业速览</span>
-      </div>
-      <div class="hero-cta">
-        <a class="btn main" href="./commercial.html" data-zh="查看商业方案" data-en="View Commercial Plans">查看商业方案</a>
-        <a class="btn" href="./daily_briefing.html" data-zh="转到 Top10" data-en="Open Top10">转到 Top10</a>
-        <a class="btn" href="./contact.html?source=progress&intent=intel" data-zh="咨询订阅" data-en="Ask About Subscription">咨询订阅</a>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="summary-zh" id="sumZh"></div>
-      <div class="summary-en" id="sumEn"></div>
-    </section>
-
-    <section class="panel" id="freshness"></section>
-
-    <section class="panel">
-      <div class="section-head">
-        <div>
-          <h2 data-zh="热门主题" data-en="Hot Topics">热门主题</h2>
-          <div class="section-copy" data-zh="这里展示当前样本里被提及最集中的主题，可以快速判断今天讨论重心在哪。" data-en="These are the most concentrated themes across the current sample, so you can quickly see where the conversation is clustering today.">这里展示当前样本里被提及最集中的主题，可以快速判断今天讨论重心在哪。</div>
-        </div>
-      </div>
-      <div class="tags" id="topics"></div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <div>
-          <h2 data-zh="当前关键人物" data-en="Current key people">当前关键人物</h2>
-          <div class="section-copy" data-zh="这些卡片适合继续点进人物页、海报或 X 原文。" data-en="These cards are designed to route you into profiles, posters, or the original X post.">这些卡片适合继续点进人物页、海报或 X 原文。</div>
-        </div>
-      </div>
-      <div id="trend" class="grid"></div>
-    </section>
-
-    <section class="cta-panel">
-      <h2 data-zh="想把每日进展变成团队订阅？" data-en="Want to turn daily progress into a team subscription?">想把每日进展变成团队订阅？</h2>
-      <p data-zh="如果你已经需要稳定输出日报、周报和管理层简报，这一页已经具备首版订阅价值。下一步就是补上品牌模板、团队协同和交付节奏。" data-en="If you already need recurring daily or weekly briefings for your team, this page is commercially useful today. The next step is adding branded templates, team workflows, and a delivery rhythm.">如果你已经需要稳定输出日报、周报和管理层简报，这一页已经具备首版订阅价值。下一步就是补上品牌模板、团队协同和交付节奏。</p>
-      <div class="hero-cta">
-        <a class="btn main" href="./commercial.html" data-zh="看订阅方案" data-en="View Subscription Plans">看订阅方案</a>
-        <a class="btn" href="./contact.html?source=progress&intent=proposal" data-zh="生成商务简报" data-en="Generate Proposal Brief">生成商务简报</a>
-      </div>
-    </section>
-  </div>
-
-  <script>
-    const langKey = 'xai_lang';
-    let uiLang = localStorage.getItem(langKey) || 'zh';
-    let pageData = { updated_at: '', built_at: '', summary_zh: '', summary_en: '', topic_rank: [], trend_items: [] };
-    let currentLimit = 300;
-
-    function applyLang() {
-      document.documentElement.lang = uiLang === 'zh' ? 'zh-CN' : 'en';
-      document.title = uiLang === 'zh' ? '每日AI进展' : 'Daily AI Progress';
-      document.querySelectorAll('[data-zh]').forEach((el) => {
-        el.textContent = el.getAttribute(uiLang === 'zh' ? 'data-zh' : 'data-en');
-      });
-      document.getElementById('langBtn').textContent = uiLang === 'zh' ? 'EN' : '中文';
-      renderSummary();
-      renderFreshness();
-      renderTopics();
-      renderTrend();
-    }
-
-    function renderSummary() {
-      document.getElementById('sumZh').textContent = pageData.summary_zh || (uiLang === 'zh' ? '暂无摘要' : '');
-      document.getElementById('sumEn').textContent = pageData.summary_en || '';
-    }
-
-    function renderFreshness() {
-      const contentAt = (pageData.updated_at || '-').replace('T', ' ').slice(0, 19);
-      const builtAt = (pageData.built_at || '-').replace('T', ' ').slice(0, 19);
-      const rows = (pageData.trend_items || []).slice(0, currentLimit);
-      const todayCount = rows.filter((r) => Boolean(r.has_today_tweet)).length;
-      let noteZh = '本页总结基于最近一次可验证分享生成，不代表所有关键人物今天都有新内容。';
-      let noteEn = 'This summary is generated from the latest verifiable shares and does not imply every key person posted today.';
-      if (todayCount === rows.length && rows.length) {
-        noteZh = '本页总结使用的都是今天可验证到的分享内容。';
-        noteEn = 'This summary is built entirely from shares that could be verified today.';
-      } else if (todayCount > 0) {
-        noteZh = `本页总结优先使用今天可验证到的分享内容；其中 ${todayCount}/${rows.length} 位关键人物有当天分享，其余人物保留最近一次可验证内容。`;
-        noteEn = `This summary prioritizes shares that could be verified today; ${todayCount}/${rows.length} key people have same-day shares, while the rest keep their latest verifiable content.`;
-      }
-      document.getElementById('updatedBadge').textContent = uiLang === 'zh' ? `内容时间：${contentAt}` : `Content time: ${contentAt}`;
-      document.getElementById('scopeBadge').textContent = uiLang === 'zh' ? `关键人物：Top${Math.min(currentLimit, (pageData.trend_items || []).length)}` : `Key people: Top${Math.min(currentLimit, (pageData.trend_items || []).length)}`;
-      document.getElementById('freshness').innerHTML = `
-        <div class="section-head">
-          <div>
-            <h2>${uiLang === 'zh' ? '时效说明' : 'Freshness note'}</h2>
-            <div class="section-copy">${uiLang === 'zh'
-              ? `内容时间 ${contentAt} · 页面生成 ${builtAt}。${noteZh}`
-              : `Content time ${contentAt} · page built ${builtAt}. ${noteEn}`}</div>
-          </div>
-        </div>`;
-    }
-
-    function renderTopics() {
-      const box = document.getElementById('topics');
-      box.innerHTML = (pageData.topic_rank || []).map((t) => `<span class="tag">${t.topic} (${t.count})</span>`).join('');
-    }
-
-    function renderTrend() {
-      const rows = (pageData.trend_items || []).slice(0, currentLimit);
-      document.getElementById('trend').innerHTML = rows.map((r) => {
-        const share = uiLang === 'zh'
-          ? (r.latest_share_zh || r.latest_viewpoint_zh || r.daily_essence_zh || '')
-          : (r.latest_share_en || r.latest_viewpoint_en || r.daily_essence_en || '');
-        const xUrl = r.today_hottest_tweet_url || r.latest_tweet_url || `https://x.com/${r.handle}`;
-        return `
-          <article class="card">
-            <div><b>${r.name}</b> <span class="meta">@${r.handle}</span></div>
-            <div class="meta">${(r.topics || []).join(' · ')} · score ${Number(r.score || 0).toFixed(3)}</div>
-            <div class="quote">${uiLang === 'zh' ? '最新分享：' : 'Latest share: '}${share || (uiLang === 'zh' ? '暂无可用内容' : 'No share available')}</div>
-            <div class="card-actions">
-              <a class="btn" href="./profiles/${r.slug}.html">${uiLang === 'zh' ? '查看人物页' : 'View Profile'}</a>
-              <a class="btn" href="./poster.html?slug=${encodeURIComponent(r.slug)}&mode=single&lang=${uiLang}">${uiLang === 'zh' ? '生成海报' : 'Create Poster'}</a>
-              <a class="btn ghost" href="${xUrl}" target="_blank" rel="noreferrer">${uiLang === 'zh' ? '打开 X' : 'Open X'}</a>
-            </div>
-          </article>`;
-      }).join('');
-    }
-
-    async function boot() {
-      currentLimit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
-      pageData = await fetch('./data/daily_progress.json').then((r) => r.json()).catch(() => ({ topic_rank: [], trend_items: [] }));
-      applyLang();
-    }
-
-    document.getElementById('langBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      uiLang = uiLang === 'zh' ? 'en' : 'zh';
-      localStorage.setItem(langKey, uiLang);
-      applyLang();
-    });
-
-    boot();
-  </script>
-  <script src="./assets/share-fab.js" defer></script>
-</body>
-</html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Daily Domain Progress</title>
+<script src="./assets/metrics.js" defer></script>
+<script src="./assets/expert-limit.js" defer></script>
+<style>
+:root{--bg:#0a1022;--card:#121b36;--line:rgba(255,255,255,.14);--text:#edf3ff;--muted:#95a9d5;--brand:#6ad3ff}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 10% 0%, #19356d 0%, var(--bg) 44%);color:var(--text);font-family:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(125,177,255,.45);background:linear-gradient(135deg,#1d3f82,#143062);color:#eef4ff;text-decoration:none;font-size:13px}
+.card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;margin-top:10px}
+.muted{color:#9db0da;font-size:12px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.tag{display:inline-block;padding:4px 8px;border:1px solid rgba(255,255,255,.2);border-radius:999px;font-size:12px;margin-right:6px}
+.quote{margin-top:8px;padding:8px 10px;border:1px solid rgba(106,211,255,.35);border-radius:10px;background:rgba(106,211,255,.08);line-height:1.5}
+</style></head><body><div class="wrap">
+<div class="top"><h2>Daily Domain Progress / 每日领域进展</h2><div style="display:flex;gap:8px"><a class="btn" href="./index.html">Home</a><a class="btn" href="./insights.html">Insights</a><a class="btn" href="./daily_briefing.html">Top10</a><a class="btn" href="./topics.html">热点词云</a><a class="btn" href="./public_signals.html">公共信号</a><a class="btn" href="./poster.html?mode=top10">Top10海报</a><a class="btn" href="./commercial.html">Commercial</a><a class="btn" href="./contact.html">Contact</a></div></div>
+<div class="card"><div id="sum_zh" style="font-size:16px;font-weight:700"></div><div id="sum_en" class="muted" style="margin-top:6px"></div><div id="updated" class="muted" style="margin-top:8px"></div></div>
+<div class="card" id="freshness"></div>
+<div class="card"><h3 style="margin-top:0">热门主题</h3><div id="topics"></div></div>
+<div class="card"><h3 style="margin-top:0">今日关键人物</h3><div id="trend" class="grid"></div></div>
+</div>
+<script>
+fetch('./data/daily_progress.json').then(r=>r.json()).then(d=>{
+  const limit = window.XAIExpertLimit ? window.XAIExpertLimit.getLimit(300) : 300;
+  document.getElementById('sum_zh').textContent=d.summary_zh||'';
+  document.getElementById('sum_en').textContent=d.summary_en||'';
+  const contentAt=((d.updated_at||'').slice(0,19).replace('T',' '));
+  const builtAt=((d.built_at||'').slice(0,19).replace('T',' '));
+  document.getElementById('updated').textContent='内容时间: '+contentAt+(builtAt?' · 页面生成: '+builtAt:'');
+  fetch('./data/refresh_status.json').then(r=>r.json()).catch(()=>null).then(rs=>{
+    const modeMap={x_api_v2:'X API',rjina_fallback:'网页回退源'};
+    const mode=rs ? (modeMap[rs.mode]||rs.mode||'未知') : '未知';
+    const stale = (d.updated_at||'').slice(0,10) !== new Date().toISOString().slice(0,10);
+    const crawled = rs && rs.source_crawled_at ? ` · 最近抓取 ${String(rs.source_crawled_at).replace('T',' ').slice(0,19)}` : '';
+    document.getElementById('freshness').innerHTML=`<div><b>数据说明：</b><span class="muted">刷新来源 ${mode}${crawled} · 当前内容时间 ${contentAt||'-'}</span></div><div class="muted" style="margin-top:6px">${stale ? '本页总结基于最近一次可用抓取，不代表所有关键人物今天都有新分享。' : '本页总结基于今天抓到的分享内容生成。'}</div>`;
+  });
+  document.getElementById('topics').innerHTML=(d.topic_rank||[]).map(t=>`<span class="tag">${t.topic} (${t.count})</span>`).join('');
+  document.getElementById('trend').innerHTML=(d.trend_items||[]).slice(0, limit).map(r=>`<div class="card" style="margin-top:0"><div><b>${r.name}</b> <span class="muted">@${r.handle}</span></div><div class="muted">${(r.topics||[]).join(' · ')} · score ${Number(r.score||0).toFixed(3)}</div><div class="muted quote">${r.latest_share_zh||r.latest_viewpoint_zh||r.daily_essence_zh||''}</div><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn" href="./profiles/${r.slug}.html">查看人物</a><a class="btn" href="https://x.com/${r.handle}" target="_blank">打开 X</a><a class="btn" href="./poster.html?slug=${r.slug}&mode=single">海报</a></div></div>`).join('');
+});
+</script></body></html>

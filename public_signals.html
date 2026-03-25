@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Public Signals layers GitHub, Hacker News, and Wikipedia onto the hottest X topics so you can see which narratives are turning into broader public momentum." />
+  <title>Public Signals / 公共信号</title>
+  <script src="./assets/metrics.js" defer></script>
+  <style>
+    :root {
+      --bg: #09101f;
+      --card: rgba(17, 27, 52, 0.94);
+      --line: rgba(255,255,255,0.12);
+      --text: #eef4ff;
+      --muted: #95a9d5;
+      --brand: #6ad3ff;
+      --brand-2: #1f74ff;
+      --ok: #51d8a8;
+      --warn: #ffca63;
+      --danger: #ff8f90;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(40, 100, 220, 0.34), transparent 30%),
+        linear-gradient(180deg, #09101f 0%, #0b1328 100%);
+      font-family: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .wrap { max-width: 1220px; margin: 0 auto; padding: 18px; }
+    .topbar {
+      display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
+      padding:12px 14px; border:1px solid var(--line); border-radius:16px;
+      background:rgba(8,16,31,.72); backdrop-filter: blur(16px);
+    }
+    .brand { font-size:18px; font-weight:800; }
+    .actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:9px 13px; border-radius:11px; border:1px solid rgba(125,177,255,.42);
+      background:linear-gradient(135deg,#183a7a,#122c5a); color:var(--text); text-decoration:none; cursor:pointer; font-size:13px;
+    }
+    .btn.main { background:linear-gradient(135deg,#2ca7ff,#1f6dff); border-color: rgba(113,208,255,.82); }
+    .btn.ghost { background: rgba(255,255,255,.04); }
+    .hero {
+      margin-top:14px; border:1px solid var(--line); border-radius:20px; overflow:hidden;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(106,211,255,.12), transparent 28%),
+        linear-gradient(180deg, rgba(16,26,51,.94), rgba(10,16,32,.96));
+      padding:22px;
+    }
+    .hero-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr); gap:16px; }
+    h1 { margin:0; font-size:38px; line-height:1.08; }
+    .sub { margin-top:10px; color:var(--muted); font-size:15px; line-height:1.7; max-width:860px; }
+    .chips, .badges { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+    .chip, .badge {
+      padding:7px 11px; border-radius:999px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.04);
+      color:#d9e6ff; font-size:12px;
+    }
+    .hero-side {
+      border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px;
+      background: rgba(8,15,30,.46); display:grid; gap:10px;
+    }
+    .hero-side h3 { margin:0; font-size:16px; }
+    .hero-side p { margin:0; color:var(--muted); font-size:13px; line-height:1.7; }
+    .layout { margin-top:16px; display:grid; grid-template-columns: 340px minmax(0,1fr); gap:14px; }
+    .panel { border:1px solid var(--line); border-radius:18px; background:var(--card); padding:16px; }
+    .panel h2, .panel h3 { margin:0; }
+    .panel-copy { margin-top:8px; color:var(--muted); font-size:13px; line-height:1.7; }
+    .topic-list { margin-top:12px; display:grid; gap:10px; max-height: 860px; overflow:auto; }
+    .topic-item {
+      padding:12px; border-radius:14px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.03); cursor:pointer;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .topic-item:hover { transform: translateY(-1px); border-color: rgba(113,208,255,.28); }
+    .topic-item.active { border-color: rgba(113,208,255,.42); background: rgba(23,58,122,.26); }
+    .topic-top { display:flex; justify-content:space-between; gap:10px; align-items:start; }
+    .topic-name { font-size:16px; font-weight:700; }
+    .topic-meta { margin-top:6px; color:var(--muted); font-size:12px; }
+    .score-pill {
+      min-width: 64px; text-align:center; padding:6px 8px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.08); background: rgba(8,15,30,.58); font-size:12px; color:#cfe0ff;
+    }
+    .detail-head { display:flex; justify-content:space-between; gap:12px; align-items:start; flex-wrap:wrap; }
+    .detail-title { display:grid; gap:8px; }
+    .detail-title h2 { font-size:30px; }
+    .detail-grid { margin-top:14px; display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:10px; }
+    .metric {
+      padding:14px; border-radius:16px; border:1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03);
+    }
+    .metric .k { color:var(--muted); font-size:12px; }
+    .metric .v { margin-top:6px; font-size:24px; font-weight:800; }
+    .resonance { margin-top:14px; padding:14px; border-radius:16px; border:1px solid rgba(106,211,255,.24); background: rgba(106,211,255,.08); }
+    .resonance strong { display:block; font-size:16px; }
+    .resonance span { display:block; margin-top:6px; color:#d9e6ff; font-size:13px; line-height:1.7; }
+    .source-grid { margin-top:14px; display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px; }
+    .source-card {
+      padding:14px; border-radius:16px; border:1px solid rgba(255,255,255,.08); background: rgba(8,15,30,.5); min-height: 260px;
+      display:grid; align-content:start; gap:10px;
+    }
+    .source-top { display:flex; justify-content:space-between; gap:8px; align-items:center; }
+    .source-card h3 { font-size:17px; }
+    .status { font-size:12px; padding:5px 9px; border-radius:999px; border:1px solid rgba(255,255,255,.08); }
+    .status.ok { color:var(--ok); }
+    .status.warn { color:var(--warn); }
+    .status.fail { color:var(--danger); }
+    .source-copy { color:var(--muted); font-size:13px; line-height:1.65; }
+    .source-list { display:grid; gap:8px; }
+    .source-item {
+      padding:10px; border-radius:12px; border:1px solid rgba(255,255,255,.06); background: rgba(255,255,255,.03);
+    }
+    .source-item a { color:#dfe9ff; text-decoration:none; font-weight:700; }
+    .source-item p { margin:6px 0 0; color:var(--muted); font-size:12px; line-height:1.55; }
+    .creator-strip { margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
+    .creator {
+      display:inline-flex; align-items:center; gap:6px; padding:8px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.04); color:#dfe9ff; text-decoration:none; font-size:12px;
+    }
+    .hint { color:var(--muted); font-size:12px; line-height:1.65; }
+    .loading { opacity: .7; }
+    @media (max-width: 1080px) {
+      .layout, .hero-grid, .source-grid, .detail-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand" id="brandText">Domain Influence Intelligence</div>
+      <div class="actions">
+        <a class="btn ghost" href="./index.html">Home</a>
+        <a class="btn ghost" href="./topics.html" data-zh="热点词云" data-en="Topic Cloud">热点词云</a>
+        <a class="btn ghost" href="./insights.html" data-zh="最新分享" data-en="Insights">最新分享</a>
+        <a class="btn ghost" href="./commercial.html" data-zh="商业化" data-en="Commercial">商业化</a>
+        <a class="btn ghost" href="#" id="langBtn">EN</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <h1 data-zh="把 X 里的热点，放到公共世界里重新判断" data-en="Re-score what is hot on X against the wider public web">
+            把 X 里的热点，放到公共世界里重新判断
+          </h1>
+          <p class="sub" id="heroSummary"></p>
+          <div class="chips" id="sourceChips"></div>
+          <div class="badges">
+            <span class="badge" id="updatedBadge">Updated: -</span>
+            <span class="badge" id="topicCountBadge">Topics: -</span>
+            <span class="badge" data-zh="实时外部信号：GitHub / Hacker News / Wikipedia" data-en="Live external signals: GitHub / Hacker News / Wikipedia">实时外部信号：GitHub / Hacker News / Wikipedia</span>
+          </div>
+        </div>
+        <aside class="hero-side">
+          <h3 data-zh="这页解决什么" data-en="What this page solves">这页解决什么</h3>
+          <p data-zh="同一个话题在 X 上热，不代表它已经变成公共趋势。这页会把热点话题叠加到开源动向、Hacker News 讨论和百科解释层，帮助你判断是“站内热度”，还是“外部共振”。" data-en="A topic getting hot on X does not automatically mean it has become a public trend. This page layers open-source momentum, Hacker News discussion, and public explainers so you can tell the difference between internal heat and external resonance.">
+            同一个话题在 X 上热，不代表它已经变成公共趋势。这页会把热点话题叠加到开源动向、Hacker News 讨论和百科解释层，帮助你判断是“站内热度”，还是“外部共振”。
+          </p>
+          <p class="hint" data-zh="说明：GitHub 由构建缓存兜底并在浏览器尝试刷新；Hacker News 与 Wikipedia 由浏览器实时拉取，失败时会显示兜底说明。" data-en="Note: GitHub falls back to build-time cache and refreshes in the browser when available. Hacker News and Wikipedia are fetched live in the browser, with graceful fallback states.">
+            说明：GitHub 由构建缓存兜底并在浏览器尝试刷新；Hacker News 与 Wikipedia 由浏览器实时拉取，失败时会显示兜底说明。
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <h2 data-zh="热点总览" data-en="Topic Radar">热点总览</h2>
+        <p class="panel-copy" data-zh="左侧是来自 X 领域图谱的热点主题。点击后，右侧会开始叠加外部公共信号。" data-en="These topics come from the X graph and content layer. Click one to layer in broader public signals on the right.">
+          左侧是来自 X 领域图谱的热点主题。点击后，右侧会开始叠加外部公共信号。
+        </p>
+        <div class="topic-list" id="topicList"></div>
+      </section>
+
+      <section class="panel" id="detailPanel">
+        <div class="detail-head">
+          <div class="detail-title">
+            <span class="badge" id="detailRank">#-</span>
+            <h2 id="detailTitle">-</h2>
+            <div class="chips" id="keywordChips"></div>
+          </div>
+          <a class="btn main" id="topicCloudLink" href="./topics.html" data-zh="回到热点词云" data-en="Open Topic Cloud">回到热点词云</a>
+        </div>
+
+        <div class="detail-grid">
+          <div class="metric"><div class="k" data-zh="X 讨论密度" data-en="X Density">X 讨论密度</div><div class="v" id="metricXCount">-</div></div>
+          <div class="metric"><div class="k" data-zh="外部共振得分" data-en="External Resonance">外部共振得分</div><div class="v" id="metricResonance">-</div></div>
+          <div class="metric"><div class="k" data-zh="关联人物" data-en="Linked Creators">关联人物</div><div class="v" id="metricCreators">-</div></div>
+        </div>
+
+        <div class="resonance" id="resonanceBox">
+          <strong id="resonanceTitle">-</strong>
+          <span id="resonanceCopy">-</span>
+        </div>
+
+        <div class="source-grid">
+          <article class="source-card">
+            <div class="source-top">
+              <h3>GitHub</h3>
+              <span class="status warn" id="githubStatus">Loading</span>
+            </div>
+            <div class="source-copy" id="githubCopy"></div>
+            <div class="source-list" id="githubList"></div>
+          </article>
+
+          <article class="source-card">
+            <div class="source-top">
+              <h3>Hacker News</h3>
+              <span class="status warn" id="hnStatus">Loading</span>
+            </div>
+            <div class="source-copy" id="hnCopy"></div>
+            <div class="source-list" id="hnList"></div>
+          </article>
+
+          <article class="source-card">
+            <div class="source-top">
+              <h3>Wikipedia</h3>
+              <span class="status warn" id="wikiStatus">Loading</span>
+            </div>
+            <div class="source-copy" id="wikiCopy"></div>
+            <div class="source-list" id="wikiList"></div>
+          </article>
+        </div>
+
+        <div class="creator-strip" id="creatorStrip"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    let lang = localStorage.getItem('xai_lang') || 'zh';
+    let payload = null;
+    let selectedTopicId = null;
+    let hnStoriesPromise = null;
+    const githubCache = new Map();
+    const wikiCache = new Map();
+    const hnCache = new Map();
+
+    const el = (id) => document.getElementById(id);
+    const text = (zh, en) => lang === 'zh' ? zh : en;
+
+    function applyLanguage() {
+      document.querySelectorAll('[data-zh]').forEach((node) => {
+        node.textContent = node.getAttribute(lang === 'zh' ? 'data-zh' : 'data-en');
+      });
+      el('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
+      if (payload?.domain) {
+        document.title = lang === 'zh' ? `${payload.domain.site_title_zh} / 公共信号` : `${payload.domain.site_title_en} / Public Signals`;
+        el('brandText').textContent = lang === 'zh' ? payload.domain.site_title_zh : payload.domain.site_title_en;
+      }
+      renderTopicList();
+      renderDetail();
+    }
+
+    function normalize(textValue) {
+      return String(textValue || '').toLowerCase();
+    }
+
+    function resonanceLabel(topic, github, hn) {
+      const gh = github?.repo_count || 0;
+      const hnCount = hn?.count || 0;
+      const xCount = topic?.count || 0;
+      if (gh >= 1000 || hnCount >= 3) {
+        return {
+          title: text('跨平台共振', 'Cross-platform Resonance'),
+          copy: text(
+            `这个话题不只是 X 里热，已经在公开讨论和开源协作里出现共振。当前 X 讨论 ${xCount} 次，GitHub 相关仓库约 ${gh} 个，Hacker News 命中 ${hnCount} 条。`,
+            `This topic is no longer only hot on X. It is resonating in public discussion and open-source collaboration. X density: ${xCount}, GitHub repositories: about ${gh}, Hacker News matches: ${hnCount}.`
+          )
+        };
+      }
+      if (gh >= 150 && hnCount === 0) {
+        return {
+          title: text('开源先行', 'Open-source First'),
+          copy: text(
+            `这个话题在开源侧的动作比媒体讨论更强，适合盯仓库、版本和开发者生态，而不是只看传播声量。`,
+            `This topic is moving faster in open source than in public media. Track repositories, releases, and developer ecosystems, not just attention volume.`
+          )
+        };
+      }
+      if (xCount >= 80 && gh < 80 && hnCount < 2) {
+        return {
+          title: text('站内热度', 'Inside-X Heat'),
+          copy: text(
+            `这个话题在 X 样本里讨论很密，但外部公共信号还没完全跟上，适合继续观察是否外溢。`,
+            `This topic is dense inside the X sample, but the broader public signal is still catching up. It is worth watching for spillover.`
+          )
+        };
+      }
+      return {
+        title: text('观察中', 'Watchlist'),
+        copy: text(
+          `这个话题已经有一定公共信号，但还没形成明显共振，适合持续跟踪未来 24-72 小时的变化。`,
+          `This topic already has some public signal, but not enough to call it full resonance. Track how it evolves over the next 24-72 hours.`
+        )
+      };
+    }
+
+    function renderTopicList() {
+      const list = el('topicList');
+      if (!payload?.topics?.length) {
+        list.innerHTML = `<div class="topic-item">${text('暂无话题数据', 'No topics yet')}</div>`;
+        return;
+      }
+      list.innerHTML = payload.topics.map((topic) => {
+        const active = topic.id === selectedTopicId ? 'active' : '';
+        return `
+          <div class="topic-item ${active}" data-id="${topic.id}">
+            <div class="topic-top">
+              <div>
+                <div class="topic-name">#${topic.rank} ${topic.label}</div>
+                <div class="topic-meta">${text(`X 讨论 ${topic.count} 次 · 关联人物 ${topic.creator_count} 位`, `X mentions ${topic.count} · linked creators ${topic.creator_count}`)}</div>
+              </div>
+              <div class="score-pill">${Math.round((topic.x_signal_score || 0) * 100)}</div>
+            </div>
+            <div class="topic-meta">${(topic.keywords || []).slice(0, 3).join(' · ')}</div>
+          </div>
+        `;
+      }).join('');
+      list.querySelectorAll('[data-id]').forEach((node) => {
+        node.addEventListener('click', () => {
+          selectedTopicId = node.getAttribute('data-id');
+          renderTopicList();
+          renderDetail();
+          updateHash();
+          loadExternalSignals();
+        });
+      });
+    }
+
+    function selectedTopic() {
+      return payload?.topics?.find((item) => item.id === selectedTopicId) || payload?.topics?.[0] || null;
+    }
+
+    function renderCreators(topic) {
+      const strip = el('creatorStrip');
+      const people = topic?.people || [];
+      if (!people.length) {
+        strip.innerHTML = `<span class="hint">${text('暂无关联人物', 'No linked creators yet')}</span>`;
+        return;
+      }
+      strip.innerHTML = people.map((person) => `
+        <a class="creator" href="./profiles/${person.slug}.html">${person.name} <span>@${person.handle}</span></a>
+      `).join('');
+    }
+
+    function renderSignalCard(idPrefix, state, itemsHtml, fallbackCopy) {
+      const statusNode = el(`${idPrefix}Status`);
+      const copyNode = el(`${idPrefix}Copy`);
+      const listNode = el(`${idPrefix}List`);
+      statusNode.className = `status ${state.statusClass}`;
+      statusNode.textContent = state.label;
+      copyNode.textContent = state.copy || fallbackCopy || '';
+      listNode.innerHTML = itemsHtml || `<div class="source-item"><p>${text('暂无可展示条目', 'No items to show yet')}</p></div>`;
+    }
+
+    function renderDetail() {
+      const topic = selectedTopic();
+      if (!topic) return;
+      el('detailRank').textContent = `#${topic.rank}`;
+      el('detailTitle').textContent = topic.label;
+      el('metricXCount').textContent = String(topic.count || 0);
+      el('metricCreators').textContent = String(topic.creator_count || 0);
+      el('metricResonance').textContent = '...';
+      el('keywordChips').innerHTML = (topic.keywords || []).map((kw) => `<span class="chip">${kw}</span>`).join('');
+      const resonance = resonanceLabel(topic, topic.github, null);
+      el('resonanceTitle').textContent = resonance.title;
+      el('resonanceCopy').textContent = lang === 'zh' ? topic.local_summary_zh : topic.local_summary_en;
+      renderCreators(topic);
+
+      const gh = topic.github || {};
+      const githubItems = (gh.items || []).slice(0, 3).map((repo) => `
+        <div class="source-item">
+          <a href="${repo.url}" target="_blank" rel="noreferrer">${repo.full_name || 'Repository'}</a>
+          <p>${text(`⭐ ${repo.stars || 0} · 最近更新 ${(repo.updated_at || '').slice(0, 10) || '-'}`, `⭐ ${repo.stars || 0} · updated ${(repo.updated_at || '').slice(0, 10) || '-'}`)}</p>
+          <p>${repo.description || text('暂无简介', 'No description')}</p>
+        </div>
+      `).join('');
+      renderSignalCard(
+        'github',
+        gh.status === 'ok'
+          ? { statusClass: 'ok', label: text('已加载', 'Loaded'), copy: text(`构建期已捕获约 ${gh.repo_count || 0} 个相关仓库，浏览器会尝试继续刷新。`, `Build-time preview found about ${gh.repo_count || 0} matching repositories and the browser will try to refresh it.`) }
+          : { statusClass: 'warn', label: text('兜底中', 'Fallback'), copy: text('当前显示本地兜底结构；浏览器会尝试实时请求 GitHub。', 'Showing the local fallback structure while the browser attempts a live GitHub refresh.') },
+        githubItems,
+        text('暂无开源仓库预览', 'No repository preview yet')
+      );
+
+      renderSignalCard('hn', { statusClass: 'warn', label: text('加载中', 'Loading'), copy: text('正在抓取 Hacker News 头条并计算命中话题。', 'Fetching Hacker News top stories and matching them against this topic.') }, '');
+      renderSignalCard('wiki', { statusClass: 'warn', label: text('加载中', 'Loading'), copy: text('正在查询 Wikipedia 解释结果。', 'Fetching the closest Wikipedia explainer for this topic.') }, '');
+    }
+
+    async function fetchGithub(topic) {
+      if (githubCache.has(topic.id)) return githubCache.get(topic.id);
+      const params = new URLSearchParams({ q: topic.github?.query || topic.label, sort: 'updated', order: 'desc', per_page: '4' });
+      try {
+        const response = await fetch(`https://api.github.com/search/repositories?${params.toString()}`, {
+          headers: { 'Accept': 'application/vnd.github+json' }
+        });
+        if (!response.ok) throw new Error(`GitHub ${response.status}`);
+        const json = await response.json();
+        const result = {
+          repo_count: Number(json.total_count || 0),
+          items: (json.items || []).slice(0, 4).map((item) => ({
+            full_name: item.full_name,
+            url: item.html_url,
+            stars: item.stargazers_count,
+            description: item.description || '',
+            updated_at: item.pushed_at || item.updated_at || ''
+          })),
+          live: true
+        };
+        githubCache.set(topic.id, result);
+        return result;
+      } catch (error) {
+        const fallback = {
+          repo_count: Number(topic.github?.repo_count || 0),
+          items: topic.github?.items || [],
+          live: false,
+          error: error.message || String(error)
+        };
+        githubCache.set(topic.id, fallback);
+        return fallback;
+      }
+    }
+
+    async function fetchWikipedia(topic) {
+      if (wikiCache.has(topic.id)) return wikiCache.get(topic.id);
+      const query = encodeURIComponent(topic.label);
+      try {
+        const response = await fetch(`https://en.wikipedia.org/w/rest.php/v1/search/page?q=${query}&limit=1`);
+        if (!response.ok) throw new Error(`Wikipedia ${response.status}`);
+        const json = await response.json();
+        const page = (json.pages || [])[0] || null;
+        const result = page ? {
+          title: page.title || topic.label,
+          description: page.description || '',
+          excerpt: (page.excerpt || '').replace(/<[^>]+>/g, ''),
+          url: page.key ? `https://en.wikipedia.org/wiki/${page.key}` : ''
+        } : null;
+        wikiCache.set(topic.id, result);
+        return result;
+      } catch (error) {
+        const fallback = { error: error.message || String(error) };
+        wikiCache.set(topic.id, fallback);
+        return fallback;
+      }
+    }
+
+    async function getHnStories() {
+      if (hnStoriesPromise) return hnStoriesPromise;
+      hnStoriesPromise = (async () => {
+        const ids = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json').then((r) => {
+          if (!r.ok) throw new Error(`Hacker News ${r.status}`);
+          return r.json();
+        });
+        const subset = (ids || []).slice(0, 40);
+        const stories = await Promise.all(subset.map((id) => fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then((r) => r.ok ? r.json() : null).catch(() => null)));
+        return stories.filter(Boolean);
+      })();
+      return hnStoriesPromise;
+    }
+
+    async function fetchHackerNews(topic) {
+      if (hnCache.has(topic.id)) return hnCache.get(topic.id);
+      try {
+        const stories = await getHnStories();
+        const keywords = [topic.label, ...(topic.keywords || [])].map(normalize).filter(Boolean);
+        const matches = stories.filter((story) => {
+          const hay = normalize(`${story.title || ''} ${story.text || ''} ${story.url || ''}`);
+          return keywords.some((kw) => hay.includes(kw));
+        }).sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
+        const result = {
+          count: matches.length,
+          items: matches.slice(0, 4).map((story) => ({
+            title: story.title || 'Story',
+            url: story.url || `https://news.ycombinator.com/item?id=${story.id}`,
+            score: Number(story.score || 0),
+            by: story.by || '',
+            time: story.time || 0
+          }))
+        };
+        hnCache.set(topic.id, result);
+        return result;
+      } catch (error) {
+        const fallback = { count: 0, items: [], error: error.message || String(error) };
+        hnCache.set(topic.id, fallback);
+        return fallback;
+      }
+    }
+
+    async function loadExternalSignals() {
+      const topic = selectedTopic();
+      if (!topic) return;
+
+      const [github, wiki, hn] = await Promise.all([
+        fetchGithub(topic),
+        fetchWikipedia(topic),
+        fetchHackerNews(topic)
+      ]);
+
+      const resonance = resonanceLabel(topic, github, hn);
+      const ghItems = (github.items || []).map((repo) => `
+        <div class="source-item">
+          <a href="${repo.url}" target="_blank" rel="noreferrer">${repo.full_name || 'Repository'}</a>
+          <p>${text(`⭐ ${repo.stars || 0} · 最近更新 ${(repo.updated_at || '').slice(0, 10) || '-'}`, `⭐ ${repo.stars || 0} · updated ${(repo.updated_at || '').slice(0, 10) || '-'}`)}</p>
+          <p>${repo.description || text('暂无简介', 'No description')}</p>
+        </div>
+      `).join('');
+      renderSignalCard(
+        'github',
+        github.live
+          ? { statusClass: 'ok', label: text('实时', 'Live'), copy: text(`当前命中约 ${github.repo_count || 0} 个公开仓库。`, `Matched about ${github.repo_count || 0} public repositories right now.`) }
+          : { statusClass: 'warn', label: text('兜底', 'Fallback'), copy: text('浏览器实时请求失败，当前显示构建期缓存。', 'Live browser refresh failed, showing the build-time fallback cache instead.') },
+        ghItems,
+        text('暂无仓库结果', 'No repository results')
+      );
+
+      const hnItems = (hn.items || []).map((story) => `
+        <div class="source-item">
+          <a href="${story.url}" target="_blank" rel="noreferrer">${story.title}</a>
+          <p>${text(`分数 ${story.score || 0} · by ${story.by || '-'} `, `Score ${story.score || 0} · by ${story.by || '-'} `)}</p>
+        </div>
+      `).join('');
+      renderSignalCard(
+        'hn',
+        hn.error
+          ? { statusClass: 'warn', label: text('失败', 'Failed'), copy: text('当前浏览器无法拉取 Hacker News，稍后可重试。', 'This browser could not fetch Hacker News right now. Please retry later.') }
+          : { statusClass: hn.count ? 'ok' : 'warn', label: hn.count ? text('有命中', 'Matched') : text('无命中', 'No Match'), copy: text(`在最近一批 HN 头条中命中 ${hn.count || 0} 条相关讨论。`, `Matched ${hn.count || 0} related discussions in the current HN top stories set.`) },
+        hnItems,
+        text('当前未命中 Hacker News 头条', 'No current Hacker News match')
+      );
+
+      const wikiItems = wiki && wiki.title && !wiki.error ? `
+        <div class="source-item">
+          <a href="${wiki.url || '#'}" target="_blank" rel="noreferrer">${wiki.title}</a>
+          <p>${wiki.description || text('暂无补充描述', 'No extra description')}</p>
+          <p>${wiki.excerpt || text('暂无摘要', 'No excerpt')}</p>
+        </div>
+      ` : '';
+      renderSignalCard(
+        'wiki',
+        wiki && wiki.title && !wiki.error
+          ? { statusClass: 'ok', label: text('已解释', 'Explained'), copy: text('已抓到最接近的 Wikipedia 解释条目。', 'Found the closest Wikipedia explainer for this topic.') }
+          : { statusClass: 'warn', label: text('未返回', 'Unavailable'), copy: text('当前未拉到 Wikipedia 结果，继续使用本地解释。', 'Wikipedia did not return a result right now, so the page is using the local explainer copy.') },
+        wikiItems,
+        text(lang === 'zh' ? topic.local_summary_zh : topic.local_summary_en, lang === 'zh' ? topic.local_summary_zh : topic.local_summary_en)
+      );
+
+      el('metricResonance').textContent = `${Math.min(99, Math.round((topic.x_signal_score || 0) * 55 + Math.min(30, (github.repo_count || 0) / 20) + (hn.count || 0) * 4))}`;
+      el('resonanceTitle').textContent = resonance.title;
+      el('resonanceCopy').textContent = resonance.copy;
+    }
+
+    function updateHash() {
+      if (!selectedTopicId) return;
+      history.replaceState(null, '', `#${selectedTopicId}`);
+    }
+
+    async function boot() {
+      payload = await fetch('./data/public_signals.json').then((r) => r.json()).catch(() => null);
+      if (!payload?.topics?.length) {
+        el('heroSummary').textContent = text('公共信号数据还没有生成。', 'Public signal data has not been generated yet.');
+        return;
+      }
+      selectedTopicId = location.hash.replace(/^#/, '') || payload.topics[0].id;
+      el('heroSummary').textContent = lang === 'zh' ? payload.summary_zh : payload.summary_en;
+      el('updatedBadge').textContent = `Updated: ${(payload.updated_at || '-').slice(0, 10)}`;
+      el('topicCountBadge').textContent = `${text('话题数', 'Topics')}: ${payload.topics.length}`;
+      el('sourceChips').innerHTML = (payload.source_catalog || []).map((item) => `<span class="chip">${item.name} · ${lang === 'zh' ? item.role_zh : item.role_en}</span>`).join('');
+      renderTopicList();
+      renderDetail();
+      applyLanguage();
+      loadExternalSignals();
+    }
+
+    el('langBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      lang = lang === 'zh' ? 'en' : 'zh';
+      localStorage.setItem('xai_lang', lang);
+      applyLanguage();
+      if (payload) {
+        el('heroSummary').textContent = lang === 'zh' ? payload.summary_zh : payload.summary_en;
+        el('sourceChips').innerHTML = (payload.source_catalog || []).map((item) => `<span class="chip">${item.name} · ${lang === 'zh' ? item.role_zh : item.role_en}</span>`).join('');
+      }
+      loadExternalSignals();
+    });
+
+    boot();
+  </script>
+</body>
+</html>
