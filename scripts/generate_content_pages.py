@@ -1227,8 +1227,8 @@ Promise.all([
 </script></body></html>"""
 
 
-def topics_page(ctx: dict) -> str:
-    return """<!doctype html>
+def topics_page(ctx: dict, topic_cloud: dict) -> str:
+    page = """<!doctype html>
 <html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/>
 <title>Topic Cloud</title>
 <script src=\"./assets/metrics.js\" defer></script>
@@ -1268,7 +1268,16 @@ def topics_page(ctx: dict) -> str:
 </div></div>
 <script>
 let topicRows=[]; let termRows=[]; let activeTopic=''; let activeTerm='';
+const fallbackTopicCloud=__TOPIC_CLOUD_FALLBACK__;
 function escapeHtml(v){ return String(v||'').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[ch])); }
+function applyPayload(d){
+  if(!d || ((!d.topics || !d.topics.length) && (!d.terms || !d.terms.length))) return false;
+  topicRows=d.topics||[];
+  termRows=d.terms||[];
+  document.getElementById('summary').innerHTML=`<div><b>${escapeHtml((d.domain||{}).domain_name_en||'Domain')} Topic Cloud</b><span class=\"muted\"> · 内容时间 ${(d.updated_at||'-').replace('T',' ').slice(0,19)} · 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)}</span></div><div style=\"margin-top:8px\">${escapeHtml(d.summary_zh||'')}</div><div class=\"muted\" style=\"margin-top:6px\">${escapeHtml(d.summary_en||'')}</div>`;
+  renderTopics(); renderTerms(); renderSelection();
+  return true;
+}
 function renderSelection(){
   const list=document.getElementById('list');
   const note=document.getElementById('selectionNote');
@@ -1307,15 +1316,25 @@ function renderTerms(){
     renderTopics(); renderTerms(); renderSelection();
   }));
 }
-fetch('./data/topic_cloud.json').then(r=>r.json()).then(d=>{
-  topicRows=d.topics||[];
-  termRows=d.terms||[];
-  document.getElementById('summary').innerHTML=`<div><b>${escapeHtml((d.domain||{}).domain_name_en||'Domain')} Topic Cloud</b><span class=\"muted\"> · 内容时间 ${(d.updated_at||'-').replace('T',' ').slice(0,19)} · 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)}</span></div><div style=\"margin-top:8px\">${escapeHtml(d.summary_zh||'')}</div><div class=\"muted\" style=\"margin-top:6px\">${escapeHtml(d.summary_en||'')}</div>`;
-  renderTopics(); renderTerms(); renderSelection();
+const seeded = applyPayload(fallbackTopicCloud);
+if(!seeded){
+  document.getElementById('summary').innerHTML='<b>词云加载中</b><div class=\"muted\" style=\"margin-top:8px\">正在准备热点词云与关联人物。</div>';
+}
+fetch('./data/topic_cloud.json').then(r=>{
+  if(!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}).then(d=>{
+  applyPayload(d);
 }).catch(()=>{
-  document.getElementById('summary').innerHTML='<b>词云数据暂不可用</b><div class=\"muted\" style=\"margin-top:8px\">请先执行数据生成脚本。</div>';
+  if(!seeded){
+    document.getElementById('summary').innerHTML='<b>词云数据暂不可用</b><div class=\"muted\" style=\"margin-top:8px\">当前未能加载数据，请稍后刷新重试。</div>';
+    document.getElementById('topics').innerHTML='<div class=\"muted\">暂无话题数据</div>';
+    document.getElementById('cloud').innerHTML='<div class=\"muted\">暂无热词数据</div>';
+    document.getElementById('list').innerHTML='<div class=\"item muted\">暂无匹配人物</div>';
+  }
 });
 </script></body></html>"""
+    return page.replace("__TOPIC_CLOUD_FALLBACK__", json.dumps(topic_cloud, ensure_ascii=False))
 
 
 def main() -> int:
@@ -1491,6 +1510,12 @@ def main() -> int:
         briefing_rows = briefing_primary
     top10 = briefing_rows[:10]
 
+    built_at = dt.datetime.utcnow().isoformat() + "Z"
+    content_fallback_at = str(data.get("generated_at") or built_at)
+    content_updated_at = compute_content_updated_at(profiles, content_fallback_at)
+    payload = {"updated_at": content_updated_at, "built_at": built_at, "items": profiles}
+    topic_cloud = build_topic_cloud(profiles, content_updated_at, built_at, domain, ctx)
+
     PROFILES_DIR.mkdir(parents=True, exist_ok=True)
     for p in profiles:
         (PROFILES_DIR / f"{p['slug']}.html").write_text(profile_page(p, ctx), encoding="utf-8")
@@ -1500,13 +1525,7 @@ def main() -> int:
     BRIEFING_PAGE.write_text(briefing_page(ctx), encoding="utf-8")
     DAILY_PROGRESS_PAGE.write_text(daily_progress_page(ctx), encoding="utf-8")
     POSTER_PAGE.write_text(poster_page(ctx), encoding="utf-8")
-    TOPICS_PAGE.write_text(topics_page(ctx), encoding="utf-8")
-
-    built_at = dt.datetime.utcnow().isoformat() + "Z"
-    content_fallback_at = str(data.get("generated_at") or built_at)
-    content_updated_at = compute_content_updated_at(profiles, content_fallback_at)
-    payload = {"updated_at": content_updated_at, "built_at": built_at, "items": profiles}
-    topic_cloud = build_topic_cloud(profiles, content_updated_at, built_at, domain, ctx)
+    TOPICS_PAGE.write_text(topics_page(ctx, topic_cloud), encoding="utf-8")
     PROFILE_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     INSIGHTS_JSON.write_text(json.dumps({"updated_at": content_updated_at, "built_at": built_at, "items": insights_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
     BRIEFING_JSON.write_text(json.dumps({"updated_at": content_updated_at, "built_at": built_at, "items": briefing_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
