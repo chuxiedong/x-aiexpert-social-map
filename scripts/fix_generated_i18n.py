@@ -28,7 +28,7 @@ def inject_script(path: Path, js: str) -> None:
     block = f"{MARK_START}\n<script>\n{js.strip()}\n</script>\n{MARK_END}"
     pattern = re.compile(re.escape(MARK_START) + r".*?" + re.escape(MARK_END), re.S)
     if MARK_START in text and MARK_END in text:
-        text = pattern.sub(block, text)
+        text = pattern.sub(lambda _m: block, text)
     elif "</body>" in text:
         text = text.replace("</body>", block + "\n</body>")
     else:
@@ -311,6 +311,32 @@ def patch_topics() -> None:
   const t = (zh, en) => lang === 'zh' ? zh : en;
   const summary = document.getElementById('summary');
   const list = document.getElementById('list');
+  const note = document.getElementById('selectionNote');
+  function localizeNote() {
+    if (!note) return;
+    const text = (note.textContent || '').trim();
+    const termMatch = text.match(/^热词：(.+?) · 关联 (\d+) 位人物$/);
+    const topicMatch = text.match(/^主题：(.+?) · 关联 (\d+) 位人物$/);
+    const termMatchEn = text.match(/^Term: (.+?) · linked (\d+) creators$/);
+    const topicMatchEn = text.match(/^Topic: (.+?) · linked (\d+) creators$/);
+    if (lang === 'zh') {
+      if (text === 'Pick a topic or term first') {
+        note.textContent = '先选择一个话题或热词';
+      } else if (termMatchEn) {
+        note.textContent = `热词：${termMatchEn[1]} · 关联 ${termMatchEn[2]} 位人物`;
+      } else if (topicMatchEn) {
+        note.textContent = `主题：${topicMatchEn[1]} · 关联 ${topicMatchEn[2]} 位人物`;
+      }
+    } else {
+      if (text === '先选择一个话题或热词') {
+        note.textContent = 'Pick a topic or term first';
+      } else if (termMatch) {
+        note.textContent = `Term: ${termMatch[1]} · linked ${termMatch[2]} creators`;
+      } else if (topicMatch) {
+        note.textContent = `Topic: ${topicMatch[1]} · linked ${topicMatch[2]} creators`;
+      }
+    }
+  }
   function localize() {
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
     document.title = t('热点词云', 'Topic Cloud');
@@ -339,22 +365,37 @@ def patch_topics() -> None:
     if (cols[1]) {
       const h3 = cols[1].querySelector('h3');
       if (h3) h3.textContent = t('关联人物', 'Linked Creators');
-      const note = document.getElementById('selectionNote');
-      if (note && note.textContent.trim() === '先选择一个话题或热词') {
-        note.textContent = t('先选择一个话题或热词', 'Pick a topic or term first');
-      }
     }
     if (summary) {
-      const muted = summary.querySelector('.muted');
-      if (muted) muted.style.display = lang === 'zh' ? 'none' : '';
       const bold = summary.querySelector('b');
-      if (bold && lang === 'zh') bold.textContent = '热点词云';
+      const meta = summary.querySelector('span.muted');
+      const summaryEn = summary.querySelector('div.muted');
+      if (meta) meta.style.display = '';
+      if (summaryEn) summaryEn.style.display = lang === 'zh' ? 'none' : '';
+      if (bold) {
+        const rawTitle = bold.getAttribute('data-origin-title') || bold.textContent || '';
+        if (!bold.getAttribute('data-origin-title')) {
+          bold.setAttribute('data-origin-title', rawTitle);
+        }
+        bold.textContent = lang === 'zh'
+          ? rawTitle.replace(/Topic Cloud/i, '热点词云')
+          : rawTitle.replace(/热点词云/i, 'Topic Cloud');
+      }
     }
     if (list) {
       list.querySelectorAll('.item.muted').forEach((node) => {
         node.textContent = t('暂无匹配人物', 'No linked creators');
       });
     }
+    localizeNote();
+  }
+  const origRenderSelection = window.renderSelection;
+  if (typeof origRenderSelection === 'function' && !origRenderSelection.__codexI18nWrapped) {
+    window.renderSelection = function() {
+      origRenderSelection();
+      localize();
+    };
+    window.renderSelection.__codexI18nWrapped = true;
   }
   localize();
   if (summary) new MutationObserver(localize).observe(summary, { childList: true, subtree: true });
