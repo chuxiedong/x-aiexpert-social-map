@@ -167,6 +167,17 @@ def tokenize_terms(text: str, stopwords: set[str]) -> list[str]:
     return terms
 
 
+def normalize_term_text(text: str, aliases: dict[str, str]) -> str:
+    normalized = (text or "").lower()
+    for src, target in aliases.items():
+        source = str(src or "").strip().lower()
+        replacement = str(target or "").strip().lower()
+        if not source or not replacement:
+            continue
+        normalized = normalized.replace(source, replacement)
+    return normalized
+
+
 def domain_context(domain: dict, total_count: int) -> dict:
     domain_zh = str(domain.get("domain_name_zh") or "该领域")
     domain_en = str(domain.get("domain_name_en") or "this domain")
@@ -230,6 +241,27 @@ def domain_matches(row: dict, node: dict, domain: dict) -> bool:
 def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, domain: dict, ctx: dict) -> dict:
     stopwords = {str(x).strip().lower() for x in (domain.get("term_stopwords") or []) if str(x).strip()}
     stopwords |= {"rt", "amp", "the", "and", "for", "you", "are", "our", "its", "via"}
+    aliases = {
+        "hugging face": "huggingface",
+        "open ai": "openai",
+        "deep mind": "deepmind",
+        "co founder": "cofounder",
+        "fine tuning": "fine-tuning",
+    }
+    aliases.update({str(k).strip().lower(): str(v).strip().lower() for k, v in (domain.get("term_aliases") or {}).items() if str(k).strip() and str(v).strip()})
+    blocklist = {
+        "founder", "cofounder", "co-founder", "company", "researcher", "professor", "scientist",
+        "ceo", "cto", "chief", "assistant", "media", "investor", "platform", "creator", "developer",
+        "former", "partner", "host", "author", "team", "studio", "newsroom", "division", "center",
+        "customer", "care", "university", "college", "school", "member", "leader", "lead",
+        "built", "building", "me", "my", "but", "some", "has", "had", "want", "time", "long",
+        "one", "know", "work", "works", "working", "slides", "slide", "talk", "talks", "lecture",
+        "lectures", "docs", "doc", "use", "using", "used", "former", "latest", "share", "shares",
+        "today", "news", "thread", "check", "here", "deep", "learning",
+    }
+    blocklist |= {str(x).strip().lower() for x in (domain.get("term_blocklist") or []) if str(x).strip()}
+    allowlist = {str(x).strip().lower() for x in (domain.get("term_allowlist") or []) if str(x).strip()}
+    min_count = max(1, int(domain.get("term_min_count") or 2))
     term_counter: Counter[str] = Counter()
     topic_counter: Counter[str] = Counter()
     topic_people: dict[str, dict[str, dict]] = defaultdict(dict)
@@ -239,20 +271,25 @@ def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, doma
         handle = str(row.get("handle") or "").strip()
         slug = str(row.get("slug") or "").strip()
         name = str(row.get("name") or handle).strip()
-        texts = " ".join(
+        texts = normalize_term_text(
+            " ".join(
             [
                 str(row.get("latest_tweet_text") or ""),
                 str(row.get("today_hottest_tweet_text") or ""),
                 " ".join(row.get("topics") or []),
-                str(row.get("role") or ""),
-                str(row.get("group") or ""),
             ]
+            ),
+            aliases,
         )
         for topic in row.get("topics") or []:
             topic_counter[topic] += 1
             if handle:
                 topic_people[topic][handle.lower()] = {"handle": handle, "slug": slug, "name": name}
         for term in tokenize_terms(texts, stopwords):
+            if term in blocklist:
+                continue
+            if allowlist and term not in allowlist:
+                continue
             term_counter[term] += 1
             if handle:
                 term_people[term][handle.lower()] = {"handle": handle, "slug": slug, "name": name}
@@ -267,7 +304,8 @@ def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, doma
     ]
     top_terms = []
     max_count = max(term_counter.values()) if term_counter else 1
-    for idx, (term, count) in enumerate(term_counter.most_common(48)):
+    visible_terms = [(term, count) for term, count in term_counter.most_common() if count >= min_count]
+    for idx, (term, count) in enumerate(visible_terms[:48]):
         weight = 0.24 + 0.76 * (count / max_count)
         size = 16 + int(round(44 * weight))
         angle = (-9, -4, 0, 4, 9)[idx % 5]

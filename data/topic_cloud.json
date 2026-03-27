@@ -1,6 +1,6 @@
 {
   "updated_at": "2026-03-24T12:07:12+00:00",
-  "built_at": "2026-03-25T06:26:09.272898Z",
+  "built_at": "2026-03-27T06:00:38.926932Z",
   "domain": {
     "slug": "ai",
     "site_title_zh": "领域社交影响力情报台",
@@ -813,100 +813,11 @@
   ],
   "terms": [
     {
-      "term": "research",
-      "count": 154,
+      "term": "capability",
+      "count": 125,
       "weight": 1.0,
       "font_size": 60,
       "angle": -9,
-      "people": [
-        {
-          "handle": "OriolVinyalsML",
-          "slug": "oriolvinyalsml",
-          "name": "Oriol Vinyals"
-        },
-        {
-          "handle": "giffmana",
-          "slug": "giffmana",
-          "name": "Lucas Beyer (bl16)"
-        },
-        {
-          "handle": "arankomatsuzaki",
-          "slug": "arankomatsuzaki",
-          "name": "Aran Komatsuzaki"
-        },
-        {
-          "handle": "srush_nlp",
-          "slug": "srush_nlp",
-          "name": "Sasha Rush"
-        },
-        {
-          "handle": "ylecun",
-          "slug": "ylecun",
-          "name": "Yann LeCun"
-        },
-        {
-          "handle": "rasbt",
-          "slug": "rasbt",
-          "name": "Sebastian Raschka"
-        },
-        {
-          "handle": "savvyRL",
-          "slug": "savvyrl",
-          "name": "Rosanne Liu"
-        },
-        {
-          "handle": "woj_zaremba",
-          "slug": "woj_zaremba",
-          "name": "Wojciech Zaremba"
-        },
-        {
-          "handle": "jeremyphoward",
-          "slug": "jeremyphoward",
-          "name": "Jeremy Howard"
-        },
-        {
-          "handle": "GoogleDeepMind",
-          "slug": "googledeepmind",
-          "name": "Google DeepMind"
-        },
-        {
-          "handle": "AnthropicAI",
-          "slug": "anthropicai",
-          "name": "Anthropic"
-        },
-        {
-          "handle": "thegautamkamath",
-          "slug": "thegautamkamath",
-          "name": "Gautam Kamath"
-        },
-        {
-          "handle": "hardmaru",
-          "slug": "hardmaru",
-          "name": "hardmaru"
-        },
-        {
-          "handle": "sirbayes",
-          "slug": "sirbayes",
-          "name": "Kevin Patrick Murphy"
-        },
-        {
-          "handle": "sarahookr",
-          "slug": "sarahookr",
-          "name": "Sara Hooker"
-        },
-        {
-          "handle": "_jasonwei",
-          "slug": "_jasonwei",
-          "name": "Jason Wei"
-        }
-      ]
-    },
-    {
-      "term": "capability",
-      "count": 125,
-      "weight": 0.8569,
-      "font_size": 54,
-      "angle": -4,
       "people": [
         {
           "handle": "huggingface",
@@ -991,21 +902,41 @@
       ]
     },
     {
-      "term": "founder",
-      "count": 122,
-      "weight": 0.8421,
-      "font_size": 53,
-      "angle": 0,
+      "term": "research",
+      "count": 120,
+      "weight": 0.9696,
+      "font_size": 59,
+      "angle": -4,
       "people": [
         {
-          "handle": "soumithchintala",
-          "slug": "soumithchintala",
-          "name": "Soumith Chintala"
+          "handle": "OriolVinyalsML",
+          "slug": "oriolvinyalsml",
+          "name": "Oriol Vinyals"
         },
         {
-          "handle": "steipete",
-          "slug": "steipete",
-          "name": "Peter Steinberger 🦞"
+          "handle": "giffmana",
+          "slug": "giffmana",
+          "name": "Lucas Beyer (bl16)"
+        },
+        {
+          "handle": "arankomatsuzaki",
+          "slug": "arankomatsuzaki",
+          "name": "Aran Komatsuzaki"
+        },
+        {
+          "handle": "srush_nlp",
+          "slug": "srush_nlp",
+          "name": "Sasha Rush"
+        },
+        {
+          "handle": "ylecun",
+          "slug": "ylecun",
+          "name": "Yann LeCun"
+        },
+        {
+          "handle": "rasbt",
+          "slug": "rasbt",
+          "name": "Sebastian Raschka"
         },
         {
           "handle": "savvyRL",
@@ -1013,9 +944,9 @@
           "name": "Rosanne Liu"
         },
         {
-          "handle": "julien_c",
-          "slug": "julien_c",
-          "name": "Julien Chaumond"
+          "handle": "woj_zaremba",
+          "slug": "woj_zaremba",
+          "name": "Wojciech Zaremba"
         },
         {
           "handle": "jeremyphoward",
@@ -1023,68 +954,48 @@
           "name": "Jeremy Howard"
         },
         {
-          "handle": "ClementDelangue",
-          "slug": "clementdelangue",
-          "name": "clem 🤗"
+          "handle": "GoogleDeepMind",
+          "slug": "googledeepmind",
+          "name": "Google DeepMind"
         },
         {
-          "handle": "demishassabis",
-          "slug": "demishassabis",
-          "name": "Demis Hassabis"
+          "handle": "AnthropicAI",
+          "slug": "anthropicai",
+          "name": "Anthropic"
         },
         {
-          "handle": "_akhaliq",
-          "slug": "_akhaliq",
-          "name": "AK"
+          "handle": "thegautamkamath",
+          "slug": "thegautamkamath",
+          "name": "Gautam Kamath"
         },
         {
-          "handle": "RichardSocher",
-          "slug": "richardsocher",
-          "name": "Richard Socher"
+          "handle": "hardmaru",
+          "slug": "hardmaru",
+          "name": "hardmaru"
         },
         {
-          "handle": "cHHillee",
-          "slug": "chhillee",
-          "name": "Horace He"
+          "handle": "sirbayes",
+          "slug": "sirbayes",
+          "name": "Kevin Patrick Murphy"
         },
         {
-          "handle": "sama",
-          "slug": "sama",
-          "name": "Sam Altman"
+          "handle": "sarahookr",
+          "slug": "sarahookr",
+          "name": "Sara Hooker"
         },
         {
-          "handle": "abhi1thakur",
-          "slug": "abhi1thakur",
-          "name": "abhishek"
-        },
-        {
-          "handle": "docmilanfar",
-          "slug": "docmilanfar",
-          "name": "Peyman Milanfar"
-        },
-        {
-          "handle": "deliprao",
-          "slug": "deliprao",
-          "name": "Delip Rao e/σ"
-        },
-        {
-          "handle": "fchollet",
-          "slug": "fchollet",
-          "name": "François Chollet"
-        },
-        {
-          "handle": "karpathy",
-          "slug": "karpathy",
-          "name": "Andrej Karpathy"
+          "handle": "_jasonwei",
+          "slug": "_jasonwei",
+          "name": "Jason Wei"
         }
       ]
     },
     {
       "term": "frontier",
       "count": 119,
-      "weight": 0.8273,
-      "font_size": 52,
-      "angle": 4,
+      "weight": 0.9635,
+      "font_size": 58,
+      "angle": 0,
       "people": [
         {
           "handle": "OriolVinyalsML",
@@ -1171,9 +1082,9 @@
     {
       "term": "industry",
       "count": 118,
-      "weight": 0.8223,
-      "font_size": 52,
-      "angle": 9,
+      "weight": 0.9574,
+      "font_size": 58,
+      "angle": 4,
       "people": [
         {
           "handle": "huggingface",
@@ -1260,9 +1171,9 @@
     {
       "term": "productization",
       "count": 110,
-      "weight": 0.7829,
-      "font_size": 50,
-      "angle": -9,
+      "weight": 0.9088,
+      "font_size": 56,
+      "angle": 9,
       "people": [
         {
           "handle": "nvidianewsroom",
@@ -1347,189 +1258,11 @@
       ]
     },
     {
-      "term": "researcher",
-      "count": 98,
-      "weight": 0.7236,
-      "font_size": 48,
-      "angle": -4,
-      "people": [
-        {
-          "handle": "OriolVinyalsML",
-          "slug": "oriolvinyalsml",
-          "name": "Oriol Vinyals"
-        },
-        {
-          "handle": "giffmana",
-          "slug": "giffmana",
-          "name": "Lucas Beyer (bl16)"
-        },
-        {
-          "handle": "arankomatsuzaki",
-          "slug": "arankomatsuzaki",
-          "name": "Aran Komatsuzaki"
-        },
-        {
-          "handle": "srush_nlp",
-          "slug": "srush_nlp",
-          "name": "Sasha Rush"
-        },
-        {
-          "handle": "ylecun",
-          "slug": "ylecun",
-          "name": "Yann LeCun"
-        },
-        {
-          "handle": "rasbt",
-          "slug": "rasbt",
-          "name": "Sebastian Raschka"
-        },
-        {
-          "handle": "woj_zaremba",
-          "slug": "woj_zaremba",
-          "name": "Wojciech Zaremba"
-        },
-        {
-          "handle": "jeremyphoward",
-          "slug": "jeremyphoward",
-          "name": "Jeremy Howard"
-        },
-        {
-          "handle": "thegautamkamath",
-          "slug": "thegautamkamath",
-          "name": "Gautam Kamath"
-        },
-        {
-          "handle": "hardmaru",
-          "slug": "hardmaru",
-          "name": "hardmaru"
-        },
-        {
-          "handle": "sirbayes",
-          "slug": "sirbayes",
-          "name": "Kevin Patrick Murphy"
-        },
-        {
-          "handle": "sarahookr",
-          "slug": "sarahookr",
-          "name": "Sara Hooker"
-        },
-        {
-          "handle": "_jasonwei",
-          "slug": "_jasonwei",
-          "name": "Jason Wei"
-        },
-        {
-          "handle": "roydanroy",
-          "slug": "roydanroy",
-          "name": "Dan Roy"
-        },
-        {
-          "handle": "DrJimFan",
-          "slug": "drjimfan",
-          "name": "Jim Fan"
-        },
-        {
-          "handle": "sedielem",
-          "slug": "sedielem",
-          "name": "Sander Dieleman"
-        }
-      ]
-    },
-    {
-      "term": "company",
-      "count": 94,
-      "weight": 0.7039,
-      "font_size": 47,
-      "angle": 0,
-      "people": [
-        {
-          "handle": "nvidianewsroom",
-          "slug": "nvidianewsroom",
-          "name": "NVIDIA Newsroom"
-        },
-        {
-          "handle": "nvidia",
-          "slug": "nvidia",
-          "name": "NVIDIA"
-        },
-        {
-          "handle": "huggingface",
-          "slug": "huggingface",
-          "name": "Hugging Face"
-        },
-        {
-          "handle": "GoogleDeepMind",
-          "slug": "googledeepmind",
-          "name": "Google DeepMind"
-        },
-        {
-          "handle": "AnthropicAI",
-          "slug": "anthropicai",
-          "name": "Anthropic"
-        },
-        {
-          "handle": "nvidiaomniverse",
-          "slug": "nvidiaomniverse",
-          "name": "NVIDIA Omniverse"
-        },
-        {
-          "handle": "NVIDIADC",
-          "slug": "nvidiadc",
-          "name": "NVIDIA Data Center"
-        },
-        {
-          "handle": "NVIDIAAI",
-          "slug": "nvidiaai",
-          "name": "NVIDIA AI"
-        },
-        {
-          "handle": "NeurIPSConf",
-          "slug": "neuripsconf",
-          "name": "NeurIPS Conference"
-        },
-        {
-          "handle": "NVIDIAStudio",
-          "slug": "nvidiastudio",
-          "name": "NVIDIA Studio"
-        },
-        {
-          "handle": "GoogleAI",
-          "slug": "googleai",
-          "name": "Google AI"
-        },
-        {
-          "handle": "NVIDIARobotics",
-          "slug": "nvidiarobotics",
-          "name": "NVIDIA Robotics"
-        },
-        {
-          "handle": "GeminiApp",
-          "slug": "geminiapp",
-          "name": "Google Gemini"
-        },
-        {
-          "handle": "NVIDIAGTC",
-          "slug": "nvidiagtc",
-          "name": "NVIDIA GTC"
-        },
-        {
-          "handle": "OpenAI",
-          "slug": "openai",
-          "name": "OpenAI"
-        },
-        {
-          "handle": "claudeai",
-          "slug": "claudeai",
-          "name": "Claude"
-        }
-      ]
-    },
-    {
       "term": "openai",
-      "count": 76,
-      "weight": 0.6151,
-      "font_size": 43,
-      "angle": 4,
+      "count": 46,
+      "weight": 0.5197,
+      "font_size": 39,
+      "angle": -9,
       "people": [
         {
           "handle": "giffmana",
@@ -1616,9 +1349,9 @@
     {
       "term": "ecosystem",
       "count": 46,
-      "weight": 0.467,
-      "font_size": 37,
-      "angle": 9,
+      "weight": 0.5197,
+      "font_size": 39,
+      "angle": -4,
       "people": [
         {
           "handle": "giffmana",
@@ -1703,100 +1436,11 @@
       ]
     },
     {
-      "term": "nvidia",
-      "count": 41,
-      "weight": 0.4423,
-      "font_size": 35,
-      "angle": -9,
-      "people": [
-        {
-          "handle": "nvidianewsroom",
-          "slug": "nvidianewsroom",
-          "name": "NVIDIA Newsroom"
-        },
-        {
-          "handle": "DrJimFan",
-          "slug": "drjimfan",
-          "name": "Jim Fan"
-        },
-        {
-          "handle": "nvidiaomniverse",
-          "slug": "nvidiaomniverse",
-          "name": "NVIDIA Omniverse"
-        },
-        {
-          "handle": "NVIDIADC",
-          "slug": "nvidiadc",
-          "name": "NVIDIA Data Center"
-        },
-        {
-          "handle": "NVIDIAAI",
-          "slug": "nvidiaai",
-          "name": "NVIDIA AI"
-        },
-        {
-          "handle": "NVIDIAStudio",
-          "slug": "nvidiastudio",
-          "name": "NVIDIA Studio"
-        },
-        {
-          "handle": "NVIDIARobotics",
-          "slug": "nvidiarobotics",
-          "name": "NVIDIA Robotics"
-        },
-        {
-          "handle": "NVIDIAGTC",
-          "slug": "nvidiagtc",
-          "name": "NVIDIA GTC"
-        },
-        {
-          "handle": "NVIDIAworkstatn",
-          "slug": "nvidiaworkstatn",
-          "name": "NVIDIA Workstation"
-        },
-        {
-          "handle": "NvidiaANZ",
-          "slug": "nvidiaanz",
-          "name": "NVIDIA ANZ"
-        },
-        {
-          "handle": "NVIDIAAIDev",
-          "slug": "nvidiaaidev",
-          "name": "NVIDIA AI Developer"
-        },
-        {
-          "handle": "NVIDIA_AI_PC",
-          "slug": "nvidia_ai_pc",
-          "name": "NVIDIA AI PC"
-        },
-        {
-          "handle": "tunguz",
-          "slug": "tunguz",
-          "name": "Bojan Tunguz"
-        },
-        {
-          "handle": "NVIDIAHealth",
-          "slug": "nvidiahealth",
-          "name": "NVIDIA Healthcare"
-        },
-        {
-          "handle": "NVIDIAGeForceDE",
-          "slug": "nvidiageforcede",
-          "name": "NVIDIA GeForce DE"
-        },
-        {
-          "handle": "NVIDIAHPCDev",
-          "slug": "nvidiahpcdev",
-          "name": "NVIDIA HPC Developer"
-        }
-      ]
-    },
-    {
       "term": "model",
       "count": 36,
-      "weight": 0.4177,
-      "font_size": 34,
-      "angle": -4,
+      "weight": 0.4589,
+      "font_size": 36,
+      "angle": 0,
       "people": [
         {
           "handle": "soumithchintala",
@@ -1881,278 +1525,11 @@
       ]
     },
     {
-      "term": "google",
-      "count": 34,
-      "weight": 0.4078,
-      "font_size": 34,
-      "angle": 0,
-      "people": [
-        {
-          "handle": "OriolVinyalsML",
-          "slug": "oriolvinyalsml",
-          "name": "Oriol Vinyals"
-        },
-        {
-          "handle": "giffmana",
-          "slug": "giffmana",
-          "name": "Lucas Beyer (bl16)"
-        },
-        {
-          "handle": "rasbt",
-          "slug": "rasbt",
-          "name": "Sebastian Raschka"
-        },
-        {
-          "handle": "savvyRL",
-          "slug": "savvyrl",
-          "name": "Rosanne Liu"
-        },
-        {
-          "handle": "hardmaru",
-          "slug": "hardmaru",
-          "name": "hardmaru"
-        },
-        {
-          "handle": "demishassabis",
-          "slug": "demishassabis",
-          "name": "Demis Hassabis"
-        },
-        {
-          "handle": "roydanroy",
-          "slug": "roydanroy",
-          "name": "Dan Roy"
-        },
-        {
-          "handle": "sedielem",
-          "slug": "sedielem",
-          "name": "Sander Dieleman"
-        },
-        {
-          "handle": "GoogleAI",
-          "slug": "googleai",
-          "name": "Google AI"
-        },
-        {
-          "handle": "docmilanfar",
-          "slug": "docmilanfar",
-          "name": "Peyman Milanfar"
-        },
-        {
-          "handle": "GeminiApp",
-          "slug": "geminiapp",
-          "name": "Google Gemini"
-        },
-        {
-          "handle": "JeffDean",
-          "slug": "jeffdean",
-          "name": "Jeff Dean"
-        },
-        {
-          "handle": "AndrewYNg",
-          "slug": "andrewyng",
-          "name": "Andrew Ng"
-        },
-        {
-          "handle": "ZoubinGhahrama1",
-          "slug": "zoubinghahrama1",
-          "name": "Zoubin Ghahramani"
-        },
-        {
-          "handle": "antigravity",
-          "slug": "antigravity",
-          "name": "Google Antigravity"
-        },
-        {
-          "handle": "koraykv",
-          "slug": "koraykv",
-          "name": "koray kavukcuoglu"
-        }
-      ]
-    },
-    {
-      "term": "professor",
-      "count": 31,
-      "weight": 0.393,
-      "font_size": 33,
-      "angle": 4,
-      "people": [
-        {
-          "handle": "srush_nlp",
-          "slug": "srush_nlp",
-          "name": "Sasha Rush"
-        },
-        {
-          "handle": "rasbt",
-          "slug": "rasbt",
-          "name": "Sebastian Raschka"
-        },
-        {
-          "handle": "thegautamkamath",
-          "slug": "thegautamkamath",
-          "name": "Gautam Kamath"
-        },
-        {
-          "handle": "sirbayes",
-          "slug": "sirbayes",
-          "name": "Kevin Patrick Murphy"
-        },
-        {
-          "handle": "roydanroy",
-          "slug": "roydanroy",
-          "name": "Dan Roy"
-        },
-        {
-          "handle": "svlevine",
-          "slug": "svlevine",
-          "name": "Sergey Levine"
-        },
-        {
-          "handle": "mmbronstein",
-          "slug": "mmbronstein",
-          "name": "Michael Bronstein"
-        },
-        {
-          "handle": "tdietterich",
-          "slug": "tdietterich",
-          "name": "Thomas G. Dietterich"
-        },
-        {
-          "handle": "sleepinyourhat",
-          "slug": "sleepinyourhat",
-          "name": "Sam Bowman"
-        },
-        {
-          "handle": "chrmanning",
-          "slug": "chrmanning",
-          "name": "Christopher Manning"
-        },
-        {
-          "handle": "MattNiessner",
-          "slug": "mattniessner",
-          "name": "Matthias Niessner"
-        },
-        {
-          "handle": "zacharylipton",
-          "slug": "zacharylipton",
-          "name": "Zachary Lipton"
-        },
-        {
-          "handle": "egrefen",
-          "slug": "egrefen",
-          "name": "Edward Grefenstette"
-        },
-        {
-          "handle": "ProfSteveKeen",
-          "slug": "profstevekeen",
-          "name": "Dr. Steve Keen"
-        },
-        {
-          "handle": "douwekiela",
-          "slug": "douwekiela",
-          "name": "Douwe Kiela"
-        },
-        {
-          "handle": "gneubig",
-          "slug": "gneubig",
-          "name": "Graham Neubig"
-        }
-      ]
-    },
-    {
-      "term": "scientist",
-      "count": 22,
-      "weight": 0.3486,
-      "font_size": 31,
-      "angle": 9,
-      "people": [
-        {
-          "handle": "OriolVinyalsML",
-          "slug": "oriolvinyalsml",
-          "name": "Oriol Vinyals"
-        },
-        {
-          "handle": "giffmana",
-          "slug": "giffmana",
-          "name": "Lucas Beyer (bl16)"
-        },
-        {
-          "handle": "ylecun",
-          "slug": "ylecun",
-          "name": "Yann LeCun"
-        },
-        {
-          "handle": "hardmaru",
-          "slug": "hardmaru",
-          "name": "hardmaru"
-        },
-        {
-          "handle": "DrJimFan",
-          "slug": "drjimfan",
-          "name": "Jim Fan"
-        },
-        {
-          "handle": "sedielem",
-          "slug": "sedielem",
-          "name": "Sander Dieleman"
-        },
-        {
-          "handle": "JeffDean",
-          "slug": "jeffdean",
-          "name": "Jeff Dean"
-        },
-        {
-          "handle": "FelixHill84",
-          "slug": "felixhill84",
-          "name": "Felix Hill"
-        },
-        {
-          "handle": "billpeeb",
-          "slug": "billpeeb",
-          "name": "Bill Peebles"
-        },
-        {
-          "handle": "dpkingma",
-          "slug": "dpkingma",
-          "name": "Durk Kingma"
-        },
-        {
-          "handle": "ch402",
-          "slug": "ch402",
-          "name": "Chris Olah"
-        },
-        {
-          "handle": "jm_alexia",
-          "slug": "jm_alexia",
-          "name": "Alexia Jolicoeur-Martineau"
-        },
-        {
-          "handle": "natashajaques",
-          "slug": "natashajaques",
-          "name": "Natasha Jaques"
-        },
-        {
-          "handle": "PetarV_93",
-          "slug": "petarv_93",
-          "name": "Petar Veličković"
-        },
-        {
-          "handle": "Azaliamirh",
-          "slug": "azaliamirh",
-          "name": "Azalia Mirhoseini"
-        },
-        {
-          "handle": "mmitchell_ai",
-          "slug": "mmitchell_ai",
-          "name": "MMitchell"
-        }
-      ]
-    },
-    {
       "term": "agents",
       "count": 21,
-      "weight": 0.3436,
-      "font_size": 31,
-      "angle": -9,
+      "weight": 0.3677,
+      "font_size": 32,
+      "angle": 4,
       "people": [
         {
           "handle": "huggingface",
@@ -2237,100 +1614,11 @@
       ]
     },
     {
-      "term": "robotics",
-      "count": 20,
-      "weight": 0.3387,
-      "font_size": 31,
-      "angle": -4,
-      "people": [
-        {
-          "handle": "soumithchintala",
-          "slug": "soumithchintala",
-          "name": "Soumith Chintala"
-        },
-        {
-          "handle": "ylecun",
-          "slug": "ylecun",
-          "name": "Yann LeCun"
-        },
-        {
-          "handle": "DrJimFan",
-          "slug": "drjimfan",
-          "name": "Jim Fan"
-        },
-        {
-          "handle": "NVIDIARobotics",
-          "slug": "nvidiarobotics",
-          "name": "NVIDIA Robotics"
-        },
-        {
-          "handle": "tkipf",
-          "slug": "tkipf",
-          "name": "Thomas Kipf"
-        },
-        {
-          "handle": "drfeifei",
-          "slug": "drfeifei",
-          "name": "Fei-Fei Li"
-        },
-        {
-          "handle": "lexfridman",
-          "slug": "lexfridman",
-          "name": "Lex Fridman"
-        },
-        {
-          "handle": "tydsh",
-          "slug": "tydsh",
-          "name": "Yuandong Tian"
-        },
-        {
-          "handle": "chris_j_paxton",
-          "slug": "chris_j_paxton",
-          "name": "Chris Paxton"
-        },
-        {
-          "handle": "ChatGPTapp",
-          "slug": "chatgptapp",
-          "name": "ChatGPT"
-        },
-        {
-          "handle": "DeryaTR_",
-          "slug": "deryatr_",
-          "name": "Derya Unutmaz, MD"
-        },
-        {
-          "handle": "kalinowski007",
-          "slug": "kalinowski007",
-          "name": "Caitlin Kalinowski"
-        },
-        {
-          "handle": "RemiCadene",
-          "slug": "remicadene",
-          "name": "Remi Cadene"
-        },
-        {
-          "handle": "LeRobotHF",
-          "slug": "lerobothf",
-          "name": "LeRobot"
-        },
-        {
-          "handle": "SkildAI",
-          "slug": "skildai",
-          "name": "Skild AI"
-        },
-        {
-          "handle": "yacineMTB",
-          "slug": "yacinemtb",
-          "name": "kache"
-        }
-      ]
-    },
-    {
       "term": "infrastructure",
       "count": 19,
-      "weight": 0.3338,
-      "font_size": 31,
-      "angle": 0,
+      "weight": 0.3555,
+      "font_size": 32,
+      "angle": 9,
       "people": [
         {
           "handle": "nvidianewsroom",
@@ -2415,224 +1703,46 @@
       ]
     },
     {
-      "term": "co-founder",
-      "count": 19,
-      "weight": 0.3338,
+      "term": "robotics",
+      "count": 17,
+      "weight": 0.3434,
       "font_size": 31,
-      "angle": 4,
-      "people": [
-        {
-          "handle": "woj_zaremba",
-          "slug": "woj_zaremba",
-          "name": "Wojciech Zaremba"
-        },
-        {
-          "handle": "julien_c",
-          "slug": "julien_c",
-          "name": "Julien Chaumond"
-        },
-        {
-          "handle": "MattNiessner",
-          "slug": "mattniessner",
-          "name": "Matthias Niessner"
-        },
-        {
-          "handle": "AndrewYNg",
-          "slug": "andrewyng",
-          "name": "Andrew Ng"
-        },
-        {
-          "handle": "Thom_Wolf",
-          "slug": "thom_wolf",
-          "name": "Thomas Wolf"
-        },
-        {
-          "handle": "jackclarkSF",
-          "slug": "jackclarksf",
-          "name": "Jack Clark"
-        },
-        {
-          "handle": "johnschulman2",
-          "slug": "johnschulman2",
-          "name": "John Schulman"
-        },
-        {
-          "handle": "ilyasut",
-          "slug": "ilyasut",
-          "name": "Ilya Sutskever"
-        },
-        {
-          "handle": "tydsh",
-          "slug": "tydsh",
-          "name": "Yuandong Tian"
-        },
-        {
-          "handle": "ericzelikman",
-          "slug": "ericzelikman",
-          "name": "Eric Zelikman"
-        },
-        {
-          "handle": "mikeyk",
-          "slug": "mikeyk",
-          "name": "Mike Krieger"
-        },
-        {
-          "handle": "Yuhu_ai_",
-          "slug": "yuhu_ai_",
-          "name": "Yuhuai (Tony) Wu"
-        },
-        {
-          "handle": "LiamFedus",
-          "slug": "liamfedus",
-          "name": "William Fedus"
-        },
-        {
-          "handle": "math_rachel",
-          "slug": "math_rachel",
-          "name": "Rachel Thomas"
-        },
-        {
-          "handle": "RemiCadene",
-          "slug": "remicadene",
-          "name": "Remi Cadene"
-        },
-        {
-          "handle": "lm_zheng",
-          "slug": "lm_zheng",
-          "name": "Lianmin Zheng"
-        }
-      ]
-    },
-    {
-      "term": "ceo",
-      "count": 18,
-      "weight": 0.3288,
-      "font_size": 30,
-      "angle": 9,
-      "people": [
-        {
-          "handle": "ClementDelangue",
-          "slug": "clementdelangue",
-          "name": "clem 🤗"
-        },
-        {
-          "handle": "demishassabis",
-          "slug": "demishassabis",
-          "name": "Demis Hassabis"
-        },
-        {
-          "handle": "RichardSocher",
-          "slug": "richardsocher",
-          "name": "Richard Socher"
-        },
-        {
-          "handle": "sama",
-          "slug": "sama",
-          "name": "Sam Altman"
-        },
-        {
-          "handle": "alexandr_wang",
-          "slug": "alexandr_wang",
-          "name": "Alexandr Wang"
-        },
-        {
-          "handle": "satyanadella",
-          "slug": "satyanadella",
-          "name": "Satya Nadella"
-        },
-        {
-          "handle": "mustafasuleyman",
-          "slug": "mustafasuleyman",
-          "name": "Mustafa Suleyman"
-        },
-        {
-          "handle": "levie",
-          "slug": "levie",
-          "name": "Aaron Levie"
-        },
-        {
-          "handle": "fidjissimo",
-          "slug": "fidjissimo",
-          "name": "Fidji Simo"
-        },
-        {
-          "handle": "ericzelikman",
-          "slug": "ericzelikman",
-          "name": "Eric Zelikman"
-        },
-        {
-          "handle": "DarioAmodei",
-          "slug": "darioamodei",
-          "name": "Dario Amodei"
-        },
-        {
-          "handle": "RemiCadene",
-          "slug": "remicadene",
-          "name": "Remi Cadene"
-        },
-        {
-          "handle": "alexgraveley",
-          "slug": "alexgraveley",
-          "name": "Alex Graveley"
-        },
-        {
-          "handle": "brian_armstrong",
-          "slug": "brian_armstrong",
-          "name": "Brian Armstrong"
-        },
-        {
-          "handle": "paraga",
-          "slug": "paraga",
-          "name": "Parag Agrawal"
-        },
-        {
-          "handle": "jaykreps",
-          "slug": "jaykreps",
-          "name": "Jay Kreps"
-        }
-      ]
-    },
-    {
-      "term": "cto",
-      "count": 14,
-      "weight": 0.3091,
-      "font_size": 30,
       "angle": -9,
       "people": [
         {
-          "handle": "roydanroy",
-          "slug": "roydanroy",
-          "name": "Dan Roy"
+          "handle": "soumithchintala",
+          "slug": "soumithchintala",
+          "name": "Soumith Chintala"
         },
         {
-          "handle": "Miles_Brundage",
-          "slug": "miles_brundage",
-          "name": "Miles Brundage"
+          "handle": "ylecun",
+          "slug": "ylecun",
+          "name": "Yann LeCun"
         },
         {
-          "handle": "CSProfKGD",
-          "slug": "csprofkgd",
-          "name": "Kosta Derpanis (sabbatical in Munich)"
+          "handle": "DrJimFan",
+          "slug": "drjimfan",
+          "name": "Jim Fan"
         },
         {
-          "handle": "egrefen",
-          "slug": "egrefen",
-          "name": "Edward Grefenstette"
+          "handle": "NVIDIARobotics",
+          "slug": "nvidiarobotics",
+          "name": "NVIDIA Robotics"
         },
         {
-          "handle": "miramurati",
-          "slug": "miramurati",
-          "name": "Mira Murati"
+          "handle": "tkipf",
+          "slug": "tkipf",
+          "name": "Thomas Kipf"
         },
         {
-          "handle": "hendrycks",
-          "slug": "hendrycks",
-          "name": "Dan Hendrycks"
+          "handle": "drfeifei",
+          "slug": "drfeifei",
+          "name": "Fei-Fei Li"
         },
         {
-          "handle": "tulseedoshi",
-          "slug": "tulseedoshi",
-          "name": "Tulsee Doshi"
+          "handle": "lexfridman",
+          "slug": "lexfridman",
+          "name": "Lex Fridman"
         },
         {
           "handle": "tydsh",
@@ -2640,42 +1750,52 @@
           "name": "Yuandong Tian"
         },
         {
-          "handle": "addyosmani",
-          "slug": "addyosmani",
-          "name": "Addy Osmani"
+          "handle": "chris_j_paxton",
+          "slug": "chris_j_paxton",
+          "name": "Chris Paxton"
         },
         {
-          "handle": "xwang_lk",
-          "slug": "xwang_lk",
-          "name": "Xin Eric Wang"
+          "handle": "ChatGPTapp",
+          "slug": "chatgptapp",
+          "name": "ChatGPT"
         },
         {
-          "handle": "RihardJarc",
-          "slug": "rihardjarc",
-          "name": "Rihard Jarc"
+          "handle": "DeryaTR_",
+          "slug": "deryatr_",
+          "name": "Derya Unutmaz, MD"
         },
         {
-          "handle": "gizakdag",
-          "slug": "gizakdag",
-          "name": "Gizem Akdag"
+          "handle": "kalinowski007",
+          "slug": "kalinowski007",
+          "name": "Caitlin Kalinowski"
         },
         {
-          "handle": "simpsoka",
-          "slug": "simpsoka",
-          "name": "Kath Korevec"
+          "handle": "RemiCadene",
+          "slug": "remicadene",
+          "name": "Remi Cadene"
         },
         {
-          "handle": "PeterBerezinBCA",
-          "slug": "peterberezinbca",
-          "name": "Peter Berezin"
+          "handle": "LeRobotHF",
+          "slug": "lerobothf",
+          "name": "LeRobot"
+        },
+        {
+          "handle": "SkildAI",
+          "slug": "skildai",
+          "name": "Skild AI"
+        },
+        {
+          "handle": "yacineMTB",
+          "slug": "yacinemtb",
+          "name": "kache"
         }
       ]
     },
     {
       "term": "engineering",
       "count": 13,
-      "weight": 0.3042,
-      "font_size": 29,
+      "weight": 0.319,
+      "font_size": 30,
       "angle": -4,
       "people": [
         {
@@ -2747,8 +1867,8 @@
     },
     {
       "term": "safety",
-      "count": 13,
-      "weight": 0.3042,
+      "count": 10,
+      "weight": 0.3008,
       "font_size": 29,
       "angle": 0,
       "people": [
@@ -2801,74 +1921,15 @@
           "handle": "agarwl_",
           "slug": "agarwl_",
           "name": "Rishabh Agarwal"
-        }
-      ]
-    },
-    {
-      "term": "deepmind",
-      "count": 11,
-      "weight": 0.2943,
-      "font_size": 29,
-      "angle": 4,
-      "people": [
-        {
-          "handle": "OriolVinyalsML",
-          "slug": "oriolvinyalsml",
-          "name": "Oriol Vinyals"
-        },
-        {
-          "handle": "demishassabis",
-          "slug": "demishassabis",
-          "name": "Demis Hassabis"
-        },
-        {
-          "handle": "koraykv",
-          "slug": "koraykv",
-          "name": "koray kavukcuoglu"
-        },
-        {
-          "handle": "NandoDF",
-          "slug": "nandodf",
-          "name": "Nando de Freitas"
-        },
-        {
-          "handle": "FelixHill84",
-          "slug": "felixhill84",
-          "name": "Felix Hill"
-        },
-        {
-          "handle": "PetarV_93",
-          "slug": "petarv_93",
-          "name": "Petar Veličković"
-        },
-        {
-          "handle": "tkipf",
-          "slug": "tkipf",
-          "name": "Thomas Kipf"
-        },
-        {
-          "handle": "avdnoord",
-          "slug": "avdnoord",
-          "name": "Aäron van den Oord"
-        },
-        {
-          "handle": "HeinrichKuttler",
-          "slug": "heinrichkuttler",
-          "name": "heiner"
-        },
-        {
-          "handle": "TLOgg",
-          "slug": "tlogg",
-          "name": "Dario TLO Wünsch"
         }
       ]
     },
     {
       "term": "alignment",
-      "count": 11,
-      "weight": 0.2943,
+      "count": 10,
+      "weight": 0.3008,
       "font_size": 29,
-      "angle": 9,
+      "angle": 4,
       "people": [
         {
           "handle": "AnthropicAI",
@@ -2923,723 +1984,87 @@
       ]
     },
     {
-      "term": "microsoft",
-      "count": 11,
-      "weight": 0.2943,
-      "font_size": 29,
+      "term": "pytorch",
+      "count": 3,
+      "weight": 0.2582,
+      "font_size": 27,
+      "angle": 9,
+      "people": [
+        {
+          "handle": "soumithchintala",
+          "slug": "soumithchintala",
+          "name": "Soumith Chintala"
+        }
+      ]
+    },
+    {
+      "term": "transformers",
+      "count": 3,
+      "weight": 0.2582,
+      "font_size": 27,
       "angle": -9,
       "people": [
         {
-          "handle": "Azure",
-          "slug": "azure",
-          "name": "Microsoft Azure"
-        },
-        {
-          "handle": "JamesMontemagno",
-          "slug": "jamesmontemagno",
-          "name": "James Montemagno"
-        },
-        {
-          "handle": "SebastienBubeck",
-          "slug": "sebastienbubeck",
-          "name": "Sebastien Bubeck"
-        },
-        {
-          "handle": "satyanadella",
-          "slug": "satyanadella",
-          "name": "Satya Nadella"
-        },
-        {
-          "handle": "gordic_aleksa",
-          "slug": "gordic_aleksa",
-          "name": "Aleksa Gordić (水平问题)"
-        },
-        {
-          "handle": "mustafasuleyman",
-          "slug": "mustafasuleyman",
-          "name": "Mustafa Suleyman"
-        },
-        {
-          "handle": "hannawallach",
-          "slug": "hannawallach",
-          "name": "Hanna Wallach (@hannawallach.bsky.social)"
-        },
-        {
-          "handle": "BradSmi",
-          "slug": "bradsmi",
-          "name": "Brad Smith"
-        },
-        {
-          "handle": "jeffteper",
-          "slug": "jeffteper",
-          "name": "Jeff Teper"
-        },
-        {
-          "handle": "msPartner",
-          "slug": "mspartner",
-          "name": "Microsoft Partner"
-        },
-        {
-          "handle": "surface",
-          "slug": "surface",
-          "name": "Microsoft Surface"
-        }
-      ]
-    },
-    {
-      "term": "huggingface",
-      "count": 10,
-      "weight": 0.2894,
-      "font_size": 29,
-      "angle": -4,
-      "people": [
-        {
-          "handle": "_akhaliq",
-          "slug": "_akhaliq",
-          "name": "AK"
-        },
-        {
-          "handle": "abhi1thakur",
-          "slug": "abhi1thakur",
-          "name": "abhishek"
-        },
-        {
-          "handle": "osanseviero",
-          "slug": "osanseviero",
-          "name": "Omar Sanseviero"
-        },
-        {
-          "handle": "_nateraw",
-          "slug": "_nateraw",
-          "name": "Nate Raw"
-        },
-        {
-          "handle": "mervenoyann",
-          "slug": "mervenoyann",
-          "name": "merve"
-        },
-        {
-          "handle": "SashaMTL",
-          "slug": "sashamtl",
-          "name": "Sasha Luccioni, PhD 🦋🌎✨🤗"
-        },
-        {
-          "handle": "NielsRogge",
-          "slug": "nielsrogge",
-          "name": "Niels Rogge"
-        },
-        {
-          "handle": "_lewtun",
-          "slug": "_lewtun",
-          "name": "Lewis Tunstall"
-        },
-        {
-          "handle": "AdinaYakup",
-          "slug": "adinayakup",
-          "name": "Adina Yakup"
-        },
-        {
-          "handle": "mattt",
-          "slug": "mattt",
-          "name": "Mattt"
-        }
-      ]
-    },
-    {
-      "term": "anthropic",
-      "count": 9,
-      "weight": 0.2844,
-      "font_size": 29,
-      "angle": 0,
-      "people": [
-        {
-          "handle": "claudeai",
-          "slug": "claudeai",
-          "name": "Claude"
-        },
-        {
-          "handle": "AmandaAskell",
-          "slug": "amandaaskell",
-          "name": "Amanda Askell"
-        },
-        {
-          "handle": "jackclarkSF",
-          "slug": "jackclarksf",
-          "name": "Jack Clark"
-        },
-        {
-          "handle": "ch402",
-          "slug": "ch402",
-          "name": "Chris Olah"
-        },
-        {
-          "handle": "catherineols",
-          "slug": "catherineols",
-          "name": "Catherine Olsson"
-        },
-        {
-          "handle": "andy_l_jones",
-          "slug": "andy_l_jones",
-          "name": "andy jones"
-        },
-        {
-          "handle": "DarioAmodei",
-          "slug": "darioamodei",
-          "name": "Dario Amodei"
-        },
-        {
-          "handle": "alexalbert__",
-          "slug": "alexalbert__",
-          "name": "Alex Albert"
-        },
-        {
-          "handle": "jaykreps",
-          "slug": "jaykreps",
-          "name": "Jay Kreps"
-        }
-      ]
-    },
-    {
-      "term": "media",
-      "count": 9,
-      "weight": 0.2844,
-      "font_size": 29,
-      "angle": 4,
-      "people": [
-        {
-          "handle": "GaryMarcus",
-          "slug": "garymarcus",
-          "name": "Gary Marcus"
-        },
-        {
-          "handle": "MatthewBerman",
-          "slug": "matthewberman",
-          "name": "Matthew Berman"
-        },
-        {
-          "handle": "emollick",
-          "slug": "emollick",
-          "name": "Ethan Mollick"
-        },
-        {
-          "handle": "lexfridman",
-          "slug": "lexfridman",
-          "name": "Lex Fridman"
-        },
-        {
-          "handle": "stevenbjohnson",
-          "slug": "stevenbjohnson",
-          "name": "Steven Johnson"
-        },
-        {
-          "handle": "BradSmi",
-          "slug": "bradsmi",
-          "name": "Brad Smith"
-        },
-        {
-          "handle": "rohanpaul_ai",
-          "slug": "rohanpaul_ai",
-          "name": "Rohan Paul"
-        },
-        {
-          "handle": "RihardJarc",
-          "slug": "rihardjarc",
-          "name": "Rihard Jarc"
-        },
-        {
-          "handle": "jerrod_lew",
-          "slug": "jerrod_lew",
-          "name": "Jerrod Lew"
+          "handle": "huggingface",
+          "slug": "huggingface",
+          "name": "Hugging Face"
         }
       ]
     },
     {
       "term": "meta",
-      "count": 8,
-      "weight": 0.2795,
-      "font_size": 28,
-      "angle": 9,
+      "count": 2,
+      "weight": 0.2522,
+      "font_size": 27,
+      "angle": -4,
       "people": [
         {
           "handle": "soumithchintala",
           "slug": "soumithchintala",
           "name": "Soumith Chintala"
-        },
-        {
-          "handle": "ylecun",
-          "slug": "ylecun",
-          "name": "Yann LeCun"
-        },
-        {
-          "handle": "omarsar0",
-          "slug": "omarsar0",
-          "name": "elvis"
-        },
-        {
-          "handle": "shengjia_zhao",
-          "slug": "shengjia_zhao",
-          "name": "Shengjia Zhao"
-        },
-        {
-          "handle": "tydsh",
-          "slug": "tydsh",
-          "name": "Yuandong Tian"
-        },
-        {
-          "handle": "agarwl_",
-          "slug": "agarwl_",
-          "name": "Rishabh Agarwal"
-        },
-        {
-          "handle": "ZeyuanAllenZhu",
-          "slug": "zeyuanallenzhu",
-          "name": "Zeyuan Allen-Zhu, Sc.D."
         }
       ]
     },
     {
-      "term": "platform",
-      "count": 8,
-      "weight": 0.2795,
-      "font_size": 28,
-      "angle": -9,
-      "people": [
-        {
-          "handle": "huggingface",
-          "slug": "huggingface",
-          "name": "Hugging Face"
-        },
-        {
-          "handle": "nvidiaomniverse",
-          "slug": "nvidiaomniverse",
-          "name": "NVIDIA Omniverse"
-        },
-        {
-          "handle": "OpenAIDevs",
-          "slug": "openaidevs",
-          "name": "OpenAI Developers"
-        },
-        {
-          "handle": "Azure",
-          "slug": "azure",
-          "name": "Microsoft Azure"
-        },
-        {
-          "handle": "GoogleAIStudio",
-          "slug": "googleaistudio",
-          "name": "Google AI Studio"
-        },
-        {
-          "handle": "askalphaxiv",
-          "slug": "askalphaxiv",
-          "name": "alphaXiv"
-        },
-        {
-          "handle": "arena",
-          "slug": "arena",
-          "name": "Arena.ai"
-        },
-        {
-          "handle": "LeRobotHF",
-          "slug": "lerobothf",
-          "name": "LeRobot"
-        }
-      ]
-    },
-    {
-      "term": "stanford",
-      "count": 7,
-      "weight": 0.2745,
-      "font_size": 28,
-      "angle": -4,
-      "people": [
-        {
-          "handle": "chrmanning",
-          "slug": "chrmanning",
-          "name": "Christopher Manning"
-        },
-        {
-          "handle": "mathemagic1an",
-          "slug": "mathemagic1an",
-          "name": "Jay Hack"
-        },
-        {
-          "handle": "drfeifei",
-          "slug": "drfeifei",
-          "name": "Fei-Fei Li"
-        },
-        {
-          "handle": "tulseedoshi",
-          "slug": "tulseedoshi",
-          "name": "Tulsee Doshi"
-        },
-        {
-          "handle": "chelseabfinn",
-          "slug": "chelseabfinn",
-          "name": "Chelsea Finn"
-        },
-        {
-          "handle": "ericzelikman",
-          "slug": "ericzelikman",
-          "name": "Eric Zelikman"
-        },
-        {
-          "handle": "rayhotate",
-          "slug": "rayhotate",
-          "name": "Ray Hotate 保立怜"
-        }
-      ]
-    },
-    {
-      "term": "learning",
-      "count": 6,
-      "weight": 0.2696,
-      "font_size": 28,
+      "term": "nvidia",
+      "count": 2,
+      "weight": 0.2522,
+      "font_size": 27,
       "angle": 0,
+      "people": [
+        {
+          "handle": "nvidianewsroom",
+          "slug": "nvidianewsroom",
+          "name": "NVIDIA Newsroom"
+        }
+      ]
+    },
+    {
+      "term": "google",
+      "count": 2,
+      "weight": 0.2522,
+      "font_size": 27,
+      "angle": 4,
       "people": [
         {
           "handle": "OriolVinyalsML",
           "slug": "oriolvinyalsml",
           "name": "Oriol Vinyals"
-        },
-        {
-          "handle": "huggingface",
-          "slug": "huggingface",
-          "name": "Hugging Face"
         },
         {
           "handle": "rasbt",
           "slug": "rasbt",
           "name": "Sebastian Raschka"
-        },
-        {
-          "handle": "Yoshua_Bengio",
-          "slug": "yoshua_bengio",
-          "name": "Yoshua Bengio"
-        },
-        {
-          "handle": "geoffreyhinton",
-          "slug": "geoffreyhinton",
-          "name": "Geoffrey Hinton"
-        },
-        {
-          "handle": "yacineMTB",
-          "slug": "yacinemtb",
-          "name": "kache"
         }
       ]
     },
     {
-      "term": "his",
-      "count": 5,
-      "weight": 0.2647,
-      "font_size": 28,
-      "angle": 4,
-      "people": [
-        {
-          "handle": "ylecun",
-          "slug": "ylecun",
-          "name": "Yann LeCun"
-        }
-      ]
-    },
-    {
-      "term": "hugging",
-      "count": 5,
-      "weight": 0.2647,
-      "font_size": 28,
-      "angle": 9,
-      "people": [
-        {
-          "handle": "julien_c",
-          "slug": "julien_c",
-          "name": "Julien Chaumond"
-        },
-        {
-          "handle": "ClementDelangue",
-          "slug": "clementdelangue",
-          "name": "clem 🤗"
-        },
-        {
-          "handle": "Thom_Wolf",
-          "slug": "thom_wolf",
-          "name": "Thomas Wolf"
-        },
-        {
-          "handle": "mmitchell_ai",
-          "slug": "mmitchell_ai",
-          "name": "MMitchell"
-        },
-        {
-          "handle": "RisingSayak",
-          "slug": "risingsayak",
-          "name": "Sayak Paul"
-        }
-      ]
-    },
-    {
-      "term": "face",
-      "count": 5,
-      "weight": 0.2647,
-      "font_size": 28,
-      "angle": -9,
-      "people": [
-        {
-          "handle": "julien_c",
-          "slug": "julien_c",
-          "name": "Julien Chaumond"
-        },
-        {
-          "handle": "ClementDelangue",
-          "slug": "clementdelangue",
-          "name": "clem 🤗"
-        },
-        {
-          "handle": "Thom_Wolf",
-          "slug": "thom_wolf",
-          "name": "Thomas Wolf"
-        },
-        {
-          "handle": "mmitchell_ai",
-          "slug": "mmitchell_ai",
-          "name": "MMitchell"
-        },
-        {
-          "handle": "RisingSayak",
-          "slug": "risingsayak",
-          "name": "Sayak Paul"
-        }
-      ]
-    },
-    {
-      "term": "investor",
-      "count": 5,
-      "weight": 0.2647,
-      "font_size": 28,
-      "angle": -4,
-      "people": [
-        {
-          "handle": "sriramk",
-          "slug": "sriramk",
-          "name": "Sriram Krishnan"
-        },
-        {
-          "handle": "yacineMTB",
-          "slug": "yacinemtb",
-          "name": "kache"
-        },
-        {
-          "handle": "saranormous",
-          "slug": "saranormous",
-          "name": "sarah guo"
-        },
-        {
-          "handle": "GavinSBaker",
-          "slug": "gavinsbaker",
-          "name": "Gavin Baker"
-        },
-        {
-          "handle": "kazu_fujisawa",
-          "slug": "kazu_fujisawa",
-          "name": "Kazuki Fujisawa"
-        }
-      ]
-    },
-    {
-      "term": "pytorch",
-      "count": 4,
-      "weight": 0.2597,
-      "font_size": 27,
-      "angle": 0,
-      "people": [
-        {
-          "handle": "soumithchintala",
-          "slug": "soumithchintala",
-          "name": "Soumith Chintala"
-        }
-      ]
-    },
-    {
-      "term": "chief",
-      "count": 4,
-      "weight": 0.2597,
-      "font_size": 27,
-      "angle": 4,
-      "people": [
-        {
-          "handle": "ylecun",
-          "slug": "ylecun",
-          "name": "Yann LeCun"
-        },
-        {
-          "handle": "JeffDean",
-          "slug": "jeffdean",
-          "name": "Jeff Dean"
-        },
-        {
-          "handle": "mmitchell_ai",
-          "slug": "mmitchell_ai",
-          "name": "MMitchell"
-        },
-        {
-          "handle": "merettm",
-          "slug": "merettm",
-          "name": "Jakub Pachocki"
-        }
-      ]
-    },
-    {
-      "term": "assistant",
-      "count": 4,
-      "weight": 0.2597,
+      "term": "transformer",
+      "count": 2,
+      "weight": 0.2522,
       "font_size": 27,
       "angle": 9,
       "people": [
-        {
-          "handle": "GeminiApp",
-          "slug": "geminiapp",
-          "name": "Google Gemini"
-        },
-        {
-          "handle": "claudeai",
-          "slug": "claudeai",
-          "name": "Claude"
-        },
-        {
-          "handle": "Everlyn_ai",
-          "slug": "everlyn_ai",
-          "name": "Everlyn"
-        },
-        {
-          "handle": "ChatGPTapp",
-          "slug": "chatgptapp",
-          "name": "ChatGPT"
-        }
-      ]
-    },
-    {
-      "term": "creator",
-      "count": 4,
-      "weight": 0.2597,
-      "font_size": 27,
-      "angle": -9,
-      "people": [
-        {
-          "handle": "fchollet",
-          "slug": "fchollet",
-          "name": "François Chollet"
-        },
-        {
-          "handle": "goodfellow_ian",
-          "slug": "goodfellow_ian",
-          "name": "Ian Goodfellow"
-        },
-        {
-          "handle": "rohanpaul_ai",
-          "slug": "rohanpaul_ai",
-          "name": "Rohan Paul"
-        },
-        {
-          "handle": "jerrod_lew",
-          "slug": "jerrod_lew",
-          "name": "Jerrod Lew"
-        }
-      ]
-    },
-    {
-      "term": "developer",
-      "count": 4,
-      "weight": 0.2597,
-      "font_size": 27,
-      "angle": -4,
-      "people": [
-        {
-          "handle": "NVIDIAAIDev",
-          "slug": "nvidiaaidev",
-          "name": "NVIDIA AI Developer"
-        },
-        {
-          "handle": "OpenAIDevs",
-          "slug": "openaidevs",
-          "name": "OpenAI Developers"
-        },
-        {
-          "handle": "googleaidevs",
-          "slug": "googleaidevs",
-          "name": "Google AI Developers"
-        },
-        {
-          "handle": "OfficialLoganK",
-          "slug": "officiallogank",
-          "name": "Logan Kilpatrick"
-        }
-      ]
-    },
-    {
-      "term": "framework",
-      "count": 4,
-      "weight": 0.2597,
-      "font_size": 27,
-      "angle": 0,
-      "people": [
-        {
-          "handle": "PyTorch",
-          "slug": "pytorch",
-          "name": "PyTorch"
-        },
-        {
-          "handle": "TensorFlow",
-          "slug": "tensorflow",
-          "name": "TensorFlow"
-        },
-        {
-          "handle": "__tinygrad__",
-          "slug": "__tinygrad__",
-          "name": "the tiny corp"
-        },
-        {
-          "handle": "DSPyOSS",
-          "slug": "dspyoss",
-          "name": "DSPy"
-        }
-      ]
-    },
-    {
-      "term": "built",
-      "count": 3,
-      "weight": 0.2548,
-      "font_size": 27,
-      "angle": 4,
-      "people": [
-        {
-          "handle": "soumithchintala",
-          "slug": "soumithchintala",
-          "name": "Soumith Chintala"
-        },
-        {
-          "handle": "nvidianewsroom",
-          "slug": "nvidianewsroom",
-          "name": "NVIDIA Newsroom"
-        },
-        {
-          "handle": "nvidia",
-          "slug": "nvidia",
-          "name": "NVIDIA"
-        }
-      ]
-    },
-    {
-      "term": "me",
-      "count": 3,
-      "weight": 0.2548,
-      "font_size": 27,
-      "angle": 9,
-      "people": [
-        {
-          "handle": "soumithchintala",
-          "slug": "soumithchintala",
-          "name": "Soumith Chintala"
-        },
         {
           "handle": "giffmana",
           "slug": "giffmana",
@@ -3648,74 +2073,21 @@
       ]
     },
     {
-      "term": "deep",
-      "count": 3,
-      "weight": 0.2548,
+      "term": "agent",
+      "count": 2,
+      "weight": 0.2522,
       "font_size": 27,
       "angle": -9,
       "people": [
         {
-          "handle": "OriolVinyalsML",
-          "slug": "oriolvinyalsml",
-          "name": "Oriol Vinyals"
+          "handle": "huggingface",
+          "slug": "huggingface",
+          "name": "Hugging Face"
         },
         {
-          "handle": "Yoshua_Bengio",
-          "slug": "yoshua_bengio",
-          "name": "Yoshua Bengio"
-        },
-        {
-          "handle": "geoffreyhinton",
-          "slug": "geoffreyhinton",
-          "name": "Geoffrey Hinton"
-        }
-      ]
-    },
-    {
-      "term": "lead",
-      "count": 3,
-      "weight": 0.2548,
-      "font_size": 27,
-      "angle": -4,
-      "people": [
-        {
-          "handle": "OriolVinyalsML",
-          "slug": "oriolvinyalsml",
-          "name": "Oriol Vinyals"
-        },
-        {
-          "handle": "sarahookr",
-          "slug": "sarahookr",
-          "name": "Sara Hooker"
-        },
-        {
-          "handle": "janleike",
-          "slug": "janleike",
-          "name": "Jan Leike"
-        }
-      ]
-    },
-    {
-      "term": "some",
-      "count": 3,
-      "weight": 0.2548,
-      "font_size": 27,
-      "angle": 0,
-      "people": [
-        {
-          "handle": "giffmana",
-          "slug": "giffmana",
-          "name": "Lucas Beyer (bl16)"
-        },
-        {
-          "handle": "steipete",
-          "slug": "steipete",
-          "name": "Peter Steinberger 🦞"
-        },
-        {
-          "handle": "sammcallister",
-          "slug": "sammcallister",
-          "name": "sam mcallister"
+          "handle": "arankomatsuzaki",
+          "slug": "arankomatsuzaki",
+          "name": "Aran Komatsuzaki"
         }
       ]
     }
