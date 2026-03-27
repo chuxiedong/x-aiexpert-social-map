@@ -317,8 +317,10 @@ def patch_topics() -> None:
     const text = (note.textContent || '').trim();
     const termMatch = text.match(/^热词：(.+?) · 关联 (\d+) 位人物$/);
     const topicMatch = text.match(/^主题：(.+?) · 关联 (\d+) 位人物$/);
+    const searchMatch = text.match(/^搜索：(.+?) · 命中 (\d+) 位人物$/);
     const termMatchEn = text.match(/^Term: (.+?) · linked (\d+) creators$/);
     const topicMatchEn = text.match(/^Topic: (.+?) · linked (\d+) creators$/);
+    const searchMatchEn = text.match(/^Search: (.+?) · matched (\d+) creators$/);
     if (lang === 'zh') {
       if (text === 'Pick a topic or term first') {
         note.textContent = '先选择一个话题或热词';
@@ -326,6 +328,8 @@ def patch_topics() -> None:
         note.textContent = `热词：${termMatchEn[1]} · 关联 ${termMatchEn[2]} 位人物`;
       } else if (topicMatchEn) {
         note.textContent = `主题：${topicMatchEn[1]} · 关联 ${topicMatchEn[2]} 位人物`;
+      } else if (searchMatchEn) {
+        note.textContent = `搜索：${searchMatchEn[1]} · 命中 ${searchMatchEn[2]} 位人物`;
       }
     } else {
       if (text === '先选择一个话题或热词') {
@@ -334,6 +338,8 @@ def patch_topics() -> None:
         note.textContent = `Term: ${termMatch[1]} · linked ${termMatch[2]} creators`;
       } else if (topicMatch) {
         note.textContent = `Topic: ${topicMatch[1]} · linked ${topicMatch[2]} creators`;
+      } else if (searchMatch) {
+        note.textContent = `Search: ${searchMatch[1]} · matched ${searchMatch[2]} creators`;
       }
     }
   }
@@ -357,13 +363,26 @@ def patch_topics() -> None:
     });
     const cols = document.querySelectorAll('.row .card');
     if (cols[0]) {
-      const h3 = cols[0].querySelector('h3');
+      const h3 = document.getElementById('cloudTitle') || cols[0].querySelector('h3');
       if (h3) h3.textContent = t('热点词云', 'Topic Cloud');
-      const muted = cols[0].querySelector('.muted');
+      const muted = document.getElementById('cloudHint') || cols[0].querySelector('.muted');
       if (muted) muted.textContent = t('点击词或主题，查看对应人物', 'Click a topic or term to inspect linked creators');
+      const search = document.getElementById('searchInput');
+      if (search) search.placeholder = t('搜索主题、热词、博主名或 @handle', 'Search topics, terms, creator names, or @handle');
+      const clearBtn = document.getElementById('clearBtn');
+      if (clearBtn) clearBtn.textContent = t('清空选择', 'Clear');
+      const topicHeading = document.getElementById('topicHeading');
+      if (topicHeading) topicHeading.textContent = t('热门主题', 'Top Topics');
+      const termHeading = document.getElementById('termHeading');
+      if (termHeading) termHeading.textContent = t('高频热词', 'Top Terms');
+      document.querySelectorAll('[data-view]').forEach((btn) => {
+        if (btn.dataset.view === 'all') btn.textContent = t('全部', 'All');
+        if (btn.dataset.view === 'topics') btn.textContent = t('主题', 'Topics');
+        if (btn.dataset.view === 'terms') btn.textContent = t('热词', 'Terms');
+      });
     }
     if (cols[1]) {
-      const h3 = cols[1].querySelector('h3');
+      const h3 = document.getElementById('detailTitle') || cols[1].querySelector('h3');
       if (h3) h3.textContent = t('关联人物', 'Linked Creators');
     }
     if (summary) {
@@ -385,6 +404,21 @@ def patch_topics() -> None:
     if (list) {
       list.querySelectorAll('.item.muted').forEach((node) => {
         node.textContent = t('暂无匹配人物', 'No linked creators');
+      });
+      list.querySelectorAll('.empty').forEach((node) => {
+        const raw = node.getAttribute('data-origin-text') || node.textContent || '';
+        if (!node.getAttribute('data-origin-text')) node.setAttribute('data-origin-text', raw);
+        if (lang === 'zh') {
+          if (raw === 'No linked creators') node.textContent = '暂无匹配人物';
+          else if (raw === 'No creators matched this selection. Try a related shortcut or clear the filters.') node.textContent = '当前筛选下没有匹配人物，可以切换相关词继续查看。';
+          else if (raw === 'No topics matched. Try another query.') node.textContent = '没有命中的主题，换个词试试。';
+          else if (raw === 'No terms matched. Try another query.') node.textContent = '没有命中的热词，换个词试试。';
+        } else {
+          if (raw === '暂无匹配人物') node.textContent = 'No linked creators';
+          else if (raw === '当前筛选下没有匹配人物，可以切换相关词继续查看。') node.textContent = 'No creators matched this selection. Try a related shortcut or clear the filters.';
+          else if (raw === '没有命中的主题，换个词试试。') node.textContent = 'No topics matched. Try another query.';
+          else if (raw === '没有命中的热词，换个词试试。') node.textContent = 'No terms matched. Try another query.';
+        }
       });
     }
     localizeNote();

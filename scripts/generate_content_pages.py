@@ -1240,82 +1240,298 @@ def topics_page(ctx: dict, topic_cloud: dict) -> str:
 .row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(320px,.8fr);gap:12px}
 .card{background:#111a34;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px}
 .muted{color:#9db0da;font-size:12px}
-.cloud{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;min-height:460px}
-.term{display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(106,211,255,.08);color:#eaf4ff;cursor:pointer;transform-origin:center;transition:transform .18s ease,border-color .18s ease,background .18s ease}
-.term:hover,.term.active{transform:translateY(-2px) scale(1.02);border-color:rgba(106,211,255,.55);background:rgba(106,211,255,.18)}
-.pill{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border:1px solid rgba(255,255,255,.16);border-radius:999px;margin:0 8px 8px 0;font-size:12px;cursor:pointer}
-.pill.active{border-color:rgba(106,211,255,.55);background:rgba(106,211,255,.12)}
-.list{display:grid;gap:8px;margin-top:10px}
-.item{border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px;background:#0f1831}
-@media (max-width:860px){.row{grid-template-columns:1fr}}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.search{flex:1 1 260px;min-width:240px;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(8,14,28,.55);color:var(--text);outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.search:focus{border-color:rgba(106,211,255,.55);box-shadow:0 0 0 3px rgba(106,211,255,.12)}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(9,15,30,.65)}
+.seg-btn,.ghost-btn,.mini{border:0;cursor:pointer;font:inherit}
+.seg-btn{padding:8px 12px;border-radius:999px;background:transparent;color:#d7e6ff;font-size:12px}
+.seg-btn.active{background:linear-gradient(135deg,#1d3f82,#143062);color:#fff}
+.ghost-btn{padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);color:#dceaff}
+.ghost-btn:hover{border-color:rgba(106,211,255,.45);background:rgba(106,211,255,.08)}
+.meta-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.stat-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);font-size:12px;color:#dce8ff}
+.section{margin-top:14px}
+.section-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
+.section-title{font-size:13px;font-weight:700;letter-spacing:.02em;color:#dfeaff}
+.section.hidden{display:none}
+.cloud{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;min-height:420px;padding-top:4px}
+.term{display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(106,211,255,.08);color:#eaf4ff;cursor:pointer;transform-origin:center;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;animation:floatIn .28s ease both}
+.term:hover,.term.active{transform:translateY(-2px) scale(1.02);border-color:rgba(106,211,255,.55);background:rgba(106,211,255,.18);box-shadow:0 10px 26px rgba(16,31,73,.28)}
+.pill{display:inline-flex;gap:6px;align-items:center;padding:7px 11px;border:1px solid rgba(255,255,255,.16);border-radius:999px;margin:0 8px 8px 0;font-size:12px;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.pill:hover,.pill.active{transform:translateY(-1px);border-color:rgba(106,211,255,.55);background:rgba(106,211,255,.12)}
+.panel-hero{padding:14px;border-radius:14px;background:linear-gradient(180deg,rgba(106,211,255,.14),rgba(106,211,255,.04));border:1px solid rgba(106,211,255,.20);margin-top:12px}
+.hero-kicker{display:inline-flex;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:#c9defd}
+.hero-title{margin:10px 0 4px;font-size:26px;line-height:1.1}
+.hero-preview{margin-top:10px;color:#d8e6ff;font-size:13px;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.stat-card{padding:10px 12px;border-radius:12px;background:#0f1831;border:1px solid rgba(255,255,255,.12)}
+.stat-card .k{font-size:11px;color:#90a5d2;text-transform:uppercase;letter-spacing:.04em}
+.stat-card .v{margin-top:6px;font-size:18px;font-weight:700;color:#edf4ff}
+.related-block{margin-top:14px}
+.related-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.related-chip{display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);cursor:pointer;color:#e6f1ff;transition:background .18s ease,border-color .18s ease}
+.related-chip:hover{background:rgba(106,211,255,.10);border-color:rgba(106,211,255,.45)}
+.list{display:grid;gap:8px;margin-top:12px}
+.item{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;background:#0f1831;transition:transform .16s ease,border-color .16s ease,background .16s ease}
+.item:hover{transform:translateY(-1px);border-color:rgba(106,211,255,.35);background:#122044}
+.item-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.item-name{color:#eef4ff;text-decoration:none}
+.item-name:hover{color:#6ad3ff}
+.item-actions{display:flex;gap:6px;flex-wrap:wrap}
+.mini{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#dcebff;text-decoration:none;font-size:12px}
+.mini:hover{border-color:rgba(106,211,255,.45);background:rgba(106,211,255,.10)}
+.empty{padding:16px;border:1px dashed rgba(255,255,255,.16);border-radius:12px;color:#9db0da;background:rgba(255,255,255,.03)}
+@keyframes floatIn{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media (max-width:860px){.row{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr 1fr}}
+@media (max-width:620px){.stats{grid-template-columns:1fr}.toolbar{align-items:stretch}.seg{width:100%;justify-content:space-between}.ghost-btn{width:100%}}
 </style></head><body><div class=\"wrap\">
 <div class=\"top\"><h2>Topic Cloud / 热点词云</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日进展</a><a class=\"btn\" href=\"./profiles/index.html\">Profiles</a><a class=\"btn\" href=\"./public_signals.html\">公共信号</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
 <div class=\"card\" id=\"summary\" style=\"margin-top:10px\"></div>
 <div class=\"row\" style=\"margin-top:12px\">
   <div class=\"card\">
     <div style=\"display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap\">
-      <h3 style=\"margin:0\">热点词云</h3>
-      <div class=\"muted\">点击词或主题，查看对应人物</div>
+      <h3 id=\"cloudTitle\" style=\"margin:0\">热点词云</h3>
+      <div class=\"muted\" id=\"cloudHint\">点击词或主题，查看对应人物</div>
     </div>
-    <div id=\"topics\" style=\"margin-top:10px\"></div>
-    <div id=\"cloud\" class=\"cloud\" style=\"margin-top:12px\"></div>
+    <div class=\"toolbar\">
+      <input id=\"searchInput\" class=\"search\" type=\"search\" placeholder=\"搜索主题、热词、博主名或 @handle\"/>
+      <div class=\"seg\" id=\"viewSwitch\">
+        <button class=\"seg-btn active\" data-view=\"all\">全部</button>
+        <button class=\"seg-btn\" data-view=\"topics\">主题</button>
+        <button class=\"seg-btn\" data-view=\"terms\">热词</button>
+      </div>
+      <button class=\"ghost-btn\" id=\"clearBtn\">清空选择</button>
+    </div>
+    <div id=\"topicsMeta\" class=\"meta-strip\"></div>
+    <div id=\"topicsSection\" class=\"section\">
+      <div class=\"section-head\">
+        <div class=\"section-title\" id=\"topicHeading\">热门主题</div>
+      </div>
+      <div id=\"topics\"></div>
+    </div>
+    <div id=\"termsSection\" class=\"section\">
+      <div class=\"section-head\">
+        <div class=\"section-title\" id=\"termHeading\">高频热词</div>
+      </div>
+      <div id=\"cloud\" class=\"cloud\"></div>
+    </div>
   </div>
   <div class=\"card\">
-    <h3 style=\"margin:0\">关联人物</h3>
+    <h3 id=\"detailTitle\" style=\"margin:0\">关联人物</h3>
     <div class=\"muted\" id=\"selectionNote\" style=\"margin-top:8px\">先选择一个话题或热词</div>
+    <div id=\"selectionHero\" class=\"panel-hero\"></div>
+    <div id=\"selectionStats\" class=\"stats\"></div>
+    <div id=\"related\" class=\"related-block\"></div>
     <div id=\"list\" class=\"list\"></div>
   </div>
 </div></div>
 <script>
-let topicRows=[]; let termRows=[]; let activeTopic=''; let activeTerm='';
+let topicRows=[]; let termRows=[]; let activeTopic=''; let activeTerm=''; let viewMode='all';
 const fallbackTopicCloud=__TOPIC_CLOUD_FALLBACK__;
 function escapeHtml(v){ return String(v||'').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[ch])); }
+function currentLang(){ return (localStorage.getItem('xai_lang') || 'zh') === 'zh' ? 'zh' : 'en'; }
+function t(zh,en){ return currentLang()==='zh' ? zh : en; }
+function normalize(v){ return String(v||'').toLowerCase(); }
+function personKey(p){ return normalize(p.slug || p.handle || p.name || ''); }
+function uniquePeople(rows){
+  const seen = new Set();
+  return (rows || []).filter(p => {
+    const key = personKey(p);
+    if(!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+function queryValue(){ return normalize((document.getElementById('searchInput') || {}).value || ''); }
+function rowMatches(row, labelKey){
+  const q = queryValue();
+  if(!q) return true;
+  const peopleText = (row.people || []).map(p => `${p.name || ''} ${p.handle || ''}`).join(' ');
+  return normalize(`${row[labelKey] || ''} ${peopleText}`).includes(q);
+}
+function filteredTopics(){ return topicRows.filter(row => rowMatches(row, 'topic')); }
+function filteredTerms(){ return termRows.filter(row => rowMatches(row, 'term')); }
+function selectedLabel(){ return activeTerm || activeTopic || ''; }
+function clearSelection(resetQuery){
+  activeTopic=''; activeTerm='';
+  if(resetQuery){
+    const input = document.getElementById('searchInput');
+    if(input) input.value='';
+  }
+  renderAll();
+}
+function overlapCount(sourcePeople, targetPeople){
+  const source = new Set((sourcePeople || []).map(personKey));
+  let count = 0;
+  (targetPeople || []).forEach(p => { if(source.has(personKey(p))) count += 1; });
+  return count;
+}
+function relatedRowsForPeople(people){
+  if(!people.length) return { title: '', rows: [], kind: '' };
+  if(activeTerm){
+    const rows = topicRows
+      .map(r => ({ name: r.topic, count: overlapCount(people, r.people || []), total: r.count, kind: 'topic' }))
+      .filter(r => r.count > 0)
+      .sort((a,b) => b.count - a.count || b.total - a.total)
+      .slice(0, 6);
+    return { title: t('相关主题', 'Related Topics'), rows, kind: 'topic' };
+  }
+  if(activeTopic){
+    const rows = termRows
+      .map(r => ({ name: r.term, count: overlapCount(people, r.people || []), total: r.count, kind: 'term' }))
+      .filter(r => r.count > 0)
+      .sort((a,b) => b.count - a.count || b.total - a.total)
+      .slice(0, 8);
+    return { title: t('相关热词', 'Related Terms'), rows, kind: 'term' };
+  }
+  return { title: '', rows: [], kind: '' };
+}
+function renderLocale(){
+  document.documentElement.lang = currentLang()==='zh' ? 'zh-CN' : 'en';
+  document.title = t('热点词云', 'Topic Cloud');
+  const nav = [t('首页', 'Home'), t('最新分享', 'Latest Shares'), 'Top10', t('每日进展', 'Daily Progress'), t('人物库', 'Profiles'), t('公共信号', 'Public Signals'), t('商业化', 'Commercial'), t('联系', 'Contact')];
+  document.querySelectorAll('.top .btn').forEach((btn, idx) => { if(nav[idx]) btn.textContent = nav[idx]; });
+  const title = document.querySelector('.top h2'); if(title) title.textContent = t('热点词云', 'Topic Cloud');
+  const hint = document.getElementById('cloudHint'); if(hint) hint.textContent = t('点击词或主题，查看对应人物', 'Click a topic or term to inspect linked creators');
+  const cloudTitle = document.getElementById('cloudTitle'); if(cloudTitle) cloudTitle.textContent = t('热点词云', 'Topic Cloud');
+  const topicHeading = document.getElementById('topicHeading'); if(topicHeading) topicHeading.textContent = t('热门主题', 'Top Topics');
+  const termHeading = document.getElementById('termHeading'); if(termHeading) termHeading.textContent = t('高频热词', 'Top Terms');
+  const detailTitle = document.getElementById('detailTitle'); if(detailTitle) detailTitle.textContent = t('关联人物', 'Linked Creators');
+  const search = document.getElementById('searchInput'); if(search) search.placeholder = t('搜索主题、热词、博主名或 @handle', 'Search topics, terms, creator names, or @handle');
+  const clearBtn = document.getElementById('clearBtn'); if(clearBtn) clearBtn.textContent = t('清空选择', 'Clear');
+  document.querySelectorAll('[data-view]').forEach(btn => {
+    const label = btn.dataset.view === 'all' ? t('全部', 'All') : btn.dataset.view === 'topics' ? t('主题', 'Topics') : t('热词', 'Terms');
+    btn.textContent = label;
+  });
+}
+function renderMeta(){
+  const topics = filteredTopics();
+  const terms = filteredTerms();
+  const query = queryValue();
+  const meta = document.getElementById('topicsMeta');
+  if(!meta) return;
+  meta.innerHTML = [
+    `<span class=\"stat-pill\">${t('主题', 'Topics')} ${topics.length}/${topicRows.length}</span>`,
+    `<span class=\"stat-pill\">${t('热词', 'Terms')} ${terms.length}/${termRows.length}</span>`,
+    `<span class=\"stat-pill\">${t('模式', 'Mode')} ${viewMode==='all' ? t('全部', 'All') : viewMode==='topics' ? t('主题', 'Topics') : t('热词', 'Terms')}</span>`,
+    query ? `<span class=\"stat-pill\">${t('搜索', 'Search')} “${escapeHtml(query)}”</span>` : ''
+  ].join('');
+}
 function applyPayload(d){
   if(!d || ((!d.topics || !d.topics.length) && (!d.terms || !d.terms.length))) return false;
   topicRows=d.topics||[];
   termRows=d.terms||[];
   document.getElementById('summary').innerHTML=`<div><b>${escapeHtml((d.domain||{}).domain_name_en||'Domain')} Topic Cloud</b><span class=\"muted\"> · 内容时间 ${(d.updated_at||'-').replace('T',' ').slice(0,19)} · 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)}</span></div><div style=\"margin-top:8px\">${escapeHtml(d.summary_zh||'')}</div><div class=\"muted\" style=\"margin-top:6px\">${escapeHtml(d.summary_en||'')}</div>`;
-  renderTopics(); renderTerms(); renderSelection();
+  renderAll();
   return true;
+}
+function renderAll(){
+  renderLocale();
+  renderMeta();
+  renderTopics();
+  renderTerms();
+  renderSelection();
 }
 function renderSelection(){
   const list=document.getElementById('list');
   const note=document.getElementById('selectionNote');
+  const hero=document.getElementById('selectionHero');
+  const stats=document.getElementById('selectionStats');
+  const related=document.getElementById('related');
+  const query=queryValue();
   let people=[];
+  let label='';
+  let kind='';
   if(activeTerm){
     const row=termRows.find(x=>x.term===activeTerm);
-    people=row ? (row.people||[]) : [];
+    people=row ? uniquePeople(row.people||[]) : [];
+    label = activeTerm;
+    kind = t('热词', 'Term');
     note.textContent=`热词：${activeTerm} · 关联 ${people.length} 位人物`;
   }else if(activeTopic){
     const row=topicRows.find(x=>x.topic===activeTopic);
-    people=row ? (row.people||[]) : [];
+    people=row ? uniquePeople(row.people||[]) : [];
+    label = activeTopic;
+    kind = t('主题', 'Topic');
     note.textContent=`主题：${activeTopic} · 关联 ${people.length} 位人物`;
+  }else if(query){
+    people = uniquePeople([
+      ...filteredTopics().flatMap(r => r.people || []),
+      ...filteredTerms().flatMap(r => r.people || [])
+    ]).slice(0, 24);
+    label = query;
+    kind = t('搜索结果', 'Search Results');
+    note.textContent = currentLang()==='zh' ? `搜索：${query} · 命中 ${people.length} 位人物` : `Search: ${query} · matched ${people.length} creators`;
   }else{
     note.textContent='先选择一个话题或热词';
   }
-  list.innerHTML=people.length ? people.map(p=>`<a class=\"item\" href=\"./profiles/${encodeURIComponent(p.slug||'')}.html\"><b>${escapeHtml(p.name||'')}</b><div class=\"muted\" style=\"margin-top:4px\">@${escapeHtml(p.handle||'')}</div></a>`).join('') : '<div class=\"item muted\">暂无匹配人物</div>';
+  const relatedInfo = relatedRowsForPeople(people);
+  const preview = people.slice(0, 4).map(p => p.name || p.handle || '').filter(Boolean).join(' · ');
+  hero.innerHTML = label ? `
+    <div class=\"hero-kicker\">${escapeHtml(kind)}</div>
+    <div class=\"hero-title\">${escapeHtml(label)}</div>
+    <div class=\"muted\">${t('当前选中对象会同步过滤右侧人物与联动项。', 'The current selection drives the creator panel and related shortcuts.')}</div>
+    <div class=\"hero-preview\">${preview ? escapeHtml(preview) : t('当前还没有足够的关联人物。', 'No linked creators yet for this selection.')}</div>
+  ` : `
+    <div class=\"hero-kicker\">${t('探索模式', 'Explore')}</div>
+    <div class=\"hero-title\">${t('先从一个主题或热词开始', 'Start from a topic or term')}</div>
+    <div class=\"hero-preview\">${t('左侧支持搜索、切换主题/热词视图，以及点击相关词继续钻取。', 'Use the left side to search, switch views, and keep drilling down through related words.')}</div>
+  `;
+  stats.innerHTML = [
+    { k: t('当前类型', 'Type'), v: label ? kind : t('未选择', 'None') },
+    { k: t('匹配人物', 'Creators'), v: String(people.length) },
+    { k: relatedInfo.title || t('联动项', 'Related'), v: String((relatedInfo.rows || []).length) }
+  ].map(card => `<div class=\"stat-card\"><div class=\"k\">${escapeHtml(card.k)}</div><div class=\"v\">${escapeHtml(card.v)}</div></div>`).join('');
+  related.innerHTML = relatedInfo.rows.length ? `<div class=\"muted\">${escapeHtml(relatedInfo.title)}</div><div class=\"related-wrap\">${relatedInfo.rows.map(row => `<button class=\"related-chip\" data-related-kind=\"${row.kind}\" data-related-name=\"${escapeHtml(row.name)}\">${escapeHtml(row.name)} <span class=\"muted\">${t('重叠', 'Overlap')} ${row.count}</span></button>`).join('')}</div>` : '';
+  related.querySelectorAll('[data-related-kind]').forEach(el => el.addEventListener('click', () => {
+    if(el.dataset.relatedKind === 'topic'){
+      activeTopic = el.dataset.relatedName || '';
+      activeTerm = '';
+      viewMode = 'topics';
+    } else {
+      activeTerm = el.dataset.relatedName || '';
+      activeTopic = '';
+      viewMode = 'terms';
+    }
+    renderAll();
+  }));
+  list.innerHTML=people.length ? people.map(p=>`<div class=\"item\"><div class=\"item-top\"><div><a class=\"item-name\" href=\"./profiles/${encodeURIComponent(p.slug||'')}.html\"><b>${escapeHtml(p.name||'')}</b></a><div class=\"muted\" style=\"margin-top:4px\">@${escapeHtml(p.handle||'')}</div></div><div class=\"item-actions\"><a class=\"mini\" href=\"./profiles/${encodeURIComponent(p.slug||'')}.html\">${t('画像', 'Profile')}</a><a class=\"mini\" target=\"_blank\" rel=\"noreferrer\" href=\"https://x.com/${encodeURIComponent(p.handle||'')}\">X</a></div></div></div>`).join('') : `<div class=\"empty\">${escapeHtml(label ? t('当前筛选下没有匹配人物，可以切换相关词继续查看。', 'No creators matched this selection. Try a related shortcut or clear the filters.') : t('暂无匹配人物', 'No linked creators'))}</div>`;
 }
 function renderTopics(){
   const wrap=document.getElementById('topics');
-  wrap.innerHTML=topicRows.map(r=>`<span class=\"pill ${activeTopic===r.topic?'active':''}\" data-topic=\"${escapeHtml(r.topic)}\">${escapeHtml(r.topic)} <span class=\"muted\">(${r.count})</span></span>`).join('');
+  const section = document.getElementById('topicsSection');
+  const rows = filteredTopics();
+  if(section) section.classList.toggle('hidden', viewMode==='terms');
+  wrap.innerHTML=rows.length ? rows.map(r=>`<span class=\"pill ${activeTopic===r.topic?'active':''}\" data-topic=\"${escapeHtml(r.topic)}\">${escapeHtml(r.topic)} <span class=\"muted\">(${r.count})</span></span>`).join('') : `<div class=\"empty\">${escapeHtml(t('没有命中的主题，换个词试试。', 'No topics matched. Try another query.'))}</div>`;
   wrap.querySelectorAll('[data-topic]').forEach(el=>el.addEventListener('click',()=>{
     activeTopic = el.dataset.topic === activeTopic ? '' : el.dataset.topic;
     activeTerm = '';
-    renderTopics(); renderTerms(); renderSelection();
+    renderAll();
   }));
 }
 function renderTerms(){
   const cloud=document.getElementById('cloud');
-  cloud.innerHTML=termRows.map((r,idx)=>{
+  const section = document.getElementById('termsSection');
+  const rows = filteredTerms();
+  if(section) section.classList.toggle('hidden', viewMode==='topics');
+  cloud.innerHTML=rows.length ? rows.map((r,idx)=>{
     const hue = 192 + (idx % 8) * 12;
-    return `<span class=\"term ${activeTerm===r.term?'active':''}\" data-term=\"${escapeHtml(r.term)}\" style=\"font-size:${r.font_size}px;transform:rotate(${r.angle}deg);background:hsla(${hue},85%,68%,0.10)\">${escapeHtml(r.term)}</span>`;
-  }).join('');
+    return `<span class=\"term ${activeTerm===r.term?'active':''}\" data-term=\"${escapeHtml(r.term)}\" style=\"font-size:${r.font_size}px;transform:rotate(${r.angle}deg);background:hsla(${hue},85%,68%,0.10);animation-delay:${Math.min(idx,18)*0.018}s\">${escapeHtml(r.term)}</span>`;
+  }).join('') : `<div class=\"empty\">${escapeHtml(t('没有命中的热词，换个词试试。', 'No terms matched. Try another query.'))}</div>`;
   cloud.querySelectorAll('[data-term]').forEach(el=>el.addEventListener('click',()=>{
     activeTerm = el.dataset.term === activeTerm ? '' : el.dataset.term;
     activeTopic = '';
-    renderTopics(); renderTerms(); renderSelection();
+    renderAll();
   }));
 }
+document.getElementById('searchInput').addEventListener('input', () => renderAll());
+document.querySelectorAll('[data-view]').forEach(btn => btn.addEventListener('click', () => {
+  viewMode = btn.dataset.view || 'all';
+  document.querySelectorAll('[data-view]').forEach(node => node.classList.toggle('active', node === btn));
+  renderAll();
+}));
+document.getElementById('clearBtn').addEventListener('click', () => clearSelection(true));
 const seeded = applyPayload(fallbackTopicCloud);
 if(!seeded){
   document.getElementById('summary').innerHTML='<b>词云加载中</b><div class=\"muted\" style=\"margin-top:8px\">正在准备热点词云与关联人物。</div>';
