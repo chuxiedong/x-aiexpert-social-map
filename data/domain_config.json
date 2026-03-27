@@ -213,5 +213,85 @@
     "arxiv",
     "breakthrough",
     "enterprise"
+  ],
+  "term_categories": [
+    {
+      "key": "concept",
+      "label_zh": "核心术语",
+      "label_en": "Core Terms",
+      "accent": "#6ad3ff",
+      "terms": [
+        "capability",
+        "research",
+        "frontier",
+        "industry",
+        "productization",
+        "ecosystem",
+        "model",
+        "models",
+        "agents",
+        "agent",
+        "infrastructure",
+        "robotics",
+        "engineering",
+        "safety",
+        "alignment",
+        "reasoning",
+        "multimodal",
+        "inference",
+        "benchmark",
+        "enterprise",
+        "arxiv",
+        "breakthrough"
+      ]
+    },
+    {
+      "key": "entity",
+      "label_zh": "品牌实体",
+      "label_en": "Entities",
+      "accent": "#8df0c8",
+      "terms": [
+        "openai",
+        "nvidia",
+        "google",
+        "huggingface",
+        "deepmind",
+        "anthropic",
+        "meta",
+        "microsoft",
+        "stanford"
+      ]
+    },
+    {
+      "key": "stack",
+      "label_zh": "技术栈",
+      "label_en": "Tech Stack",
+      "accent": "#ffcf7d",
+      "terms": [
+        "pytorch",
+        "transformers",
+        "transformer",
+        "cuda",
+        "training",
+        "fine-tuning",
+        "weights",
+        "gpu",
+        "cluster",
+        "compute",
+        "infra"
+      ]
+    },
+    {
+      "key": "product",
+      "label_zh": "产品名",
+      "label_en": "Products",
+      "accent": "#ff9dc8",
+      "terms": [
+        "chatgpt",
+        "gpt",
+        "sora",
+        "codex"
+      ]
+    }
   ]
 }

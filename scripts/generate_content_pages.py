@@ -178,6 +178,61 @@ def normalize_term_text(text: str, aliases: dict[str, str]) -> str:
     return normalized
 
 
+def build_term_category_config(domain: dict, aliases: dict[str, str]) -> tuple[list[dict], dict[str, dict]]:
+    defaults = [
+        {
+            "key": "concept",
+            "label_zh": "核心术语",
+            "label_en": "Core Terms",
+            "accent": "#6ad3ff",
+            "terms": ["capability", "research", "frontier", "industry", "productization", "ecosystem", "model", "agents", "infrastructure", "robotics"],
+        },
+        {
+            "key": "entity",
+            "label_zh": "品牌实体",
+            "label_en": "Entities",
+            "accent": "#8df0c8",
+            "terms": ["openai", "nvidia", "google", "huggingface", "deepmind", "anthropic", "meta", "microsoft", "stanford"],
+        },
+        {
+            "key": "stack",
+            "label_zh": "技术栈",
+            "label_en": "Tech Stack",
+            "accent": "#ffcf7d",
+            "terms": ["pytorch", "transformers", "cuda", "training", "fine-tuning", "weights", "gpu", "cluster", "compute"],
+        },
+        {
+            "key": "product",
+            "label_zh": "产品名",
+            "label_en": "Products",
+            "accent": "#ff9dc8",
+            "terms": ["chatgpt", "gpt", "sora", "codex"],
+        },
+    ]
+    categories = domain.get("term_categories") or defaults
+    normalized_categories: list[dict] = []
+    term_to_category: dict[str, dict] = {}
+    for raw in categories:
+        key = str(raw.get("key") or "").strip().lower()
+        if not key:
+            continue
+        item = {
+            "key": key,
+            "label_zh": str(raw.get("label_zh") or key),
+            "label_en": str(raw.get("label_en") or key.title()),
+            "accent": str(raw.get("accent") or "#6ad3ff"),
+            "terms": [],
+        }
+        for term in raw.get("terms") or []:
+            normalized_term = normalize_term_text(str(term), aliases).strip().lower()
+            if not normalized_term:
+                continue
+            item["terms"].append(normalized_term)
+            term_to_category[normalized_term] = item
+        normalized_categories.append(item)
+    return normalized_categories, term_to_category
+
+
 def domain_context(domain: dict, total_count: int) -> dict:
     domain_zh = str(domain.get("domain_name_zh") or "该领域")
     domain_en = str(domain.get("domain_name_en") or "this domain")
@@ -249,6 +304,7 @@ def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, doma
         "fine tuning": "fine-tuning",
     }
     aliases.update({str(k).strip().lower(): str(v).strip().lower() for k, v in (domain.get("term_aliases") or {}).items() if str(k).strip() and str(v).strip()})
+    category_defs, term_to_category = build_term_category_config(domain, aliases)
     blocklist = {
         "founder", "cofounder", "co-founder", "company", "researcher", "professor", "scientist",
         "ceo", "cto", "chief", "assistant", "media", "investor", "platform", "creator", "developer",
@@ -261,11 +317,14 @@ def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, doma
     }
     blocklist |= {str(x).strip().lower() for x in (domain.get("term_blocklist") or []) if str(x).strip()}
     allowlist = {str(x).strip().lower() for x in (domain.get("term_allowlist") or []) if str(x).strip()}
+    if category_defs:
+        allowlist |= {term for item in category_defs for term in item.get("terms", [])}
     min_count = max(1, int(domain.get("term_min_count") or 2))
     term_counter: Counter[str] = Counter()
     topic_counter: Counter[str] = Counter()
     topic_people: dict[str, dict[str, dict]] = defaultdict(dict)
     term_people: dict[str, dict[str, dict]] = defaultdict(dict)
+    category_counter: Counter[str] = Counter()
 
     for row in profiles:
         handle = str(row.get("handle") or "").strip()
@@ -309,6 +368,8 @@ def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, doma
         weight = 0.24 + 0.76 * (count / max_count)
         size = 16 + int(round(44 * weight))
         angle = (-9, -4, 0, 4, 9)[idx % 5]
+        category = term_to_category.get(term, {"key": "other", "label_zh": "其他", "label_en": "Other", "accent": "#95a9d5"})
+        category_counter[category["key"]] += count
         top_terms.append(
             {
                 "term": term,
@@ -316,7 +377,27 @@ def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, doma
                 "weight": round(weight, 4),
                 "font_size": size,
                 "angle": angle,
+                "category": category["key"],
+                "category_zh": category["label_zh"],
+                "category_en": category["label_en"],
+                "accent": category["accent"],
                 "people": list((term_people.get(term) or {}).values())[:16],
+            }
+        )
+
+    term_categories = []
+    for category in category_defs:
+        key = category["key"]
+        count = int(category_counter.get(key) or 0)
+        if count <= 0:
+            continue
+        term_categories.append(
+            {
+                "key": key,
+                "label_zh": category["label_zh"],
+                "label_en": category["label_en"],
+                "accent": category["accent"],
+                "count": count,
             }
         )
 
@@ -332,6 +413,7 @@ def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, doma
         "summary_zh": summary_zh,
         "summary_en": summary_en,
         "topics": top_topics,
+        "term_categories": term_categories,
         "terms": top_terms,
     }
 
@@ -1289,6 +1371,9 @@ def topics_page(ctx: dict, topic_cloud: dict) -> str:
 .ghost-btn:hover{border-color:rgba(106,211,255,.45);background:rgba(106,211,255,.08)}
 .meta-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .stat-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);font-size:12px;color:#dce8ff}
+.category-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.cat-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#e5f1ff;cursor:pointer;font-size:12px;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+.cat-pill:hover,.cat-pill.active{transform:translateY(-1px);border-color:rgba(106,211,255,.45);background:rgba(106,211,255,.12)}
 .section{margin-top:14px}
 .section-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
 .section-title{font-size:13px;font-weight:700;letter-spacing:.02em;color:#dfeaff}
@@ -1342,6 +1427,7 @@ def topics_page(ctx: dict, topic_cloud: dict) -> str:
       <button class=\"ghost-btn\" id=\"clearBtn\">清空选择</button>
     </div>
     <div id=\"topicsMeta\" class=\"meta-strip\"></div>
+    <div id=\"categoryFilters\" class=\"category-strip\"></div>
     <div id=\"topicsSection\" class=\"section\">
       <div class=\"section-head\">
         <div class=\"section-title\" id=\"topicHeading\">热门主题</div>
@@ -1365,7 +1451,7 @@ def topics_page(ctx: dict, topic_cloud: dict) -> str:
   </div>
 </div></div>
 <script>
-let topicRows=[]; let termRows=[]; let activeTopic=''; let activeTerm=''; let viewMode='all';
+let topicRows=[]; let termRows=[]; let termCategories=[]; let activeTopic=''; let activeTerm=''; let activeCategory='all'; let viewMode='all';
 const fallbackTopicCloud=__TOPIC_CLOUD_FALLBACK__;
 function escapeHtml(v){ return String(v||'').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[ch])); }
 function currentLang(){ return (localStorage.getItem('xai_lang') || 'zh') === 'zh' ? 'zh' : 'en'; }
@@ -1382,6 +1468,14 @@ function uniquePeople(rows){
   });
 }
 function queryValue(){ return normalize((document.getElementById('searchInput') || {}).value || ''); }
+function categoryInfo(key){
+  return termCategories.find(row => row.key === key) || null;
+}
+function categoryLabel(key){
+  const row = categoryInfo(key);
+  if(!row) return key || '';
+  return currentLang()==='zh' ? row.label_zh : row.label_en;
+}
 function rowMatches(row, labelKey){
   const q = queryValue();
   if(!q) return true;
@@ -1389,10 +1483,13 @@ function rowMatches(row, labelKey){
   return normalize(`${row[labelKey] || ''} ${peopleText}`).includes(q);
 }
 function filteredTopics(){ return topicRows.filter(row => rowMatches(row, 'topic')); }
-function filteredTerms(){ return termRows.filter(row => rowMatches(row, 'term')); }
+function filteredTerms(){
+  return termRows.filter(row => rowMatches(row, 'term') && (activeCategory === 'all' || row.category === activeCategory));
+}
 function selectedLabel(){ return activeTerm || activeTopic || ''; }
 function clearSelection(resetQuery){
   activeTopic=''; activeTerm='';
+  activeCategory='all';
   if(resetQuery){
     const input = document.getElementById('searchInput');
     if(input) input.value='';
@@ -1453,13 +1550,28 @@ function renderMeta(){
     `<span class=\"stat-pill\">${t('主题', 'Topics')} ${topics.length}/${topicRows.length}</span>`,
     `<span class=\"stat-pill\">${t('热词', 'Terms')} ${terms.length}/${termRows.length}</span>`,
     `<span class=\"stat-pill\">${t('模式', 'Mode')} ${viewMode==='all' ? t('全部', 'All') : viewMode==='topics' ? t('主题', 'Topics') : t('热词', 'Terms')}</span>`,
+    `<span class=\"stat-pill\">${t('词类', 'Category')} ${activeCategory === 'all' ? t('全部', 'All') : escapeHtml(categoryLabel(activeCategory))}</span>`,
     query ? `<span class=\"stat-pill\">${t('搜索', 'Search')} “${escapeHtml(query)}”</span>` : ''
   ].join('');
+}
+function renderCategoryFilters(){
+  const wrap = document.getElementById('categoryFilters');
+  if(!wrap) return;
+  const rows = termCategories || [];
+  wrap.innerHTML = [
+    `<button class=\"cat-pill ${activeCategory==='all'?'active':''}\" data-category=\"all\">${t('全部词类', 'All Categories')}</button>`,
+    ...rows.map(row => `<button class=\"cat-pill ${activeCategory===row.key?'active':''}\" data-category=\"${escapeHtml(row.key)}\" style=\"border-color:${row.accent}55;background:${activeCategory===row.key ? row.accent+'22' : 'rgba(255,255,255,.04)'}\">${escapeHtml(currentLang()==='zh' ? row.label_zh : row.label_en)} <span class=\"muted\">(${row.count})</span></button>`)
+  ].join('');
+  wrap.querySelectorAll('[data-category]').forEach(el => el.addEventListener('click', () => {
+    activeCategory = el.dataset.category || 'all';
+    renderAll();
+  }));
 }
 function applyPayload(d){
   if(!d || ((!d.topics || !d.topics.length) && (!d.terms || !d.terms.length))) return false;
   topicRows=d.topics||[];
   termRows=d.terms||[];
+  termCategories=d.term_categories||[];
   document.getElementById('summary').innerHTML=`<div><b>${escapeHtml((d.domain||{}).domain_name_en||'Domain')} Topic Cloud</b><span class=\"muted\"> · 内容时间 ${(d.updated_at||'-').replace('T',' ').slice(0,19)} · 页面生成 ${(d.built_at||'-').replace('T',' ').slice(0,19)}</span></div><div style=\"margin-top:8px\">${escapeHtml(d.summary_zh||'')}</div><div class=\"muted\" style=\"margin-top:6px\">${escapeHtml(d.summary_en||'')}</div>`;
   renderAll();
   return true;
@@ -1467,6 +1579,7 @@ function applyPayload(d){
 function renderAll(){
   renderLocale();
   renderMeta();
+  renderCategoryFilters();
   renderTopics();
   renderTerms();
   renderSelection();
@@ -1485,7 +1598,7 @@ function renderSelection(){
     const row=termRows.find(x=>x.term===activeTerm);
     people=row ? uniquePeople(row.people||[]) : [];
     label = activeTerm;
-    kind = t('热词', 'Term');
+    kind = `${t('热词', 'Term')} · ${categoryLabel((row||{}).category || '')}`;
     note.textContent=`热词：${activeTerm} · 关联 ${people.length} 位人物`;
   }else if(activeTopic){
     const row=topicRows.find(x=>x.topic===activeTopic);
@@ -1554,8 +1667,8 @@ function renderTerms(){
   const rows = filteredTerms();
   if(section) section.classList.toggle('hidden', viewMode==='topics');
   cloud.innerHTML=rows.length ? rows.map((r,idx)=>{
-    const hue = 192 + (idx % 8) * 12;
-    return `<span class=\"term ${activeTerm===r.term?'active':''}\" data-term=\"${escapeHtml(r.term)}\" style=\"font-size:${r.font_size}px;transform:rotate(${r.angle}deg);background:hsla(${hue},85%,68%,0.10);animation-delay:${Math.min(idx,18)*0.018}s\">${escapeHtml(r.term)}</span>`;
+    const accent = r.accent || '#6ad3ff';
+    return `<span class=\"term ${activeTerm===r.term?'active':''}\" data-term=\"${escapeHtml(r.term)}\" style=\"font-size:${r.font_size}px;transform:rotate(${r.angle}deg);background:${accent}18;border-color:${accent}44;animation-delay:${Math.min(idx,18)*0.018}s\">${escapeHtml(r.term)} <span class=\"muted\" style=\"margin-left:6px\">${escapeHtml(categoryLabel(r.category || ''))}</span></span>`;
   }).join('') : `<div class=\"empty\">${escapeHtml(t('没有命中的热词，换个词试试。', 'No terms matched. Try another query.'))}</div>`;
   cloud.querySelectorAll('[data-term]').forEach(el=>el.addEventListener('click',()=>{
     activeTerm = el.dataset.term === activeTerm ? '' : el.dataset.term;

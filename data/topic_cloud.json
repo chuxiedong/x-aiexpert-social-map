@@ -1,6 +1,6 @@
 {
   "updated_at": "2026-03-24T12:07:12+00:00",
-  "built_at": "2026-03-27T06:00:38.926932Z",
+  "built_at": "2026-03-27T11:42:14.319718Z",
   "domain": {
     "slug": "ai",
     "site_title_zh": "领域社交影响力情报台",
@@ -811,6 +811,29 @@
       ]
     }
   ],
+  "term_categories": [
+    {
+      "key": "concept",
+      "label_zh": "核心术语",
+      "label_en": "Core Terms",
+      "accent": "#6ad3ff",
+      "count": 766
+    },
+    {
+      "key": "entity",
+      "label_zh": "品牌实体",
+      "label_en": "Entities",
+      "accent": "#8df0c8",
+      "count": 52
+    },
+    {
+      "key": "stack",
+      "label_zh": "技术栈",
+      "label_en": "Tech Stack",
+      "accent": "#ffcf7d",
+      "count": 8
+    }
+  ],
   "terms": [
     {
       "term": "capability",
@@ -818,6 +841,10 @@
       "weight": 1.0,
       "font_size": 60,
       "angle": -9,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "huggingface",
@@ -907,6 +934,10 @@
       "weight": 0.9696,
       "font_size": 59,
       "angle": -4,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "OriolVinyalsML",
@@ -996,6 +1027,10 @@
       "weight": 0.9635,
       "font_size": 58,
       "angle": 0,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "OriolVinyalsML",
@@ -1085,6 +1120,10 @@
       "weight": 0.9574,
       "font_size": 58,
       "angle": 4,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "huggingface",
@@ -1174,6 +1213,10 @@
       "weight": 0.9088,
       "font_size": 56,
       "angle": 9,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "nvidianewsroom",
@@ -1263,6 +1306,10 @@
       "weight": 0.5197,
       "font_size": 39,
       "angle": -9,
+      "category": "entity",
+      "category_zh": "品牌实体",
+      "category_en": "Entities",
+      "accent": "#8df0c8",
       "people": [
         {
           "handle": "giffmana",
@@ -1352,6 +1399,10 @@
       "weight": 0.5197,
       "font_size": 39,
       "angle": -4,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "giffmana",
@@ -1441,6 +1492,10 @@
       "weight": 0.4589,
       "font_size": 36,
       "angle": 0,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "soumithchintala",
@@ -1530,6 +1585,10 @@
       "weight": 0.3677,
       "font_size": 32,
       "angle": 4,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "huggingface",
@@ -1619,6 +1678,10 @@
       "weight": 0.3555,
       "font_size": 32,
       "angle": 9,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "nvidianewsroom",
@@ -1708,6 +1771,10 @@
       "weight": 0.3434,
       "font_size": 31,
       "angle": -9,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "soumithchintala",
@@ -1797,6 +1864,10 @@
       "weight": 0.319,
       "font_size": 30,
       "angle": -4,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "soumithchintala",
@@ -1871,6 +1942,10 @@
       "weight": 0.3008,
       "font_size": 29,
       "angle": 0,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "AnthropicAI",
@@ -1930,6 +2005,10 @@
       "weight": 0.3008,
       "font_size": 29,
       "angle": 4,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "AnthropicAI",
@@ -1989,6 +2068,10 @@
       "weight": 0.2582,
       "font_size": 27,
       "angle": 9,
+      "category": "stack",
+      "category_zh": "技术栈",
+      "category_en": "Tech Stack",
+      "accent": "#ffcf7d",
       "people": [
         {
           "handle": "soumithchintala",
@@ -2003,6 +2086,10 @@
       "weight": 0.2582,
       "font_size": 27,
       "angle": -9,
+      "category": "stack",
+      "category_zh": "技术栈",
+      "category_en": "Tech Stack",
+      "accent": "#ffcf7d",
       "people": [
         {
           "handle": "huggingface",
@@ -2017,6 +2104,10 @@
       "weight": 0.2522,
       "font_size": 27,
       "angle": -4,
+      "category": "entity",
+      "category_zh": "品牌实体",
+      "category_en": "Entities",
+      "accent": "#8df0c8",
       "people": [
         {
           "handle": "soumithchintala",
@@ -2031,6 +2122,10 @@
       "weight": 0.2522,
       "font_size": 27,
       "angle": 0,
+      "category": "entity",
+      "category_zh": "品牌实体",
+      "category_en": "Entities",
+      "accent": "#8df0c8",
       "people": [
         {
           "handle": "nvidianewsroom",
@@ -2045,6 +2140,10 @@
       "weight": 0.2522,
       "font_size": 27,
       "angle": 4,
+      "category": "entity",
+      "category_zh": "品牌实体",
+      "category_en": "Entities",
+      "accent": "#8df0c8",
       "people": [
         {
           "handle": "OriolVinyalsML",
@@ -2064,6 +2163,10 @@
       "weight": 0.2522,
       "font_size": 27,
       "angle": 9,
+      "category": "stack",
+      "category_zh": "技术栈",
+      "category_en": "Tech Stack",
+      "accent": "#ffcf7d",
       "people": [
         {
           "handle": "giffmana",
@@ -2078,6 +2181,10 @@
       "weight": 0.2522,
       "font_size": 27,
       "angle": -9,
+      "category": "concept",
+      "category_zh": "核心术语",
+      "category_en": "Core Terms",
+      "accent": "#6ad3ff",
       "people": [
         {
           "handle": "huggingface",
