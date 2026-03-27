@@ -221,6 +221,8 @@ def build_term_category_config(domain: dict, aliases: dict[str, str]) -> tuple[l
             "label_zh": str(raw.get("label_zh") or key),
             "label_en": str(raw.get("label_en") or key.title()),
             "accent": str(raw.get("accent") or "#6ad3ff"),
+            "desc_zh": str(raw.get("desc_zh") or ""),
+            "desc_en": str(raw.get("desc_en") or ""),
             "terms": [],
         }
         for term in raw.get("terms") or []:
@@ -397,6 +399,8 @@ def build_topic_cloud(profiles: list[dict], updated_at: str, built_at: str, doma
                 "label_zh": category["label_zh"],
                 "label_en": category["label_en"],
                 "accent": category["accent"],
+                "desc_zh": category["desc_zh"],
+                "desc_en": category["desc_en"],
                 "count": count,
             }
         )
@@ -1374,6 +1378,13 @@ def topics_page(ctx: dict, topic_cloud: dict) -> str:
 .category-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .cat-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#e5f1ff;cursor:pointer;font-size:12px;transition:border-color .18s ease,background .18s ease,transform .18s ease}
 .cat-pill:hover,.cat-pill.active{transform:translateY(-1px);border-color:rgba(106,211,255,.45);background:rgba(106,211,255,.12)}
+.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.legend-card{padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.legend-card:hover,.legend-card.active{transform:translateY(-2px);box-shadow:0 12px 28px rgba(8,13,28,.24)}
+.legend-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.legend-title{font-size:13px;font-weight:700;color:#ecf4ff}
+.legend-desc{margin-top:8px;font-size:12px;line-height:1.55;color:#b9cbed}
+.legend-badge{display:inline-flex;align-items:center;justify-content:center;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.08);font-size:11px;color:#dbe8ff}
 .section{margin-top:14px}
 .section-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
 .section-title{font-size:13px;font-weight:700;letter-spacing:.02em;color:#dfeaff}
@@ -1406,7 +1417,7 @@ def topics_page(ctx: dict, topic_cloud: dict) -> str:
 .mini:hover{border-color:rgba(106,211,255,.45);background:rgba(106,211,255,.10)}
 .empty{padding:16px;border:1px dashed rgba(255,255,255,.16);border-radius:12px;color:#9db0da;background:rgba(255,255,255,.03)}
 @keyframes floatIn{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-@media (max-width:860px){.row{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr 1fr}}
+@media (max-width:860px){.row{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr 1fr}.legend{grid-template-columns:1fr}}
 @media (max-width:620px){.stats{grid-template-columns:1fr}.toolbar{align-items:stretch}.seg{width:100%;justify-content:space-between}.ghost-btn{width:100%}}
 </style></head><body><div class=\"wrap\">
 <div class=\"top\"><h2>Topic Cloud / 热点词云</h2><div style=\"display:flex;gap:8px\"><a class=\"btn\" href=\"./index.html\">Home</a><a class=\"btn\" href=\"./insights.html\">Insights</a><a class=\"btn\" href=\"./daily_briefing.html\">Top10</a><a class=\"btn\" href=\"./daily_progress.html\">每日进展</a><a class=\"btn\" href=\"./profiles/index.html\">Profiles</a><a class=\"btn\" href=\"./public_signals.html\">公共信号</a><a class=\"btn\" href=\"./commercial.html\">Commercial</a><a class=\"btn\" href=\"./contact.html\">Contact</a></div></div>
@@ -1428,6 +1439,7 @@ def topics_page(ctx: dict, topic_cloud: dict) -> str:
     </div>
     <div id=\"topicsMeta\" class=\"meta-strip\"></div>
     <div id=\"categoryFilters\" class=\"category-strip\"></div>
+    <div id=\"categoryLegend\" class=\"legend\"></div>
     <div id=\"topicsSection\" class=\"section\">
       <div class=\"section-head\">
         <div class=\"section-title\" id=\"topicHeading\">热门主题</div>
@@ -1567,6 +1579,17 @@ function renderCategoryFilters(){
     renderAll();
   }));
 }
+function renderCategoryLegend(){
+  const wrap = document.getElementById('categoryLegend');
+  if(!wrap) return;
+  const rows = termCategories || [];
+  wrap.innerHTML = rows.map(row => `<button class=\"legend-card ${activeCategory===row.key?'active':''}\" data-legend-category=\"${escapeHtml(row.key)}\" style=\"border-color:${row.accent}44;background:linear-gradient(180deg,${row.accent}18,rgba(255,255,255,.02))\"><div class=\"legend-top\"><div class=\"legend-title\">${escapeHtml(currentLang()==='zh' ? row.label_zh : row.label_en)}</div><div class=\"legend-badge\">${row.count}</div></div><div class=\"legend-desc\">${escapeHtml(currentLang()==='zh' ? (row.desc_zh || '') : (row.desc_en || ''))}</div></button>`).join('');
+  wrap.querySelectorAll('[data-legend-category]').forEach(el => el.addEventListener('click', () => {
+    const key = el.dataset.legendCategory || 'all';
+    activeCategory = activeCategory === key ? 'all' : key;
+    renderAll();
+  }));
+}
 function applyPayload(d){
   if(!d || ((!d.topics || !d.topics.length) && (!d.terms || !d.terms.length))) return false;
   topicRows=d.topics||[];
@@ -1580,6 +1603,7 @@ function renderAll(){
   renderLocale();
   renderMeta();
   renderCategoryFilters();
+  renderCategoryLegend();
   renderTopics();
   renderTerms();
   renderSelection();

@@ -1,6 +1,6 @@
 {
   "updated_at": "2026-03-24T12:07:12+00:00",
-  "built_at": "2026-03-27T11:42:14.319718Z",
+  "built_at": "2026-03-27T13:11:26.801436Z",
   "domain": {
     "slug": "ai",
     "site_title_zh": "领域社交影响力情报台",
@@ -817,6 +817,8 @@
       "label_zh": "核心术语",
       "label_en": "Core Terms",
       "accent": "#6ad3ff",
+      "desc_zh": "解释这个领域真正讨论的核心概念、方向和议题。",
+      "desc_en": "The core concepts, directions, and ideas people in this domain are actually discussing.",
       "count": 766
     },
     {
@@ -824,6 +826,8 @@
       "label_zh": "品牌实体",
       "label_en": "Entities",
       "accent": "#8df0c8",
+      "desc_zh": "公司、研究机构、组织或品牌名，用来识别焦点落在哪些主体上。",
+      "desc_en": "Company, lab, organization, and brand names that show which actors the attention is clustering around.",
       "count": 52
     },
     {
@@ -831,6 +835,8 @@
       "label_zh": "技术栈",
       "label_en": "Tech Stack",
       "accent": "#ffcf7d",
+      "desc_zh": "模型工程、训练、基础设施与框架相关术语。",
+      "desc_en": "Terms tied to frameworks, model engineering, training, and infrastructure.",
       "count": 8
     }
   ],
